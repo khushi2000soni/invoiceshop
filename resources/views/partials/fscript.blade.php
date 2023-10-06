@@ -9,3 +9,7 @@
 <script src="{{ asset('admintheme/assets/js/page/index.js') }}"></script>
 <!-- Template JS File -->
 <script src="{{ asset('admintheme/assets/js/scripts.js') }}"></script>
+<script src="{{ asset('admintheme/assets/bundles/izitoast/js/iziToast.min.js') }}"></script>
+<!-- Page Specific JS File -->
+<script src="{{ asset('admintheme/assets/js/page/toastr.js') }}"></script>
+

@@ -8,6 +8,16 @@
     <div class="section-header">
       <h1>Dashboard</h1>
     </div>
+    @if (Session::has('success'))
+    <div class="alert alert-success alert-dismissible show fade">
+        <div class="alert-body">
+        <button class="close" data-dismiss="alert">
+            <span>×</span>
+        </button>
+        {{ Session::get('success') }}
+       </div>
+    </div>
+    @endif
     <div class="row">
       <div class="col-md-4">
         <div class="card">

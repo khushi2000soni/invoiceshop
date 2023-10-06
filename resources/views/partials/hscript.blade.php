@@ -6,11 +6,11 @@
    <link rel="stylesheet" href="{{ asset('admintheme/assets/bundles/bootstrap-social/bootstrap-social.css') }}">
    <link rel="stylesheet" href="{{ asset('admintheme/assets/css/style.css') }}">
    <link rel="stylesheet" href="{{ asset('admintheme/assets/css/components.css') }}">
-   
+   <link rel="stylesheet" href="{{ asset('admintheme/assets/bundles/izitoast/css/iziToast.min.css') }}">
+
    {{-- <link rel="stylesheet" href="{{ asset('admintheme/assets/bundles/flag-icon-css/css/flag-icon.min.css') }}"> --}}
    <!-- Custom style CSS -->
    <link rel="stylesheet" href="{{ asset('admintheme/assets/bundles/datatables/datatables.min.css') }}">
    <link rel="stylesheet" href="{{ asset('admintheme/assets/bundles/datatables/DataTables-1.10.16/css/dataTables.bootstrap4.min.css') }}">
    <link rel='shortcut icon' type='image/x-icon' href='{{ asset('admintheme/assets/img/favicon.ico') }}' />
 
-   

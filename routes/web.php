@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,4 +17,16 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('auth.reset-password');
+});
+
+// Authentication Routes
+
+Route::group(['middleware' => 'guest'], function () {
+    Route::get('/',[LoginController::class,'index'])->name('login');
+    Route::post('/login',[LoginController::class,'login'])->name('authenticate');
+});
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/dashboard',[DashboardController::class,'index'])->name('dashboard');
+    Route::get('/logout',[LoginController::class,'logout'])->name('logout');
 });
