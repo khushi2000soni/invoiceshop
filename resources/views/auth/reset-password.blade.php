@@ -9,28 +9,67 @@
               {{-- <img alt="image" src="{{ asset('admintheme/assets/img/logo.png') }}" /> --}}
             @lang('quickadmin.qa_company_name')
           </div>
-          @include('admin.message')
+          @if (Session::has('success'))
+          <div class="alert alert-success alert-dismissible show fade">
+              <div class="alert-body">
+                <button class="close" data-dismiss="alert">
+                  <span>×</span>
+                </button>
+                {{ Session::get('success') }}    </div>
+          </div>
+          @endif
 
+          @if (Session::has('error'))
+          <div class="alert alert-danger alert-dismissible show fade">
+              <div class="alert-body">
+                <button class="close" data-dismiss="alert">
+                  <span>×</span>
+                </button>
+                {{ Session::get('error') }}    </div>
+          </div>
+          @endif
           <div class="card">
                 <div class="card-header card-header-auth">
                 <h4>@lang('quickadmin.qa_reset_password')</h4>
                 </div>
                 <div class="card-body">
-                    <form method="POST">
+                    <form method="POST" action="{{route('reset-new-password')}}">
+                        @csrf
+                        <input type="hidden" name="token" value="{{ $token }}">
+                        <input type="hidden" name="email" value="{{ $email }}" >
                         <div class="form-group">
-                        <label for="password">@lang('quickadmin.qa_new_password')</label>
-                        <input id="password" type="password" class="form-control pwstrength" data-indicator="pwindicator"
-                            name="password" tabindex="2" required>
-                        <div id="pwindicator" class="pwindicator">
-                            <div class="bar"></div>
-                            <div class="label"></div>
-                        </div>
+                            <label for="password">@lang('quickadmin.qa_new_password')</label>
+                            <div class="input-group">
+                              <div class="input-group-prepend">
+                                <div class="input-group-text">
+                                  <i class="fas fa-lock"></i>
+                                </div>
+                              </div>
+                              <input type="password" value="{{ old('password') }}" id="password" class="form-control  @error('password') is-invalid @enderror" name="password" tabindex="1"   autofocus>
+                              @error('password')
+                              <div class="invalid-feedback">
+                                {{ $message }}
+                              </div>
+                              @enderror
+                            </div>
                         </div>
                         <div class="form-group">
-                        <label for="password-confirm">@lang('quickadmin.qa_confirm_password')</label>
-                        <input id="password-confirm" type="password" class="form-control" name="confirm-password"
-                            tabindex="2" required>
+                            <label for="password-confirm">@lang('quickadmin.qa_confirm_password')</label>
+                            <div class="input-group">
+                              <div class="input-group-prepend">
+                                <div class="input-group-text">
+                                  <i class="fas fa-lock"></i>
+                                </div>
+                              </div>
+                              <input type="password" value="{{ old('password_confirmation') }}" id="password-confirm" class="form-control @error('password_confirmation') is-invalid @enderror" name="password_confirmation" tabindex="1"   autofocus>
+                              @error('password_confirmation')
+                              <div class="invalid-feedback">
+                                {{ $message }}
+                              </div>
+                              @enderror
+                            </div>
                         </div>
+
                         <div class="form-group">
                         <button type="submit" class="btn btn-auth-color btn-lg btn-block" tabindex="4">
                             @lang('quickadmin.qa_reset_password')

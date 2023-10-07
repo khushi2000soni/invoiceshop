@@ -9,7 +9,15 @@
               {{-- <img alt="image" src="{{ asset('admintheme/assets/img/logo.png') }}" /> --}}
             @lang('quickadmin.qa_company_name')
           </div>
-
+          @if (Session::has('success'))
+          <div class="alert alert-success alert-dismissible show fade">
+              <div class="alert-body">
+                <button class="close" data-dismiss="alert">
+                  <span>×</span>
+                </button>
+                {{ Session::get('success') }}    </div>
+          </div>
+          @endif
           @error('wrongcrendials')
             <div class="alert alert-danger alert-dismissible show fade">
                 <div class="alert-body">
@@ -47,7 +55,7 @@
                 <div class="form-group">
                     <label for="password" class="control-label">@lang('quickadmin.qa_password')</label>
                     <div class="float-right">
-                        <a href="auth-forgot-password.html" class="text-small">
+                        <a href="{{route('forgot.password')}}" class="text-small">
                             @lang('quickadmin.qa_forgot_password')
                         </a>
                     </div>

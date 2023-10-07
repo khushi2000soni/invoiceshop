@@ -9,8 +9,25 @@
               {{-- <img alt="image" src="{{ asset('admintheme/assets/img/logo.png') }}" /> --}}
             @lang('quickadmin.qa_company_name')
           </div>
-          @include('admin.message')
+          @if (Session::has('success'))
+          <div class="alert alert-success alert-dismissible show fade">
+              <div class="alert-body">
+                <button class="close" data-dismiss="alert">
+                  <span>×</span>
+                </button>
+                {{ Session::get('success') }}    </div>
+          </div>
+          @endif
 
+          @if (Session::has('error'))
+          <div class="alert alert-danger alert-dismissible show fade">
+              <div class="alert-body">
+                <button class="close" data-dismiss="alert">
+                  <span>×</span>
+                </button>
+                {{ Session::get('error') }}    </div>
+          </div>
+          @endif
           <div class="card">
                 <div class="card-header card-header-auth">
                 <h4>@lang('quickadmin.qa_forgot_password')</h4>
@@ -25,10 +42,23 @@
                 </center> -->
                 <div class="card-body">
                 <p class="text-muted">@lang('quickadmin.qa_otp_line')</p>
-                <form method="POST">
+                <form method="POST" action="{{route("password_mail_link")}}">
+                    @csrf
                     <div class="form-group">
-                    <label for="email">@lang('quickadmin.qa_email')</label>
-                    <input id="email" type="email" class="form-control" name="email" tabindex="1" required autofocus>
+                        <label for="email">@lang('quickadmin.qa_email')</label>
+                        <div class="input-group">
+                          <div class="input-group-prepend">
+                            <div class="input-group-text">
+                              <i class="fas fa-envelope"></i>
+                            </div>
+                          </div>
+                          <input type="email" value="{{ old('email') }}" id="email" class="form-control @error('email') is-invalid @enderror" name="email" tabindex="1"   autofocus>
+                          @error('email')
+                          <div class="invalid-feedback">
+                            {{ $message }}
+                          </div>
+                          @enderror
+                        </div>
                     </div>
                     <div class="form-group">
                     <button type="submit" class="btn btn-lg btn-block btn-auth-color" tabindex="4">
