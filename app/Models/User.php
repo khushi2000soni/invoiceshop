@@ -5,13 +5,16 @@ namespace App\Models;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Laravel\Sanctum\HasApiTokens;
 
+
 class User extends Authenticatable implements MustVerifyEmail
 {
-    use HasApiTokens, HasFactory, Notifiable,SoftDeletes;
+    use HasApiTokens, HasFactory, Notifiable, SoftDeletes, HasRoles;
 
     /**
      * The attributes that are mass assignable.
@@ -28,7 +31,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'username',
         'authpin',
         'password',
-        'role_id',
+        'created_by',
         'created_at',
         'updated_at',
         'deleted_at',
@@ -57,23 +60,5 @@ class User extends Authenticatable implements MustVerifyEmail
         'password' => 'hashed',
     ];
 
-    public function roles()
-    {
-        return $this->belongsToMany(Role::class);
-    }
 
-    public function getIsAdminAttribute()
-    {
-        return $this->role_id === 1;
-    }
-
-    public function getIsAccountantAttribute()
-    {
-        return $this->role_id === 2;
-    }
-
-    public function getIsStaffAttribute()
-    {
-        return $this->role_id === 3;
-    }
 }

@@ -42,11 +42,8 @@ class LoginController extends Controller
             $user = User::where('username',$request->username)->first();
             if($user){
                 if (Auth::attempt($credentialsOnly, $remember_me)) {
-                    if(auth()->user()->is_admin || auth()->user()->is_accountant || auth()->user()->is_staff){
-                        return redirect()->route('dashboard')->with('success',trans('quickadmin.qa_login_success'));
-                    }else{
-                        abort(403, 'Unauthorized');
-                    }
+
+                    return redirect()->route('dashboard')->with('success',trans('quickadmin.qa_login_success'));
                 }
 
                 return redirect()->route('login')->withErrors(['wrongcrendials' => trans('auth.failed')])->withInput($request->only('username', 'password'));

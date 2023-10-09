@@ -2,19 +2,16 @@
 
 namespace App\Models;
 
-use App\Traits\SpatieRoleTrait;
+//use App\Traits\SpatiePermissionTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Spatie\Permission\Traits\HasPermissions;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
-//use Illuminate\Database\Eloquent\SoftDeletes;
-
-
-class Role extends Model
+class Permission extends Model
 {
-    use HasFactory, HasPermissions;
+    use HasFactory;
 
-    public $table = 'roles';
+    public $table = 'permissions';
 
     protected $dates = [
         'created_at',
@@ -23,17 +20,17 @@ class Role extends Model
     ];
 
     protected $fillable = [
-        'title',
+        'name',
+        'guard_name',
+        'route_name',
         'created_at',
         'updated_at',
         // 'deleted_at',
     ];
 
-    public function users()
+
+    public function roles()
     {
-        return $this->belongsToMany(User::class);
-
+        return $this->belongsToMany(Role::class, 'role_has_permissions');
     }
-
-
 }
