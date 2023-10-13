@@ -16,55 +16,43 @@ class PermissionsTableSeeder extends Seeder
         //
         $updateDate = $createDate = date('Y-m-d H:i:s');
         $permissions = [
-            [
-                'name'      => 'permission_management_access',
-                'guard_name'=>'web',
-                'route_name'=>'permissions',
-                'created_at' => $createDate,
-                'updated_at' => $updateDate,
-            ],
-            [
-                'name'      => 'permission_create',
-                'guard_name'=>'web',
-                'route_name'=>'permissions',
-                'created_at' => $createDate,
-                'updated_at' => $updateDate,
-            ],
-            [
-                'name'      => 'permission_edit',
-                'guard_name'=>'web',
-                'route_name'=>'permissions',
-                'created_at' => $createDate,
-                'updated_at' => $updateDate,
-            ],
-            [
-                'name'      => 'permission_show',
-                'guard_name'=>'web',
-                'route_name'=>'permissions',
-                'created_at' => $createDate,
-                'updated_at' => $updateDate,
-            ],
-            [
-                'name'      => 'permission_delete',
-                'guard_name'=>'web',
-                'route_name'=>'permissions',
-                'created_at' => $createDate,
-                'updated_at' => $updateDate,
-            ],
-            [
-                'name'      => 'permission_access',
-                'guard_name'=>'web',
-                'route_name'=>'permissions',
-                'created_at' => $createDate,
-                'updated_at' => $updateDate,
-            ],
-            [
-                'name'      => 'role_management_access',
-                'guard_name'=>'web',
-                'route_name'=>'roles',
-                'created_at' => $createDate,
-                'updated_at' => $updateDate,
-            ],
+
+            // [
+            //     'name'      => 'permission_create',
+            //     'guard_name'=>'web',
+            //     'route_name'=>'permissions',
+            //     'created_at' => $createDate,
+            //     'updated_at' => $updateDate,
+            // ],
+            // [
+            //     'name'      => 'permission_edit',
+            //     'guard_name'=>'web',
+            //     'route_name'=>'permissions',
+            //     'created_at' => $createDate,
+            //     'updated_at' => $updateDate,
+            // ],
+            // [
+            //     'name'      => 'permission_show',
+            //     'guard_name'=>'web',
+            //     'route_name'=>'permissions',
+            //     'created_at' => $createDate,
+            //     'updated_at' => $updateDate,
+            // ],
+            // [
+            //     'name'      => 'permission_delete',
+            //     'guard_name'=>'web',
+            //     'route_name'=>'permissions',
+            //     'created_at' => $createDate,
+            //     'updated_at' => $updateDate,
+            // ],
+            // [
+            //     'name'      => 'permission_access',
+            //     'guard_name'=>'web',
+            //     'route_name'=>'permissions',
+            //     'created_at' => $createDate,
+            //     'updated_at' => $updateDate,
+            // ],
+
             [
                 'name'      => 'role_create',
                 'guard_name'=>'web',
@@ -115,21 +103,15 @@ class PermissionsTableSeeder extends Seeder
                 'updated_at' => $updateDate,
             ],
             [
-                'name'      => 'change_password_access',
+                'name'      => 'user_change_password',
                 'guard_name'=>'web',
-                'route_name'=>'passwords',
+                'route_name'=>'profiles',
                 'created_at' => $createDate,
                 'updated_at' => $updateDate,
             ],
+
             [
-                'name'      => 'password_edit',
-                'guard_name'=>'web',
-                'route_name'=>'passwords',
-                'created_at' => $createDate,
-                'updated_at' => $updateDate,
-            ],
-            [
-                'name'      => 'staff_management_access',
+                'name'      => 'staff_access',
                 'guard_name'=>'web',
                 'route_name'=>'staff',
                 'created_at' => $createDate,
@@ -163,20 +145,7 @@ class PermissionsTableSeeder extends Seeder
                 'created_at' => $createDate,
                 'updated_at' => $updateDate,
             ],
-            [
-                'name'      => 'staff_access',
-                'guard_name'=>'web',
-                'route_name'=>'staff',
-                'created_at' => $createDate,
-                'updated_at' => $updateDate,
-            ],
-            [
-                'name'      => 'customer_management_access',
-                'guard_name'=>'web',
-                'route_name'=>'customers',
-                'created_at' => $createDate,
-                'updated_at' => $updateDate,
-            ],
+
             [
                 'name'      => 'customer_access',
                 'guard_name'=>'web',
@@ -212,13 +181,7 @@ class PermissionsTableSeeder extends Seeder
                 'created_at' => $createDate,
                 'updated_at' => $updateDate,
             ],
-            [
-                'name'      => 'category_management_access',
-                'guard_name'=>'web',
-                'route_name'=>'categories',
-                'created_at' => $createDate,
-                'updated_at' => $updateDate,
-            ],
+
             [
                 'name'      => 'category_access',
                 'guard_name'=>'web',
@@ -254,13 +217,7 @@ class PermissionsTableSeeder extends Seeder
                 'created_at' => $createDate,
                 'updated_at' => $updateDate,
             ],
-            [
-                'name'      => 'product_management_access',
-                'guard_name'=>'web',
-                'route_name'=>'products',
-                'created_at' => $createDate,
-                'updated_at' => $updateDate,
-            ],
+
             [
                 'name'      => 'product_access',
                 'guard_name'=>'web',
@@ -298,13 +255,6 @@ class PermissionsTableSeeder extends Seeder
             ],
 
             [
-                'name'      => 'device_management_access',
-                'guard_name'=>'web',
-                'route_name'=>'devices',
-                'created_at' => $createDate,
-                'updated_at' => $updateDate,
-            ],
-            [
                 'name'      => 'device_access',
                 'guard_name'=>'web',
                 'route_name'=>'devices',
@@ -339,13 +289,7 @@ class PermissionsTableSeeder extends Seeder
                 'created_at' => $createDate,
                 'updated_at' => $updateDate,
             ],
-            [
-                'name'      => 'invoice_management_access',
-                'guard_name'=>'web',
-                'route_name'=>'invoice',
-                'created_at' => $createDate,
-                'updated_at' => $updateDate,
-            ],
+
             [
                 'name'      => 'invoice_access',
                 'guard_name'=>'web',
@@ -382,7 +326,7 @@ class PermissionsTableSeeder extends Seeder
                 'updated_at' => $updateDate,
             ],
             [
-                'name'      => 'report_management_access',
+                'name'      => 'report_access',
                 'guard_name'=>'web',
                 'route_name'=>'reports',
                 'created_at' => $createDate,
@@ -390,7 +334,7 @@ class PermissionsTableSeeder extends Seeder
             ],
 
             [
-                'name'      => 'sales_report_access',
+                'name'      => 'get_sales_report_access',
                 'guard_name'=>'web',
                 'route_name'=>'reports',
                 'created_at' => $createDate,

@@ -15,6 +15,7 @@ class Role extends Model
     use HasFactory, HasPermissions;
 
     public $table = 'roles';
+    public $timestamps = true;
 
     protected $dates = [
         'created_at',
@@ -23,7 +24,8 @@ class Role extends Model
     ];
 
     protected $fillable = [
-        'title',
+        'name',
+        'guard_name',
         'created_at',
         'updated_at',
         // 'deleted_at',

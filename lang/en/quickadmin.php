@@ -2,29 +2,118 @@
 
 return [
 
+    'alert-type' => [
+        'success'  => 'success',
+        'info'     => 'info',
+        'warning'  => 'warning',
+        'error'    => 'error',
+    ],
+
 	'user-management' => [
 		'title' => 'Staff management',
 		'fields' => [
+            'title' => 'Title',
+            'add' 	=> 'Add New',
+            'list-title'=>'Roles List',
+            'list'=> [
+                'name'=>'Name',
+            ],
+            'add-user'=>[
+                'title'=> 'Add User',
+            ]
 		],
 	],
 
-	'roles' => [
-		'title' => 'Roles',
-		'fields' => [
-			'title' => 'Title',
-		],
-	],
-
-	'users' => [
+    'users' => [
 		'title' => 'Staffs',
+        'profile'=>'My Profile',
 		'fields' => [
 			'name' => 'Name',
 			'email' => 'Email',
+            'usernameid'=>'Login Username',
 			'password' => 'Password',
 			'role' => 'Role',
 			'remember-token' => 'Remember token',
 		]
 	],
+
+    'profile'=>[
+        'title'=> 'My Profile',
+        'edit_profile'=>'Edit Profile',
+        'fields'=>[
+            'personal_detail'=>'Personal Details',
+            'name'=>'Name',
+            'email' => 'Email',
+            'usernameid'=>'Login Username',
+			'password' => 'Password',
+			'role' => 'Role',
+            'phone'=>'Phone Number',
+            'address'=>'Address',
+            'status'=>'Status',
+        ]
+    ],
+
+	'roles' => [
+		'title' => 'Roles Management',
+        'role'=>'Role',
+		'fields' => [
+			'title' => 'Title',
+            'add' 	=> 'Add New',
+            'list-title'=>'Roles List',
+            'role_detail'=>'Role Detail',
+            'list'=> [
+                'name'=>'Name'
+            ],
+            'add-role'=>[
+                'title'=> 'Add Role',
+                'edit_role'=>'Edit Role',
+                'givepermit'=>'Select Permissions'
+            ]
+		],
+	],
+
+    'permissions' => [
+		'title' => 'Permission Management',
+        'allow_permissions'=>'Allow Permissions',
+		'fields' => [
+			'title' => 'Title',
+            'add' 	=> 'Add New',
+            'list-title'=>'Permission List',
+            'list'=> [
+                'name'=>'Name',
+            ]
+		],
+	],
+
+    'customer-management' => [
+		'title' 	=> 'Customer Management',
+		'fields' 	=> [
+			'add' 	=> 'Add New',
+			'list' 	=> 'List All',
+			'alter_list' 	=> 'Alter List',
+		],
+	],
+
+	'customers'  => [
+		'title'  => 'Customers',
+		'customer_details'  	  		=> 'Customer Details',
+		'customer_order_details'  	    => 'Customer Order Details',
+		'customer_transaction_details'  => 'Customer Payment Details',
+		'customer_alter'  => 'Alter Customer',
+		'fields' => [
+			'area' 			=> 'Area Address',
+			'name' 			=> 'Name',
+			'email' 		=> 'Email',
+			'action' 		=> 'Action',
+			'created_by' 	=> 'Created By',
+			'is_type'		=> 'Type',
+			'credit_limit'  => 'Credit Limit',
+			'phone_number' 	=> 'Phone Number',
+			'opening_blance'=> 'Opening Blance',
+		],
+	],
+
+
 
 	'expense-management' => [
 		'title' => 'Expense Management',
@@ -146,33 +235,6 @@ return [
 		],
 	],
 
-	'customer-management' => [
-		'title' 	=> 'Customer Management',
-		'fields' 	=> [
-			'add' 	=> 'Add New',
-			'list' 	=> 'List All',
-			'alter_list' 	=> 'Alter List',
-		],
-	],
-
-	'customers'  => [
-		'title'  => 'Customers',
-		'customer_details'  	  		=> 'Customer Details',
-		'customer_order_details'  	    => 'Customer Order Details',
-		'customer_transaction_details'  => 'Customer Payment Details',
-		'customer_alter'  => 'Alter Customer',
-		'fields' => [
-			'area' 			=> 'Area Address',
-			'name' 			=> 'Name',
-			'email' 		=> 'Email',
-			'action' 		=> 'Action',
-			'created_by' 	=> 'Created By',
-			'is_type'		=> 'Type',
-			'credit_limit'  => 'Credit Limit',
-			'phone_number' 	=> 'Phone Number',
-			'opening_blance'=> 'Opening Blance',
-		],
-	],
 
 	'order-management' => [
 		'title' 	=> 'Estimate management',
@@ -653,6 +715,9 @@ return [
 	'bill_to'	=> 'Bill To',
 	'type'	=> 'Type',
 	'date'	=> 'Date',
+    'qa_action' => 'Actions',
+    'qa_sn'=>'Sn.',
+    'qa_no_record'=>'No Record Found!',
 
 
 	/*Contact Us page */

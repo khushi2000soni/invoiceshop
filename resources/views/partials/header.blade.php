@@ -163,11 +163,11 @@
               <span class="d-sm-none d-lg-inline-block"></span></a>
             <div class="dropdown-menu dropdown-menu-right">
               <div class="dropdown-title">Hello {{ Auth::user()->name }}</div>
-              <a href="profile.html" class="dropdown-item has-icon">
+              <a href="{{route('user.profile')}}" class="dropdown-item has-icon">
                 <i class="far fa-user"></i> Profile
               </a>
-              <a href="timeline.html" class="dropdown-item has-icon">
-                <i class="fas fa-bolt"></i> Activities
+              <a href="{{route('user.change-password')}}" class="dropdown-item has-icon">
+                <i class="fas fa-lock"></i> @lang('quickadmin.qa_change_password')
               </a>
               <a href="#" class="dropdown-item has-icon">
                 <i class="fas fa-cog"></i> Settings

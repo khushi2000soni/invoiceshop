@@ -19,9 +19,9 @@ class PermissionRoleTableSeeder extends Seeder
         $superadminpermissionid= Permission::all();
         $adminpermissionid= Permission::all();
 
-        $accountantpermissionid= Permission::whereIn('name',['invoice_management_access','invoice_access','invoice_create','invoice_delete','invoice_edit','invoice_show','profile_access','profile_edit','change_password_access','customer_management_access','customer_show','customer_access','customer_create',])->pluck('id')->toArray();
+        $accountantpermissionid= Permission::whereIn('name',['invoice_access','invoice_access','invoice_create','invoice_delete','invoice_edit','invoice_show','profile_access','profile_edit','customer_management_access','customer_show','customer_access','customer_create',])->pluck('id')->toArray();
 
-        $staffpermissionid= Permission::whereIn('name',['invoice_management_access','invoice_access','invoice_create','invoice_delete','invoice_edit','invoice_show','profile_access','profile_edit','change_password_access','customer_management_access','customer_show','customer_access','customer_create',])->pluck('id')->toArray();
+        $staffpermissionid= Permission::whereIn('name',['invoice_access','invoice_access','invoice_create','invoice_delete','invoice_edit','invoice_show','profile_access','profile_edit','customer_show','customer_access','customer_create',])->pluck('id')->toArray();
 
         foreach ($roles as $role) {
             switch ($role->id) {

@@ -19,15 +19,11 @@ class RedirectIfAuthenticated
     {
         $guards = empty($guards) ? [null] : $guards;
 
-        if (Auth::guard($guard)->check()) {
-            if (Auth::user()->is_admin || Auth::user()->is_accountant || Auth::user()->is_staff){
-                return redirect('dashboard');
-            } else {
-                abort(403, 'Unauthorized');
+        foreach ($guards as $guard) {
+            if (Auth::guard($guard)->check()) {
+                return redirect()->route('dashboard');
             }
-
         }
-
         return $next($request);
     }
 }

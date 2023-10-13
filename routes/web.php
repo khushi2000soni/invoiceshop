@@ -4,6 +4,8 @@ use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\RoleController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,14 +19,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('auth.reset-password');
-});
 
 // Authentication Routes
 
 Route::group(['middleware' => 'guest'], function () {
     Route::get('/',[LoginController::class,'index'])->name('login');
+    Route::get('/login',[LoginController::class,'index'])->name('login');
     Route::post('/login',[LoginController::class,'login'])->name('authenticate');
     Route::get('/forgot-password',[ForgotPasswordController::class,'index'])->name('forgot.password');
     Route::post('/forgot-pass-mail',[ForgotPasswordController::class,'sendResetLinkEmail'])->name('password_mail_link');
@@ -33,7 +33,10 @@ Route::group(['middleware' => 'guest'], function () {
 
 });
 
-Route::middleware(['auth'])->group(function () {
+Route::middleware(['auth','PreventBackHistory'])->group(function () {
     Route::get('/dashboard',[DashboardController::class,'index'])->name('dashboard');
     Route::get('/logout',[LoginController::class,'logout'])->name('logout');
+    Route::resource('/roles',RoleController::class);
+    Route::get('/profiles',[UserController::class,'showprofile'])->name('user.profile');
+    Route::get('/change-password',[UserController::class,'showchangepassform'])->name('user.change-password');
 });

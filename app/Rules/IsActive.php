@@ -40,6 +40,6 @@ class IsActive implements Rule
      */
     public function message()
     {
-        //return trans('messages.suspened');
+        return trans('messages.suspened');
     }
 }
