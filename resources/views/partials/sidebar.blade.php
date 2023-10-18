@@ -38,6 +38,9 @@
             @can('category_access')
             <li><a class="nav-link" href="{{route('categories.index')}}">@lang('quickadmin.category.title')</a></li>
             @endcan
+            @can('product_access')
+            <li><a class="nav-link" href="{{route('products.index')}}">@lang('quickadmin.product-management.title')</a></li>
+            @endcan
 
           </ul>
         </li>

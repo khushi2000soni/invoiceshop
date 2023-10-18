@@ -163,6 +163,31 @@ return [
 		],
 	],
 
+    'product-management' => [
+		'title' => 'Product Management',
+		'fields' => [
+			'add' => 'Add New',
+			'list' => 'Product List',
+		],
+	],
+
+	'product' => [
+		'title' => 'Products',
+        'product' => 'Product',
+		'fields' => [
+			'name' 				=> 'Product Name',
+			'price' 			=> 'Purchase Price',
+			'descripation' 		=> 'Descripation',
+			'image' 			=> 'Image',
+			'choose_file' 		=> 'Choose product image...',
+			'images' 			=> 'Product Images',
+			'product-category' 	=> 'Product Category',
+            'category_name' 	=> 'Category Name',
+            'created_at'=>'Created At',
+            'add' 	=> 'Add New',
+            'edit' => 'Edit Category',
+		],
+	],
 
 	'expense-management' => [
 		'title' => 'Expense Management',
@@ -184,53 +209,9 @@ return [
 	],
 
 
-	'product-category-management' => [
-		'title' => 'Product Category Management',
-		'fields' => [
-			'add' => 'Add New',
-			'list' => 'List All',
-		],
-	],
 
 
 
-	'product-management' => [
-		'title' => 'Product Management',
-		'fields' => [
-			'add' => 'Add New',
-			'list' => 'List All',
-		],
-	],
-
-	'product' => [
-		'title' => 'Products',
-		'fields' => [
-			'name' 				=> 'Product Name',
-			'print_name' 		=> 'Print Name',
-			'product_type' 		=> 'Product Type',
-			'group_type' 		=> 'Group Type',
-			'unit_type'			=> 'Unit Type',
-			'extra_option' 		=> 'Extra Option',
-			'measurement_type'	=> 'Measurement Type',
-			'height_h'			=> 'H',
-			'length_l'			=> 'L',
-			'width_w'			=> 'W',
-			'height'			=> 'Height',
-			'length'			=> 'Length',
-			'width'				=> 'Width',
-			'is_sub_product'	=> 'Is Sub Product',
-			'price' 			=> 'Purchase Price',
-			'sale_price' 		=> 'Estimate Price',
-			'min_sale_price'	=> 'Min. Sale Price',
-			'wholesaler_price' 	=> 'Wholesaler price',
-			'retailer_price' 	=> 'Retailer price',
-			'descripation' 		=> 'Descripation',
-			'image' 			=> 'Image',
-			'choose_file' 		=> 'Choose product image...',
-			'images' 			=> 'Product Images',
-			'product-category' 	=> 'Product Category',
-		],
-	],
 
 	'income' => [
 		'title' => 'Income',

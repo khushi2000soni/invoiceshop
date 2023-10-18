@@ -55,7 +55,16 @@ class CustomerDataTable extends DataTable
                 </form>';
                 }
                 return $action;
-            })->rawColumns(['action']);
+            })
+            ->filterColumn('address', function ($query, $keyword) {
+                $query->whereHas('address', function ($q) use ($keyword) {
+                    $q->where('address.address', 'like', "%$keyword%");
+                });
+            })
+            ->filterColumn('created_at', function ($query, $keyword) {
+                $query->whereRaw("DATE_FORMAT(customers.created_at,'%d-%M-%Y') like ?", ["%$keyword%"]); //date_format when searching using date
+            })
+            ->rawColumns(['action']);
     }
 
     /**
@@ -75,6 +84,7 @@ class CustomerDataTable extends DataTable
         ->setTableId('customers-table')
         ->parameters([
             'responsive' => true,
+            'pageLength' => 70,
         ])
         ->columns($this->getColumns())
         ->minifiedAjax()

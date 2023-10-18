@@ -43,7 +43,11 @@ class CategoryDataTable extends DataTable
             </form>';
                 }
                 return $action;
-            })->rawColumns(['action']);
+            })
+            ->filterColumn('created_at', function ($query, $keyword) {
+                $query->whereRaw("DATE_FORMAT(categories.created_at,'%d-%M-%Y') like ?", ["%$keyword%"]); //date_format when searching using date
+            })
+            ->rawColumns(['action']);
     }
     /**
      * Get the query source of dataTable.
@@ -62,6 +66,7 @@ class CategoryDataTable extends DataTable
         ->setTableId('categories-table')
         ->parameters([
             'responsive' => true,
+            'pageLength' => 70,
         ])
         ->columns($this->getColumns())
         ->minifiedAjax()

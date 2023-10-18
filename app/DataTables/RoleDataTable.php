@@ -62,6 +62,7 @@ class RoleDataTable extends DataTable
                     ->setTableId('roles-table')
                     ->parameters([
                         'responsive' => true,
+                        'pageLength' => 70,
                     ])
                     ->columns($this->getColumns())
                     ->minifiedAjax()

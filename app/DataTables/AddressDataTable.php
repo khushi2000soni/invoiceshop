@@ -43,7 +43,11 @@ class AddressDataTable extends DataTable
             </form>';
                 }
                 return $action;
-            })->rawColumns(['action']);
+            })
+            ->filterColumn('created_at', function ($query, $keyword) {
+                $query->whereRaw("DATE_FORMAT(address.created_at,'%d-%M-%Y') like ?", ["%$keyword%"]); //date_format when searching using date
+            })
+            ->rawColumns(['action']);
     }
 
     /**
@@ -63,6 +67,7 @@ class AddressDataTable extends DataTable
         ->setTableId('address-table')
         ->parameters([
             'responsive' => true,
+            'pageLength' => 70,
         ])
         ->columns($this->getColumns())
         ->minifiedAjax()

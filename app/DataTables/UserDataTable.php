@@ -58,7 +58,16 @@ class UserDataTable extends DataTable
                 </form>';
                 }
                 return $action;
-            })->rawColumns(['action']);
+            })
+            ->filterColumn('created_at', function ($query, $keyword) {
+                $query->whereRaw("DATE_FORMAT(users.created_at,'%d-%M-%Y') like ?", ["%$keyword%"]); //date_format when searching using date
+            })
+            ->filterColumn('role', function ($query, $keyword) {
+                $query->whereHas('roles', function ($q) use ($keyword) {
+                    $q->where('roles.name', 'like', "%$keyword%");
+                });
+            })
+            ->rawColumns(['action']);
     }
 
     /**
@@ -79,6 +88,7 @@ class UserDataTable extends DataTable
         ->setTableId('users-table')
         ->parameters([
             'responsive' => true,
+            'pageLength' => 70,
         ])
         ->columns($this->getColumns())
         ->minifiedAjax()
