@@ -31,6 +31,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'username',
         'phone',
         'auth_pin',
+        'address_id',
         'password',
         'created_by',
         'created_at',
@@ -60,6 +61,29 @@ class User extends Authenticatable implements MustVerifyEmail
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+
+    public function address(){
+        return $this->belongsTo(Address::class, 'address_id','id');
+    }
+
+    public function uploads()
+    {
+        return $this->morphMany(Uploads::class, 'uploadsable');
+    }
+
+    public function profileImage()
+    {
+        return $this->morphOne(Uploads::class, 'uploadsable')->where('type', 'profile');
+    }
+
+    public function getProfileImageUrlAttribute()
+    {
+        if ($this->profileImage) {
+            return $this->profileImage->file_url;
+        }
+        return "";
+    }
 
 
 }

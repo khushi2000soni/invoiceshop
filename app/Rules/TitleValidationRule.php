@@ -31,6 +31,6 @@ class TitleValidationRule implements Rule
 
     public function message()
     {
-        return 'The name should not contain multiple consecutive spaces or consist of only spaces.';
+        return 'This field should not contain multiple consecutive spaces or consist of only spaces.';
     }
 }

@@ -109,6 +109,35 @@ class PermissionsTableSeeder extends Seeder
                 'created_at' => $createDate,
                 'updated_at' => $updateDate,
             ],
+            [
+                'name'      => 'address_access',
+                'guard_name'=>'web',
+                'route_name'=>'address',
+                'created_at' => $createDate,
+                'updated_at' => $updateDate,
+            ],
+            [
+                'name'      => 'address_create',
+                'guard_name'=>'web',
+                'route_name'=>'address',
+                'created_at' => $createDate,
+                'updated_at' => $updateDate,
+            ],
+            [
+                'name'      => 'address_edit',
+                'guard_name'=>'web',
+                'route_name'=>'address',
+                'created_at' => $createDate,
+                'updated_at' => $updateDate,
+            ],
+
+            [
+                'name'      => 'address_delete',
+                'guard_name'=>'web',
+                'route_name'=>'address',
+                'created_at' => $createDate,
+                'updated_at' => $updateDate,
+            ],
 
             [
                 'name'      => 'staff_access',

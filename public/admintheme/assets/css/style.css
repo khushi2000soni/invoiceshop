@@ -12367,3 +12367,21 @@ body:not(.sidebar-mini) .sidebar-style-2 .sidebar-menu li.active ul.dropdown-men
 .dark .statistic-details .statistic-details-item .detail-name {
     color: #96a2b4
 }
+
+
+
+.chooseFileGroup .author-box-picture{
+    background-color: #f2f4f8;
+}
+
+.chooseFileGroup .page-inner .edit_profile{
+    font-size: 12px;
+    font-weight: normal;
+    line-height: 120%;
+
+}
+.chooseFileGroup .page-inner .profileName a{
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 100%;
+}

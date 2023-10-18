@@ -2,22 +2,24 @@
 
 namespace App\Http\Controllers;
 
-use App\DataTables\CategoryDataTable;
-use App\Models\Category;
+use App\DataTables\AddressDataTable;
+use App\Models\Address;
 use App\Rules\TitleValidationRule;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Gate;
 
-class CategoryController extends Controller
+class AddressController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index(CategoryDataTable $dataTable)
+    public function index(AddressDataTable $dataTable)
     {
-        abort_if(Gate::denies('category_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-        return $dataTable->render('admin.category.index');
+
+        abort_if(Gate::denies('address_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        //$roles = Address::orderBy('id','asc')->get();
+        return $dataTable->render('admin.address.index');
     }
 
     /**
@@ -33,16 +35,15 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
-        //dd($request->all());
+        // dd($request->all());
         $validatedData =$request->validate([
-            'name' => ['required','string','unique:categories,name', new TitleValidationRule],
+            'address' => ['required','string','unique:address,address', new TitleValidationRule],
+        ],[
+            'address.regex'=> 'This field should not contain multiple consecutive spaces or consist of only spaces.'
         ]);
 
-        $address=Category::create($validatedData);
-        return response()->json(['success' => true,
-         'message' => trans('messages.crud.add_record'),
-         'alert-type'=> trans('quickadmin.alert-type.success')], 200);
+        $address=Address::create($validatedData);
+        return response()->json(['success' => true, 'message' => trans('messages.crud.add_record'),'alert-type'=> trans('quickadmin.alert-type.success')], 200);
     }
 
     /**
@@ -68,33 +69,36 @@ class CategoryController extends Controller
     {
         //
         $id=decrypt($id);
-        $category = Category::find($id);
+        $address = Address::find($id);
         $validatedData =$request->validate([
-            'name' => ['required','string','unique:categories,name,'.$category->id, new TitleValidationRule],
+            'address' => ['required','string','unique:address,address,'.$address->id, new TitleValidationRule],
+        ],[
+            'address.regex'=> 'This field should not contain multiple consecutive spaces or consist of only spaces.'
         ]);
 
-        $category->update($validatedData);
+        $address->update($validatedData);
         return response()->json([
             'success' => true,
             'message' => trans('messages.crud.update_record'),
             'alert-type'=> trans('quickadmin.alert-type.success'),
-            'title' => trans('quickadmin.category.category')], 200);
-
+            'redirecturl'=>route('address.index'),
+            'title' => trans('quickadmin.address.address')], 200);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy($id)
     {
-        abort_if(Gate::denies('category_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-        $address = Category::findOrFail($id);
+        abort_if(Gate::denies('address_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        //dd($id);
+        $address = Address::findOrFail($id);
         $address->delete();
 
         return response()->json(['success' => true,
          'message' => trans('messages.crud.delete_record'),
          'alert-type'=> trans('quickadmin.alert-type.success'),
-         'title' => trans('quickadmin.category.category')
+         'title' => trans('quickadmin.address.address')
         ], 200);
     }
 }

@@ -10,6 +10,7 @@
    <link rel="stylesheet" href="{{ asset('admintheme/assets/css/style.css') }}">
    <link rel="stylesheet" href="{{ asset('admintheme/assets/css/components.css') }}">
    <link rel="stylesheet" href="{{ asset('admintheme/assets/bundles/izitoast/css/iziToast.min.css') }}">
+   <link rel="stylesheet" href="{{ asset('admintheme/assets/bundles/select2/dist/css/select2.min.css') }}">
 
    {{-- <link rel="stylesheet" href="{{ asset('admintheme/assets/bundles/flag-icon-css/css/flag-icon.min.css') }}"> --}}
    <!-- Custom style CSS -->

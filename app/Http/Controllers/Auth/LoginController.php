@@ -43,7 +43,11 @@ class LoginController extends Controller
             if($user){
                 if (Auth::attempt($credentialsOnly, $remember_me)) {
 
-                    return redirect()->route('dashboard')->with('success',trans('quickadmin.qa_login_success'));
+                    //return redirect()->route('dashboard')->with('success',trans('quickadmin.qa_login_success'));
+                    return redirect()->route('dashboard')->with(['success' => true,
+                    'message' => trans('quickadmin.qa_login_success'),
+                    'title'=> trans('quickadmin.qa_login'),
+                    'alert-type'=> trans('quickadmin.alert-type.success')]);
                 }
 
                 return redirect()->route('login')->withErrors(['wrongcrendials' => trans('auth.failed')])->withInput($request->only('username', 'password'));

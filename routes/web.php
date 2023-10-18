@@ -1,8 +1,11 @@
 <?php
 
+use App\Http\Controllers\AddressController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
@@ -38,5 +41,14 @@ Route::middleware(['auth','PreventBackHistory'])->group(function () {
     Route::get('/logout',[LoginController::class,'logout'])->name('logout');
     Route::resource('/roles',RoleController::class);
     Route::get('/profiles',[UserController::class,'showprofile'])->name('user.profile');
+    Route::post('/profile-update', [UserController::class,'updateprofile'])->name('profile.update');
+    Route::post('/profile-image', [UserController::class,'updateprofileImage'])->name('profile-image.update');
     Route::get('/change-password',[UserController::class,'showchangepassform'])->name('user.change-password');
+    Route::post('/change-password',[UserController::class,'updatePassword'])->name('reset-password');
+    Route::resource('/address',AddressController::class);
+    Route::resource('/categories',CategoryController::class);
+    Route::resource('/staff',UserController::class);
+    Route::get('/staff/password/{id}',[UserController::class,'staffpassword'])->name('staff.password');
+    Route::put('/staff/password/{id}',[UserController::class,'staffUpdatePass'])->name('staff.change-password');
+    Route::resource('/customers',CustomerController::class);
 });

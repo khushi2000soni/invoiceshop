@@ -14,7 +14,7 @@ return [
 		'fields' => [
             'title' => 'Title',
             'add' 	=> 'Add New',
-            'list-title'=>'Roles List',
+            'list-title'=>'Staff List',
             'list'=> [
                 'name'=>'Name',
             ],
@@ -27,24 +27,33 @@ return [
     'users' => [
 		'title' => 'Staffs',
         'profile'=>'My Profile',
+        'users'=>'Staff',
 		'fields' => [
 			'name' => 'Name',
 			'email' => 'Email',
-            'usernameid'=>'Login Username',
+            'usernameid'=>'Username',
 			'password' => 'Password',
 			'role' => 'Role',
+            'phone'=>'Phone Number',
+            'address'=>'Address',
+            'created_at'=>'Created At',
+            'created_by'=>'Created By',
 			'remember-token' => 'Remember token',
+            'add' 	=> 'Add New',
+            'edit' => 'Edit Staff',
 		]
 	],
 
     'profile'=>[
         'title'=> 'My Profile',
         'edit_profile'=>'Edit Profile',
+        'change'=>'Change',
+        'profile'=>'Profile',
         'fields'=>[
             'personal_detail'=>'Personal Details',
             'name'=>'Name',
             'email' => 'Email',
-            'usernameid'=>'Login Username',
+            'usernameid'=>'Username',
 			'password' => 'Password',
 			'role' => 'Role',
             'phone'=>'Phone Number',
@@ -89,13 +98,14 @@ return [
 		'title' 	=> 'Customer Management',
 		'fields' 	=> [
 			'add' 	=> 'Add New',
-			'list' 	=> 'List All',
+			'list' 	=> 'Customer List',
 			'alter_list' 	=> 'Alter List',
 		],
 	],
 
 	'customers'  => [
 		'title'  => 'Customers',
+        'customer' => 'Customer',
 		'customer_details'  	  		=> 'Customer Details',
 		'customer_order_details'  	    => 'Customer Order Details',
 		'customer_transaction_details'  => 'Customer Payment Details',
@@ -104,15 +114,54 @@ return [
 			'area' 			=> 'Area Address',
 			'name' 			=> 'Name',
 			'email' 		=> 'Email',
+            'phone'         =>'Phone Number',
+            'address'       =>'Address',
+            'guardian_name'  => 'Husband/Father Name',
 			'action' 		=> 'Action',
+            'created_at'    =>'Created At',
 			'created_by' 	=> 'Created By',
 			'is_type'		=> 'Type',
 			'credit_limit'  => 'Credit Limit',
 			'phone_number' 	=> 'Phone Number',
 			'opening_blance'=> 'Opening Blance',
+            'add' 	=> 'Add New',
+            'edit' => 'Edit Staff',
 		],
 	],
 
+    'master-management' => [
+		'title' => 'Master Management',
+		'fields' => [
+		],
+	],
+
+    'address' => [
+		'title' => 'Address Management',
+        'address'=>'Address',
+		'fields' => [
+			'title' => 'Title',
+            'add' 	=> 'Add New',
+            'edit' => 'Edit Address',
+            'list-title'=>'Address List',
+            'list'=> [
+                'address'=>'Address',
+                'created_at'=>'Created At',
+            ]
+		],
+	],
+
+    'category' => [
+		'title' => 'Category Management',
+        'category'=>'Category',
+        'list-title'=>'Category List',
+        'add' 	=> 'Add New',
+		'fields' => [
+			'name' => 'Name',
+            'created_at'=>'Created At',
+            'add' 	=> 'Add New',
+            'edit' => 'Edit Category',
+		],
+	],
 
 
 	'expense-management' => [
@@ -143,18 +192,7 @@ return [
 		],
 	],
 
-	'product-category' => [
-		'title' => 'Categories',
-		'fields' => [
-			'name' => 'Name',
-			'product-name' 	=> 'Product Name',
-			'extra_option' 	=> 'Extra Option',
-			'measurement_type'=> 'Measurement Type',
-			'height'		=> 'Height',
-			'length'		=> 'Length',
-			'width'			=> 'Width',
-		],
-	],
+
 
 	'product-management' => [
 		'title' => 'Product Management',

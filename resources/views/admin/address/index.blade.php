@@ -1,6 +1,6 @@
 @inject('request', 'Illuminate\Http\Request')
 @extends('layouts.app')
-@section('title')@lang('quickadmin.category.title')@endsection
+@section('title')@lang('quickadmin.address.title') @endsection
 @section('customCss')
 <meta name="csrf-token" content="{{ csrf_token() }}" >
 @endsection
@@ -9,10 +9,10 @@
 
 <section class="section roles" style="z-index: unset">
     <div class="section-header ">
-      <h1> @lang('quickadmin.category.title')</h1>
+      <h1> @lang('quickadmin.address.title')</h1>
       <div class="section-header-breadcrumb ">
         <div class="breadcrumb-item active"><a href="{{ route('dashboard') }}">@lang('quickadmin.qa_dashboard')</a></div>
-        <div class="breadcrumb-item">@lang('quickadmin.category.list-title')</div>
+        <div class="breadcrumb-item">@lang('quickadmin.address.fields.list-title')</div>
       </div>
     </div>
     <div class="section-body">
@@ -20,14 +20,14 @@
             <div class="col-12">
               <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
-                  <h4>@lang('quickadmin.category.list-title')</h4>
-                  @can('category_create')
+                  <h4>@lang('quickadmin.address.fields.list-title')</h4>
+                  @can('address_create')
                   <button type="button" class="btn btn-outline-dark" data-toggle="modal" data-target="#centerModal"><i class="fas fa-plus"></i> @lang('quickadmin.roles.fields.add')</button>
                   @endcan
                 </div>
                 <div class="card-body">
                   <div class="table-responsive">
-                    {{$dataTable->table(['class' => 'table dt-responsive', 'style' => 'width:100%;','id'=>'categoryTable'])}}
+                    {{$dataTable->table(['class' => 'table dt-responsive', 'style' => 'width:100%;','id'=>'addressTable'])}}
                   </div>
                 </div>
               </div>
@@ -36,32 +36,32 @@
                     <div class="modal-dialog modal-dialog-centered" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalCenterTitle">@lang('quickadmin.category.fields.add')</h5>
+                                <h5 class="modal-title" id="exampleModalCenterTitle">@lang('quickadmin.address.fields.add')</h5>
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                                 </button>
                             </div>
                             <div class="modal-body">
-                                <form method="post" id="AddCategoryForm" action="">
-                                @include('admin.category.form')
+                                <form method="post" id="AddaddressForm" action="">
+                                @include('admin.address.form')
                                 </form>
                                 {{-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> --}}
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="modal fade px-3" id="editCategoryModal" tabindex="-1" role="dialog" aria-labelledby="editModalCenterTitle" aria-hidden="true">
+                <div class="modal fade px-3" id="editAddressModal" tabindex="-1" role="dialog" aria-labelledby="editModalCenterTitle" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title" id="editModalCenterTitle">@lang('quickadmin.category.fields.edit')</h5>
+                                <h5 class="modal-title" id="editModalCenterTitle">@lang('quickadmin.address.fields.edit')</h5>
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                                 </button>
                             </div>
                             <div class="modal-body">
-                                <form method="post" id="EditCategoryForm" action="route('categories.update')">
-                                @include('admin.category.form')
+                                <form method="post" id="EditaddressForm" action="">
+                                @include('admin.address.form')
                                 </form>
                                 {{-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> --}}
                             </div>
@@ -91,48 +91,47 @@
 
 <script>
 $(document).ready(function () {
-    var categoryDataTable = $('#categoryTable').DataTable();
+    var addressDataTable = $('#addressTable').DataTable();
 
-
-    $("body").on("click", ".edit-category-btn", function () {
+    $("body").on("click", ".edit-address-btn", function () {
             let editAddressId;
-            editId = $(this).data('id');
-            let editName = $(this).data('name');
-            console.log(editName);
-            let form = $('#EditCategoryForm');
-            let formAction = "{{ route('categories.update', ':id') }}"; // Define the route
-            formAction = formAction.replace(':id', editId);
+            editAddressId = $(this).data('id');
+            let editAddress = $(this).data('address');
+            console.log(editAddress,editAddressId);
+            let form = $('#EditaddressForm');
+            let formAction = "{{ route('address.update', ':id') }}"; // Define the route
+            formAction = formAction.replace(':id', editAddressId);
             form.attr('action', formAction);
-            $(document).find('#EditCategoryForm #name').val(editName);
+            $(document).find('#EditaddressForm #address').val(editAddress);
 
-            $('#editCategoryModal').modal('show');
+            $('#editAddressModal').modal('show');
     });
 
-    $('#AddCategoryForm').on('submit', function (e) {
+    $('#AddaddressForm').on('submit', function (e) {
         e.preventDefault();
 
-        $("#AddCategoryForm button[type=submit]").prop('disabled',true);
+        $("#AddaddressForm button[type=submit]").prop('disabled',true);
         $(".error").remove();
         $(".is-invalid").removeClass('is-invalid');
         var formData = $(this).serialize();
 
         $.ajax({
-            url: '{{ route('categories.store') }}',
+            url: '{{ route('address.store') }}',
             type: 'POST',
             headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            },
+        },
             data: formData,
             success: function (response) {
                     $('#centerModal').modal('hide');
                     var alertType = response['alert-type'];
                     var message = response['message'];
-                    var title = "{{ trans('quickadmin.category.category') }}";
+                    var title = "{{ trans('quickadmin.address.address') }}";
                     showToaster(title,alertType,message);
-                    $('#AddCategoryForm')[0].reset();
-                   // location.reload();
-                   categoryDataTable.ajax.reload();
-                   $("#AddCategoryForm button[type=submit]").prop('disabled',false);
+                    $('#AddaddressForm')[0].reset();
+                    //location.reload();
+                    addressDataTable.ajax.reload();
+                    $("#AddaddressForm button[type=submit]").prop('disabled',false);
             },
             error: function (xhr) {
                 var errors= xhr.responseJSON.errors;
@@ -143,15 +142,15 @@ $(document).ready(function () {
                     var errorHtml = '<div><span class="error text-danger">'+errors[elementId]+'</span></';
                     $(errorHtml).insertAfter($("#"+elementId).parent());
                 }
-                $("#AddCategoryForm button[type=submit]").prop('disabled',false);
+                $("#AddaddressForm button[type=submit]").prop('disabled',false);
             }
         });
     });
 
-    $('#EditCategoryForm').on('submit', function (e) {
+    $('#EditaddressForm').on('submit', function (e) {
         e.preventDefault();
 
-        $("#EditCategoryForm button[type=submit]").prop('disabled',true);
+        $("#EditaddressForm button[type=submit]").prop('disabled',true);
         $(".error").remove();
         $(".is-invalid").removeClass('is-invalid');
         var formData = $(this).serialize();
@@ -166,32 +165,32 @@ $(document).ready(function () {
         },
             data: formData,
             success: function (response) {
-                    $('#editCategoryModal').modal('hide');
+                    $('#editAddressModal').modal('hide');
                     var alertType = response['alert-type'];
                     var message = response['message'];
-                    var title = "{{ trans('quickadmin.category.category') }}";
+                    var title = "{{ trans('quickadmin.address.address') }}";
                     showToaster(title,alertType,message);
-                    $('#EditCategoryForm')[0].reset();
-                    //location.reload();
-                    categoryDataTable.ajax.reload();
-                    $("#EditCategoryForm button[type=submit]").prop('disabled',false);
+                    $('#EditaddressForm')[0].reset();
+                   // location.reload();
+                   addressDataTable.ajax.reload();
+                   $("#EditaddressForm button[type=submit]").prop('disabled',false);
             },
             error: function (xhr) {
                 var errors= xhr.responseJSON.errors;
                 console.log(xhr.responseJSON);
 
                 for (const elementId in errors) {
-                    $("#EditCategoryForm #"+elementId).addClass('is-invalid');
+                    $("#EditaddressForm #"+elementId).addClass('is-invalid');
                     var errorHtml = '<div><span class="error text-danger">'+errors[elementId]+'</span></';
-                    $(errorHtml).insertAfter($("#EditCategoryForm #"+elementId).parent());
+                    $(errorHtml).insertAfter($("#EditaddressForm #"+elementId).parent());
                 }
-                $("#EditCategoryForm button[type=submit]").prop('disabled',false);
+                $("#EditaddressForm button[type=submit]").prop('disabled',false);
             }
         });
     });
 
 
-    $(document).on('submit', '.deleteCategoryForm', function(e) {
+    $(document).on('submit', '.deleteAddressForm', function(e) {
         e.preventDefault();
         console.log(2);
         var formAction = $(this).attr('action');
@@ -217,15 +216,14 @@ $(document).ready(function () {
             success: function (response) {
                 var alertType = response['alert-type'];
                     var message = response['message'];
-                    var title = "{{ trans('quickadmin.category.category') }}";
+                    var title = "{{ trans('quickadmin.address.address') }}";
                     showToaster(title,alertType,message);
-                    categoryDataTable.ajax.reload();
-                    // location.reload();
+                    addressDataTable.ajax.reload();
 
             },
             error: function (xhr) {
                 // Handle error response
-                swal('Category', 'some mistake is there.', 'error');
+                swal('Address', 'some mistake is there.', 'error');
             }
             });
         }

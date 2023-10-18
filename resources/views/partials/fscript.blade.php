@@ -13,31 +13,45 @@
 <script src="{{ asset('admintheme/assets/bundles/jquery-ui/jquery-ui.min.js') }}"></script>
 <script src="{{ asset('admintheme/assets/bundles/izitoast/js/iziToast.min.js') }}"></script>
 <script src="{{ asset('admintheme/assets/js/page/toastr.js') }}"></script>
+<script src="{{ asset('admintheme/assets/bundles/sweetalert/sweetalert.min.js') }}"></script>
+<script src="{{ asset('admintheme/assets/js/page/sweetalert.js') }}"></script>
+<script src="{{ asset('admintheme/assets/bundles/select2/dist/js/select2.full.min.js') }}"></script>
 
 <script>
     function showToaster(title,alertType, message) {
         console.log(alertType);
-    var position = 'topRight'; // You can change the default position here
+        var position = 'topRight'; // You can change the default position here
 
-    var toastSettings = {
-        title: title,
-        message: message,
-        position: position,
-    };
+        var toastSettings = {
+            title: title,
+            message: message,
+            position: position,
+        };
 
-    switch (alertType) {
-        case 'info':
-            iziToast.info(toastSettings);
-            break;
-        case 'success':
-            iziToast.success(toastSettings);
-            break;
-        case 'warning':
-            iziToast.warning(toastSettings);
-            break;
-        case 'error':
-            iziToast.error(toastSettings);
-            break;
+        switch (alertType) {
+            case 'info':
+                iziToast.info(toastSettings);
+                break;
+            case 'success':
+                iziToast.success(toastSettings);
+                break;
+            case 'warning':
+                iziToast.warning(toastSettings);
+                break;
+            case 'error':
+                iziToast.error(toastSettings);
+                break;
+        }
     }
-}
+
+    $(document).ready(function(){
+        @if(Session::has('message'))
+            var alertType = "{{ Session::get('alert-type') }}";
+            var message = "{{ Session::get('message') }}";
+            var title = "{{ Session::get('title') }}";
+            showToaster(title, alertType, message);
+        @endif
+	});
+
+
 </script>

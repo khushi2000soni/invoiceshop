@@ -20,22 +20,27 @@
 
         @can('staff_access')
         <li class="dropdown">
-            <a href="{{route('roles.index')}}" class="nav-link"><i class="fab fa-gg"></i><span>@lang('quickadmin.user-management.title')</span></a>
+            <a href="{{route('staff.index')}}" class="nav-link"><i class="fab fa-gg"></i><span>@lang('quickadmin.user-management.title')</span></a>
         </li>
         @endcan
         @can('customer_access')
         <li class="dropdown">
-            <a href="{{route('roles.index')}}" class="nav-link"><i class="fab fa-gg"></i><span>@lang('quickadmin.customer-management.title')</span></a>
+            <a href="{{route('customers.index')}}" class="nav-link"><i class="fab fa-gg"></i><span>@lang('quickadmin.customer-management.title')</span></a>
         </li>
         @endcan
 
-        {{-- <li class="dropdown">
-          <a href="#" class="nav-link has-dropdown"><i class="fab fa-gg"></i><span>Category</span></a>
+        <li class="dropdown">
+          <a href="#" class="nav-link has-dropdown"><i class="fab fa-gg"></i><span>@lang('quickadmin.master-management.title')</span></a>
           <ul class="dropdown-menu">
-            <li><a class="nav-link" href="#">Add Category</a></li>
-            <li><a class="nav-link" href="#">Category List</a></li>
+            @can('address_access')
+            <li><a class="nav-link" href="{{route('address.index')}}">@lang('quickadmin.address.title')</a></li>
+            @endcan
+            @can('category_access')
+            <li><a class="nav-link" href="{{route('categories.index')}}">@lang('quickadmin.category.title')</a></li>
+            @endcan
+
           </ul>
-        </li> --}}
+        </li>
         {{-- <li class="dropdown">
           <a href="#" class="nav-link has-dropdown"><i class="fab fa-gg"></i><span>Employee</span></a>
           <ul class="dropdown-menu">
