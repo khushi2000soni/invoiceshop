@@ -217,101 +217,20 @@ return [
 		],
 	],
 
-	'expense-management' => [
-		'title' => 'Expense Management',
-		'fields' => [
-		],
-	],
-
-	'income-management' => [
-		'title' => 'Income Management',
-		'fields' => [
-		],
-	],
-
-	'expense-category' => [
-		'title' => 'Expense Categories',
-		'fields' => [
-			'name' => 'Name',
-		],
-	],
-
-
-
-
-
-
-	'income' => [
-		'title' => 'Income',
-		'fields' => [
-			'product-category' => 'Product Category',
-			'entry-date' => 'Entry date',
-			'amount' => 'Amount',
-			'customer' => 'Customer Name',
-			'area' => 'Area(Address)',
-		],
-	],
-
-	'expense' => [
-		'title' => 'Expenses',
-		'fields' => [
-			'expense-category' => 'Expense Category',
-			'entry-date' => 'Entry date',
-			'amount' => 'Amount',
-		],
-	],
-
-	'monthly-report' => [
-		'title' => 'Monthly report',
-		'fields' => [
-		],
-	],
-
-	'area-management' => [
-		'title' => 'Areas',
-		'fields' => [
-			'add' => 'Add New',
-			'list' => 'List All',
-		],
-	],
-
-	'area' => [
-		'title' => 'Area',
-		'fields' => [
-			'address' => 'Address'
-		],
-	],
-
-
-	'order-management' => [
-		'title' 	=> 'Estimate management',
-		'return-title' 	=> 'Return Order Management',
-		'title-draft' 	=> 'Draft Estimate Management',
-		'title-case-reciept'  => 'Create new cash reciept',
+    'order-management' => [
+		'title' 	=> 'Invoice management',
 		'fields' 	=> [
 			'add' 	=> 'New Estimate',
 			'list' 	=> 'Manage Estimates',
 		],
 	],
-	'return-order-management' => [
-		'title' 	=> 'Return Estimate Order',
-		'fields' 	=> [
-			'add' 	=> 'New Estimate Return',
-			'list' 	=> 'Manage Estimate Return',
-		],
-	],
 
 	'order'  => [
 		'title'  => 'Orders',
-		'title-return'  => 'Create return order estimate',
-		'title-create'  => 'Create new order estimate',
-		'title-edit'    => 'Edit new order estimate',
-		'view-title-create'  => 'View new order estimate',
-		'view-title-return'  => 'View return order estimate',
-		'pdf-title-create'    => 'New order estimate',
-		'pdf-title-return'    => 'Return order estimate',
-
-		'measurment_hint' => 'per :measurmentType',
+		'order'  => 'Order',
+        'create_new_order' => 'Create New Order',
+        'new_order'  => 'New Order',
+        'list'=>'Order List',
 		'fields' => [
 			'placeholder_search' => 'Search by product name ....',
 			'order_id' 		=> 'Order Id',
@@ -322,17 +241,16 @@ return [
 			'product_name' 	=> 'Product Name',
 			'products' 		=> 'Products',
 			'quantity' 		=> 'Quantity',
-			'height'		=> 'Height',
-			'width'			=> 'Width',
-			'length'		=> 'Length',
-			'is_sub_product'=> 'Sub Product',
 			'price' 		=> 'Price',
+            'amount' 		=> 'Amount',
 			'sub_total'		=> 'Amount',
 			'entry_date'	=> 'Entry Date',
 			'total'			=> 'Total',
 			'total_amount'	=> 'Total Amount',
 			'order_type'	=> 'Order Type',
 			'total_price'	=> 'Total Price',
+            'thaila'	    => 'Thaila',
+            'round_off'	    => 'Round Off',
 			'ground_total'	=> 'GRAND TOTAL',
 			'invoice_date'  => 'Estimate Date',
 			'invoice_number'=> 'Estimate Number',
@@ -340,73 +258,15 @@ return [
 			'phone_number'	=> 'Phone Number',
 			'email_address' => 'Email Address',
 			'order_note'  	=> 'Notes',
-			'is_draft'		=> 'Draft',
-			'sold_by'		=> 'Sold By',
-			'shipping'		=> 'Add Shipping',
-			'shipping_amount'	=> 'Shipping Amount',
-			'order'         => 'Order',
-			'place_of_supply' => 'Place of Supply',
 			'date' => 'Date',
 			'sno'=>'SNo.',
 			'number_of_item'=>'Number of item',
-			'description' => 'Description',
 		],
 	],
 
-
-	'transaction-management' => [
-		'title' 	=> 'Payment Management',
-		'fields' 	=> [
-			'new_case_reciept' 	=> 'New Cash Reciept',
-			'add' 	=> 'Add New',
-			'list' 	=> 'List All',
-			'case_reciept' => 'Cash Reciept',
-			'sales'	=> 'Estimate',
-			'sales_return' => 'Estimates Return',
-			'draft_invoice' => 'Draft Estimate',
-			'cancel_estimate' => 'Cancelled Estimate',
-			'current_estimate' => 'Current Estimate',
-			'modified_sales' => 'Modified Estimate',
-
-		],
-	],
-
-	'transaction'  => [
-		'title'  				=> 'Payment transactions',
-		'case_reciept_title'  	=> 'Cash reciept transactions',
-		'sales_title'  			=> 'Estimates transactions',
-		'sales_return_title'  	=> 'Estimates return transactions',
-		'cancelled_title'  		=> 'Cancelled Estimates transactions',
-		'current_estimate_title'  	=> 'Current Date Estimates transactions',
-		'modified_sales_title'  	=> 'Modified Estimates transactions',
+	'monthly-report' => [
+		'title' => 'Monthly report',
 		'fields' => [
-			'user' 				=> 'User',
-			'customer' 			=> 'Customer',
-			'payment_type' 		=> 'Payment Type',
-			'payment_way' 		=> 'Payment Way',
-			'voucher_number'    => 'Estimate Number',
-			'payment_mode' 		=> 'Payment Mode',
-			'check_account' 	=> 'Check/Account number',
-			'entry_date' 		=> 'Entry Date',
-			'order_id' 			=> 'Order Id',
-			'extra_details' 	=> 'Extra Details',
-			'remark' 			=> 'Remark',
-			'amount' 			=> 'Amount',
-			'created_by' 		=> 'Created By',
-			'order_create' 		=> 'Order Create',
-			'order_return' 		=> 'Order Return',
-			'by_cash' 			=> 'By Cash',
-			'by_check' 			=> 'By Check',
-			'by_account' 		=> 'By Account',
-			'credit_amount' 	=> 'Credit',
-			'debit_amount' 		=> 'Debit',
-			'entry-date' 		=> 'Entry date',
-			'particulars'       => 'Particulars',
-			'remain_balance'	=> 'Remain Balance',
-			'created_at'		=> 'Created At',
-			'deleted_at'		=> 'Deleted At',
-			'deleted_by'		=> 'Deleted By',
-
 		],
 	],
 
@@ -489,7 +349,8 @@ return [
 
     'qa_company_name' 	=> 'Company Name',
 	'qa_create_invoice' 	=> 'Create Estimate',
-	'qa_save_invoice' 	=> 'Save Estimate',
+	'qa_save_invoice' 	=> 'Save Invoice',
+    'qa_print_invoice' 	=> 'Print Invoice',
 	'qa_save_invoice_return' 	=> 'Save Estimate Return',
 	'qa_save_as_draft_invoice' => 'Save as Draft',
 	'qa_update_as_draft_invoice' => 'Update as Draft',
@@ -498,6 +359,7 @@ return [
 	'qa_create' => 'Create',
 	'qa_return' => 'Return',
 	'qa_save' => 'Save',
+    'qa_copy' => 'Copy',
 	'qa_edit' => 'Edit',
 	'qa_restore' => 'Restore',
 	'qa_permadel' => 'Delete Permanently',
