@@ -29,6 +29,12 @@
         </li>
         @endcan
 
+        @can('device_access')
+        <li class="dropdown">
+            <a href="{{route('device.index')}}" class="nav-link"><i class="fab fa-gg"></i><span>@lang('quickadmin.device-management.title')</span></a>
+        </li>
+        @endcan
+
         <li class="dropdown">
           <a href="#" class="nav-link has-dropdown"><i class="fab fa-gg"></i><span>@lang('quickadmin.master-management.title')</span></a>
           <ul class="dropdown-menu">

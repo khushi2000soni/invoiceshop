@@ -125,7 +125,34 @@ return [
 			'phone_number' 	=> 'Phone Number',
 			'opening_blance'=> 'Opening Blance',
             'add' 	=> 'Add New',
-            'edit' => 'Edit Staff',
+            'edit' => 'Edit Customer',
+		],
+	],
+
+    'device-management' => [
+		'title' 	=> 'Device Management',
+		'fields' 	=> [
+			'add' 	=> 'Add New',
+			'list' 	=> 'Device List',
+			'alter_list' 	=> 'Alter List',
+		],
+	],
+
+	'device'  => [
+		'title'  => 'Devices',
+        'device' => 'Device',
+		'device_details' => 'Device Details',
+		'fields' => [
+			'name' 			=> 'Name',
+			'staff_name' 		=> 'Assigned Staff Name',
+            'device_id'         =>'Device ID',
+            'device_ip'       =>'Device IP',
+            'pin'  => 'PIN Number',
+			'action' 		=> 'Action',
+            'created_at'    =>'Created At',
+			'created_by' 	=> 'Created By',
+            'add' 	=> 'Add New',
+            'edit' => 'Edit Device',
 		],
 	],
 
@@ -157,6 +184,7 @@ return [
         'add' 	=> 'Add New',
 		'fields' => [
 			'name' => 'Name',
+            'total_product' => 'Total Product',
             'created_at'=>'Created At',
             'add' 	=> 'Add New',
             'edit' => 'Edit Category',

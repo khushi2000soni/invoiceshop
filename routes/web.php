@@ -7,6 +7,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\DeviceController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
@@ -53,4 +54,5 @@ Route::middleware(['auth','PreventBackHistory'])->group(function () {
     Route::put('/staff/password/{id}',[UserController::class,'staffUpdatePass'])->name('staff.change-password');
     Route::resource('/customers',CustomerController::class);
     Route::resource('/products',ProductController::class);
+    Route::resource('/device',DeviceController::class);
 });

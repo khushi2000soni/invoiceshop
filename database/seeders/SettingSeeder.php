@@ -46,6 +46,16 @@ class SettingSeeder extends Seeder
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'created_by' => 1,
             ],
+            [
+                'id'     => 4,
+                'key'    => 'thaila_price',
+                'value'  =>  null,
+                'type'   => null,
+                'group'  => 'web',
+                'status' => 1,
+                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+                'created_by' => 1,
+            ],
         ];
 
         Setting::insert($settings);

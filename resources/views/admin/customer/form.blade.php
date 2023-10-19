@@ -23,7 +23,7 @@
             <div class="form-group">
                 <label for="email">@lang('quickadmin.customers.fields.email')</label>
                 <div class="input-group">
-                    <input type="text" class="form-control" name="email" value="{{ isset($customer) ? $customer->email : old('email') }}" id="email" autocomplete="true">
+                    <input type="email" class="form-control" name="email" value="{{ isset($customer) ? $customer->email : old('email') }}" id="email" autocomplete="true">
                 </div>
             </div>
         </div>

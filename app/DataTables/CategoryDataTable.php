@@ -26,7 +26,10 @@ class CategoryDataTable extends DataTable
         ->eloquent($query)
             ->addIndexColumn()
             ->editColumn('name',function($category){
-                return $category->name ?? "";
+                return ucwords($category->name) ?? "";
+            })
+            ->editColumn('total_product', function ($category) {
+                return $category->products->count();
             })
             ->editColumn('created_at', function ($category) {
                 return $category->created_at->format('d-M-Y H:i A');
@@ -47,14 +50,17 @@ class CategoryDataTable extends DataTable
             ->filterColumn('created_at', function ($query, $keyword) {
                 $query->whereRaw("DATE_FORMAT(categories.created_at,'%d-%M-%Y') like ?", ["%$keyword%"]); //date_format when searching using date
             })
+
             ->rawColumns(['action']);
     }
+
+
     /**
      * Get the query source of dataTable.
      */
     public function query(Category $model): QueryBuilder
     {
-        return $model->newQuery();
+        return $model->newQuery()->with('products');
     }
 
     /**
@@ -90,6 +96,7 @@ class CategoryDataTable extends DataTable
 
             Column::make('DT_RowIndex')->title(trans('quickadmin.qa_sn'))->orderable(false)->searchable(false),
             Column::make('name')->title(trans('quickadmin.category.fields.name')),
+            Column::make('total_product')->title(trans('quickadmin.category.fields.total_product'))->orderable(false)->searchable(false),
             Column::make('created_at')->title(trans('quickadmin.category.fields.created_at')),
             Column::computed('action')
             ->exportable(false)
