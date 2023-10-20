@@ -393,9 +393,9 @@
                         '<td class="text-right">' + amount + '</td>' +
                         '<td class="text-right">' +
                             '<div class="d-flex align-items-center buttonGroup justify-content-end"><button class="btn btn-dark btn-sm copy-product" data-row-index="' + i + '">@lang("quickadmin.qa_copy")</button>' +
-                        '<button class="btn btn-info btn-sm edit-product" data-row-index="' + i + '">@lang("quickadmin.qa_edit")</a></button>' +
-                        '<button class="btn btn-danger btn-sm delete-product" data-row-index="' + i + '">@lang("quickadmin.qa_delete")</button></div>'
-
+                            '<button class="btn btn-info btn-sm edit-product" data-row-index="' + i + '">@lang("quickadmin.qa_edit")</a></button>' +
+                            '<button class="btn btn-danger btn-sm delete-product" data-row-index="' + i + '">@lang("quickadmin.qa_delete")</button>'+
+                            '</div>'+
                         '</td>' +
                         '</tr>';
                     // Append the row to the table
