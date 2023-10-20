@@ -4,9 +4,9 @@
             <div class="form-group">
                 <label for="customer_id">@lang('quickadmin.order.fields.customer_name')</label>
                 <div class="input-group">
-                    <select class="form-control @error('customer_id') is-invalid @enderror" name="customer_id" id="customer_id" value="{{ isset($order) ? $order->customer_id : old('customer_id') }}">
+                    <select class="form-control @error('customer_id') is-invalid @enderror" name="customer_id" id="customer_id"  value="{{ isset($order) ? $order->customer_id : old('customer_id') }}">
                         <option value="{{ isset($order) ? $order->customer->id : old('customer_id') }}">
-                            {{ isset($order) ? $order->customer->name : old('customer_id') }}
+                            {{ isset($order) ? $order->customer->name : trans('quickadmin.order.fields.select_customer') }}
                         </option>
                         @foreach($customers as $customer)
                         <option value="{{ $customer->id }}">{{ $customer->name }}</option>
@@ -22,7 +22,7 @@
                 <div class="input-group">
                     <select class="form-control @error('product_id') is-invalid @enderror" name="product_id" id="product_id" value="{{ isset($order) ? $order->product_id : old('product_id') }}">
                         <option value="{{ isset($order) ? $order->product->id : old('product_id') }}">
-                            {{ isset($order) ? $order->product->name : old('product_id') }}
+                            {{ isset($order) ? $order->product->name : trans('quickadmin.order.fields.select_product') }}
                         </option>
                         @foreach($products as $product)
                         <option value="{{ $product->id }}">{{ $product->name }}</option>
@@ -52,7 +52,7 @@
             <div class="form-group">
                 <label for="total_price">@lang('quickadmin.order.fields.sub_total')</label>
                 <div class="input-group">
-                    <input type="numeric" class="form-control" name="total_price" value="{{ isset($order) ? $order->total_price : old('total_price') }}" id="pin" autocomplete="true">
+                    <input type="numeric" class="form-control" name="total_price" value="{{ isset($order) ? $order->total_price : old('total_price') }}" id="total_price" autocomplete="true" readonly>
                 </div>
             </div>
         </div>
@@ -61,7 +61,7 @@
             <div class="form-group">
                 <label for="total_price"></label>
                 <div class="input-group pt-2">
-                    <button type="submit" class="btn btn-primary"><i class="fas fa-plus"></i></button>
+                    <button type="button" class="btn btn-success" id="addProductBtn"><i class="fas fa-plus"></i></button>
                 </div>
             </div>
         </div>

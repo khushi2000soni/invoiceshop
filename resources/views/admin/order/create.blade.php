@@ -3,13 +3,21 @@
 @section('title')@lang('quickadmin.order.create_new_order') @endsection
 @section('customCss')
 <meta name="csrf-token" content="{{ csrf_token() }}" >
+<style>
+    .buttonGroup{
+        gap: 8px
+    }
+    .invoice hr {
+    border-top-color: #ededed;
+}
+</style>
 @endsection
 
 @section('main-content')
 
 <section class="section">
     <div class="section-header ">
-      <h1>@lang('quickadmin.order.create_new_order')</h1>
+      <h1>@lang('quickadmin.order.create_new_order') </h1>
       <div class="section-header-breadcrumb ">
         <div class="breadcrumb-item active"><a href="{{ route('dashboard') }}">@lang('quickadmin.qa_dashboard')</a></div>
         <div class="breadcrumb-item"><a href="{{ route('orders.index') }}">@lang('quickadmin.order.list')</a></div>
@@ -35,45 +43,43 @@
                     <div class="col-md-12">
                     <div class="table-responsive">
                         <table class="table table-striped table-hover table-md">
-                        <tr>
-                            <th data-width="40">@lang('quickadmin.qa_sn')</th>
-                            <th>@lang('quickadmin.order.fields.product_name')</th>
-                            <th class="text-center">@lang('quickadmin.order.fields.product_name')</th>
-                            <th class="text-center">@lang('quickadmin.order.fields.quantity')</th>
-                            <th class="text-right">@lang('quickadmin.order.fields.sub_total')</th>
-                            <th class="text-right">@lang('quickadmin.qa_action')</th>
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>Card Reader</td>
-                            <td class="text-center">$15.00</td>
-                            <td class="text-center">2</td>
-                            <td class="text-right">$30.00</td>
-                            <td class="text-right">
-                                <a href="" class="btn btn-dark btn-sm">@lang('quickadmin.qa_copy')</a>
-                                <a href="" class="btn btn-info btn-sm">@lang('quickadmin.qa_edit')</a>
-                                <a href="" class="btn btn-danger btn-sm">@lang('quickadmin.qa_delete')</a>
-                            </td>
-                        </tr>
+                        <thead>
+                            <tr>
+                                <th data-width="40">@lang('quickadmin.qa_sn')</th>
+                                <th class="text-center d-none">@lang('quickadmin.order.fields.product_id')</th>
+                                <th class="text-center">@lang('quickadmin.order.fields.product_name')</th>
+                                <th class="text-center">@lang('quickadmin.order.fields.quantity')</th>
+                                <th class="text-center">@lang('quickadmin.order.fields.price')</th>
+                                <th class="text-right">@lang('quickadmin.order.fields.sub_total')</th>
+                                <th class="text-right">@lang('quickadmin.qa_action')</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
                         </table>
                     </div>
                     <div class="row mt-4">
-                        <div class="col-lg-8">
+                        <div class="col">
                             <div class="custom-control custom-checkbox pt-4">
                                 <input type="checkbox" class="custom-control-input" id="is_round_off">
                                 <label class="custom-control-label" for="is_round_off">@lang('quickadmin.order.fields.round_off')</label>
                             </div>
                         </div>
-                        <div class="col-lg-4 text-right">
-                        <div class="invoice-detail-item">
-                            <div><span class="invoice-detail-value">@lang('quickadmin.order.fields.thaila') : </span> <span class="px-2">0.00</span></div>
+                        <div class="col-lg-auto text-right">
+                        <div class="invoice-detail-item mb-2">
+                            <div class="d-flex align-items-center justify-content-between"><span class="invoice-detail-value">@lang('quickadmin.order.fields.thaila') : </span> <span class="px-2">
+                            <input type="numeric" class="form-control form-control-sm col-md-2 float-right" id="thaila_price" name="thaila_price" value="0.00" min="0" step=".001">
+                            </span></div>
                         </div>
-                        <div class="invoice-detail-item">
-                            <div><span class="invoice-detail-value">@lang('quickadmin.order.fields.round_off') : </span> <span class="px-2">0.00</span></div>
+                        <div class="invoice-detail-item mb-2">
+                            <div class="d-flex align-items-center justify-content-between"><span class="invoice-detail-value">@lang('quickadmin.order.fields.sub_total_amount') : </span> <span class="px-2" id="sub_total_amount">0</span></div>
+                        </div>
+                        <div class="invoice-detail-item mb-2">
+                            <div class="d-flex align-items-center justify-content-between"><span class="invoice-detail-value">@lang('quickadmin.order.fields.round_off') : </span> <span class="px-2" id="round_off_amount">0</span></div>
                         </div>
                         <hr class="mt-2 mb-2">
-                        <div class="invoice-detail-item">
-                            <div><span class="invoice-detail-value">@lang('quickadmin.order.fields.ground_total') : </span> <span class="px-2">$1530.00</span></div>
+                        <div class="invoice-detail-item mb-2">
+                            <div class="d-flex align-items-center justify-content-between"><span class="invoice-detail-value">@lang('quickadmin.order.fields.grand_total') : </span> <span class="px-2" id="grand_total_amount">0</span></div>
                         </div>
                         </div>
                     </div>
@@ -96,4 +102,356 @@
 
 @section('customJS')
   @include('admin.order.partials.script')
+
+  <script>
+
+    var order = {
+    products: [],
+    thailaPrice: 0.00,
+    is_round_off: 0,
+    sub_total: 0.00,
+    round_off_amount: 0,
+    grand_total: 0.00
+    };
+    var rowIndex;
+
+    $(document).ready(function() {
+        order = JSON.parse(localStorage.getItem('order')) || {
+        products: [],
+        thailaPrice: 0.00,
+        is_round_off: 0,
+        sub_total: 0.00,
+        round_off_amount: 0,
+        grand_total: 0.00
+        };
+
+        // Calculate the subtotal
+        order.sub_total = calculateSubtotal();
+        // Update the subtotal in the UI
+        $('#sub_total_amount').text(order.sub_total.toFixed(2));
+
+        calculateGrandTotal();
+
+        $("#customer_id").change(function (e) {
+        e.preventDefault();
+        order.customer_id = parseInt($(this).val());
+        });
+
+        $("#product_id").change(function (e) {
+            e.preventDefault();
+            order.product_id = parseInt($(this).val());
+            order.product_name = $(this).find("option:selected").text();
+            $("#selectedProductName").text(order.product_name);
+        });
+
+        $("#is_round_off").change(function (e) {
+            e.preventDefault();
+            console.log('yes');
+            order.is_round_off = this.checked ? 1 : 0;
+            calculateGrandTotal();
+        });
+
+        // Event listener for the thaila_price input field change
+        $("#thaila_price").on("input", function (e) {
+            e.preventDefault();
+            updateThailaPrice();
+            calculateGrandTotal();
+        });
+
+        // Initialize the thailaPrice from local storage if available
+        if (localStorage.getItem("order")) {
+            order = JSON.parse(localStorage.getItem("order"));
+            $("#thaila_price").val(order.thailaPrice || 0.00);
+        }
+
+        $(document).on('click','#addProductBtn', function(e){
+            e.preventDefault();
+            $(".error.text-danger").remove();
+            $(".is-invalid").removeClass("is-invalid");
+            var productRecord = {
+                customer_id: order.customer_id,
+                product_id: parseInt($("#product_id").val()),
+                product_name: order.product_name,
+                quantity: parseInt($("#quantity").val()),
+                price: parseFloat($("#price").val()),
+                total_price: parseFloat($("#total_price").val())
+            };
+
+            var errors = {
+                customer_id: "The Customer Name is required.",
+                product_id: "The Product Name is required.",
+                quantity: "The Quantity is required.",
+                price: "The Price is required.",
+                total_price: "Please fill quantity or price."
+            };
+
+            var hasErrors = false;
+            for (const elementId in productRecord) {
+                if (!productRecord[elementId]) {
+                    $("#" + elementId).addClass('is-invalid');
+                    var errorHtml = '<div><span class="error text-danger">' + errors[elementId] + '</span></div>';
+                    $(errorHtml).insertAfter($("#" + elementId).parent());
+                    hasErrors = true;
+                }
+            }
+            if (!hasErrors) {
+                order.products.push(productRecord);
+                order.sub_total = calculateSubtotal();
+                $('#sub_total_amount').text(order.sub_total.toFixed(2));
+                updateLocalStorage();
+                clearForm();
+                displayOrder();
+                calculateGrandTotal();
+            }
+
+            // console.log(order);
+        });
+
+        $(document).on('click', '.edit-product', function (e) {
+            e.preventDefault();
+
+            rowIndex = $(this).data('row-index');
+            var productToEdit = order.products[rowIndex];
+
+            $("#customer_id").val(productToEdit.customer_id);
+            $("#product_id").val(productToEdit.product_id);
+            var productToSelect = productToEdit.product_name;
+
+            // Select the option in the #product_id <select> element based on product_name
+            var productSelect = $("#product_id");
+            productSelect.find("option").filter(function() {
+                return $(this).text() === productToSelect;
+            }).prop("selected", true);
+
+            $("#quantity").val(productToEdit.quantity);
+            $("#price").val(productToEdit.price);
+            $("#total_price").val(productToEdit.total_price);
+
+            $("#addProductBtn").replaceWith('<button id="editProductBtn" class="btn btn-info"><i class="fas fa-edit"></i></button>');
+        });
+
+        // Event handler for updating the product
+        $(document).on('click', '#editProductBtn', function (e) {
+            e.preventDefault();
+            // Remove previous error messages and validation classes
+            $(".error.text-danger").remove();
+            $(".is-invalid").removeClass("is-invalid");
+
+            var updatedProduct = {
+                customer_id: parseInt($("#customer_id").val()),
+                product_id: parseInt($("#product_id").val()),
+                product_name: order.product_name,
+                quantity: parseInt($("#quantity").val()),
+                price: parseFloat($("#price").val()),
+                total_price: parseFloat($("#total_price").val())
+            };
+
+            var errors = {
+                customer_id: "The Customer Name is required.",
+                product_id: "The Product Name is required.",
+                quantity: "The Quantity is required.",
+                price: "The Price is required.",
+                total_price: "Please fill quantity or price."
+            };
+            console.log("updatproduct",updatedProduct);
+
+            var hasErrors = false;
+            for (const elementId in updatedProduct) {
+                if (!updatedProduct[elementId]) {
+                    $("#" + elementId).addClass('is-invalid');
+                    var errorHtml = '<div><span class="error text-danger">' + errors[elementId] + '</span></div>';
+                    $(errorHtml).insertAfter($("#" + elementId).parent());
+                    hasErrors = true;
+                }
+            }
+
+            if (!hasErrors) {
+                // Retrieve the entire object from local storage
+                order = JSON.parse(localStorage.getItem("order"));
+                console.log("Order",order);
+                // Update the product data in the array
+                order.products[rowIndex] = updatedProduct;
+                order.sub_total = calculateSubtotal();
+                $('#sub_total_amount').text(order.sub_total.toFixed(2));
+                // Update the table with the edited data
+                updateLocalStorage();
+                displayOrder();
+                clearForm();
+                calculateGrandTotal();
+                $("#editProductBtn").replaceWith('<button id="addProductBtn" class="btn btn-success"><i class="fas fa-plus"></i></button>');
+            }
+            else{
+                console.log('error',hasErrors);
+            }
+
+
+        });
+
+        $(document).on('click', '.delete-product', function (e) {
+            e.preventDefault();
+            swal({
+            title: "{{ trans('messages.deletetitle') }}",
+            text: "{{ trans('messages.areYouSure') }}",
+            icon: 'warning',
+            buttons: {
+            confirm: 'Yes, delete it',
+            cancel: 'No, cancel',
+            },
+            dangerMode: true,
+            }).then((willDelete) => {
+                if (willDelete) {
+                    // Get the row index from the data attribute
+                    var rowIndex = $(this).data('row-index');
+                    // Remove the row from the table
+                    var rowToDelete = $(".table.table-striped.table-hover.table-md tbody tr").eq(rowIndex);
+                    rowToDelete.remove();
+                    // Remove the product from the order.products array
+                    order.products.splice(rowIndex, 1);
+                    order.sub_total = calculateSubtotal();
+                    $('#sub_total_amount').text(order.sub_total.toFixed(2));
+                    updateLocalStorage();
+                    displayOrder();
+                    calculateGrandTotal();
+                }
+            });
+
+        });
+
+
+        $(document).on('click', '.copy-product', function () {
+        // Get the row index from the data attribute
+            var rowIndex = $(this).data('row-index');
+            // Find the product to copy based on the row index
+            var productToCopy = order.products[rowIndex];
+            // Find the product_id using the hidden field in the row
+            var product_id = $('.product-id').eq(rowIndex).text();
+            // Create the copied product
+            var copiedProduct = {
+                customer_id: productToCopy.customer_id,
+                product_id: product_id,
+                product_name: productToCopy.product_name,
+                quantity: productToCopy.quantity,
+                price: productToCopy.price,
+                total_price: productToCopy.total_price
+            };
+            console.log("copiedproduct: "+copiedProduct);
+            // Add the duplicated product to the order and update the table and local storage
+            order.products.push(copiedProduct);
+            order.sub_total = calculateSubtotal();
+            $('#sub_total_amount').text(order.sub_total.toFixed(2));
+            updateLocalStorage();
+            displayOrder();
+            calculateGrandTotal();
+        });
+
+        function updateThailaPrice() {
+            var thailaPrice = parseFloat($("#thaila_price").val()) || 0.00;
+            order.thailaPrice = thailaPrice;
+            localStorage.setItem("order", JSON.stringify(order));
+        }
+
+        function calculateAmount() {
+            var quantity = parseFloat($("#quantity").val()) || 0;
+            var price = parseFloat($("#price").val()) || 0;
+            var total_price = (quantity * price).toFixed(2);
+            $("#total_price").val(total_price);
+        }
+
+        $("#quantity, #price").on("input", calculateAmount);
+
+        function updateLocalStorage() {
+            localStorage.setItem("order", JSON.stringify(order));
+        }
+
+        // Function to clear the form fields
+        function clearForm() {
+            $("#product_id, #quantity, #price, #total_price").val("");
+            $(".is-invalid").removeClass("is-invalid");
+            $(".error").remove();
+        }
+
+        function displayOrder() {
+        // Get a reference to the table body where product rows will be added
+            var tableBody = $(".table.table-striped.table-hover.table-md").find("tbody");
+            // Clear existing rows
+            tableBody.empty();
+            if (order.products.length > 0) {
+                var totalAmount = 0;
+
+                for (var i = 0; i < order.products.length; i++) {
+                    var product = order.products[i];
+                    var amount = product.quantity * product.price;
+                    totalAmount += amount;
+
+                    // Create a new row for each product
+                    var rowHtml = '<tr>' +
+                        '<td>' + (i + 1) + '</td>' +
+                        '<td class="text-center d-none product-id">' + product.product_id + '</td>' +
+                        '<td class="text-center product-name">' + product.product_name + '</td>' +
+                        '<td class="text-center">' + product.quantity + '</td>' +
+                        '<td class="text-right">' + product.price + '</td>' +
+                        '<td class="text-right">' + amount + '</td>' +
+                        '<td class="text-right">' +
+                            '<div class="d-flex align-items-center buttonGroup justify-content-end"><button class="btn btn-dark btn-sm copy-product" data-row-index="' + i + '">@lang("quickadmin.qa_copy")</button>' +
+                        '<button class="btn btn-info btn-sm edit-product" data-row-index="' + i + '">@lang("quickadmin.qa_edit")</a></button>' +
+                        '<button class="btn btn-danger btn-sm delete-product" data-row-index="' + i + '">@lang("quickadmin.qa_delete")</button></div>'
+
+                        '</td>' +
+                        '</tr>';
+                    // Append the row to the table
+                    tableBody.append(rowHtml);
+                }
+            }
+        }
+
+        function calculateSubtotal() {
+            let subtotal = 0;
+            for (const product of order.products) {
+                subtotal += product.total_price || 0;
+            }
+            return subtotal;
+        }
+
+        function calculateGrandTotal() {
+            var subTotal = calculateSubtotal();
+            var thailaPrice = parseFloat(order.thailaPrice);
+            var isRoundOff = parseInt(order.is_round_off);
+
+            if (isRoundOff) {
+                // Calculate the Round Off amount
+                var roundedSubtotal = Math.round(subTotal);
+                // Update and display Round Off amount
+                $("#round_off_amount").text(roundedSubtotal);
+                order.round_off_amount = roundedSubtotal;
+            } else {
+                $("#round_off_amount").text("0");
+                order.round_off_amount = 0;
+            }
+            console.log('thaila',thailaPrice);
+            var grandTotal = thailaPrice + (isRoundOff ? roundedSubtotal : subTotal);
+
+            // Update and display Sub Total and Grand Total on the page
+            $("#sub_total_amount").text(isRoundOff ? subTotal.toFixed(2) : subTotal.toFixed(2));
+            $("#grand_total_amount").text(isRoundOff ? grandTotal : grandTotal.toFixed(2));
+            // Update the grand total in the order object
+            order.grand_total = grandTotal;
+            updateLocalStorage();
+        }
+        // Load and display the order from localStorage (if any)
+        var storedOrder = JSON.parse(localStorage.getItem("order"));
+        if (storedOrder && storedOrder.products) {
+            order = storedOrder;
+            displayOrder();
+        }
+
+        // Calculate the initial amount
+        calculateAmount();
+        calculateGrandTotal();
+
+
+
+    });
+
+  </script>
+
 @endsection

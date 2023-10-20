@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Setting;
 use App\Models\Uploads;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str as Str;
@@ -62,6 +63,22 @@ if (!function_exists('uploadImage')) {
 			Storage::disk('public')->delete($oldFile);
 		}
 		return $upload;
+	}
+}
+
+if (!function_exists('getSetting')) {
+	function getSetting($key)
+	{
+		$result = null;
+		$setting = Setting::where('key',$key)->where('status',1)->first();
+		if($setting->type == 'image'){
+			$result = $setting->image_url;
+		}elseif($setting->type == 'video'){
+			$result = $setting->video_url;
+		}else{
+			$result = $setting->value;
+		}
+		return $result;
 	}
 }
 
