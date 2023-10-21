@@ -23,7 +23,7 @@ class StoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => ['required','string','max:150','unique:products,name', new TitleValidationRule],
+            'name' => ['required','string','max:150','unique:products,name', 'regex:/^[^\s]+$/'],
             'category_id'=>['required','numeric'],
         ];
     }

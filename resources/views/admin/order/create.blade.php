@@ -25,7 +25,7 @@
       </div>
     </div>
     <div class="section-body">
-        <form>
+        <form method="post" id="SaveInvoiceForm" action="{{route('orders.store')}}">
             <div class="invoice">
                 <div class="invoice-print">
                 <div class="row">
@@ -33,9 +33,11 @@
                         <h3>@lang('quickadmin.order.new_order')</h3>
                         <hr>
                         <div class="row">
+                            @can('order_product_create')
                             <div class="col-md-12">
                                 @include('admin.order.form')
                             </div>
+                            @endcan
                         </div>
                     </div>
                 </div>
@@ -88,7 +90,7 @@
                 <div class="row mt-4">
                     <div class="text-md-right">
                         <div class="float-lg-left">
-                            <button class="btn btn-success btn-icon icon-left"><i class="fas fa-credit-card"></i>@lang('quickadmin.qa_save_invoice')</button>
+                            <button type="submit" class="btn btn-success btn-icon icon-left saveInvoicebtn" id="saveInvoicebtn"><i class="fas fa-credit-card"></i>@lang('quickadmin.qa_save_invoice')</button>
                             {{-- <button class="btn btn-light btn-icon icon-left"><i class="fas fa-print"></i>@lang('quickadmin.qa_print_invoice')</button> --}}
                         </div>
                     </div>
@@ -344,6 +346,60 @@
             calculateGrandTotal();
         });
 
+        $(document).on('submit', '#SaveInvoiceForm', function (e) {
+            e.preventDefault();
+            $("#SaveInvoiceForm button[type=submit]").prop('disabled',true);
+            var formAction = $(this).attr('action');
+            var orderData= JSON.stringify(localStorage.getItem('order'));
+            if (typeof (Storage) !== 'undefined') {
+                    if (navigator.onLine) {
+                        // Send data to the server using AJAX
+                        console.log("Sending data to the server");
+                        // $.ajax({
+                        //     url: formAction,
+                        //     type: 'POST',
+                        //     data: orderData,
+                        //     headers: {
+                        //     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        //     },
+                        //     success: function (response) {
+                        //         console.log('Data stored in the database:', response);
+                        //         // Remove data from localStorage after successful insertion
+                        //         localStorage.removeItem('userData');
+                        //         var alertType = response['alert-type'];
+                        //         var message = response['message'];
+                        //         var title = "{{ trans('quickadmin.order.order') }}";
+                        //         showToaster(title,alertType,message);
+                        //         $('#SaveInvoiceForm')[0].reset();
+                        //         // location.reload();
+                        //         DataaTable.ajax.reload();
+                        //         $("#SaveInvoiceForm button[type=submit]").prop('disabled',false);
+                        //         console.log('Data removed from localStorage.');
+                        //     },
+                        //     error: function (xhr) {
+                        //         var errors= xhr.responseJSON.errors;
+                        //         console.log(xhr.responseJSON);
+
+                        //         for (const elementId in errors) {
+                        //             $("#"+elementId).addClass('is-invalid');
+                        //             var errorHtml = '<div><span class="error text-danger">'+errors[elementId]+'</span></';
+                        //             $(errorHtml).insertAfter($("#"+elementId).parent());
+                        //         }
+                        //         $("#AddForm button[type=submit]").prop('disabled',false);
+                        //     }
+                        // });
+                    }else {
+                        // User is offline
+                        alert("You have lost internet connection, Please connect with the internet to save your Temorary data");
+                        $("#saveInvoicebtn").replaceWith('<button type="submit" class="btn btn-success btn-icon icon-left saveTempInvoiceDatabtn" id="saveTempInvoiceDatabtn"><i class="fas fa-credit-card"></i>@lang("quickadmin.qa_temp_save_invoice")</button>');
+
+                    }
+                } else {
+                    alert('localStorage is not supported in this browser.');
+                }
+
+        });
+
         function updateThailaPrice() {
             var thailaPrice = parseFloat($("#thaila_price").val()) || 0.00;
             order.thailaPrice = thailaPrice;
@@ -392,12 +448,20 @@
                         '<td class="text-right">' + product.price + '</td>' +
                         '<td class="text-right">' + amount + '</td>' +
                         '<td class="text-right">' +
-                            '<div class="d-flex align-items-center buttonGroup justify-content-end"><button class="btn btn-dark btn-sm copy-product" data-row-index="' + i + '">@lang("quickadmin.qa_copy")</button>' +
-                            '<button class="btn btn-info btn-sm edit-product" data-row-index="' + i + '">@lang("quickadmin.qa_edit")</a></button>' +
-                            '<button class="btn btn-danger btn-sm delete-product" data-row-index="' + i + '">@lang("quickadmin.qa_delete")</button>'+
-                            '</div>'+
-                        '</td>' +
-                        '</tr>';
+                            '<div class="d-flex align-items-center buttonGroup justify-content-end">';
+                            if (canCopy) {
+                                rowHtml += '<button class="btn btn-dark btn-sm copy-product" data-row-index="' + i + '">@lang("quickadmin.qa_copy")</button>';
+                            }
+
+                            if (canEdit) {
+                                rowHtml += '<button class="btn btn-info btn-sm edit-product" data-row-index="' + i + '">@lang("quickadmin.qa_edit")</a></button>';
+                            }
+
+                            if (canDelete) {
+                                rowHtml += '<button class="btn btn-danger btn-sm delete-product" data-row-index="' + i + '">@lang("quickadmin.qa_delete")</button>';
+                            }
+                            rowHtml += '</div></td></tr>';
+
                     // Append the row to the table
                     tableBody.append(rowHtml);
                 }

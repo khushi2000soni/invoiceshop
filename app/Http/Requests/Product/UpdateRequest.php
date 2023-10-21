@@ -22,7 +22,7 @@ class UpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => ['required','string','max:150','unique:products,name,'.$this->product->id, new TitleValidationRule],
+            'name' => ['required','string','max:150','unique:products,name,'.$this->product->id,'regex:/^[^\s]+$/'],
             'category_id'=>['required','numeric'],
         ];
     }

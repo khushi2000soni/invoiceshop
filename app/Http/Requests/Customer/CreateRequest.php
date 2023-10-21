@@ -23,8 +23,8 @@ class CreateRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => ['required','string','max:150', new TitleValidationRule],
-            'guardian_name' => ['required','string','max:150',new TitleValidationRule],
+            'name' => ['required','string','max:150', 'regex:/^[^\s]+$/'],
+            'guardian_name' => ['required','string','max:150','regex:/^[^\s]+$/'],
             'email' => ['required','email','unique:customers,email'],
             'phone' => ['required','digits:10','numeric','unique:customers,phone'],
             'address_id'=>['required','numeric'],

@@ -8,51 +8,54 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Laravel\Sanctum\HasApiTokens;
 
-class Customer extends Model
+class OrderProduct extends Model
 {
     use HasFactory,HasApiTokens,Notifiable,SoftDeletes;
-    public $table = 'customers';
+    public $table = 'order_products';
 
     protected $fillable = [
-        'name',
-        'email',
-        'phone',
-        'guardian_name',
-        'address_id',
-        'password',
+        'order_id',
+        'product_id',
+        'quantity',
+        'price',
+        'total_price',
         'created_by',
         'updated_by',
         'deleted_by',
         'deleted_at',
         'updated_at',
         'deleted_at',
-        'is_active',
     ];
 
     protected static function boot()
     {
         parent::boot();
-        static::creating(function(Customer $model) {
+        static::creating(function(Order $model) {
             $model->created_by = auth()->user()->id;
         });
 
-        static::deleting(function(Customer $model) {
+        static::deleting(function(Order $model) {
             $model->deleted_by = auth()->user()->id;
             $model->save();
         });
 
-        static::updating(function(Customer $model) {
+        static::updating(function(Order $model) {
             $model->updated_by = auth()->user()->id;
         });
     }
 
-
-    public function address(){
-        return $this->belongsTo(Address::class, 'address_id','id');
+    public function order(){
+        return $this->belongsTo(Order::class, 'order_id');
     }
 
-    public function deletedByUser(){
+    public function product(){
+        return $this->belongsTo(Product::class, 'product_id');
+    }
+
+    public function deletedBy() {
         return $this->belongsTo(User::class, 'deleted_by');
     }
+
+
 
 }

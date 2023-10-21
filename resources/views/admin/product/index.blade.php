@@ -3,6 +3,11 @@
 @section('title')@lang('quickadmin.product-management.title')@endsection
 @section('customCss')
 <meta name="csrf-token" content="{{ csrf_token() }}" >
+<style>
+    .dropdown-toggle::after {
+    display: none;
+    }
+</style>
 @endsection
 
 @section('main-content')

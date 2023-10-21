@@ -2,18 +2,22 @@
 
 namespace App\Http\Controllers;
 
+use App\DataTables\InvoiceDataTable;
 use App\Models\Customer;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Gate;
 
 class OrderController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(InvoiceDataTable $dataTable)
     {
-        //
+        abort_if(Gate::denies('invoice_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        return $dataTable->render('admin.order.index');
     }
 
     /**
