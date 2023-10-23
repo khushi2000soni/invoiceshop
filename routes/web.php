@@ -57,4 +57,5 @@ Route::middleware(['auth','PreventBackHistory'])->group(function () {
     Route::resource('/products',ProductController::class);
     Route::resource('/device',DeviceController::class);
     Route::resource('/orders',OrderController::class);
+
 });

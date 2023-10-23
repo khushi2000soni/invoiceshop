@@ -11,6 +11,7 @@
     border-top-color: #ededed;
 }
 </style>
+
 @endsection
 
 @section('main-content')
@@ -127,10 +128,13 @@
         grand_total: 0.00
         };
 
+
         // Calculate the subtotal
         order.sub_total = calculateSubtotal();
         // Update the subtotal in the UI
         $('#sub_total_amount').text(order.sub_total.toFixed(2));
+        //$('#sub_total_amount').text(order.sub_total);
+
 
         calculateGrandTotal();
 
@@ -199,7 +203,7 @@
             if (!hasErrors) {
                 order.products.push(productRecord);
                 order.sub_total = calculateSubtotal();
-                $('#sub_total_amount').text(order.sub_total.toFixed(2));
+                $('#sub_total_amount').text(order.sub_total);
                 updateLocalStorage();
                 clearForm();
                 displayOrder();
@@ -341,6 +345,7 @@
             order.products.push(copiedProduct);
             order.sub_total = calculateSubtotal();
             $('#sub_total_amount').text(order.sub_total.toFixed(2));
+            //$('#sub_total_amount').text(order.sub_total);
             updateLocalStorage();
             displayOrder();
             calculateGrandTotal();
@@ -351,43 +356,71 @@
             $("#SaveInvoiceForm button[type=submit]").prop('disabled',true);
             var formAction = $(this).attr('action');
             var orderData= JSON.stringify(localStorage.getItem('order'));
-            if (typeof (Storage) !== 'undefined') {
+                if (typeof (Storage) !== 'undefined') {
+                    // Create the invoiceData object
+                    var invoiceData = {
+                        customer_id: order.customer_id,
+                        thaila_price: order.thailaPrice,
+                        is_round_off: order.is_round_off,
+                        round_off: order.round_off_amount,
+                        grand_total: order.grand_total,
+                        products: order.products, // The products array as-is
+                    };
                     if (navigator.onLine) {
                         // Send data to the server using AJAX
                         console.log("Sending data to the server");
-                        // $.ajax({
-                        //     url: formAction,
-                        //     type: 'POST',
-                        //     data: orderData,
-                        //     headers: {
-                        //     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                        //     },
-                        //     success: function (response) {
-                        //         console.log('Data stored in the database:', response);
-                        //         // Remove data from localStorage after successful insertion
-                        //         localStorage.removeItem('userData');
-                        //         var alertType = response['alert-type'];
-                        //         var message = response['message'];
-                        //         var title = "{{ trans('quickadmin.order.order') }}";
-                        //         showToaster(title,alertType,message);
-                        //         $('#SaveInvoiceForm')[0].reset();
-                        //         // location.reload();
-                        //         DataaTable.ajax.reload();
-                        //         $("#SaveInvoiceForm button[type=submit]").prop('disabled',false);
-                        //         console.log('Data removed from localStorage.');
-                        //     },
-                        //     error: function (xhr) {
-                        //         var errors= xhr.responseJSON.errors;
-                        //         console.log(xhr.responseJSON);
+                        $.ajax({
+                            url: formAction,
+                            type: 'POST',
+                            data: invoiceData,
+                            headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                            },
+                            success: function (response) {
+                                console.log('Data stored in the database:', response);
+                                // Remove data from localStorage after successful insertion
+                                localStorage.removeItem('order');
+                                var alertType = response['alert-type'];
+                                var message = response['message'];
+                                var title = "{{ trans('quickadmin.order.order') }}";
+                                //showToaster(title,alertType,message);
+                                //swal(title, message, alertType);
 
-                        //         for (const elementId in errors) {
-                        //             $("#"+elementId).addClass('is-invalid');
-                        //             var errorHtml = '<div><span class="error text-danger">'+errors[elementId]+'</span></';
-                        //             $(errorHtml).insertAfter($("#"+elementId).parent());
-                        //         }
-                        //         $("#AddForm button[type=submit]").prop('disabled',false);
-                        //     }
-                        // });
+                                swal({
+                                title: title,
+                                text: message,
+                                icon: alertType,
+                                buttons: {
+                                confirm: 'OK',
+                                },
+                                }).then((confirm) => {
+                                if (confirm) {
+                                    window.location.href = "{{ route('orders.index') }}";
+                                }
+                                });
+
+                                $('#SaveInvoiceForm')[0].reset();
+                                location.reload();
+                                //DataaTable.ajax.reload();
+                                $("#SaveInvoiceForm button[type=submit]").prop('disabled',false);
+                                console.log('Data removed from localStorage.');
+                            },
+                            error: function (xhr) {
+                                var errors= xhr.responseJSON.errors;
+                                console.log(xhr.responseJSON);
+                                swal("{{ trans('quickadmin.product.product') }}", 'Some mistake is there.', 'error');
+                                // for (const elementId in errors) {
+                                //     $("#"+elementId).addClass('is-invalid');
+                                //     var errorHtml = '<div><span class="error text-danger">'+errors[elementId]+'</span></';
+                                //     $(errorHtml).insertAfter($("#"+elementId).parent());
+                                // }
+                                // $("#AddForm button[type=submit]").prop('disabled',false);
+                                var alertType = errors['alert-type'];
+                                var message = errors['message'];
+                                var title = "{{ trans('quickadmin.order.order') }}";
+                                //showToaster(title,alertType,message);
+                            }
+                        });
                     }else {
                         // User is offline
                         alert("You have lost internet connection, Please connect with the internet to save your Temorary data");
@@ -436,8 +469,10 @@
 
                 for (var i = 0; i < order.products.length; i++) {
                     var product = order.products[i];
-                    var amount = product.quantity * product.price;
-                    totalAmount += amount;
+                    // var amount = product.quantity * product.price;
+                    // totalAmount += amount;
+                    var amount = (product.quantity * product.price).toFixed(2);
+                    totalAmount += parseFloat(amount);
 
                     // Create a new row for each product
                     var rowHtml = '<tr>' +
@@ -471,7 +506,8 @@
         function calculateSubtotal() {
             let subtotal = 0;
             for (const product of order.products) {
-                subtotal += product.total_price || 0;
+                totalPrice=parseFloat(product.total_price);
+                subtotal += totalPrice || 0;
             }
             return subtotal;
         }
@@ -496,7 +532,9 @@
 
             // Update and display Sub Total and Grand Total on the page
             $("#sub_total_amount").text(isRoundOff ? subTotal.toFixed(2) : subTotal.toFixed(2));
+            //$("#sub_total_amount").text(isRoundOff ? subTotal : subTotal);
             $("#grand_total_amount").text(isRoundOff ? grandTotal : grandTotal.toFixed(2));
+            //$("#grand_total_amount").text(isRoundOff ? grandTotal : grandTotal);
             // Update the grand total in the order object
             order.grand_total = grandTotal;
             updateLocalStorage();

@@ -14,9 +14,9 @@ return new class extends Migration
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
             $table->integer('customer_id')->unsigned()->index();
-            $table->decimal('thaila_price', 15, 2)->defautl(null)->nullable();
+            $table->decimal('thaila_price', 15, 2)->default(null)->nullable();
             $table->tinyInteger('is_round_off')->default(0)->comment('1=> Yes, 0=>No');
-            $table->decimal('round_off', 15, 2);
+            $table->decimal('round_off', 15, 2)->nullable();
             $table->decimal('grand_total', 15, 2);
 			$table->string('invoice_number')->nullable();
 			$table->date('invoice_date')->nullable();

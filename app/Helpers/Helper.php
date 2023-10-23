@@ -82,5 +82,13 @@ if (!function_exists('getSetting')) {
 	}
 }
 
+if (!function_exists('generateInvoiceNumber')) {
+    function generateInvoiceNumber($orderId) {
+        $month = now()->format('M'); // Get the current month abbreviation
+        $invoiceNumber = strtoupper($month) . '-' . str_pad($orderId, 4, '0', STR_PAD_LEFT);
+        return $invoiceNumber;
+    }
+}
+
 
 ?>

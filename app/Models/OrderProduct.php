@@ -30,16 +30,16 @@ class OrderProduct extends Model
     protected static function boot()
     {
         parent::boot();
-        static::creating(function(Order $model) {
+        static::creating(function(OrderProduct $model) {
             $model->created_by = auth()->user()->id;
         });
 
-        static::deleting(function(Order $model) {
+        static::deleting(function(OrderProduct $model) {
             $model->deleted_by = auth()->user()->id;
             $model->save();
         });
 
-        static::updating(function(Order $model) {
+        static::updating(function(OrderProduct $model) {
             $model->updated_by = auth()->user()->id;
         });
     }

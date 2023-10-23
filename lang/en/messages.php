@@ -11,6 +11,8 @@ return [
     'areYouSure'=>'Are you sure you want to delete this record?',
     'deletetitle'=>'Delete Confirmation',
 
+    'error1'=>'An error occurred while saving the order.',
+
 ];
 
 ?>
