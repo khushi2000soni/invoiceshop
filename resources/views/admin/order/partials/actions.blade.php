@@ -5,7 +5,7 @@
 @can('invoice_share')
 <a role="button" class="btn btn-icon btn-success share-order-btn p-1 px-2 mx-1" data-toggle="modal" data-target="#centerModal" title="@lang('quickadmin.qa_share')"><i class="fas fa-share"></i> </a>
 <div class="modal fade px-3" id="centerModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-    <div class="modal-dialog modal-sm" role="document">
+    <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalCenterTitle">@lang('quickadmin.order.share_invoice')</h5>
@@ -16,12 +16,23 @@
             <div class="modal-body">
                     <div class="row">
                         <div class="col-6">
-                            <a href="{{ route('orders.share-email', $order->id) }}" class="btn btn-primary btn-block m-2">
+                            @php
+                                $pdfUrl = asset('admintheme/docpdf/dummypdf.pdf');
+                            @endphp
+                            <a href="mailto:?subject=Invoice Detail&body=Please find the attached invoice for your order.&attach=cid:{{$pdfUrl}}" class="btn btn-primary btn-block m-2 share-email-btn">
                                 <i class="fas fa-envelope font-30 py-1 px-1"></i>
                             </a>
+
                         </div>
                         <div class="col-6">
-                            <a href="{{ route('orders.share-whatsapp', $order->id) }}" class="btn btn-success btn-block m-2">
+                            @php
+                                $pdfPath = public_path('admintheme/docpdf/dummypdf.pdf');
+                                $pdfData = base64_encode(file_get_contents($pdfPath));
+                                $pdfDataUrl = 'data:application/pdf;base64,' . $pdfData;
+                                $recipientNumber = $order->customer->phone; // Replace with the actual recipient's phone number
+                            @endphp
+
+                            <a href="https://api.whatsapp.com/send?phone={{ $recipientNumber }}&text=Please find the attached invoice for your order&data={{ $pdfDataUrl }}" target="_blank" class="btn btn-success btn-block m-2 share-whatsapp-btn">
                                 <i class="fab fa-whatsapp font-30 py-1 px-1"></i>
                             </a>
                         </div>

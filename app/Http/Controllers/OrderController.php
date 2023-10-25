@@ -26,7 +26,8 @@ class OrderController extends Controller
     public function index(InvoiceDataTable $dataTable)
     {
         abort_if(Gate::denies('invoice_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-        return $dataTable->render('admin.order.index');
+        $customers = Customer::all();
+        return $dataTable->render('admin.order.index',compact('customers'));
     }
 
     /**

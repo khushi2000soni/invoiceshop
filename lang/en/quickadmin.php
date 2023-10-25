@@ -271,6 +271,8 @@ return [
             'created_at'=>'Created At',
             'add' 	=> 'Add New',
             'edit' => 'Edit Invoice',
+            'from_date' => 'From Date',
+			'to_date' => 'To Date',
 		],
 	],
 
@@ -579,6 +581,7 @@ return [
 	'qa_dashboard_text' => 'You are logged in!',
 	'qa_forgot_password' => 'Forgot Password?',
     'qa_submit' => 'Submit',
+    'qa_reset' => 'Reset',
 	'qa_remember_me' => 'Remember me',
 	'qa_login' => 'Login',
 	'qa_change_password' => 'Change password',

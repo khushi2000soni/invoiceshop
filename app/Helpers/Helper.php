@@ -1,9 +1,11 @@
 <?php
 
+use App\Models\Order;
 use App\Models\Setting;
 use App\Models\Uploads;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str as Str;
+
 
 
 if (!function_exists('getCommonValidationRuleMsgs')) {
@@ -90,5 +92,19 @@ if (!function_exists('generateInvoiceNumber')) {
     }
 }
 
+if (!function_exists('generateInvoicePdf')) {
+    function generateInvoicePdf($order) {
+        $order = Order::with('orderProduct.product')->findOrFail($order);
+        $pdfFileName = 'invoice_' . $order->invoice_number . '.pdf';
+        $pdf = PDF::loadView('admin.order.pdf.invoice-pdf', compact('order'));
+        $pdfContent = $pdf->output();
+        // Create a temporary file to save the PDF
+        $pdfFileName = 'invoice_' . $order->invoice_number . '.pdf';
+        $tempPdfFile = tempnam(sys_get_temp_dir(), 'invoice_');
+        file_put_contents($tempPdfFile, $pdfContent);
+
+        return $tempPdfFile;
+    }
+}
 
 ?>

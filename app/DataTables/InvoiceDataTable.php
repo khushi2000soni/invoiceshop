@@ -57,6 +57,21 @@ class InvoiceDataTable extends DataTable
      */
     public function query(Order $model): QueryBuilder
     {
+        $isFiltered = false;
+        if(isset(request()->customer_id) && request()->customer_id){
+            $isFiltered = true;
+            $model = $model->where('customer_id', request()->customer_id);
+        }
+
+        if(isset(request()->from_date) && request()->from_date){
+            $isFiltered = true;
+            $model = $model->whereDate('invoice_date','>=', request()->from_date);
+        }
+        if(isset(request()->to_date) && request()->to_date){
+            $isFiltered = true;
+            $model = $model->whereDate('invoice_date','<=', request()->to_date);
+        }
+
         return $model->newQuery()->with('customer');
     }
 
