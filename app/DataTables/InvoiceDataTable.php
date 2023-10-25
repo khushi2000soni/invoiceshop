@@ -39,35 +39,7 @@ class InvoiceDataTable extends DataTable
                 return $order->created_at->format('d-M-Y H:i A');
             })
             ->addColumn('action',function($order){
-                if (Gate::check('invoice_print')) {
-                    $action = '<a type="button" class="btn btn-icon btn-info print-order-btn p-1 px-2" href="'.route('orders.edit', $order->id).'" title="'.trans('quickadmin.qa_print').'"><i class="fas fa-print"></i> </a>';
-                }
-                if (Gate::check('invoice_share')) {
-                    $action .= '<a type="button" class="btn btn-icon btn-success share-order-btn p-1 px-2 mx-1" href="'.route('orders.edit', $order->id).'" title="'.trans('quickadmin.qa_share').'"><i class="fas fa-share"></i> </a>';
-                }
-                if (Gate::check('invoice_access')) {
-                    $action .= '<div class="dropdown d-inline">
-                    <button class="btn btn-primary dropdown-toggle px-2" type="button"
-                      data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" title="'.trans('quickadmin.qa_view').'">
-                      <i class="fas fa-align-justify"></i>
-                    </button>
-                    <div class="dropdown-menu">';
-                        if (Gate::check('invoice_show')) {
-                            $action .= '<a class="dropdown-item has-icon" href="'.route('orders.edit', $order->id).'" title="'.trans('quickadmin.qa_view').'"><i class="far fa-eye"></i> '.trans('quickadmin.qa_view').'</a>';
-                        }
-                        if (Gate::check('invoice_download')) {
-                            $action .= ' <a class="dropdown-item has-icon" href="'.route('orders.edit', $order->id).'" title="'.trans('quickadmin.qa_download').'"><i class="fas fa-cloud-download-alt"></i> '.trans('quickadmin.qa_download').'</a>';
-                        }
-                        if (Gate::check('invoice_edit')) {
-                            $action .= '<a class="dropdown-item has-icon" href="'.route('orders.edit', $order->id).'" title="'.trans('quickadmin.qa_edit').'"><i class="fas fa-edit"></i> '.trans('quickadmin.qa_edit').'</a>';
-                        }
-                        if (Gate::check('invoice_delete')) {
-                        $action .= '<form action="'.route('orders.destroy', $order->id).'" method="POST" class="deleteForm m-1" id="deleteForm">
-                        <a class="dropdown-item has-icon record_delete_btn" role="button" href="#"><i class="fas fa-trash"></i> '.trans('quickadmin.qa_delete').'</a></form>';
-                        }
-                        $action .= '</div>
-                    </div>';
-                }
+                $action =view('admin.order.partials.actions',compact('order'))->render();
                 return $action;
             })
             ->filterColumn('created_at', function ($query, $keyword) {

@@ -39,6 +39,9 @@
             </div>
           </div>
         </div>
+
+
+
   </section>
 @endsection
 
@@ -53,6 +56,7 @@
 
 
 <script>
+
 $(document).ready(function () {
     var DataaTable = $('#dataaTable').DataTable();
 
@@ -80,7 +84,7 @@ $(document).ready(function () {
             success: function (response) {
                 var alertType = response['alert-type'];
                     var message = response['message'];
-                    var title = "{{ trans('quickadmin.order.order') }}";
+                    var title = "{{ trans('quickadmin.order.invoice') }}";
                     showToaster(title,alertType,message);
                     DataaTable.ajax.reload();
                     // location.reload();
@@ -88,14 +92,12 @@ $(document).ready(function () {
             },
             error: function (xhr) {
                 // Handle error response
-                swal("{{ trans('quickadmin.order.order') }}", 'some mistake is there.', 'error');
+                swal("{{ trans('quickadmin.order.invoice') }}", 'Some mistake is there.', 'error');
             }
             });
         }
         });
     });
-
-
 
 
 });
