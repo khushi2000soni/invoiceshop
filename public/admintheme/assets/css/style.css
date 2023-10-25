@@ -3649,6 +3649,19 @@ select.form-control:not([size]):not([multiple]) {
 .card.card-statistic-1 .card-icon-social-bg-tw {
     color: #1da1f2
 }
+.card.card-statistic-1 .card-icon-social-bg-wtp {
+    color: #25D366;
+}
+.card.card-statistic-1 .card-icon-social-bg-gmail {
+    color: #DB4437;
+}
+
+.social-bg-wtp {
+    color: #25D366;
+}
+.social-bg-gmail {
+    color: #DB4437;
+}
 
 .card.card-statistic-1 .card-icon-square {
     width: 40px;

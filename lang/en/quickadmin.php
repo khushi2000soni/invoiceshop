@@ -228,8 +228,11 @@ return [
 	'order'  => [
 		'title'  => 'Orders',
 		'order'  => 'Order',
+        'invoice'  => 'Invoice',
         'create_new_order' => 'Create New Order',
         'new_order'  => 'New Order',
+        'edit_order' => 'Edit Order',
+        'share_invoice'  => 'Share Invoice',
         'list'=>'Order List',
 		'fields' => [
             'select_customer'=>'Select Customer',

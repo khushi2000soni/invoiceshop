@@ -1,5 +1,5 @@
 @can('invoice_print')
-<a type="button" class="btn btn-icon btn-info print-order-btn p-1 px-2" href="{{route('orders.print-pdf', $order->id)}}" title="@lang('quickadmin.qa_print')"><i class="fas fa-print"></i> </a>
+<a type="button" class="btn btn-icon btn-info print-order-btn p-1 px-2" href="{{route('orders.print-pdf', $order->id)}}" title="@lang('quickadmin.qa_print')" target="_blank"><i class="fas fa-print"></i> </a>
 @endcan
 
 @can('invoice_share')

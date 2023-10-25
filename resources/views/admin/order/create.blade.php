@@ -71,7 +71,7 @@
                         <div class="col-lg-auto text-right">
                         <div class="invoice-detail-item mb-2">
                             <div class="d-flex align-items-center justify-content-between"><span class="invoice-detail-value">@lang('quickadmin.order.fields.thaila') : </span> <span class="px-2">
-                            <input type="numeric" class="form-control form-control-sm col-md-2 float-right" id="thaila_price" name="thaila_price" value="0.00" min="0" step=".001">
+                            <input type="numeric" class="form-control form-control-sm col-md-3 float-right" id="thaila_price" name="thaila_price" value="0.00" min="0" step=".001">
                             </span></div>
                         </div>
                         <div class="invoice-detail-item mb-2">
@@ -363,6 +363,7 @@
                         thaila_price: order.thailaPrice,
                         is_round_off: order.is_round_off,
                         round_off: order.round_off_amount,
+                        sub_total: order.sub_total,
                         grand_total: order.grand_total,
                         products: order.products, // The products array as-is
                     };

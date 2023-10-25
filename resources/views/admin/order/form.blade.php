@@ -20,10 +20,8 @@
             <div class="form-group">
                 <label for="product_id">@lang('quickadmin.order.fields.product_name')</label>
                 <div class="input-group">
-                    <select class="form-control @error('product_id') is-invalid @enderror" name="product_id" id="product_id" value="{{ isset($order) ? $order->product_id : old('product_id') }}">
-                        <option value="{{ isset($order) ? $order->product->id : old('product_id') }}">
-                            {{ isset($order) ? $order->product->name : trans('quickadmin.order.fields.select_product') }}
-                        </option>
+                    <select class="form-control @error('product_id') is-invalid @enderror" name="product_id" id="product_id" value="{{ old('product_id') }}">
+                        <option value="">{{ trans('quickadmin.order.fields.select_product') }}</option>
                         @foreach($products as $product)
                         <option value="{{ $product->id }}">{{ $product->name }}</option>
                         @endforeach

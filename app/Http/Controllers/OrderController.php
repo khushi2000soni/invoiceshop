@@ -15,6 +15,7 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 use Exception;
+use Illuminate\Support\Facades\Mail;
 use PDF;
 
 class OrderController extends Controller
