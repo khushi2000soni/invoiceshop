@@ -34,7 +34,7 @@ class RoleDataTable extends DataTable
                 $action = '<a href="'.route('roles.edit',$role->id).'" class="btn btn-outline-info m-1"><i class="fas fa-edit"></i></a>';
                 }
                 if (Gate::check('role_show')) {
-                $action .= '<a href="'.route('roles.show',$role->id).'" class="btn btn-outline-primary m-1"><i class="fas fa-trash"></i></a>';
+                $action .= '<a href="'.route('roles.show',$role->id).'" class="btn btn-outline-danger m-1"><i class="fas fa-trash"></i></a>';
                 }
                 return $action;
             })->rawColumns(['action']);

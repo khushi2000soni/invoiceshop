@@ -166,7 +166,7 @@ $(document).ready(function () {
             type: 'PUT',
             headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        },
+            },
             data: formData,
             success: function (response) {
                     $('#editModal').modal('hide');

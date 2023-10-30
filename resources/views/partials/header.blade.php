@@ -4,7 +4,7 @@
           <ul class="navbar-nav mr-3">
             <li><a href="#" data-toggle="sidebar" class="nav-link nav-link-lg collapse-btn"><i
                   class="fas fa-bars"></i></a></li>
-            <li>
+            {{-- <li>
               <div class="search-group">
                 <span class="nav-link nav-link-lg" id="search">
                   <i class="fa fa-search" aria-hidden="true"></i>
@@ -12,7 +12,7 @@
                 <input type="text" class="search-control" placeholder="search" aria-label="search"
                   aria-describedby="search">
               </div>
-            </li>
+            </li> --}}
           </ul>
         </div>
         <ul class="navbar-nav navbar-right">
@@ -21,7 +21,7 @@
             </a>
           </li>
 
-          <li class="dropdown dropdown-list-toggle"><a href="#" data-toggle="dropdown"
+          {{-- <li class="dropdown dropdown-list-toggle"><a href="#" data-toggle="dropdown"
               class="nav-link notification-toggle nav-link-lg beep"><i class="far fa-bell"></i></a>
             <div class="dropdown-menu dropdown-list dropdown-menu-right">
               <div class="dropdown-header">Notifications
@@ -80,8 +80,8 @@
                 <a href="#">View All <i class="fas fa-chevron-right"></i></a>
               </div>
             </div>
-          </li>
-          <li class="dropdown dropdown-list-toggle"><a href="#" data-toggle="dropdown" class="nav-link nav-link-lg"><i
+          </li> --}}
+          {{-- <li class="dropdown dropdown-list-toggle"><a href="#" data-toggle="dropdown" class="nav-link nav-link-lg"><i
                 class="far fa-envelope"></i></a>
             <div class="dropdown-menu dropdown-list dropdown-menu-right">
               <div class="dropdown-header">Messages
@@ -155,7 +155,7 @@
                 <a href="#">View All <i class="fas fa-chevron-right"></i></a>
               </div>
             </div>
-          </li>
+          </li> --}}
 
           <li class="dropdown"><a href="#" data-toggle="dropdown"
               class="nav-link dropdown-toggle nav-link-lg nav-link-user">
@@ -168,9 +168,6 @@
               </a>
               <a href="{{route('user.change-password')}}" class="dropdown-item has-icon">
                 <i class="fas fa-lock"></i> @lang('quickadmin.qa_change_password')
-              </a>
-              <a href="#" class="dropdown-item has-icon">
-                <i class="fas fa-cog"></i> Settings
               </a>
               <div class="dropdown-divider"></div>
               <a href="{{ route('logout') }}" class="dropdown-item has-icon text-danger">

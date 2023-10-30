@@ -43,6 +43,23 @@ class Setting extends Model
 
     }
 
+    public function uploads()
+    {
+        return $this->morphMany(Uploads::class, 'uploadsable');
+    }
+
+    public function image()
+    {
+        return $this->morphOne(Uploads::class, 'uploadsable')->where('type','setting');
+    }
+
+    public function getImageUrlAttribute()
+    {
+        if($this->image){
+            return $this->image->file_url;
+        }
+        return "";
+    }
     public function createdBy()
     {
         return $this->belongsTo(User::class, 'created_by', 'id');

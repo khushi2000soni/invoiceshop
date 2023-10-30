@@ -164,6 +164,7 @@ class UserController extends Controller
             $actionType = 'update';
         }
         //dd($user, $request->profile_image,$actionType, $uploadId);
+
         $response = uploadImage($user, $request->profile_image, 'user/profile-images',"profile", 'original', $actionType, $uploadId);
 
         return response()->json(['success' => true,

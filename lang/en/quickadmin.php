@@ -309,6 +309,7 @@ return [
 
     'settings' => [
 		'title' 	=> 'Settings',
+        'manage_settings'=>'Manage Settings'
 	],
 
 
@@ -355,7 +356,7 @@ return [
 
 
 
-    'qa_company_name' 	=> 'Company Name',
+    'qa_company_name' 	=> 'Invoice Management',
 	'qa_create_invoice' 	=> 'Create Estimate',
 	'qa_save_invoice' 	=> 'Save Invoice',
     'qa_temp_save_invoice' 	=> 'Save Temporary Invoice',

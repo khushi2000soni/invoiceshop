@@ -2,15 +2,14 @@
     <aside id="sidebar-wrapper">
       <div class="sidebar-brand">
         <a href="#">
-          <img alt="image" src="{{ asset('admintheme/assets/img/logo.png') }}" class="header-logo" />
-          <span class="logo-name">Grexa</span>
+          <img alt="image" src="{{ getSetting('site_logo') ? getSetting('site_logo') : asset('admintheme/assets/img/logo.png') }}" class="header-logo" />
         </a>
       </div>
       <ul class="sidebar-menu">
         <li class="menu-header">Main</li>
         <li class="dropdown active">
           {{-- <a href="{{ route('admin.dashboard') }}" class="nav-link "><i class="fas fa-home"></i><span>Dashboard</span></a> --}}
-          <a href="#" class="nav-link "><i class="fas fa-home"></i><span>@lang('quickadmin.qa_dashboard')</span></a>
+          <a href="{{ route('dashboard') }}" class="nav-link "><i class="fas fa-home"></i><span>@lang('quickadmin.qa_dashboard')</span></a>
         </li>
         @can('role_access')
         <li class="dropdown">

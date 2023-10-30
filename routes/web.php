@@ -66,5 +66,6 @@ Route::middleware(['auth','PreventBackHistory'])->group(function () {
     Route::get('/reports',[ReportController::class,'index'])->name('reports');
     Route::get('/fetch-report-data', [ReportController::class,'fetchReportData'])->name('fetchReportData');
     Route::get('/getSoldProducts', [ReportController::class,'getSoldProducts'])->name('getSoldProducts');
-    Route::get('/settings',[SettingController::class,'index'])->name('settings');
+    Route::get('/settings/{tab?}',[SettingController::class,'index'])->name('settings');
+    Route::post('/settings/update',[SettingController::class,'update'])->name('settings.update');
 });

@@ -47,26 +47,47 @@ if (!function_exists('uploadImage')) {
 	function uploadImage($directory, $file, $folder, $type="profile", $fileType="jpg",$actionType="save",$uploadId=null,$orientation=null)
 	{
 		$oldFile = null;
-		if($actionType == "save"){
+
+        if($actionType == "save"){
+
 			$upload               		= new Uploads;
 		}else{
+
 			$upload               		= Uploads::find($uploadId);
 			$oldFile = $upload->file_path;
+
 		}
-		$upload->file_path      	= $file->store($folder, 'public');
+        $upload->file_path      	= $file->store($folder, 'public');
 		$upload->extension      	= $file->getClientOriginalExtension();
 		$upload->original_file_name = $file->getClientOriginalName();
 		$upload->type 				= $type;
 		$upload->file_type 			= $fileType;
 		$upload->orientation 		= $orientation;
 		$response             		= $directory->uploads()->save($upload);
-		// delete old file
-		if($oldFile){
-			Storage::disk('public')->delete($oldFile);
-		}
+
+        // delete old file
+        if ($oldFile) {
+            Storage::disk('public')->delete($oldFile);
+        }
+
 		return $upload;
 	}
 }
+
+if (!function_exists('deleteFile')) {
+	/**
+	 * Destroy Old Image.	 *
+	 * @param int $id
+	 */
+	function deleteFile($upload_id)
+	{
+		$upload = Uploads::find($upload_id);
+		Storage::disk('public')->delete($upload->file_path);
+		$upload->delete();
+		return true;
+	}
+}
+
 
 if (!function_exists('getSetting')) {
 	function getSetting($key)
