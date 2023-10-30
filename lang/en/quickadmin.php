@@ -276,10 +276,23 @@ return [
 		],
 	],
 
-	'monthly-report' => [
-		'title' => 'Monthly report',
-		'fields' => [
-		],
+	'reports' => [
+		'title' => 'Report',
+        'order' => 'Order',
+        'monthly' => 'Monthly',
+        'weekly' => 'Weekly',
+        'total_order' => 'Total Order',
+        'total_product' => 'Total Product',
+        'total_customer' => 'Total Customer',
+        'no_of_devices' => 'No. of Devices',
+        'today' => 'Today',
+        '7days' => '7 Days',
+        '30days' => '30 Days',
+        'customer' => 'Customer',
+        'amount' => 'Amount',
+        'products' => 'Products',
+        'title' => 'Report',
+
 	],
 
 	'report-management' => [
@@ -293,6 +306,11 @@ return [
 	'master-management' => [
 		'title' 	=> 'Master Management',
 	],
+
+    'settings' => [
+		'title' 	=> 'Settings',
+	],
+
 
 	'brand_master'  => [
 		'title'  => 'Brand Master',
@@ -326,13 +344,6 @@ return [
 		],
 	],
 
-	'split'  => [
-		'title'  => 'Split Estimate',
-		'fields' 	=> [
-			'from_date' => 'From Date',
-			'to_date' => 'To Date',
-		],
-	],
 
 	'report'  => [
 		'title'  => 'Reports',
@@ -342,22 +353,7 @@ return [
 		'filter_area_list'      => 'Filter area list',
 	],
 
-	'reports'  => [
-		'title'  => 'Reports Management',
 
-		'areaFinance'  => [
-			'title'  => 'Area Finance Report',
-			'fields' 	=> [
-				'name'   => 'Area Name',
-				'debit'  => 'Debit',
-				'credit' => 'Credit',
-			],
-		],
-
-		'salesReport'=>[
-			'title'=>'Estimates Report'
-		]
-	],
 
     'qa_company_name' 	=> 'Company Name',
 	'qa_create_invoice' 	=> 'Create Estimate',

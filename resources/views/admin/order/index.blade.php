@@ -82,7 +82,7 @@
                 <div class="card">
                 <div class="card-body">
                     <div class="table-responsive">
-                    {{$dataTable->table(['class' => 'table dt-responsive', 'style' => 'width:100%;','id'=>'dataaTable'])}}
+                    {{$dataTable->table(['class' => 'table dt-responsive invoicdatatable', 'style' => 'width:100%;','id'=>'dataaTable'])}}
                     </div>
                 </div>
                 </div>

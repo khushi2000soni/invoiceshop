@@ -12398,3 +12398,31 @@ body:not(.sidebar-mini) .sidebar-style-2 .sidebar-menu li.active ul.dropdown-men
     font-weight: 700;
     line-height: 100%;
 }
+
+
+/* *************** */
+.table-responsive tbody tr td:last-child {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.table-responsive tbody tr td:last-child.dataTables_empty{
+    display: table-cell;
+}
+.table-responsive tbody tr td:last-child .btn {
+    line-height: 20px;
+    height: 27px;
+    width: 27px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.table-responsive {
+    position: relative;
+}
+.table-responsive .dataTables_filter {
+    position: absolute;
+    right: 0;
+    top: 9px;
+}

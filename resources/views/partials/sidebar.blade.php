@@ -41,6 +41,12 @@
         </li>
         @endcan
 
+        @can('report_access')
+        <li class="dropdown">
+            <a href="{{route('reports')}}" class="nav-link"><i class="fab fa-gg"></i><span>@lang('quickadmin.report-management.title')</span></a>
+        </li>
+        @endcan
+
         <li class="dropdown">
           <a href="#" class="nav-link has-dropdown"><i class="fab fa-gg"></i><span>@lang('quickadmin.master-management.title')</span></a>
           <ul class="dropdown-menu">
@@ -56,6 +62,12 @@
 
           </ul>
         </li>
+
+        @can('setting_access')
+        <li class="dropdown">
+            <a href="{{route('settings')}}" class="nav-link"><i class="fas fa-cog"></i><span>@lang('quickadmin.settings.title')</span></a>
+        </li>
+        @endcan
         {{-- <li class="dropdown">
           <a href="#" class="nav-link has-dropdown"><i class="fab fa-gg"></i><span>Employee</span></a>
           <ul class="dropdown-menu">

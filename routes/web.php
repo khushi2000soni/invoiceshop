@@ -10,7 +10,9 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DeviceController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ReportController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\SettingController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -61,5 +63,8 @@ Route::middleware(['auth','PreventBackHistory'])->group(function () {
     Route::get('/print-pdf/{order}',[OrderController::class,'printPDF'])->name('orders.print-pdf');
     Route::get('/share-email/{order}',[OrderController::class,'shareEmail'])->name('orders.share-email');
     Route::get('/share-whatsapp/{order}',[OrderController::class,'shareWhatsApp'])->name('orders.share-whatsapp');
-
+    Route::get('/reports',[ReportController::class,'index'])->name('reports');
+    Route::get('/fetch-report-data', [ReportController::class,'fetchReportData'])->name('fetchReportData');
+    Route::get('/getSoldProducts', [ReportController::class,'getSoldProducts'])->name('getSoldProducts');
+    Route::get('/settings',[SettingController::class,'index'])->name('settings');
 });

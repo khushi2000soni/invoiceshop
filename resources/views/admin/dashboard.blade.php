@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('title')Dashboard @endsection
-@section('metdescp')Admin Dashboard @endsection
+@section('metdescp')Dashboard @endsection
 
 @section('main-content')
 

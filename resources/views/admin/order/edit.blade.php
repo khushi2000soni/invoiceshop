@@ -54,7 +54,7 @@
                                 <th class="text-center">@lang('quickadmin.order.fields.quantity')</th>
                                 <th class="text-center">@lang('quickadmin.order.fields.price')</th>
                                 <th class="text-right">@lang('quickadmin.order.fields.sub_total')</th>
-                                <th class="text-right">@lang('quickadmin.qa_action')</th>
+                                <th class="text-center">@lang('quickadmin.qa_action')</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -506,16 +506,16 @@
                         '<td class="text-right">' + amount + '</td>' +
                         '<td class="text-right">' +
                             '<div class="d-flex align-items-center buttonGroup justify-content-end">';
-                            if (canCopy) {
-                                rowHtml += '<button class="btn btn-dark btn-sm copy-product" data-row-index="' + i + '">@lang("quickadmin.qa_copy")</button>';
+                                if (canCopy) {
+                                rowHtml += '<button class="btn btn-dark btn-sm copy-product" title="@lang("quickadmin.qa_copy")" data-row-index="' + i + '"><i class="fas fa-copy"></i></button>';
                             }
 
                             if (canEdit) {
-                                rowHtml += '<button class="btn btn-info btn-sm edit-product" data-row-index="' + i + '">@lang("quickadmin.qa_edit")</a></button>';
+                                rowHtml += '<button class="btn btn-info btn-sm edit-product" title="@lang("quickadmin.qa_edit")" data-row-index="' + i + '"></a><i class="fas fa-edit"></i></button>';
                             }
 
                             if (canDelete) {
-                                rowHtml += '<button class="btn btn-danger btn-sm delete-product" data-row-index="' + i + '">@lang("quickadmin.qa_delete")</button>';
+                                rowHtml += '<button class="btn btn-danger btn-sm delete-product" title="@lang("quickadmin.qa_delete")" data-row-index="' + i + '"><i class="fas fa-trash"></i></button>';
                             }
                             rowHtml += '</div></td></tr>';
 
