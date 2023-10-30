@@ -65,6 +65,7 @@
                         <div class="col">
                             <div class="custom-control custom-checkbox pt-4">
                                 <input type="checkbox" class="custom-control-input" id="is_round_off">
+
                                 <label class="custom-control-label" for="is_round_off">@lang('quickadmin.order.fields.round_off')</label>
                             </div>
                         </div>
