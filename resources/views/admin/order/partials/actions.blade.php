@@ -17,21 +17,21 @@
                     <div class="row">
                         <div class="col-6">
                             @php
-                                $pdfUrl = asset('admintheme/docpdf/dummypdf.pdf');
+                                $recipientMail = $order->customer->email;
                             @endphp
-                            <a href="mailto:?subject=Invoice Detail&body=Please find the attached invoice for your order.&attach=cid:{{$pdfUrl}}" class="btn btn-danger text-white btn-block m-2 share-email-btn">
+                            <a href="javascript:void(0);" data-order-id="{{ $order->id }}" data-recipient-email="{{ $recipientMail }}" data-href="{{route('orders.generate-pdf', $order->id)}}" class="btn btn-danger text-white btn-block m-2 share-email-btn">
                                 <i class="fas fa-envelope py-1 px-1"></i>
                             </a>
+
                         </div>
                         <div class="col-6">
                             @php
                                 $pdfPath = public_path('admintheme/docpdf/dummypdf.pdf');
                                 $pdfData = base64_encode(file_get_contents($pdfPath));
                                 $pdfDataUrl = 'data:application/pdf;base64,' . $pdfData;
-                                $recipientNumber = $order->customer->phone; // Replace with the actual recipient's phone number
+                                $recipientNumber = $order->customer->phone;
                             @endphp
-
-                            <a href="https://api.whatsapp.com/send?phone={{ $recipientNumber }}&text=Please find the attached invoice for your order&data={{ $pdfDataUrl }}" target="_blank" class="btn btn-success btn-block m-2 share-whatsapp-btn">
+                            <a href="javascript:void(0);" class="btn btn-success btn-block m-2 share-whatsapp-btn" data-order-id="{{ $order->id }}" data-recipient-number="{{ $recipientNumber }}" data-href="{{route('orders.generate-pdf', $order->id)}}">
                                 <i class="fab fa-whatsapp py-1 px-1"></i>
                             </a>
                         </div>
@@ -41,6 +41,7 @@
     </div>
 </div>
 @endcan
+
 
 @can('invoice_access')
 <div class="dropdown d-inline">

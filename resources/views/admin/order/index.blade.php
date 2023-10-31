@@ -120,6 +120,39 @@ $(document).ready(function () {
         });
     });
 
+
+    $(document).on('click', '.share-email-btn', function(e) {
+        e.preventDefault();
+        var recipientMail = $(this).data('recipient-email');
+        var orderId = $(this).data('order-id');
+        var pdfDownloadUrl = $(this).data('href');
+        var pdfLink = document.createElement('a');
+        pdfLink.href = pdfDownloadUrl;
+        pdfLink.download = 'invoice.pdf';
+        pdfLink.style.display = 'none';
+        document.body.appendChild(pdfLink);
+        pdfLink.click();
+        document.body.removeChild(pdfLink);
+        var mailtoUrl = 'mailto:' + recipientMail + '?subject=Invoice Detail&body=Hello Dear,Please check your invoice.';
+        window.location.href = mailtoUrl;
+    });
+
+    $(document).on('click','.share-whatsapp-btn',function(e){
+        e.preventDefault();
+        var recipientNumber = $(this).data('recipient-number');
+        var orderId = $(this).data('order-id');
+        var pdfDownloadUrl = $(this).data('href');
+        var pdfLink = document.createElement('a');
+        pdfLink.href = pdfDownloadUrl;
+        pdfLink.download = 'invoice.pdf';
+        pdfLink.style.display = 'none';
+        document.body.appendChild(pdfLink);
+        pdfLink.click();
+        document.body.removeChild(pdfLink);
+        var whatsappUrl = 'https://api.whatsapp.com/send?phone=' + recipientNumber + '&text=Please check your invoice.';
+        window.open(whatsappUrl, '_blank');
+    });
+
     $(document).on('submit', '.deleteForm', function(e) {
         e.preventDefault();
         console.log(2);

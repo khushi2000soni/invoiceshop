@@ -206,15 +206,10 @@ class OrderController extends Controller
 
     public function generatePdf($orderId)
     {
+        //dd($orderId);
         $order = Order::with('orderProduct.product')->findOrFail($orderId);
-
-        // Load the view for the PDF content
         $pdf = PDF::loadView('admin.order.pdf.invoice-pdf', compact('order'));
-
-        // Optionally, customize PDF settings
         $pdf->setPaper('A4', 'portrait');
-
-        // Generate and download the PDF
         return $pdf->download('order_' . $order->invoice_number . '.pdf');
     }
 
