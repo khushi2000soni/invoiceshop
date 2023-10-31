@@ -127,13 +127,14 @@ $(document).ready(function () {
         var orderId = $(this).data('order-id');
         var pdfDownloadUrl = $(this).data('href');
         var pdfLink = document.createElement('a');
+        var mssg="{{ getSetting('share_invoice_mail_message')}}";
         pdfLink.href = pdfDownloadUrl;
         pdfLink.download = 'invoice.pdf';
         pdfLink.style.display = 'none';
         document.body.appendChild(pdfLink);
         pdfLink.click();
         document.body.removeChild(pdfLink);
-        var mailtoUrl = 'mailto:' + recipientMail + '?subject=Invoice Detail&body=Hello Dear,Please check your invoice.';
+        var mailtoUrl = 'mailto:' + recipientMail + '?subject=Invoice Detail&body='+mssg;
         window.location.href = mailtoUrl;
     });
 
@@ -143,13 +144,14 @@ $(document).ready(function () {
         var orderId = $(this).data('order-id');
         var pdfDownloadUrl = $(this).data('href');
         var pdfLink = document.createElement('a');
+        var mssg="{{ getSetting('share_invoice_whatsapp_message')}}";
         pdfLink.href = pdfDownloadUrl;
         pdfLink.download = 'invoice.pdf';
         pdfLink.style.display = 'none';
         document.body.appendChild(pdfLink);
         pdfLink.click();
         document.body.removeChild(pdfLink);
-        var whatsappUrl = 'https://api.whatsapp.com/send?phone=' + recipientNumber + '&text=Please check your invoice.';
+        var whatsappUrl = 'https://api.whatsapp.com/send?phone=' + recipientNumber + '&text='+mssg;
         window.open(whatsappUrl, '_blank');
     });
 

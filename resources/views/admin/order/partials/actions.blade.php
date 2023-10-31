@@ -29,7 +29,7 @@
                                 $pdfPath = public_path('admintheme/docpdf/dummypdf.pdf');
                                 $pdfData = base64_encode(file_get_contents($pdfPath));
                                 $pdfDataUrl = 'data:application/pdf;base64,' . $pdfData;
-                                $recipientNumber = $order->customer->phone;
+                                $recipientNumber = $order->customer->phone; // Replace with the actual recipient's phone number
                             @endphp
                             <a href="javascript:void(0);" class="btn btn-success btn-block m-2 share-whatsapp-btn" data-order-id="{{ $order->id }}" data-recipient-number="{{ $recipientNumber }}" data-href="{{route('orders.generate-pdf', $order->id)}}">
                                 <i class="fab fa-whatsapp py-1 px-1"></i>

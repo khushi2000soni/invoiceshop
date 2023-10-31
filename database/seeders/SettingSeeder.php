@@ -60,6 +60,28 @@ class SettingSeeder extends Seeder
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'created_by' => 1,
             ],
+            [
+                'id'     => 5,
+                'key'    => 'share_invoice_mail_message',
+                'value'  => 'Hello Dear, Please check your attached invoice pdf.',
+                'type'   => 'text',
+                'display_name'=>'Share-Invoice Mail Message',
+                'group'  => 'web',
+                'status' => 1,
+                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+                'created_by' => 1,
+            ],
+            [
+                'id'     => 6,
+                'key'    => 'share_invoice_whatsapp_message',
+                'value'  =>  'Hello Dear, Please check your attached invoice pdf.',
+                'type'   => 'text',
+                'display_name'=>'Share-Invoice Whatsapp Message',
+                'group'  => 'web',
+                'status' => 1,
+                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+                'created_by' => 1,
+            ],
         ];
 
         Setting::insert($settings);
