@@ -75,7 +75,12 @@ class UserDataTable extends DataTable
      */
     public function query(User $model): QueryBuilder
     {
-        return $model->newQuery();
+        $query = $model->newQuery()->select(['users.*']);
+        if (!(auth()->user()->hasRole(1))) {
+            $query->whereNotIn('id', [1]);
+        }
+        return $this->applyScopes($query);
+        // return $model->newQuery();
     }
 
     /**

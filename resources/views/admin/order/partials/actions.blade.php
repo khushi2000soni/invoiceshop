@@ -20,7 +20,7 @@
                                 $pdfUrl = asset('admintheme/docpdf/dummypdf.pdf');
                             @endphp
                             <a href="mailto:?subject=Invoice Detail&body=Please find the attached invoice for your order.&attach=cid:{{$pdfUrl}}" class="btn btn-primary btn-block m-2 share-email-btn">
-                                <i class="fas fa-envelope font-30 py-1 px-1"></i>
+                                <i class="fas fa-envelope py-1 px-1"></i>
                             </a>
 
                         </div>
@@ -33,7 +33,7 @@
                             @endphp
 
                             <a href="https://api.whatsapp.com/send?phone={{ $recipientNumber }}&text=Please find the attached invoice for your order&data={{ $pdfDataUrl }}" target="_blank" class="btn btn-success btn-block m-2 share-whatsapp-btn">
-                                <i class="fab fa-whatsapp font-30 py-1 px-1"></i>
+                                <i class="fab fa-whatsapp py-1 px-1"></i>
                             </a>
                         </div>
                     </div>
