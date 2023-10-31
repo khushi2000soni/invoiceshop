@@ -8,7 +8,7 @@
 <!-- Page Specific JS File -->
 
 <!-- Template JS File -->
-{{-- <script src="{{ asset('admintheme/assets/bundles/prism/prism.js') }}"></script> --}}
+<script src="{{ asset('admintheme/assets/bundles/prism/prism.js') }}"></script>
 <script src="{{ asset('admintheme/assets/js/scripts.js') }}"></script>
 <script src="{{ asset('admintheme/assets/bundles/jquery-ui/jquery-ui.min.js') }}"></script>
 <script src="{{ asset('admintheme/assets/bundles/izitoast/js/iziToast.min.js') }}"></script>
@@ -18,6 +18,10 @@
 <script src="{{ asset('admintheme/assets/bundles/select2/dist/js/select2.full.min.js') }}"></script>
 
 <script>
+    // Add an event listener for the modal's "hidden.bs.modal" event
+
+
+    $('#centerModal').modal('dispose');
     function showToaster(title,alertType, message) {
         console.log(alertType);
         var position = 'topRight'; // You can change the default position here

@@ -19,10 +19,9 @@
                             @php
                                 $pdfUrl = asset('admintheme/docpdf/dummypdf.pdf');
                             @endphp
-                            <a href="mailto:?subject=Invoice Detail&body=Please find the attached invoice for your order.&attach=cid:{{$pdfUrl}}" class="btn btn-primary btn-block m-2 share-email-btn">
+                            <a href="mailto:?subject=Invoice Detail&body=Please find the attached invoice for your order.&attach=cid:{{$pdfUrl}}" class="btn btn-danger text-white btn-block m-2 share-email-btn">
                                 <i class="fas fa-envelope py-1 px-1"></i>
                             </a>
-
                         </div>
                         <div class="col-6">
                             @php

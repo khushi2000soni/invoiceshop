@@ -44,19 +44,16 @@
 {!! $dataTable->scripts() !!}
   <script src="{{ asset('admintheme/assets/bundles/datatables/datatables.min.js') }}"></script>
   <script src="{{ asset('admintheme/assets/bundles/datatables/DataTables-1.10.16/js/dataTables.bootstrap4.min.js') }}"></script>
-  <script src="{{ asset('admintheme/assets/bundles/jquery-ui/jquery-ui.min.js') }}"></script>
-  <!-- Page Specific JS File -->
+    <!-- Page Specific JS File -->
   <script src="{{ asset('admintheme/assets/js/page/datatables.js') }}"></script>
-
-
 <script>
 $(document).ready(function () {
     var DataaTable = $('#dataaTable').DataTable();
-
     // Create Form
 
-    $(document).on('click','.addRecordBtn', function(){
+    $(document).off('click', '.addRecordBtn').on('click', '.addRecordBtn', function (e) {
        // $('#preloader').css('display', 'flex');
+       e.preventDefault();
         var hrefUrl = $(this).attr('data-href');
         console.log(hrefUrl);
         $.ajax({
@@ -74,7 +71,8 @@ $(document).ready(function () {
         });
     });
 
-    $("body").on("click", ".edit-device-btn", function () {
+    $("body").on("click", ".edit-device-btn", function (e) {
+        e.preventDefault();
             var hrefUrl = $(this).attr('data-href');
             console.log(hrefUrl);
             $.ajax({
