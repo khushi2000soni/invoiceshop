@@ -11,11 +11,11 @@
           {{-- <a href="{{ route('admin.dashboard') }}" class="nav-link "><i class="fas fa-home"></i><span>Dashboard</span></a> --}}
           <a href="{{ route('dashboard') }}" class="nav-link "><i class="fas fa-home"></i><span>@lang('quickadmin.qa_dashboard')</span></a>
         </li>
-        @can('role_access')
+        {{-- @can('role_access')
         <li class="dropdown">
             <a href="{{route('roles.index')}}" class="nav-link"><i class="fab fa-gg"></i><span>@lang('quickadmin.roles.title')</span></a>
         </li>
-        @endcan
+        @endcan --}}
 
         @can('staff_access')
         <li class="dropdown">
