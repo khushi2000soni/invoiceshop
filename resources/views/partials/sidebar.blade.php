@@ -59,6 +59,7 @@
         </li>
         @endcan
 
+        @can('master_access')
         <li class="dropdown">
             <a href="#" class="nav-link has-dropdown"><i class="fab fa-gg"></i><span>@lang('quickadmin.master-management.title')</span></a>
             <ul class="dropdown-menu">
@@ -79,7 +80,7 @@
                 @endcan
             </ul>
         </li>
-
+        @endcan
         @can('setting_access')
         <li class="{{ Request::is('settings*') ? 'active' : '' }}">
             <a href="{{ route('settings') }}" class="nav-link">

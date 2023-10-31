@@ -33,7 +33,7 @@
             <div class="form-group">
                 <label for="quantity">@lang('quickadmin.order.fields.quantity')</label>
                 <div class="input-group">
-                    <input type="text" class="form-control" name="quantity" value="{{ isset($order) ? $order->quantity : old('quantity') }}" id="quantity" autocomplete="true">
+                    <input type="text" class="form-control" min="0" name="quantity" value="{{ isset($order) ? $order->quantity : old('quantity') }}" id="quantity" autocomplete="true" onkeydown="javascript: return ['Backspace','Delete','ArrowLeft','ArrowRight'].includes(event.code) ? true : !isNaN(Number(event.key)) && event.code!=='Space'">
                 </div>
             </div>
         </div>
@@ -41,7 +41,7 @@
             <div class="form-group">
                 <label for="price">@lang('quickadmin.order.fields.price')</label>
                 <div class="input-group">
-                    <input type="text" class="form-control" name="price" value="{{ isset($order) ? $order->price : old('price') }}" id="price" autocomplete="true">
+                    <input type="text" class="form-control" min="0" name="price" value="{{ isset($order) ? $order->price : old('price') }}" id="price" autocomplete="true" onkeydown="javascript: return ['Backspace','Delete','ArrowLeft','ArrowRight'].includes(event.code) ? true : !isNaN(Number(event.key)) && event.code!=='Space'">
                 </div>
             </div>
         </div>

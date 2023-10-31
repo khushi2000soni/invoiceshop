@@ -32,9 +32,9 @@ class AddressDataTable extends DataTable
                 return $address->created_at->format('d-M-Y H:i A');
             })
             ->addColumn('action',function($address){
-
+                $action='';
                 if (Gate::check('address_edit')) {
-                $action = '<button type="button" class="btn btn-outline-info edit-address-btn" data-toggle="modal" data-target="#editAddressModal" data-id="'.encrypt($address->id).'" data-address="'. $address->address .'"><i class="fas fa-edit"></i></button>';
+                $action .= '<button type="button" class="btn btn-outline-info edit-address-btn" data-toggle="modal" data-target="#editAddressModal" data-id="'.encrypt($address->id).'" data-address="'. $address->address .'"><i class="fas fa-edit"></i></button>';
             }
                 if (Gate::check('address_delete')) {
                 $action .= '<form action="'.route('address.destroy', $address->id).'" method="POST" class="deleteAddressForm m-1" id="deleteAddressForm">

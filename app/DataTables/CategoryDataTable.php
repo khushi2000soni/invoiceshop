@@ -35,9 +35,9 @@ class CategoryDataTable extends DataTable
                 return $category->created_at->format('d-M-Y H:i A');
             })
             ->addColumn('action',function($category){
-
+                $action='';
                 if (Gate::check('category_edit')) {
-                $action = '<button type="button" class="btn btn-outline-info edit-category-btn" data-toggle="modal" data-target="#editCategoryModal" data-id="'.encrypt($category->id).'" data-name="'. $category->name .'"><i class="fas fa-edit"></i></button>';
+                $action .= '<button type="button" class="btn btn-outline-info edit-category-btn" data-toggle="modal" data-target="#editCategoryModal" data-id="'.encrypt($category->id).'" data-name="'. $category->name .'"><i class="fas fa-edit"></i></button>';
             }
                 if (Gate::check('category_delete')) {
                 $action .= '<form action="'.route('categories.destroy', $category->id).'" method="POST" class="deleteCategoryForm m-1" id="deleteCategoryForm">

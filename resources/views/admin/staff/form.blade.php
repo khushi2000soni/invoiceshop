@@ -42,13 +42,14 @@
             <div class="form-group">
                 <label for="role_id">@lang('quickadmin.users.fields.role')</label>
                 <div class="input-group">
-                    <select class="form-control @error('role_id') is-invalid @enderror" name="role_id" id="role_id" value="{{ isset($user) ? $user->role_id : old('role_id') }}">
+                    <select class="form-control @error('role_id') is-invalid @enderror" name="role_id" id="role_id" >
                         <option value="{{ isset($user) ? $user->roles->first()->id : old('role_id') }}">
-                            {{ isset($user) ? $user->roles->first()->name : old('role_id') }}
+                            {{ isset($user) ? $user->roles->first()->name : 'Select Role' }}
                         </option>
-
                         @foreach($roles as $rolee)
-                        <option value="{{ $rolee->id }}">{{ $rolee->name }}</option>
+                        @if (!isset($user) || $user->roles->first()->id !== $rolee->id)
+                            <option value="{{ $rolee->id }}">{{ $rolee->name }}</option>
+                        @endif
                         @endforeach
                     </select>
                 </div>

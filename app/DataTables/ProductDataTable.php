@@ -36,8 +36,9 @@ class ProductDataTable extends DataTable
                 return $product->created_at->format('d-M-Y H:i A');
             })
             ->addColumn('action',function($product){
+                $action='';
                 if (Gate::check('product_edit')) {
-                $action = '<button type="button" class="btn btn-icon btn-info edit-products-btn p-1 mx-1" data-toggle="modal" data-target="#editModal" data-id="'.encrypt($product->id).'" data-href="'.route('products.edit', $product->id).'"><i class="fas fa-edit"></i></button>';
+                $action .= '<button type="button" class="btn btn-icon btn-info edit-products-btn p-1 mx-1" data-toggle="modal" data-target="#editModal" data-id="'.encrypt($product->id).'" data-href="'.route('products.edit', $product->id).'"><i class="fas fa-edit"></i></button>';
                 }
                 if (Gate::check('product_delete')) {
                 $action .= '<form action="'.route('products.destroy', $product->id).'" method="POST" class="deleteForm m-1" id="deleteForm">

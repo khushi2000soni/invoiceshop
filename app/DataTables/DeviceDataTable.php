@@ -45,8 +45,9 @@ class DeviceDataTable extends DataTable
                 return $device->created_at->format('d-M-Y H:i A');
             })
             ->addColumn('action',function($device){
+                $action='';
                 if (Gate::check('device_edit')) {
-                $action = '<button type="button" class="btn btn-icon btn-info edit-device-btn p-1 mx-1" data-toggle="modal" data-target="#editModal" data-id="'.encrypt($device->id).'" data-href="'.route('device.edit', $device->id).'"><i class="fas fa-edit"></i></button>';
+                $action .= '<button type="button" class="btn btn-icon btn-info edit-device-btn p-1 mx-1" data-toggle="modal" data-target="#editModal" data-id="'.encrypt($device->id).'" data-href="'.route('device.edit', $device->id).'"><i class="fas fa-edit"></i></button>';
                 }
                 if (Gate::check('device_delete')) {
                 $action .= '<form action="'.route('device.destroy', $device->id).'" method="POST" class="deleteForm m-1" id="deleteForm">

@@ -210,7 +210,13 @@ class PermissionsTableSeeder extends Seeder
                 'created_at' => $createDate,
                 'updated_at' => $updateDate,
             ],
-
+            [
+                'name'      => 'master_access',
+                'guard_name'=>'web',
+                'route_name'=>'master',
+                'created_at' => $createDate,
+                'updated_at' => $updateDate,
+            ],
             [
                 'name'      => 'category_access',
                 'guard_name'=>'web',

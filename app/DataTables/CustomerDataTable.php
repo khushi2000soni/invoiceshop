@@ -46,8 +46,9 @@ class CustomerDataTable extends DataTable
                 return $customer->created_at->format('d-M-Y H:i A');
             })
             ->addColumn('action',function($customer){
+                $action='';
                 if (Gate::check('customer_edit')) {
-                $action = '<button type="button" class="btn btn-icon btn-info edit-customers-btn p-1 mx-1" data-toggle="modal" data-target="#editModal" data-id="'.encrypt($customer->id).'" data-href="'.route('customers.edit', $customer->id).'"><i class="fas fa-edit"></i></button>';
+                $action .= '<button type="button" class="btn btn-icon btn-info edit-customers-btn p-1 mx-1" data-toggle="modal" data-target="#editModal" data-id="'.encrypt($customer->id).'" data-href="'.route('customers.edit', $customer->id).'"><i class="fas fa-edit"></i></button>';
                 }
                 if (Gate::check('customer_delete')) {
                 $action .= '<form action="'.route('customers.destroy', $customer->id).'" method="POST" class="deleteForm m-1" id="deleteForm">

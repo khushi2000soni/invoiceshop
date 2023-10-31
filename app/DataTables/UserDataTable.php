@@ -45,9 +45,9 @@ class UserDataTable extends DataTable
                 return $staff->created_at->format('d-M-Y H:i A');
             })
             ->addColumn('action',function($staff){
-
+                $action='';
                 if (Gate::check('staff_edit')) {
-                $action = '<button type="button" class="btn btn-icon btn-info edit-users-btn p-1 mx-1" data-toggle="modal" data-target="#editModal" data-id="'.encrypt($staff->id).'" data-href="'.route('staff.edit', $staff->id).'"><i class="fas fa-edit"></i></button>';
+                $action .= '<button type="button" class="btn btn-icon btn-info edit-users-btn p-1 mx-1" data-toggle="modal" data-target="#editModal" data-id="'.encrypt($staff->id).'" data-href="'.route('staff.edit', $staff->id).'"><i class="fas fa-edit"></i></button>';
                 }
                 if (Gate::check('staff_edit')) {
                 $action .= '<button type="button" class="btn btn-icon btn-dark edit-password-btn p-1 " data-toggle="modal" data-target="#passwordModal" data-id="'.encrypt($staff->id).'" data-href="'.route('staff.password', $staff->id).'"><i class="fas fa-lock"></i></button>';

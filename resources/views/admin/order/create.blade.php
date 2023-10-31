@@ -53,7 +53,7 @@
                                 <th class="text-center">@lang('quickadmin.order.fields.product_name')</th>
                                 <th class="text-center">@lang('quickadmin.order.fields.quantity')</th>
                                 <th class="text-center">@lang('quickadmin.order.fields.price')</th>
-                                <th class="text-right">@lang('quickadmin.order.fields.sub_total')</th>
+                                <th class="text-center">@lang('quickadmin.order.fields.sub_total')</th>
                                 <th class="text-center">@lang('quickadmin.qa_action')</th>
                             </tr>
                         </thead>
@@ -202,6 +202,7 @@
                     hasErrors = true;
                 }
             }
+
             if (!hasErrors) {
                 order.products.push(productRecord);
                 order.sub_total = calculateSubtotal();
@@ -483,8 +484,8 @@
                         '<td class="text-center d-none product-id">' + product.product_id + '</td>' +
                         '<td class="text-center product-name">' + product.product_name + '</td>' +
                         '<td class="text-center">' + product.quantity + '</td>' +
-                        '<td class="text-right">' + product.price + '</td>' +
-                        '<td class="text-right">' + amount + '</td>' +
+                        '<td class="text-center">' + product.price + '</td>' +
+                        '<td class="text-center">' + amount + '</td>' +
                         '<td class="text-right">' +
                             '<div class="d-flex align-items-center buttonGroup justify-content-end">';
                             if (canCopy) {

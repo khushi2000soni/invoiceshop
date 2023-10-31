@@ -21,10 +21,10 @@ class TitleValidationRule implements Rule
             return false;
         }
 
-        // Only allow alphabetic characters (no numbers)
-        if (!preg_match('/^[A-Za-z\s]+$/', $value)) {
-            return false;
-        }
+        // // Only allow alphabetic characters (no numbers)
+        // if (!preg_match('/^[A-Za-z\s]+$/', $value)) {
+        //     return false;
+        // }
 
         return true;
     }
