@@ -9,6 +9,29 @@ return [
         'error'    => 'error',
     ],
 
+    'dashboard' => [
+        'title' => 'Dashboard',
+		'reset' 			=> 'Reset',
+		'view_detail'		=> 'View Details',
+		'total_customer' 	=> 'Total Customers!',
+		'total_product' 	=> 'Total Products!',
+        'todaySaleAmount'   =>  "Today's Sale",
+        'last7DaysSaleAmount'   =>  "Last 7 Days",
+        'last30DaysSaleAmount'   =>  "Last 30 Days",
+        'allSaleAmount'   =>  "All Time Sale",
+        'todayTotalOrder'   =>  "Today's Order",
+        'totalProductInStock'   =>  "Total Product",
+        'totalCategory'   =>  "Total Category",
+        'totalCustomer'   =>  "Total Customer",
+        'order' => 'Order',
+        'today' => 'Today',
+        '7days' => '7 Days',
+        '30days' => '30 Days',
+        'customer' => 'Customer',
+        'amount' => 'Amount',
+        'products' => 'Products',
+	],
+
 	'user-management' => [
 		'title' => 'Staff management',
 		'fields' => [
@@ -108,10 +131,8 @@ return [
         'customer' => 'Customer',
 		'customer_details'  	  		=> 'Customer Details',
 		'customer_order_details'  	    => 'Customer Order Details',
-		'customer_transaction_details'  => 'Customer Payment Details',
-		'customer_alter'  => 'Alter Customer',
+		'select_address'  => 'Select Address',
 		'fields' => [
-			'area' 			=> 'Area Address',
 			'name' 			=> 'Name',
 			'email' 		=> 'Email',
             'phone'         =>'Phone Number',
@@ -142,6 +163,7 @@ return [
 		'title'  => 'Devices',
         'device' => 'Device',
 		'device_details' => 'Device Details',
+        'select_staff'  => 'Select Staff',
 		'fields' => [
 			'name' 			=> 'Name',
 			'staff_name' 		=> 'Assigned Staff Name',
@@ -202,6 +224,7 @@ return [
 	'product' => [
 		'title' => 'Products',
         'product' => 'Product',
+        'select_category'  => 'Select Category',
 		'fields' => [
 			'name' 				=> 'Product Name',
 			'price' 			=> 'Purchase Price',
@@ -641,26 +664,5 @@ return [
     'qa_sn'=>'Sn.',
     'qa_no_record'=>'No Record Found!',
 
-
-	/*Contact Us page */
-	'contactUs' => [
-		'title' => 'Contact Us',
-		'fields' => [
-			'name' => 'Name',
-			'email' => 'Email',
-			'phone' => 'Mobile Number',
-			'message' => 'Message',
-		],
-	],
-	'dashboard' => [
-		'reset' 			=> 'Reset',
-		'view_detail'		=> 'View Details',
-		'total_customer' 	=> 'Total Customers!',
-		'total_product' 	=> 'Total Products!',
-		'total_estimate' 	=> 'Total Create Estimate!',
-		'total_area' 		=> 'Total Areas!',
-		'reset_system' 		=> 'Reset Whole System',
-		'total_return_estimate' 	=> 'Total Return Estimate!',
-	],
 
 ];

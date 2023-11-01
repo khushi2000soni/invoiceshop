@@ -12,9 +12,9 @@
             <div class="form-group">
                 <label for="category_id">@lang('quickadmin.product.fields.category_name')</label>
                 <div class="input-group">
-                    <select class="form-control @error('category_id') is-invalid @enderror" name="category_id" id="category_id" value="{{ isset($product) ? $product->category_id : old('category_id') }}">
+                    <select class="form-control @error('category_id') is-invalid @enderror" name="category_id" id="category_id">
                         <option value="{{ isset($product) ? $product->category->id : old('category_id') }}">
-                            {{ isset($product) ? $product->category->name : old('category_id') }}
+                            {{ isset($product) ? $product->category->name : trans('quickadmin.product.select_category') }}
                         </option>
                         @foreach($categories as $category)
                         <option value="{{ $category->id }}">{{ $category->name }}</option>

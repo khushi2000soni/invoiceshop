@@ -53,9 +53,11 @@ class UserDataTable extends DataTable
                 $action .= '<button type="button" class="btn btn-icon btn-dark edit-password-btn p-1 " data-toggle="modal" data-target="#passwordModal" data-id="'.encrypt($staff->id).'" data-href="'.route('staff.password', $staff->id).'"><i class="fas fa-lock"></i></button>';
                 }
                 if (Gate::check('staff_delete')) {
+                    if (!($staff->hasRole(1))) {
                 $action .= '<form action="'.route('staff.destroy', $staff->id).'" method="POST" class="deleteForm m-1" id="deleteForm">
                 <button title="'.trans('quickadmin.qa_delete').'" class="btn btn-icon btn-danger record_delete_btn btn-sm"><i class="fas fa-trash"></i></button>
                 </form>';
+                    }
                 }
                 return $action;
             })

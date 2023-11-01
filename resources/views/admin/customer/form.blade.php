@@ -42,9 +42,9 @@
             <div class="form-group">
                 <label for="address_id">@lang('quickadmin.customers.fields.address')</label>
                 <div class="input-group">
-                    <select class="form-control @error('address_id') is-invalid @enderror" name="address_id" id="address_id" value="{{ isset($customer) ? $customer->address_id : old('address_id') }}">
+                    <select class="form-control @error('address_id') is-invalid @enderror" name="address_id" id="address_id" >
                         <option value="{{ isset($customer) ? $customer->address->id : old('address_id') }}">
-                            {{ isset($customer) ? $customer->address->address : old('address_id') }}
+                            {{ isset($customer) ? $customer->address->address : trans('quickadmin.customers.select_address') }}
                         </option>
 
                         @foreach($addresses as $address)

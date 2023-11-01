@@ -89,7 +89,7 @@ class UserController extends Controller
     {
         $role_id= $request->role_id;
         $staff->update($request->all());
-        $staff->assignRole($role_id);
+        $staff->syncRoles($role_id);
 
         return response()->json(['success' => true,
         'message' => trans('messages.crud.update_record'),

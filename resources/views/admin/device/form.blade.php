@@ -13,9 +13,9 @@
             <div class="form-group">
                 <label for="staff_id">@lang('quickadmin.device.fields.staff_name')</label>
                 <div class="input-group">
-                    <select class="form-control @error('staff_id') is-invalid @enderror" name="staff_id" id="staff_id" value="{{ isset($device) ? $device->staff_id : old('staff_id') }}">
+                    <select class="form-control @error('staff_id') is-invalid @enderror" name="staff_id" id="staff_id">
                         <option value="{{ isset($device) ? $device->staff->id : old('staff_id') }}">
-                            {{ isset($device) ? $device->staff->name : old('staff_id') }}
+                            {{ isset($device) ? $device->staff->name : trans('quickadmin.device.select_staff') }}
                         </option>
                         @foreach($staffs as $staff)
                         <option value="{{ $staff->id }}">{{ $staff->name }}</option>
