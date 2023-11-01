@@ -16,10 +16,20 @@
           </ul>
         </div>
         <ul class="navbar-nav navbar-right">
-          <li><a href="#" class="nav-link nav-link-lg fullscreen-btn">
-              <i class="fas fa-expand"></i>
-            </a>
-          </li>
+            <li>
+                <a href="{{ route('products.index')}}" class="nav-link nav-link-lg btn btn-outline-dark icon-left "><i class="fas fa-plus-circle font-12"></i> @lang('quickadmin.dashboard.add_product')</a>
+            </li>
+            <li>
+                <a href="{{ route('customers.index')}}" class="nav-link nav-link-lg btn btn-outline-dark icon-left mx-2"><i class="fas fa-plus-circle font-12"></i> @lang('quickadmin.dashboard.add_customer')</a>
+            </li>
+            <li>
+                <a href="{{ route('orders.create')}}" class="nav-link nav-link-lg btn btn-outline-dark icon-left "><i class="fas fa-plus-circle font-12"></i> @lang('quickadmin.dashboard.add_invoice')</a>
+            </li>
+            <li><a href="#" class="nav-link nav-link-lg fullscreen-btn">
+                <i class="fas fa-expand"></i>
+                </a>
+            </li>
+
 
           {{-- <li class="dropdown dropdown-list-toggle"><a href="#" data-toggle="dropdown"
               class="nav-link notification-toggle nav-link-lg beep"><i class="far fa-bell"></i></a>

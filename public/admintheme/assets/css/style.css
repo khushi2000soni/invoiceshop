@@ -6372,7 +6372,7 @@ pre {
 }
 
 .section .section-header {
-    padding: 20px;
+    padding: 10px;
     display: flex;
     align-items: center
 }
@@ -6404,7 +6404,7 @@ pre {
     display: flex;
     align-items: center;
     background: #eff0f1;
-    padding: 15px;
+    padding: 10px;
     border-radius: 30px
 }
 
@@ -12439,4 +12439,12 @@ body:not(.sidebar-mini) .sidebar-style-2 .sidebar-menu li.active ul.dropdown-men
 }
 .modal-backdrop.show {
     display: none !important;
+}
+
+
+.ordertable tbody tr td:last-child{
+    display: table-cell;
+}
+.ordertable tbody tr td:nth-child(2){
+    width: 40%;
 }

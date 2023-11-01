@@ -1,9 +1,8 @@
 
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-4">
             <div class="form-group">
                 <label for="customer_id">@lang('quickadmin.order.fields.customer_name')</label>
-                <div class="input-group">
                     <select class="form-control @error('customer_id') is-invalid @enderror" name="customer_id" id="customer_id"  value="{{ isset($order) ? $order->customer_id : old('customer_id') }}">
                         <option value="{{ isset($order) ? $order->customer->id : old('customer_id') }}">
                             {{ isset($order) ? $order->customer->name : trans('quickadmin.order.fields.select_customer') }}
@@ -12,10 +11,9 @@
                         <option value="{{ $customer->id }}">{{ $customer->name }}</option>
                         @endforeach
                     </select>
-                </div>
             </div>
         </div>
-
+{{--
         <div class="col-md-6">
             <div class="form-group">
                 <label for="product_id">@lang('quickadmin.order.fields.product_name')</label>
@@ -62,6 +60,6 @@
                     <button type="button" class="btn btn-success" id="addProductBtn"><i class="fas fa-plus"></i></button>
                 </div>
             </div>
-        </div>
+        </div> --}}
     </div>
 

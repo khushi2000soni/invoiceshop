@@ -11,6 +11,9 @@ return [
 
     'dashboard' => [
         'title' => 'Dashboard',
+        'add_product' 		=> 'Add Product',
+        'add_customer' 		=> 'Add Customer',
+        'add_invoice' 		=> 'Add Invoice',
 		'reset' 			=> 'Reset',
 		'view_detail'		=> 'View Details',
 		'total_customer' 	=> 'Total Customers!',
