@@ -1,7 +1,7 @@
 
     <div class="row">
         <div class="col-md-4">
-            <div class="form-group">
+            {{-- <div class="form-group">
                 <label for="customer_id">@lang('quickadmin.order.fields.customer_name')</label>
                     <select class="form-control @error('customer_id') is-invalid @enderror" name="customer_id" id="customer_id"  value="{{ isset($order) ? $order->customer_id : old('customer_id') }}">
                         <option value="{{ isset($order) ? $order->customer->id : old('customer_id') }}">
@@ -11,6 +11,16 @@
                         <option value="{{ $customer->id }}">{{ $customer->name }}</option>
                         @endforeach
                     </select>
+            </div> --}}
+            <div class="custom-select2">
+                <div class="form-control-inner">
+                    <label>Customer</label>
+                    <select class="js-example-basic-single" data-href="{{ route('customers.create') }}" data-modal-target="customerModal">
+                        <option>Orange</option>
+                        <option>White</option>
+                        <option>Purple</option>
+                    </select>
+                </div>
             </div>
         </div>
 {{--
@@ -62,4 +72,13 @@
             </div>
         </div> --}}
     </div>
+
+
+    {{-- <div class="custom-modal">
+        <div class="modal-content">
+            <button class="modal-close">X</button>
+            <h2>Modal title</h2>
+        </div>
+    </div>
+    <div class="modal-overlay"></div> --}}
 

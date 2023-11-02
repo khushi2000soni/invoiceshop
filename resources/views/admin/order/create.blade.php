@@ -10,6 +10,67 @@
     .invoice hr {
     border-top-color: #ededed;
 }
+        .custom-select2 select{
+			width: 200px;
+            z-index: 1;
+            position: relative;
+		}
+		.custom-select2 .form-control-inner{
+			position: relative;
+		}
+		.custom-select2 .form-control-inner label{
+			position: absolute;
+			left: 10px;
+			top: -8px;
+			background-color: #fff;
+			padding: 0 5px;
+			z-index: 1;
+			font-size: 12px;
+		}
+		.select2-results{
+			padding-top: 48px;
+			position: relative;
+		}
+		.select2-link2{
+			position: absolute;
+			top: 6px;
+			left: 5px;
+			width: 100%;
+		}
+		.select2-container--default .select2-selection--single,
+		.select2-container--default .select2-selection--single .select2-selection__arrow{
+			height: 40px;
+		}
+		.select2-container--default .select2-selection--single .select2-selection__rendered{
+			line-height: 41px;
+		}
+		.select2-search--dropdown .select2-search__field{
+			padding: 10px;
+			font-size: 15px;
+		}
+		.select2-search--dropdown .select2-search__field:focus{
+			outline: none;
+		}
+		.select2-link2 .btns {
+			color: #3584a5;
+			background-color: transparent;
+			border: none;
+			font-size: 14px;
+			padding: 7px 15px;
+			cursor: pointer;
+			border: 1px solid #3584a5;
+			border-radius: 60px;
+		}
+        #centerModal{
+            z-index: 99999;
+        }
+        #centerModal::before{
+            display: none;
+        }
+        .modal-open .modal-backdrop.show{
+            display: block !important;
+            z-index: 9999;
+        }
 </style>
 
 @endsection
@@ -67,12 +128,22 @@
                                 </td>
                                 <td>
                                     <div class="form-group m-0">
-                                        <select class="form-control @error('product_id') is-invalid @enderror" name="product_id" id="product_id" value="{{ old('product_id') }}">
+                                        {{-- <select class="form-control @error('product_id') is-invalid @enderror" name="product_id" id="product_id" value="{{ old('product_id') }}">
                                             <option value="">{{ trans('quickadmin.order.fields.select_product') }}</option>
                                             @foreach($products as $product)
                                             <option value="{{ $product->id }}">{{ $product->name }}</option>
                                             @endforeach
-                                        </select>
+                                        </select> --}}
+                                        <div class="custom-select2">
+                                            <div class="form-control-inner">
+                                                <label>Products</label>
+                                                <select class="js-example-basic-single" data-href="{{ route('products.create') }}" data-modal-target="productModal">
+                                                    <option>Orange</option>
+                                                    <option>White</option>
+                                                    <option>Purple</option>
+                                                </select>
+                                            </div>
+                                        </div>
                                     </div>
                                 </td>
                                 <td>
@@ -135,10 +206,91 @@
         </form>
     </div>
   </section>
+      <!-- Modal -->
+{{-- <div class="modal fade" id="select2modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          ...
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary">Save changes</button>
+        </div>
+      </div>
+    </div>
+</div> --}}
+
+<div class="popup_render_div"></div>
 @endsection
 
 @section('customJS')
   @include('admin.order.partials.script')
 
+<script>
+    $(document).ready(function(){
+        $(".js-example-basic-single").select2({
+        }).on('select2:open', function () {
+            let a = $(this).data('select2');
+            if (!$('.select2-link').length) {
+                a.$results.parents('.select2-results')
+                    .append('<div class="select2-link2"><button class="btns addNewBtn" data-toggle="modal" data-target="#centerModal">Add New</button></div>');
+            }
+        });
 
+        $(document).on('click', '.select2-container .addNewBtn', function (e) {
+            //var hrefUrl = "{{ route('customers.create') }}";
+            e.preventDefault();
+            var gethis = $(this);
+            console.log('test',$(this));
+            var hrefUrl = $('.custom-select2').find('.js-example-basic-single').attr('data-href');
+            var modalTarget = $('.custom-select2').find('select2').data('modal-target'); // Get the modal target
+            console.log(hrefUrl);
+            console.log(modalTarget);
+            $.ajax({
+                type: 'get',
+                url: hrefUrl,
+                dataType: 'json',
+                success: function (response) {
+                    //$('#preloader').css('display', 'none');
+                    if(response.success) {
+                        console.log('success');
+                        $('.popup_render_div').html(response.htmlView);
+                        $('#centerModal').modal('show');
+                        //$("body").addClass("modal-open");
+                    }
+                }
+            });
+
+        });
+
+        // $(document).on('click','.js-example-basic-single .addNewBtn', function(){
+        // // $('#preloader').css('display', 'flex');
+        //     var hrefUrl = "{{ route('customers.create') }}";
+        //     console.log(hrefUrl);
+        //     $.ajax({
+        //         type: 'get',
+        //         url: hrefUrl,
+        //         dataType: 'json',
+        //         success: function (response) {
+        //             //$('#preloader').css('display', 'none');
+        //             if(response.success) {
+        //                 console.log('success');
+        //                 $('.popup_render_div').html(response.htmlView);
+        //                 $('#centerModal').modal('show');
+        //             }
+        //         }
+        //     });
+        // });
+        // $(".modal-close,.modal-overlay").click(function(){
+        //     $("body").removeClass("modal-open");
+        // });
+    });
+</script>
 @endsection
