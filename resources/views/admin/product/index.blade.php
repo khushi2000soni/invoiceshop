@@ -13,13 +13,6 @@
 @section('main-content')
 
 <section class="section roles" style="z-index: unset">
-    <div class="section-header ">
-      <h1> @lang('quickadmin.product-management.title')</h1>
-      <div class="section-header-breadcrumb ">
-        <div class="breadcrumb-item active"><a href="{{ route('dashboard') }}">@lang('quickadmin.qa_dashboard')</a></div>
-        <div class="breadcrumb-item">@lang('quickadmin.product-management.fields.list')</div>
-      </div>
-    </div>
     <div class="section-body">
           <div class="row">
             <div class="col-12">

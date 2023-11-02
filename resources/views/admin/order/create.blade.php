@@ -78,14 +78,6 @@
 @section('main-content')
 
 <section class="section">
-    <div class="section-header ">
-      <h1>@lang('quickadmin.order.create_new_order') </h1>
-      <div class="section-header-breadcrumb ">
-        <div class="breadcrumb-item active"><a href="{{ route('dashboard') }}">@lang('quickadmin.qa_dashboard')</a></div>
-        <div class="breadcrumb-item"><a href="{{ route('orders.index') }}">@lang('quickadmin.order.list')</a></div>
-        <div class="breadcrumb-item">@lang('quickadmin.order.new_order')</div>
-      </div>
-    </div>
     <div class="section-body">
         <form method="post" id="SaveInvoiceForm" action="{{route('orders.store')}}">
             <div class="invoice">

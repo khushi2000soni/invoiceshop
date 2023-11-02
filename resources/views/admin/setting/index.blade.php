@@ -8,13 +8,6 @@
 @section('main-content')
 
 <section class="section roles" style="z-index: unset">
-    <div class="section-header ">
-      <h1> @lang('quickadmin.settings.manage_settings')</h1>
-      <div class="section-header-breadcrumb ">
-        <div class="breadcrumb-item active"><a href="{{ route('dashboard') }}">@lang('quickadmin.qa_dashboard')</a></div>
-        <div class="breadcrumb-item">@lang('quickadmin.settings.manage_settings')</div>
-      </div>
-    </div>
     <div class="section-body">
           <div class="row">
             <div class="col-12 col-sm-12 col-lg-12">

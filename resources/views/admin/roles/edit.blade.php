@@ -8,14 +8,6 @@
 @section('main-content')
 
 <section class="section">
-    <div class="section-header ">
-      <h1>@lang('quickadmin.roles.fields.add-role.title')</h1>
-      <div class="section-header-breadcrumb ">
-        <div class="breadcrumb-item active"><a href="{{ route('dashboard') }}">@lang('quickadmin.qa_dashboard')</a></div>
-        <div class="breadcrumb-item"><a href="{{ route('roles.index') }}">@lang('quickadmin.roles.fields.list-title')</a></div>
-        <div class="breadcrumb-item">@lang('quickadmin.roles.fields.add-role.edit_role')</div>
-      </div>
-    </div>
     <div class="section-body">
       <div class="row">
         <div class="col-12 col-md-12 col-lg-12">

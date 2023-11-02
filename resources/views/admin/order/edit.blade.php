@@ -17,14 +17,6 @@
 @section('main-content')
 
 <section class="section">
-    <div class="section-header ">
-      <h1>@lang('quickadmin.order.fields.edit')  </h1>
-      <div class="section-header-breadcrumb ">
-        <div class="breadcrumb-item active"><a href="{{ route('dashboard') }}">@lang('quickadmin.qa_dashboard')</a></div>
-        <div class="breadcrumb-item"><a href="{{ route('orders.index') }}">@lang('quickadmin.order.list')</a></div>
-        <div class="breadcrumb-item">@lang('quickadmin.order.edit_order')</div>
-      </div>
-    </div>
     <div class="section-body">
         <form method="post" id="SaveEditInvoiceForm" action="{{route('orders.update', $order->id)}}">
             <div class="invoice">
