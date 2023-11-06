@@ -129,6 +129,18 @@ return [
 		],
 	],
 
+    'phone-book' => [
+		'title' 	=> 'Phone Book',
+		'fields' 	=> [
+			'name' 			=> 'Name',
+            'guardian_name'  => 'Husband/Father Name',
+            'ph_num'         =>'Phone No.',
+            'address'       =>'City',
+			'list' 	=> 'Phone Book',
+			'alter_list' 	=> 'Alter List',
+		],
+	],
+
 	'customers'  => [
 		'title'  => 'Parties',
         'customer' => 'Party',
@@ -138,6 +150,7 @@ return [
 		'fields' => [
 			'name' 			=> 'Name',
 			'email' 		=> 'Email',
+            'ph_num'         =>'Phone No.',
             'phone'         =>'Phone No. 1',
             'phone2'         =>'Phone No. 2',
             'address'       =>'City',

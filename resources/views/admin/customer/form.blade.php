@@ -2,7 +2,7 @@
     <div class="row">
         <div class="col-md-6">
             <div class="form-group">
-                <label for="name">@lang('quickadmin.customers.fields.name')</label>
+                <label for="name">@lang('quickadmin.customers.fields.name')<span class="text-danger">*</span></label>
                 <div class="input-group">
                     <input type="text" class="form-control" name="name" value="{{ isset($customer) ? $customer->name : old('name') }}" id="name" autocomplete="true">
                 </div>
@@ -10,7 +10,7 @@
         </div>
         <div class="col-md-6">
             <div class="form-group">
-                <label for="guardian_name">@lang('quickadmin.customers.fields.guardian_name')</label>
+                <label for="guardian_name">@lang('quickadmin.customers.fields.guardian_name')<span class="text-danger">*</span></label>
                 <div class="input-group">
                     <input type="text" class="form-control" name="guardian_name" value="{{ isset($customer) ? $customer->guardian_name : old('guardian_name') }}" id="guardian_name" autocomplete="true">
                 </div>
@@ -22,7 +22,7 @@
 
         <div class="col-md-6">
             <div class="form-group">
-                <label for="phone">@lang('quickadmin.customers.fields.phone')</label>
+                <label for="phone">@lang('quickadmin.customers.fields.phone')<span class="text-danger">*</span></label>
                 <div class="input-group">
                     <input type="text" class="form-control" name="phone" value="{{ isset($customer) ? $customer->phone : old('phone') }}" id="phone" autocomplete="true">
                 </div>
@@ -30,7 +30,7 @@
         </div>
         <div class="col-md-6">
             <div class="form-group">
-                <label for="phone2">@lang('quickadmin.customers.fields.phone2')</label>
+                <label for="phone2">@lang('quickadmin.customers.fields.phone2')<small class="text-danger"> (Optional)</small></label>
                 <div class="input-group">
                     <input type="text" class="form-control" name="phone2" value="{{ isset($customer) ? $customer->phone2 : old('phone2') }}" id="phone" autocomplete="true">
                 </div>

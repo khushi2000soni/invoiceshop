@@ -56,6 +56,7 @@ Route::middleware(['auth','PreventBackHistory'])->group(function () {
     Route::get('/staff/password/{id}',[UserController::class,'staffpassword'])->name('staff.password');
     Route::put('/staff/password/{id}',[UserController::class,'staffUpdatePass'])->name('staff.change-password');
     Route::resource('/customers',CustomerController::class);
+    Route::get('/phone-book',[CustomerController::class,'showPhoneBook'])->name('showPhoneBook');
     Route::resource('/products',ProductController::class);
     Route::resource('/device',DeviceController::class);
     Route::resource('/orders',OrderController::class);

@@ -13,7 +13,7 @@ use Yajra\DataTables\Html\Editor\Editor;
 use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
-class CustomerDataTable extends DataTable
+class PhoneBookDataTable extends DataTable
 {
     /**
      * Build the DataTable class.
@@ -43,30 +43,13 @@ class CustomerDataTable extends DataTable
                 $address = $customer->address;
                 return $address ? $address->address : '';
             })
-            ->editColumn('created_at', function ($customer) {
-                return $customer->created_at->format('d-M-Y H:i A');
-            })
-            ->addColumn('action',function($customer){
-                $action='';
-                if (Gate::check('customer_edit')) {
-                $action .= '<button type="button" class="btn btn-icon btn-info edit-customers-btn p-1 mx-1" data-toggle="modal" data-target="#editModal" data-id="'.encrypt($customer->id).'" data-href="'.route('customers.edit', $customer->id).'"><i class="fas fa-edit"></i></button>';
-                }
-                if (Gate::check('customer_delete')) {
-                $action .= '<form action="'.route('customers.destroy', $customer->id).'" method="POST" class="deleteForm m-1" id="deleteForm">
-                <button title="'.trans('quickadmin.qa_delete').'" class="btn btn-icon btn-danger record_delete_btn btn-sm"><i class="fas fa-trash"></i></button>
-                </form>';
-                }
-                return $action;
-            })
+
             ->filterColumn('address', function ($query, $keyword) {
                 $query->whereHas('address', function ($q) use ($keyword) {
                     $q->where('address.address', 'like', "%$keyword%");
                 });
-            })
-            ->filterColumn('created_at', function ($query, $keyword) {
-                $query->whereRaw("DATE_FORMAT(customers.created_at,'%d-%M-%Y') like ?", ["%$keyword%"]); //date_format when searching using date
-            })
-            ->rawColumns(['action']);
+            });
+
     }
 
     /**
@@ -101,6 +84,7 @@ class CustomerDataTable extends DataTable
         ]);
     }
 
+
     /**
      * Get the dataTable columns definition.
      */
@@ -112,12 +96,6 @@ class CustomerDataTable extends DataTable
             Column::make('guardian_name')->title(trans('quickadmin.customers.fields.guardian_name')),
             Column::make('phone')->title(trans('quickadmin.customers.fields.ph_num')),
             Column::make('address')->title(trans('quickadmin.customers.fields.address')),
-            Column::make('created_at')->title(trans('quickadmin.customers.fields.created_at')),
-            Column::computed('action')
-            ->exportable(false)
-            ->printable(false)
-            ->width(60)
-            ->addClass('text-center')->title(trans('quickadmin.qa_action')),
         ];
     }
 
@@ -126,6 +104,6 @@ class CustomerDataTable extends DataTable
      */
     protected function filename(): string
     {
-        return 'Customer_' . date('YmdHis');
+        return 'PhoneBook_' . date('YmdHis');
     }
 }

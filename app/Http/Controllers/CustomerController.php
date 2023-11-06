@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\DataTables\CustomerDataTable;
+use App\DataTables\PhoneBookDataTable;
 use App\Http\Requests\Customer\CreateRequest;
 use App\Http\Requests\Customer\UpdateRequest;
 use App\Models\Address;
@@ -92,5 +93,11 @@ class CustomerController extends Controller
          'alert-type'=> trans('quickadmin.alert-type.success'),
          'title' => trans('quickadmin.customers.customer')
         ], 200);
+    }
+
+
+    public function showPhoneBook(PhoneBookDataTable $dataTable){
+
+        return $dataTable->render('admin.customer.phone-book');
     }
 }
