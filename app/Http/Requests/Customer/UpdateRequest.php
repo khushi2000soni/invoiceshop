@@ -28,8 +28,9 @@ class UpdateRequest extends FormRequest
         return [
             'name' => ['required','string','max:150', 'regex:/^[^\s]+$/'],
             'guardian_name' => ['required','string','max:150','regex:/^[^\s]+$/'],
-            'email' => ['required','email','unique:customers,email,'.$this->customer->id],
+            // 'email' => ['required','email','unique:customers,email,'.$this->customer->id],
             'phone' => ['required','digits:10','numeric','unique:customers,phone,'.$this->customer->id],
+            'phone2' => ['nullable','digits:10','numeric','unique:customers,phone2,'.$this->customer->id],
             'address_id'=>['required','numeric'],
         ];
     }

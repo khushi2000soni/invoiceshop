@@ -19,19 +19,20 @@
     </div>
 
     <div class="row">
-        <div class="col-md-6">
-            <div class="form-group">
-                <label for="email">@lang('quickadmin.customers.fields.email')</label>
-                <div class="input-group">
-                    <input type="email" class="form-control" name="email" value="{{ isset($customer) ? $customer->email : old('email') }}" id="email" autocomplete="true">
-                </div>
-            </div>
-        </div>
+
         <div class="col-md-6">
             <div class="form-group">
                 <label for="phone">@lang('quickadmin.customers.fields.phone')</label>
                 <div class="input-group">
                     <input type="text" class="form-control" name="phone" value="{{ isset($customer) ? $customer->phone : old('phone') }}" id="phone" autocomplete="true">
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="phone2">@lang('quickadmin.customers.fields.phone2')</label>
+                <div class="input-group">
+                    <input type="text" class="form-control" name="phone2" value="{{ isset($customer) ? $customer->phone2 : old('phone2') }}" id="phone" autocomplete="true">
                 </div>
             </div>
         </div>

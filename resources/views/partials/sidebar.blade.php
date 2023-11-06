@@ -3,7 +3,7 @@
       <div class="sidebar-brand">
         <a href="#">
           <div class="circleimg"><img alt="image" src="{{ getSetting('site_logo') ? getSetting('site_logo') : asset('admintheme/assets/img/shopping-bag.png') }}" class="header-logo" /></div>
-          <span>Kanak Bangles</span>
+          <span>@lang('quickadmin.qa_company_name')</span>
         </a>
       </div>
       <ul class="sidebar-menu">
@@ -19,7 +19,7 @@
         {{-- @can('role_access')
         <li class="{{ Request::is('roles*') ? 'active' : '' }}">
             <a href="{{route('roles.index')}}" class="nav-link">
-                
+
             <span>@lang('quickadmin.roles.title')</span></a>
         </li>
         @endcan --}}
@@ -108,7 +108,6 @@
 
         @can('master_access')
         <li class="dropdown {{ Request::is('address*', 'categories*', 'products*') ? 'active' : '' }}">
-<<<<<<< Updated upstream
             <a href="#" class="nav-link has-dropdown"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
             <g clip-path="url(#clip0_212_3741)">
             <path d="M13.3692 11.6667H6.63083C5.53567 11.6681 4.48575 12.1037 3.71135 12.8781C2.93696 13.6525 2.50132 14.7024 2.5 15.7976V20.0001H17.5V15.7976C17.4987 14.7024 17.063 13.6525 16.2886 12.8781C15.5143 12.1037 14.4643 11.6681 13.3692 11.6667Z" fill="#B0B3B7"/>
@@ -120,9 +119,6 @@
             </clipPath>
             </defs>
             </svg><span>@lang('quickadmin.master-management.title')</span></a>
-=======
-            <a href="#" class="nav-link has-dropdown"><i class="fab fa-gg"></i><span>@lang('quickadmin.master-management.title')</span></a>
->>>>>>> Stashed changes
             <ul class="dropdown-menu">
                 @can('address_access')
                 <li class="{{ Request::is('address*') ? 'active' : '' }}">

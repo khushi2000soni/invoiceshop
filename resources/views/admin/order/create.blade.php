@@ -233,7 +233,7 @@
             let a = $(this).data('select2');
             if (!$('.select2-link').length) {
                 a.$results.parents('.select2-results')
-                    .append('<div class="select2-link2"><button class="btns addNewBtn get-customer" data-toggle="modal" data-target="#centerModal">Add New</button></div>');
+                    .append('<div class="select2-link2"><button class="btns addNewBtn get-customer" data-toggle="modal" data-target="#centerModal"> <i class="class="fas fa-plus""></i> Add New</button></div>');
             }
         });
 
@@ -242,15 +242,13 @@
             let a = $(this).data('select2');
             if (!$('.select2-link').length) {
                 a.$results.parents('.select2-results')
-                    .append('<div class="select2-link2"><button class="btns addNewBtn get-product" data-toggle="modal" data-target="#centerModal">Add New</button></div>');
+                    .append('<div class="select2-link2"><button class="btns addNewBtn get-product" data-toggle="modal" data-target="#centerModal"><i class="class="fas fa-plus""></i> Add New</button></div>');
             }
         });
 
         $(document).on('click', '.select2-container .get-customer', function (e) {
             e.preventDefault();
             var gethis = $(this);
-            console.log('test',$(this));
-            //var hrefUrl = $('.custom-select2').find('.js-example-basic-single').attr('data-href');
             var hrefUrl = "{{ route('customers.create') }}";
             console.log(hrefUrl);
             $.ajax({
@@ -271,10 +269,7 @@
         $(document).on('click', '.select2-container .get-product', function (e) {
             e.preventDefault();
             var gethis = $(this);
-            console.log('test',$(this));
-            //var hrefUrl = $('.custom-select2').find('.js-product-basic-single').attr('data-href');
             var hrefUrl = "{{ route('products.create') }}";
-            console.log(hrefUrl);
             $.ajax({
                 type: 'get',
                 url: hrefUrl,
@@ -309,7 +304,7 @@
                         $('#centerModal').modal('hide');
                         var alertType = response['alert-type'];
                         var message = response['message'];
-                        var title = "{{ trans('quickadmin.product.product') }}";
+                        var title = response['title'];
                         showToaster(title,alertType,message);
                         $('#AddForm')[0].reset();
                         location.reload();
@@ -322,7 +317,7 @@
 
                     for (const elementId in errors) {
                         $("#"+elementId).addClass('is-invalid');
-                        var errorHtml = '<div><span class="error text-danger">'+errors[elementId]+'</span></';
+                        var errorHtml = '<div><span class="error text-danger">'+errors[elementId]+'</span></div>';
                         $(errorHtml).insertAfter($("#"+elementId).parent());
                     }
                     $("#AddForm button[type=submit]").prop('disabled',false);

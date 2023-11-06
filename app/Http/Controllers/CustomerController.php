@@ -45,7 +45,8 @@ class CustomerController extends Controller
         $customer=Customer::create($input);
         return response()->json(['success' => true,
         'message' => trans('messages.crud.add_record'),
-        'alert-type'=> trans('quickadmin.alert-type.success')], 200);
+        'alert-type'=> trans('quickadmin.alert-type.success'),
+        'title' => trans('quickadmin.customers.customer')], 200);
     }
 
     /**
