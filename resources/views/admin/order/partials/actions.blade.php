@@ -17,7 +17,7 @@
                     <div class="row">
                         <div class="col-6">
                             @php
-                                $recipientMail = $order->customer->email;
+                                $recipientMail = $order->customer->email ?? "";
                             @endphp
                             <a href="javascript:void(0);" data-order-id="{{ $order->id }}" data-recipient-email="{{ $recipientMail }}" data-href="{{route('orders.generate-pdf', $order->id)}}" class="btn btn-danger text-white btn-block m-2 share-email-btn">
                                 <i class="fas fa-envelope py-1 px-1"></i>
@@ -26,7 +26,7 @@
                         </div>
                         <div class="col-6">
                             @php
-                                $recipientNumber = $order->customer->phone; // Replace with the actual recipient's phone number
+                                $recipientNumber = $order->customer->phone ?? ""; // Replace with the actual recipient's phone number
                             @endphp
                             <a href="javascript:void(0);" class="btn btn-success btn-block m-2 share-whatsapp-btn" data-order-id="{{ $order->id }}" data-recipient-number="{{ $recipientNumber }}" data-href="{{route('orders.generate-pdf', $order->id)}}">
                                 <i class="fab fa-whatsapp py-1 px-1"></i>
