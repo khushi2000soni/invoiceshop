@@ -9,6 +9,7 @@
    <link rel="stylesheet" href="{{ asset('admintheme/assets/bundles/datatables/DataTables-1.10.16/css/dataTables.bootstrap4.min.css') }}">
    <link rel="stylesheet" href="{{ asset('admintheme/assets/css/style.css') }}">
    <link rel="stylesheet" href="{{ asset('admintheme/assets/css/components.css') }}">
+   <link rel="stylesheet" href="{{ asset('admintheme/assets/css/custom.css') }}">
    <link rel="stylesheet" href="{{ asset('admintheme/assets/bundles/izitoast/css/iziToast.min.css') }}">
    <link rel="stylesheet" href="{{ asset('admintheme/assets/bundles/select2/dist/css/select2.min.css') }}">
 

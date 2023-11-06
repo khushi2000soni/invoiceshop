@@ -70,7 +70,7 @@
                             </div>
 
                             <div class="form-group">
-                            <button type="submit" class="btn btn-auth-color btn-lg btn-block" tabindex="4">
+                            <button type="submit" class="btn btn-submit-block btn-lg btn-block" tabindex="4">
                                 @lang('quickadmin.qa_change_password')
                             </button>
                             </div>

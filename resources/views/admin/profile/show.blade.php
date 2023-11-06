@@ -23,7 +23,7 @@
                                 <img alt="image" src=" {{ $user->profile_image_url ? $user->profile_image_url : asset('admintheme/assets/img/user.png') }}" alt="profile" class="w-100 h-100 rounded-circle profile-image" >
                             </div>
                         </div>
-                        <div class="col px-1">
+                        <div class="col px-2">
                             <div class="page-inner box-center text-left align-center">
                                 <div class="profileName"><a href="#" class="text-dark">{{ $user->name }}</a></div>
                                 <div class="edit_profile btn-outline-primary btn">@lang('quickadmin.profile.change')</div>
@@ -39,7 +39,7 @@
               <a role="button" class="text-info" id="editButton"><i class="fas fa-edit"></i> @lang('quickadmin.qa_edit')</a>
             </div>
             <div class="card-body" id="userbody">
-              <div class="py-4">
+              <div>
                 <p class="clearfix">
                   <span class="float-left">
                     @lang('quickadmin.profile.fields.name')
@@ -177,7 +177,7 @@
                       </div>
 
                       <div class="form-group">
-                      <button type="submit" class="btn btn-auth-color btn-lg btn-block" tabindex="4">
+                      <button type="submit" class="btn btn-submit-block btn-block" tabindex="4">
                           @lang('quickadmin.qa_submit')
                       </button>
                       </div>
