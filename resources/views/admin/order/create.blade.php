@@ -128,11 +128,12 @@
                                         </select> --}}
                                         <div class="custom-select2">
                                             <div class="form-control-inner">
-                                                <label>Products</label>
-                                                <select class="js-example-basic-single" data-href="{{ route('products.create') }}" data-modal-target="productModal">
-                                                    <option>Orange</option>
-                                                    <option>White</option>
-                                                    <option>Purple</option>
+                                                {{-- <label>@lang('quickadmin.order.fields.product_name')</label> --}}
+                                                <select class="js-product-basic-single" >
+                                                    <option value="">{{ trans('quickadmin.order.fields.select_product') }}</option>
+                                                    @foreach($products as $product)
+                                                    <option value="{{ $product->id }}">{{ $product->name }}</option>
+                                                    @endforeach
                                                 </select>
                                             </div>
                                         </div>
@@ -232,25 +233,31 @@
             let a = $(this).data('select2');
             if (!$('.select2-link').length) {
                 a.$results.parents('.select2-results')
-                    .append('<div class="select2-link2"><button class="btns addNewBtn" data-toggle="modal" data-target="#centerModal">Add New</button></div>');
+                    .append('<div class="select2-link2"><button class="btns addNewBtn get-customer" data-toggle="modal" data-target="#centerModal">Add New</button></div>');
             }
         });
 
-        $(document).on('click', '.select2-container .addNewBtn', function (e) {
-            //var hrefUrl = "{{ route('customers.create') }}";
+        $(".js-product-basic-single").select2({
+        }).on('select2:open', function () {
+            let a = $(this).data('select2');
+            if (!$('.select2-link').length) {
+                a.$results.parents('.select2-results')
+                    .append('<div class="select2-link2"><button class="btns addNewBtn get-product" data-toggle="modal" data-target="#centerModal">Add New</button></div>');
+            }
+        });
+
+        $(document).on('click', '.select2-container .get-customer', function (e) {
             e.preventDefault();
             var gethis = $(this);
             console.log('test',$(this));
-            var hrefUrl = $('.custom-select2').find('.js-example-basic-single').attr('data-href');
-            var modalTarget = $('.custom-select2').find('select2').data('modal-target'); // Get the modal target
+            //var hrefUrl = $('.custom-select2').find('.js-example-basic-single').attr('data-href');
+            var hrefUrl = "{{ route('customers.create') }}";
             console.log(hrefUrl);
-            console.log(modalTarget);
             $.ajax({
                 type: 'get',
                 url: hrefUrl,
                 dataType: 'json',
                 success: function (response) {
-                    //$('#preloader').css('display', 'none');
                     if(response.success) {
                         console.log('success');
                         $('.popup_render_div').html(response.htmlView);
@@ -259,30 +266,70 @@
                     }
                 }
             });
-
         });
 
-        // $(document).on('click','.js-example-basic-single .addNewBtn', function(){
-        // // $('#preloader').css('display', 'flex');
-        //     var hrefUrl = "{{ route('customers.create') }}";
-        //     console.log(hrefUrl);
-        //     $.ajax({
-        //         type: 'get',
-        //         url: hrefUrl,
-        //         dataType: 'json',
-        //         success: function (response) {
-        //             //$('#preloader').css('display', 'none');
-        //             if(response.success) {
-        //                 console.log('success');
-        //                 $('.popup_render_div').html(response.htmlView);
-        //                 $('#centerModal').modal('show');
-        //             }
-        //         }
-        //     });
-        // });
-        // $(".modal-close,.modal-overlay").click(function(){
-        //     $("body").removeClass("modal-open");
-        // });
+        $(document).on('click', '.select2-container .get-product', function (e) {
+            e.preventDefault();
+            var gethis = $(this);
+            console.log('test',$(this));
+            //var hrefUrl = $('.custom-select2').find('.js-product-basic-single').attr('data-href');
+            var hrefUrl = "{{ route('products.create') }}";
+            console.log(hrefUrl);
+            $.ajax({
+                type: 'get',
+                url: hrefUrl,
+                dataType: 'json',
+                success: function (response) {
+                    if(response.success) {
+                        console.log('success');
+                        $('.popup_render_div').html(response.htmlView);
+                        $('#centerModal').modal('show');
+                        //$("body").addClass("modal-open");
+                    }
+                }
+            });
+        });
+
+        $(document).on('submit', '#AddForm', function (e) {
+            e.preventDefault();
+
+            $("#AddForm button[type=submit]").prop('disabled',true);
+            $(".error").remove();
+            $(".is-invalid").removeClass('is-invalid');
+            var formData = $(this).serialize();
+            var formAction = $(this).attr('action');
+            $.ajax({
+                url: formAction,
+                type: 'POST',
+                headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                data: formData,
+                success: function (response) {
+                        $('#centerModal').modal('hide');
+                        var alertType = response['alert-type'];
+                        var message = response['message'];
+                        var title = "{{ trans('quickadmin.product.product') }}";
+                        showToaster(title,alertType,message);
+                        $('#AddForm')[0].reset();
+                        location.reload();
+                    DataaTable.ajax.reload();
+                    $("#AddForm button[type=submit]").prop('disabled',false);
+                },
+                error: function (xhr) {
+                    var errors= xhr.responseJSON.errors;
+                    console.log(xhr.responseJSON);
+
+                    for (const elementId in errors) {
+                        $("#"+elementId).addClass('is-invalid');
+                        var errorHtml = '<div><span class="error text-danger">'+errors[elementId]+'</span></';
+                        $(errorHtml).insertAfter($("#"+elementId).parent());
+                    }
+                    $("#AddForm button[type=submit]").prop('disabled',false);
+                }
+        });
+    });
+
     });
 </script>
 @endsection
