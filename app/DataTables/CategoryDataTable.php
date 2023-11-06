@@ -37,12 +37,12 @@ class CategoryDataTable extends DataTable
             ->addColumn('action',function($category){
                 $action='';
                 if (Gate::check('category_edit')) {
-                $action .= '<button type="button" class="btn btn-outline-info edit-category-btn" data-toggle="modal" data-target="#editCategoryModal" data-id="'.encrypt($category->id).'" data-name="'. $category->name .'"><i class="fas fa-edit"></i></button>';
+                $action .= '<button type="button" class="btn edit-category-btn" data-toggle="modal" data-target="#editCategoryModal" data-id="'.encrypt($category->id).'" data-name="'. $category->name .'"><i class="fas fa-edit"></i></button>';
             }
                 if (Gate::check('category_delete')) {
                 $action .= '<form action="'.route('categories.destroy', $category->id).'" method="POST" class="deleteCategoryForm m-1" id="deleteCategoryForm">
 
-                <button title="'.trans('quickadmin.qa_delete').'" class="btn btn-outline-danger record_delete_btn btn-sm"><i class="fas fa-trash"></i></button>
+                <button title="'.trans('quickadmin.qa_delete').'" class="btn record_delete_btn btn-sm"><i class="fas fa-trash"></i></button>
             </form>';
                 }
                 return $action;

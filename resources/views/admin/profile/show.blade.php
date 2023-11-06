@@ -89,7 +89,8 @@
               <div class="card-body" id="editbody">
                   <form method="POST" action="{{route('profile.update')}}" id="EditprofileForm">
                       @csrf
-                      <div class="form-group">
+                      <div class="row">
+                        <div class="col-lg-6"><div class="form-group">
                           <label for="currentpassword">@lang('quickadmin.profile.fields.name')</label>
                           <div class="input-group">
                             <div class="input-group-prepend">
@@ -104,7 +105,8 @@
                             </div>
                             @enderror
                           </div>
-                      </div>
+                      </div></div>
+                      <div class="col-lg-6">
                       <div class="form-group">
                           <label for="password">@lang('quickadmin.profile.fields.usernameid')</label>
                           <div class="input-group">
@@ -121,6 +123,8 @@
                             @enderror
                           </div>
                       </div>
+                    </div>
+                    <div class="col-lg-6">
                       <div class="form-group">
                           <label for="email">@lang('quickadmin.profile.fields.email')</label>
                           <div class="input-group">
@@ -137,6 +141,8 @@
                             @enderror
                           </div>
                       </div>
+                    </div>
+                    <div class="col-lg-6">
                       <div class="form-group">
                         <label for="phone">@lang('quickadmin.profile.fields.phone')</label>
                         <div class="input-group">
@@ -153,6 +159,8 @@
                           @enderror
                         </div>
                     </div>
+                  </div>
+                  <div class="col-lg-12">
                       <div class="form-group">
                         <label>@lang('quickadmin.profile.fields.address')</label>
                             <div class="input-group">
@@ -175,12 +183,15 @@
                                 @enderror
                           </div>
                       </div>
-
+                    </div>
+                    <div class="col-lg-12">
                       <div class="form-group">
                       <button type="submit" class="btn btn-submit-block btn-block" tabindex="4">
                           @lang('quickadmin.qa_submit')
                       </button>
                       </div>
+                    </div>
+                    </div>
                   </form>
               </div>
           </div>

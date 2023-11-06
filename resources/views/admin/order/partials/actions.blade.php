@@ -3,7 +3,7 @@
 @endcan
 
 @can('invoice_share')
-<a role="button" class="btn btn-icon btn-success share-order-btn p-1 px-2 mx-1" data-toggle="modal" data-target="#centerModal" title="@lang('quickadmin.qa_share')"><i class="fas fa-share"></i> </a>
+<a role="button" class="btn btn-icon share-order-btn p-1 px-2 mx-1" data-toggle="modal" data-target="#centerModal" title="@lang('quickadmin.qa_share')"><i class="fas fa-share"></i> </a>
 <div class="modal fade px-3" id="centerModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
         <div class="modal-content">
@@ -42,7 +42,7 @@
 
 @can('invoice_access')
 <div class="dropdown d-inline">
-    <button class="btn btn-primary dropdown-toggle px-2" type="button"
+    <button class="btn dropdown-toggle px-2" type="button"
         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" title="@lang('quickadmin.qa_view')">
         <i class="fas fa-align-justify"></i>
     </button>

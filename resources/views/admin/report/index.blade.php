@@ -35,14 +35,12 @@
                     </div>
                 </div>
                 <div class="col-lg8 col-md-6 col-sm-12">
-                    <div class="card ">
-                        <div class="card-body card-type-4">
-                            <div class="row">
+                    <div class="row">
                                 <div class="col-12 col-md-6 col-lg-6">
                                     <div class="card card-info shadow">
                                     <div class="card-header">
-                                        <div class="card-square l-bg-cyan text-white">
-                                            <i class="fas fa-shopping-cart"></i>
+                                        <div class="card-square l-bg-cyan text-white rounded">
+                                            <i class="fas fa-shopping-cart p-2"></i>
                                         </div>
                                         <h4 class="mx-2">@lang('quickadmin.reports.total_order')</h4>
                                     </div>
@@ -54,8 +52,8 @@
                                 <div class="col-12 col-md-6 col-lg-6">
                                     <div class="card card-info shadow" >
                                     <div class="card-header">
-                                        <div class="card-square l-bg-cyan text-white">
-                                            <i class="fas fa-user-plus"></i>
+                                        <div class="card-square l-bg-cyan text-white rounded">
+                                            <i class="fas fa-user-plus p-2"></i>
                                         </div>
                                         <h4 class="mx-2">@lang('quickadmin.reports.total_customer')</h4>
                                     </div>
@@ -67,8 +65,8 @@
                                 <div class="col-12 col-md-6 col-lg-6">
                                     <div class="card card-info shadow">
                                     <div class="card-header">
-                                        <div class="card-square l-bg-cyan text-white">
-                                            <i class="far fa-credit-card"></i>
+                                        <div class="card-square l-bg-cyan text-white rounded">
+                                            <i class="far fa-credit-card p-2"></i>
                                         </div>
                                         <h4 class="mx-2">@lang('quickadmin.reports.total_product')</h4>
                                     </div>
@@ -80,8 +78,8 @@
                                 <div class="col-12 col-md-6 col-lg-6">
                                     <div class="card card-info shadow">
                                     <div class="card-header">
-                                        <div class="card-square l-bg-cyan text-white">
-                                            <i class="fas fa-mobile-alt"></i>
+                                        <div class="card-square l-bg-cyan text-white rounded">
+                                            <i class="fas fa-mobile-alt p-2"></i>
                                         </div>
                                         <h4 class="mx-2 me-0">@lang('quickadmin.reports.no_of_devices')</h4>
                                     </div>
@@ -91,8 +89,6 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
                 </div>
                 <div class="col-lg4 col-md-6 col-12 col-sm-12">
                     <div class="card overflow-hidden h-100">

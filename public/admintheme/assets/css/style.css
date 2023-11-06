@@ -8480,10 +8480,10 @@ body:not(.sidebar-mini) .sidebar-style-2 .sidebar-menu li.active ul.dropdown-men
 }
 
 .theme-white .btn-outline-primary {
-    color: #583a63;
+    color: #00a5a2;
     background-color: transparent;
     background-image: none;
-    border-color: #583a63
+    border-color: #00a5a2;
 }
 
 .theme-white .btn-outline-primary:focus {
@@ -8506,8 +8506,8 @@ body:not(.sidebar-mini) .sidebar-style-2 .sidebar-menu li.active ul.dropdown-men
 
 .theme-white .btn-outline-primary:hover {
     color: #fff;
-    background-color: #583a63 !important;
-    border-color: #583a63
+    background-color: #00a5a2 !important;
+    border-color: #00a5a2;
 }
 
 .theme-white .btn-outline-primary.disabled {
@@ -12794,7 +12794,7 @@ div.dataTables_wrapper div.dataTables_info {
     background-color: #00a5a2 !important;
     color: white;
 }
-.select2-link2 .btns {
+/*.select2-link2 .btns {
     color: #00a5a2;
     background-color: transparent;
     border: none;
@@ -12804,9 +12804,22 @@ div.dataTables_wrapper div.dataTables_info {
     border: 1px solid #00a5a2;
     width: 95%;
     border-radius: 0 !important;
+}*/
+.select2-results {
+    padding-top: 32px !important;
 }
-.select2-link2 {
-    top: 0px !important;
+.select2-link2 .btns {
+    color: #3584a5;
+    background-color: transparent;
+    border: 0 !important;
+    font-size: 12px;
+    padding: 0 !important;
+    cursor: pointer;
+    border-radius: 0;
+}
+.select2-results__option {
+    padding: 1px 7px !important;
+    font-size: 13px !important;
 }
 .select2-container--default .select2-search--dropdown .select2-search__field {
     border: 1px solid #00a5a2 !important;
@@ -12815,6 +12828,9 @@ div.dataTables_wrapper div.dataTables_info {
     padding: 10px;
     font-size: 15px;
     height: 35px !important;
+}
+.select2-container--default .select2-selection--single .select2-selection__rendered {
+    font-size: 13px;
 }
 .select2-container.select2-container--open .select2-selection--single {
     background-color: #fefeff;
@@ -12837,4 +12853,16 @@ button#addProductBtn {
  #editButton {
     color: #00a5a2 !important;
 }
-
+.btn-submit-block {
+    background: #00a5a2;
+    color: #fff;
+    font-size: 14px;
+    padding: 10px 25px;
+    max-width: fit-content;
+    margin: 0 auto;
+    border: 1px solid #00a5a2;
+}
+.btn-submit-block:hover {
+    background: #042c48 !important;
+    color: #fff;
+}
