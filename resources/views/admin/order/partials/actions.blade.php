@@ -22,7 +22,6 @@
                             <a href="javascript:void(0);" data-order-id="{{ $order->id }}" data-recipient-email="{{ $recipientMail }}" data-href="{{route('orders.generate-pdf', $order->id)}}" class="btn btn-danger text-white btn-block m-2 share-email-btn">
                                 <i class="fas fa-envelope py-1 px-1"></i>
                             </a>
-
                         </div>
                         <div class="col-6">
                             @php

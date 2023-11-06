@@ -34,12 +34,12 @@ class AddressDataTable extends DataTable
             ->addColumn('action',function($address){
                 $action='';
                 if (Gate::check('address_edit')) {
-                $action .= '<button type="button" class="btn btn-outline-info edit-address-btn" data-toggle="modal" data-target="#editAddressModal" data-id="'.encrypt($address->id).'" data-address="'. $address->address .'"><i class="fas fa-edit"></i></button>';
+                $action .= '<button type="button" class="btn edit-address-btn" data-toggle="modal" data-target="#editAddressModal" data-id="'.encrypt($address->id).'" data-address="'. $address->address .'"><i class="fas fa-edit"></i></button>';
             }
                 if (Gate::check('address_delete')) {
                 $action .= '<form action="'.route('address.destroy', $address->id).'" method="POST" class="deleteAddressForm m-1" id="deleteAddressForm">
 
-                <button title="'.trans('quickadmin.qa_delete').'" class="btn btn-outline-danger record_delete_btn btn-sm"><i class="fas fa-trash"></i></button>
+                <button title="'.trans('quickadmin.qa_delete').'" class="btn  record_delete_btn btn-sm"><i class="fas fa-trash"></i></button>
             </form>';
                 }
                 return $action;
