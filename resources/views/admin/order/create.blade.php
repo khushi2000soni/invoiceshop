@@ -233,7 +233,7 @@
             let a = $(this).data('select2');
             if (!$('.select2-link').length) {
                 a.$results.parents('.select2-results')
-                    .append('<div class="select2-link2"><button class="btns addNewBtn get-customer" data-toggle="modal" data-target="#centerModal"> <i class="class="fas fa-plus""></i> Add New</button></div>');
+                    .append('<div class="select2-link2"><button class="btns addNewBtn get-customer" data-toggle="modal" data-target="#centerModal"> <i class="fa fa-plus-circle"></i> Add New</button></div>');
             }
         });
 
@@ -242,7 +242,7 @@
             let a = $(this).data('select2');
             if (!$('.select2-link').length) {
                 a.$results.parents('.select2-results')
-                    .append('<div class="select2-link2"><button class="btns addNewBtn get-product" data-toggle="modal" data-target="#centerModal"><i class="class="fas fa-plus""></i> Add New</button></div>');
+                    .append('<div class="select2-link2"><button class="btns addNewBtn get-product" data-toggle="modal" data-target="#centerModal"><i class="fa fa-plus-circle"></i> Add New</button></div>');
             }
         });
 
