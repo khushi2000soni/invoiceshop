@@ -56,6 +56,10 @@ class Order extends Model
         return $this->belongsTo(User::class, 'created_by');
     }
 
+    public function deletedBy(){
+        return $this->belongsTo(User::class, 'deleted_by');
+    }
+
     public function orderProduct(){
         return $this->hasMany(OrderProduct::class, 'order_id');
     }

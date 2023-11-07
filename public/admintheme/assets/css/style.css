@@ -12468,7 +12468,23 @@ body:not(.sidebar-mini) .sidebar-style-2 .sidebar-menu li.active ul.dropdown-men
 .table-responsive .dataTables_filter {
     position: absolute;
     right: 0;
-    top: 9px;
+    top: 0;
+}
+.label-position{
+    position: relative;
+}
+.label-position>label{
+    position: absolute;
+    left: 10px;
+    top: -8px;
+    background-color: #fff;
+    padding: 0 5px;
+    margin: 0;
+    z-index: 12;
+    line-height: 16px;
+}
+.dataTables_length>label select{
+    height: 34px !important;
 }
 
 

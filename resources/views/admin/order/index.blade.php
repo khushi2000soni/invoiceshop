@@ -8,6 +8,7 @@
     .dropdown-toggle::after {
     display: none;
     }
+
 </style>
 @endsection
 
@@ -17,72 +18,61 @@
     <div class="section-body">
         <div class="row">
             <div class="col-12">
-            <div class="card">
-                <div class="card-header d-flex justify-content-between align-items-center">
-                <h4>@lang('quickadmin.order-management.fields.list')</h4>
-                @can('invoice_create')
-                <a class="btn btn-outline-primary"  href="{{ route('orders.create') }}"><i class="fas fa-plus"></i> @lang('quickadmin.order.fields.add')</a>
-                @endcan
-                </div>
-            </div>
-            </div>
-            <div class="col-12">
                 <div class="card">
-                <div class="card-body">
-                    <form id="invoice-filter-form">
-                        <div class="row align-items-end">
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <label for="customer_id">@lang('quickadmin.order.fields.customer_name')</label>
-                                    <div class="input-group">
-                                        <select class="form-control @error('customer_id') is-invalid @enderror" name="customer_id" id="customer_id" value="">
-                                            <option value="">@lang('quickadmin.order.fields.select_customer')</option>
-                                            @foreach($customers as $customer)
-                                            <option value="{{ $customer->id }}">{{ $customer->name }}</option>
-                                            @endforeach
-                                        </select>
+                    <div class="card-body pt-4">
+                        @if ($type != 'deleted')
+
+                        <form id="invoice-filter-form">
+                            <div class="row align-items-end">
+                                <div class="col-md-3">
+                                    <div class="form-group label-position">
+                                        <label for="customer_id">@lang('quickadmin.order.fields.customer_name')</label>
+                                        <div class="input-group">
+                                            <select class="form-control @error('customer_id') is-invalid @enderror" name="customer_id" id="customer_id" value="">
+                                                <option value="">@lang('quickadmin.order.fields.select_customer')</option>
+                                                @foreach($customers as $customer)
+                                                <option value="{{ $customer->id }}">{{ $customer->name }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group label-position">
+                                        <label for="from_date">@lang('quickadmin.order.fields.from_date')</label>
+                                        <div class="input-group">
+                                            <input type="text" class="form-control datepicker" name="from_date" value="" id="from_date" autocomplete="true">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group label-position">
+                                        <label for="to_date">@lang('quickadmin.order.fields.to_date')</label>
+                                        <div class="input-group">
+                                            <input type="text" class="form-control datepicker" name="to_date" value="" id="to_date" autocomplete="true">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 text-end">
+                                    <div class="form-group d-flex justify-content-end">
+                                        <button type="submit" class="btn btn-primary mr-1 col" id="apply-filter">@lang('quickadmin.qa_submit')</button>
+                                        <button type="reset" class="btn btn-primary mr-1 col" id="reset-filter">@lang('quickadmin.qa_reset')</button>
+                                        <a class="btn btn-outline-primary col" href="{{ route('orders.getTypeOrder',['type'=>'deleted'])}}" id="trashed-data"><i class="fa fa-trash"></i> @lang('quickadmin.order.recycle')</a>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <label for="from_date">@lang('quickadmin.order.fields.from_date')</label>
-                                    <div class="input-group">
-                                        <input type="text" class="form-control datepicker" name="from_date" value="" id="from_date" autocomplete="true">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <label for="to_date">@lang('quickadmin.order.fields.to_date')</label>
-                                    <div class="input-group">
-                                        <input type="text" class="form-control datepicker" name="to_date" value="" id="to_date" autocomplete="true">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-2">
-                                <div class="form-group ">
-                                    <button type="submit" class="btn btn-primary" id="apply-filter">@lang('quickadmin.qa_submit')</button>
-                                    <button type="reset" class="btn btn-primary" id="reset-filter">@lang('quickadmin.qa_reset')</button>
-                                </div>
-                            </div>
+                        </form>
+                        @endif
+
+                        <div class="table-responsive">
+                            {{$dataTable->table(['class' => 'table dt-responsive invoicdatatable', 'style' => 'width:100%;','id'=>'dataaTable'])}}
                         </div>
-                    </form>
-                </div>
-                </div>
-            </div>
-            <div class="col-12">
-                <div class="card">
-                <div class="card-body">
-                    <div class="table-responsive">
-                    {{$dataTable->table(['class' => 'table dt-responsive invoicdatatable', 'style' => 'width:100%;','id'=>'dataaTable'])}}
                     </div>
-                </div>
                 </div>
             </div>
         </div>
     </div>
-
+    <div class="popup_render_div"></div>
 </section>
 @endsection
 
@@ -219,6 +209,25 @@ $(document).ready(function () {
         // Apply filters to the DataTable
         dataTable.ajax.url("{{ route('orders.index') }}?"+$.param(params)).load();
 
+    });
+
+    $(document).on('click','.view-delete-orders', function(){
+       // $('#preloader').css('display', 'flex');
+        var hrefUrl = $(this).attr('data-href');
+        console.log(hrefUrl);
+        $.ajax({
+            type: 'get',
+            url: hrefUrl,
+            dataType: 'json',
+            success: function (response) {
+                //$('#preloader').css('display', 'none');
+                if(response.success) {
+                    console.log('success');
+                    $('.popup_render_div').html(response.htmlView);
+                    $('#OrderModal').modal('show');
+                }
+            }
+        });
     });
 
 });

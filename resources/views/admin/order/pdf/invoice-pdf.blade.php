@@ -24,10 +24,23 @@ content: counter(page);
     right: 0px;
     height: 200px;
 }
+.cancel-watermark {
+    position: fixed;
+    top: 20%;
+    left: 25%;
+    transform: translate(-50%, -50%);
+    color: rgba(255, 0, 0, 0.2);
+    transform: rotate(-20deg);
+    font-weight: bold;
+    font-size: 60px;
+}
 </style>
 
 </head>
-<body style="padding: 100px 0 0;margin: 0;font-family: Arial, Helvetica, sans-serif;">
+<body style="padding: 100px 0 0;margin: 0;font-family: Arial, Helvetica, sans-serif;" class="">
+    @if ($type=='deleted')
+    <div class="cancel-watermark">Cancelled</div>
+    @endif
     <div class="page-header">
 		<header style="padding: 10px 0;">
 			{{-- <h2 style="margin: 0;color: #2a2a33;font-size: 30px;font-weight: bold;"><strong>Invoice</strong></h2> --}}
@@ -52,7 +65,6 @@ content: counter(page);
             <div class="pagenum-container"><small>Page <span class="pagenum"></span></small></div>
         </footer>
 		<main class="main" style="max-width: 620px;margin: 0 auto;padding: 40px;padding-top: 0;">
-
 			<table cellpadding="0" cellspacing="0" border="1" width="100%" style="color: #000;font-size: 16px;">
 				<thead>
 					<tr>

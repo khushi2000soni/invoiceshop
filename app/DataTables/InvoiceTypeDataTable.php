@@ -2,9 +2,9 @@
 
 namespace App\DataTables;
 
+use App\Models\InvoiceType;
 use App\Models\Order;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
-use Illuminate\Support\Facades\Gate;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
 use Yajra\DataTables\Html\Button;
@@ -13,9 +13,8 @@ use Yajra\DataTables\Html\Editor\Editor;
 use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
-class InvoiceDataTable extends DataTable
+class InvoiceTypeDataTable extends DataTable
 {
-    public $paramValue = null;
     /**
      * Build the DataTable class.
      *
@@ -23,7 +22,8 @@ class InvoiceDataTable extends DataTable
      */
     public function dataTable(QueryBuilder $query)
     {
-        return datatables()
+
+        $dataTable = datatables()
         ->eloquent($query)
             ->addIndexColumn()
             ->editColumn('invoice_number',function($order){
@@ -39,8 +39,17 @@ class InvoiceDataTable extends DataTable
             ->editColumn('created_at', function ($order) {
                 return $order->created_at->format('d-M-Y');
             })
+            ->editColumn('deleted_at', function ($order) {
+                $deleted_at = $order->deleted_at ? $order->deleted_at->format('d-M-Y'): '';
+                return $deleted_at ? $deleted_at : '';
+
+            })
+            ->editColumn('deleted_by', function ($order) {
+                $deleted_by = $order->deleted_by ? $order->deletedBy->name: '';
+                return $deleted_by ? $deleted_by : '';
+            })
             ->addColumn('action',function($order){
-                $action =view('admin.order.partials.actions',compact('order'))->render();
+                $action =view('admin.order.partials.actions-deleted',compact('order'))->render();
                 return $action;
             })
             ->filterColumn('created_at', function ($query, $keyword) {
@@ -52,23 +61,15 @@ class InvoiceDataTable extends DataTable
                 });
             })
             ->rawColumns(['action']);
+
+            return $dataTable;
     }
     /**
      * Get the query source of dataTable.
      */
     public function query(Order $model): QueryBuilder
     {
-        if(isset(request()->customer_id) && request()->customer_id){
-            $model = $model->where('customer_id', request()->customer_id);
-        }
-
-        if(isset(request()->from_date) && request()->from_date){
-            $model = $model->whereDate('invoice_date','>=', request()->from_date);
-        }
-        if(isset(request()->to_date) && request()->to_date){
-            $model = $model->whereDate('invoice_date','<=', request()->to_date);
-        }
-
+        $model = $model->onlyTrashed();
         return $model->newQuery()->with('customer');
     }
 
@@ -86,7 +87,7 @@ class InvoiceDataTable extends DataTable
         ])
         ->columns($this->getColumns())
         ->minifiedAjax()
-        ->dom('lfrtip')
+        ->dom('lBfrtip')
         ->orderBy(1)
         // ->selectStyleSingle()
         ->buttons([
@@ -102,12 +103,16 @@ class InvoiceDataTable extends DataTable
      */
     public function getColumns()
     {
-        return [
+        // dump($this->paramValue);
+        // die();
+            $columns = [
                 Column::make('DT_RowIndex')->title(trans('quickadmin.qa_sn'))->orderable(false)->searchable(false),
                 Column::make('invoice_number')->title(trans('quickadmin.order.fields.invoice_number')),
                 Column::make('customer_name')->title(trans('quickadmin.order.fields.customer_name')),
                 Column::make('grand_total')->title(trans('quickadmin.order.fields.total_price')),
                 Column::make('created_at')->title(trans('quickadmin.order.fields.created_at')),
+                Column::make('deleted_at')->title(trans('quickadmin.order.fields.deleted_at')),
+                Column::make('deleted_by')->title(trans('quickadmin.order.fields.deleted_by')),
                 Column::computed('action')
                 ->exportable(false)
                 ->printable(false)
@@ -115,13 +120,19 @@ class InvoiceDataTable extends DataTable
                 ->addClass('text-center')->title(trans('quickadmin.qa_action')),
             ];
 
-    }
+        // $columns[] = Column::computed('action')
+        // ->exportable(false)
+        // ->printable(false)
+        // ->width(60)
+        // ->addClass('text-center')->title(trans('quickadmin.qa_action'));
 
+        return $columns;
+    }
     /**
      * Get the filename for export.
      */
     protected function filename(): string
     {
-        return 'Invoice_' . date('YmdHis');
+        return 'InvoiceType_' . date('YmdHis');
     }
 }

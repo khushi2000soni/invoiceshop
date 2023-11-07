@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\DataTables\InvoiceDataTable;
+use App\DataTables\InvoiceTypeDataTable;
 use App\Http\Requests\Order\StoreRequest;
 use App\Http\Requests\Order\UpdateRequest;
 use App\Models\Customer;
@@ -27,7 +28,13 @@ class OrderController extends Controller
     {
         abort_if(Gate::denies('invoice_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
         $customers = Customer::all();
-        return $dataTable->render('admin.order.index',compact('customers'));
+        $type='all';
+        return $dataTable->render('admin.order.index',compact('customers','type'));
+    }
+
+    public function getTypeOrder(InvoiceTypeDataTable $dataTable,string $type){
+        $customers = Customer::all();
+        return $dataTable->render('admin.order.index',compact('customers','type'));
     }
 
     /**
@@ -93,10 +100,11 @@ class OrderController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(int $id)
     {
-        //
-
+        $order = Order::withTrashed()->with('orderProduct.product')->findOrFail($id);
+        $htmlView = view('admin.order.show', compact('order'))->render();
+        return response()->json(['success' => true, 'htmlView' => $htmlView]);
     }
 
     /**
@@ -214,15 +222,15 @@ class OrderController extends Controller
     }
 
 
-    public function printPDF(Request $request, $order)
+    public function printPDF(Request $request, $order,$type=null)
     {
         // Get the order data here (e.g., from the database).
-        $order = Order::with('orderProduct.product')->findOrFail($order);
+        $order = Order::withTrashed()->with('orderProduct.product')->findOrFail($order);
         $pdfFileName = 'invoice_' . $order->invoice_number . '.pdf';
-        $pdf = PDF::loadView('admin.order.pdf.invoice-pdf', compact('order'));
+        $pdf = PDF::loadView('admin.order.pdf.invoice-pdf', compact('order','type'));
         $pdf->setPaper('A4', 'portrait');
         return $pdf->stream($pdfFileName, ['Attachment' => false]);
-        //return view('admin.order.pdf.invoice-pdf', compact('order'));
+        //return view('admin.order.pdf.invoice-pdf', compact('order','type'));
     }
 
     public function shareEmail(Request $request, $order)
