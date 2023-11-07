@@ -27,17 +27,20 @@ class InvoiceDataTable extends DataTable
         ->eloquent($query)
             ->addIndexColumn()
             ->editColumn('invoice_number',function($order){
-                return $order->invoice_number ?? "";
+                $invoice_number= $order->invoice_number ?? "";
+                $invnum = '<a class="" href="'.route('orders.edit', $order->id).'" title="'.trans('quickadmin.qa_edit').'">'.$invoice_number.'</a>';
+
+                return $invnum;
             })
             ->editColumn('customer_name',function($order){
                 $customer = $order->customer;
                 return $customer ? $customer->name : '';
             })
-            ->editColumn('grand_total',function($order){
-                return $order->grand_total ?? "";
-            })
             ->editColumn('created_at', function ($order) {
                 return $order->created_at->format('d-M-Y');
+            })
+            ->editColumn('grand_total',function($order){
+                return $order->grand_total ?? "";
             })
             ->addColumn('action',function($order){
                 $action =view('admin.order.partials.actions',compact('order'))->render();
@@ -51,7 +54,7 @@ class InvoiceDataTable extends DataTable
                     $q->where('customers.name', 'like', "%$keyword%");
                 });
             })
-            ->rawColumns(['action']);
+            ->rawColumns(['action','invoice_number']);
     }
     /**
      * Get the query source of dataTable.
@@ -106,8 +109,8 @@ class InvoiceDataTable extends DataTable
                 Column::make('DT_RowIndex')->title(trans('quickadmin.qa_sn'))->orderable(false)->searchable(false),
                 Column::make('invoice_number')->title(trans('quickadmin.order.fields.invoice_number')),
                 Column::make('customer_name')->title(trans('quickadmin.order.fields.customer_name')),
-                Column::make('grand_total')->title(trans('quickadmin.order.fields.total_price')),
                 Column::make('created_at')->title(trans('quickadmin.order.fields.created_at')),
+                Column::make('grand_total')->title(trans('quickadmin.order.fields.total_price')),
                 Column::computed('action')
                 ->exportable(false)
                 ->printable(false)
