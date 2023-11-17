@@ -16,8 +16,12 @@ use Illuminate\Http\Request;
 
 class LoginController extends Controller
 {
-    public function login(Request $request){
+    public function __construct()
+    {
+        $this->middleware('checkDevice');
+    }
 
+    public function login(Request $request){
         //dd($request->all());
         $validator = Validator::make($request->all(), [
             'username'    => ['required','string',new IsActive],

@@ -14,6 +14,7 @@ return [
     'no_record_found' => 'No Records Found!',
     'error1'=>'An error occurred while saving the order.',
     'suspened'=> "Your account has been suspened!",
+    'device_error'=> 'Unauthorized Device',
 
 ];
 
