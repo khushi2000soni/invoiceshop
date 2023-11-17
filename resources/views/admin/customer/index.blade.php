@@ -1,6 +1,6 @@
 @inject('request', 'Illuminate\Http\Request')
 @extends('layouts.app')
-@section('title')@lang('quickadmin.customer-management.title')@endsection
+@section('title')@lang('quickadmin.customer-management.fields.list')@endsection
 @section('customCss')
 <meta name="csrf-token" content="{{ csrf_token() }}" >
 @endsection
@@ -45,9 +45,42 @@
 
 <script>
 $(document).ready(function () {
+
     var DataaTable = $('#dataaTable').DataTable();
 
+    DataaTable.({
+        'columnDefs': [
+            {
+                'targets': [-1], // Index of the "action" column (last column)
+                'visible': false, // Hide the column
+                'searchable': false, // Exclude from search
+            }
+        ]
+    });
     // Create Form
+    // $('#dataaTable').DataTable(
+    // {
+    //     dom: 'Bfrtip',
+    //     buttons:[
+    //         {
+    //             extend: 'excelHtml5',
+    //             text:'Export',
+    //             exportOptions:{
+    //                 columns:[1,2,3]
+    //             }
+    //         },
+    //         {
+    //             extend: 'print',
+    //             text:'Print',
+    //             exportOptions:{
+    //                 columns:[1,2,3]
+    //             }
+    //         },
+
+    //     ]
+
+    // });
+
 
     $(document).on('click','.addRecordBtn', function(){
        // $('#preloader').css('display', 'flex');

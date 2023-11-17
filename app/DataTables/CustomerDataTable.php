@@ -20,10 +20,11 @@ class CustomerDataTable extends DataTable
      *
      * @param QueryBuilder $query Results from query() method.
      */
-    public function dataTable(QueryBuilder $query)
-    {
-        return datatables()
-        ->eloquent($query)
+
+
+     public function dataTable(QueryBuilder $query): EloquentDataTable
+     {
+         return (new EloquentDataTable($query))
             ->addIndexColumn()
             ->editColumn('name',function($customer){
                 return $customer->name ?? "";
@@ -94,10 +95,11 @@ class CustomerDataTable extends DataTable
         ->orderBy(1)
         // ->selectStyleSingle()
         ->buttons([
-            // Button::make('excel'),
-            // Button::make('csv'),
-            // Button::make('pdf'),
-            // Button::make('print'),
+            Button::make('print', [
+                'exportOptions' => [
+                    'columns' => [0, 1, 2, 3, 4], // Exclude the action column (column index 5)
+                ],
+            ]),
         ]);
     }
 
@@ -110,16 +112,17 @@ class CustomerDataTable extends DataTable
             Column::make('DT_RowIndex')->title(trans('quickadmin.qa_sn'))->orderable(false)->searchable(false),
             Column::make('name')->title(trans('quickadmin.customers.fields.name')),
             Column::make('guardian_name')->title(trans('quickadmin.customers.fields.guardian_name')),
-            Column::make('phone')->title(trans('quickadmin.customers.fields.ph_num')),
+            Column::make('phone')->addClass('text-center')->title(trans('quickadmin.customers.fields.ph_num')),
             Column::make('address')->title(trans('quickadmin.customers.fields.address')),
             Column::make('created_at')->title(trans('quickadmin.customers.fields.created_at')),
             Column::computed('action')
             ->exportable(false)
             ->printable(false)
             ->width(60)
-            ->addClass('text-center')->title(trans('quickadmin.qa_action')),
+            ->addClass('text-left')->title(trans('quickadmin.qa_action')),
         ];
     }
+
 
     /**
      * Get the filename for export.

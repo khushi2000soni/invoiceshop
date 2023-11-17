@@ -3,6 +3,8 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\Auth\LoginController;
+use App\Http\Controllers\Api\Auth\LogoutController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,7 +21,15 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::controller(LoginController::class)->group(function(){
 
+    Route::post('login', 'login');
+    Route::post('forgot-password', 'forgotPassword');
+    Route::post('reset-password', 'resetPassword');
+
+    // Route::get('/email/verify/{id}/{hash}', 'verifyEmail');
+
+});
 
 
 
