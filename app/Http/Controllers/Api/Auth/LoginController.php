@@ -16,19 +16,12 @@ use Illuminate\Http\Request;
 
 class LoginController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('checkDevice');
-    }
 
     public function login(Request $request){
         //dd($request->all());
         $validator = Validator::make($request->all(), [
             'username'    => ['required','string',new IsActive],
             'password' => 'required|min:8',
-        ],[
-            'username.required' => 'The Username is required.',
-            'password.required' => 'The Password is required.',
         ]);
         if($validator->fails()){
             //Error Response Send
@@ -50,7 +43,7 @@ class LoginController extends Controller
 
 
             if(Auth::attempt($credentialsOnly, $remember_me)){
-                $user = User::find(Auth::id());
+                $user = Auth::user();
 
                 $accessToken = $user->createToken(config('auth.api_token_name'))->plainTextToken;
 
@@ -86,7 +79,6 @@ class LoginController extends Controller
         } catch (\Exception $e) {
             DB::rollBack();
             //dd($e->getMessage().'->'.$e->getLine());
-
             //Return Error Response
             $responseData = [
                 'status'        => false,
