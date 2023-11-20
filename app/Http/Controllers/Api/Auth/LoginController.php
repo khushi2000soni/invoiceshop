@@ -127,7 +127,7 @@ class LoginController extends Controller
             //Success Response Send
             $responseData = [
                 'status'        => true,
-                'otp_time_allow' => '2 Minutes',
+                'otp_time_allow' => config('auth.passwords.users.expire').' Minutes',
                 'otp' => $token,
                 'message'         => trans('messages.otp_sent_email'),
             ];
