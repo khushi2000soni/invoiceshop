@@ -18,7 +18,9 @@
                             {{ isset($device) ? $device->staff->name : trans('quickadmin.device.select_staff') }}
                         </option>
                         @foreach($staffs as $staff)
-                        <option value="{{ $staff->id }}">{{ $staff->name }}</option>
+                            @if(!isset($device) || $device->staff->id !== $staff->id)
+                            <option value="{{ $staff->id }}">{{ $staff->name }}</option>
+                            @endif
                         @endforeach
                     </select>
                 </div>

@@ -17,17 +17,24 @@ use App\Http\Controllers\Api\Auth\LogoutController;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+//     return $request->user();
+// });
+
 
 Route::group(['middleware' => 'checkDevice'], function () {
     Route::controller(LoginController::class)->group(function(){
         Route::post('login', 'login');
         Route::post('forgot-password', 'forgotPassword');
-        Route::post('reset-password', 'resetPassword');
-        // Route::get('/email/verify/{id}/{hash}', 'verifyEmail');
+        Route::post('password/verify-otp', 'verifyOtp');
+        Route::post('password/reset', 'resetPassword');
     });
+
+    Route::middleware(['auth:sanctum'])->group(function () {
+        Route::post('/logout', [LogoutController::class, 'logout']);
+    });
+    //Route::post('logout',[LogoutController::class,'logout']);
+
 });
 
 

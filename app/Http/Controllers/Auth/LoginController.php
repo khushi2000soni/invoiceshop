@@ -21,8 +21,6 @@ class LoginController extends Controller
     }
 
     public function login(Request $request){
-
-
         $validated = $request->validate([
             'username'    => ['required','string',new IsActive],
             'password' => 'required|min:8',

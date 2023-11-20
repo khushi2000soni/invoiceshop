@@ -47,9 +47,10 @@
                         <option value="{{ isset($customer) ? $customer->address->id : old('address_id') }}">
                             {{ isset($customer) ? $customer->address->address : trans('quickadmin.customers.select_address') }}
                         </option>
-
                         @foreach($addresses as $address)
-                        <option value="{{ $address->id }}">{{ $address->address }}</option>
+                            @if (!isset($customer) || $customer->address->id !== $address->id)
+                            <option value="{{ $address->id }}">{{ $address->address }}</option>
+                            @endif
                         @endforeach
                     </select>
                 </div>

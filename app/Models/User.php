@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Notifications\OtpSendNotification;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -40,6 +41,9 @@ class User extends Authenticatable implements MustVerifyEmail
         'remember_token',
         'is_active',
         'email_verified_at',
+        'otp',
+        'subject',
+        'expiretime',
     ];
 
     /**
@@ -90,4 +94,13 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(Device::class);
     }
 
+    public function sendPasswordResetOtpNotification($request, $user)
+    {
+        $this->notify(new OtpSendNotification($user));
+    }
+
+    public function routeNotificationForMail()
+    {
+        return $this->email;
+    }
 }

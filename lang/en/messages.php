@@ -15,7 +15,13 @@ return [
     'error1'=>'An error occurred while saving the order.',
     'suspened'=> "Your account has been suspened!",
     'device_error'=> 'Unauthorized Device',
-
+    'invalid_email'=>'Invalid Email',
+    'invalid_otp'=>'Invalid OTP',
+    'wrong_credentials'=>'These credentials do not match our records!',
+    'otp_sent_email'=>'We have successfully sent OTP on your Registered Email',
+    'expire_otp'=> 'OTP has been Expired',
+    'verified_otp'=> 'OTP successfully Verified.',
+    'invalid_token_email'=> 'Invalid Token or Email!',
 ];
 
 ?>

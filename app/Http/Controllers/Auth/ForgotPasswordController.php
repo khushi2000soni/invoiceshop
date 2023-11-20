@@ -28,8 +28,8 @@ class ForgotPasswordController extends Controller
                 $token = generateRandomString(64);
                 $email_id = $request->email;
 
-                $reset_password_url=route('reset-password',[$token,encrypt($email_id)]);
-
+                $reset_password_url=route('resetPassword',[$token,encrypt($email_id)]);
+                //dd($reset_password_url);
                 DB::table('password_resets')->insert([
                     'email' => $email_id,
                     'token' => $token,
@@ -55,7 +55,7 @@ class ForgotPasswordController extends Controller
         }catch(\Exception $e){
 
             DB::rollBack();
-         dd($e->getMessage().'->'.$e->getLine());
+         //dd($e->getMessage().'->'.$e->getLine());
             return redirect()->back()->with('error',trans('quickadmin.qa_reset_password_woops'))->withInput($request->only('email'));
         }
     }
