@@ -25,6 +25,7 @@ use App\Http\Controllers\Api\Auth\LogoutController;
 Route::group(['middleware' => 'checkDevice'], function () {
     Route::controller(LoginController::class)->group(function(){
         Route::post('login', 'login');
+        Route::post('/device/login', 'LoginWithPin');
         Route::post('forgot-password', 'forgotPassword');
         Route::post('password/verify-otp', 'verifyOtp');
         Route::post('password/reset', 'resetPassword');

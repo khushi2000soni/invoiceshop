@@ -43,11 +43,8 @@ class LoginController extends Controller
 
             if(Auth::attempt($credentialsOnly, $remember_me)){
                 $user = Auth::user();
-
                 $accessToken = $user->createToken(config('auth.api_token_name'))->plainTextToken;
-
                 DB::commit();
-
                 //Success Response Send
                 $responseData = [
                     'status'            => true,
@@ -85,6 +82,64 @@ class LoginController extends Controller
             ];
             return response()->json($responseData, 401);
         }
+    }
+
+    public function LoginWithPin(Request $request){
+
+        $validator = Validator::make($request->all(), [
+            'email' => ['required','email','exists:users'],
+            'pin'    => ['required','numeric','digits:4'],
+        ]);
+
+        if($validator->fails()){
+            $responseData = [
+                'status'        => false,
+                'validation_errors' => $validator->errors(),
+            ];
+            return response()->json($responseData, 401);
+        }
+
+        try{
+            $user = User::where('email', $request->email)
+            ->whereHas('device', function ($query) {
+                $query->where('deleted_at', null);
+            })->with('device')->first();
+            //dd($user,$user->device->pin);
+            if(!$user && $request->pin !== $user->device->pin){
+                $responseData = [
+                    'status'        => false,
+                    'error'         => trans('messages.wrong_credentials'),
+                ];
+                return response()->json($responseData, 401);
+            }
+            else{
+                $accessToken = $user->createToken(config('auth.api_token_name'))->plainTextToken;
+                $responseData = [
+                    'status'            => true,
+                    'message'           => 'You have logged in successfully!',
+                    'userData'          => [
+                        'id'           => $user->id,
+                        'name'   => $user->name ?? '',
+                        'username'    => $user->username ?? '',
+                        'email'    => $user->email ?? '',
+                        'phone'    => $user->phone ?? '',
+                        'address'    => $user->address->name ?? '',
+                        'profile_image'=> $user->profile_image_url ?? '',
+                    ],
+                    'access_token'      => $accessToken
+                ];
+                return response()->json($responseData, 200);
+            }
+        }catch (\Exception $e) {
+            //dd($e->getMessage().'->'.$e->getLine());
+            //Return Error Response
+            $responseData = [
+                'status'        => false,
+                'error'         => trans('messages.error_message'),
+            ];
+            return response()->json($responseData, 401);
+        }
+
     }
 
     public function forgotPassword(Request $request){

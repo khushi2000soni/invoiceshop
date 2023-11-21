@@ -27,7 +27,7 @@ class StoreRequest extends FormRequest
             'staff_id' => ['required','numeric','regex:/^[^\s]+$/','unique:devices,staff_id'],
             'device_id' => ['required','string','regex:/^[^\s]+$/','unique:devices,device_id'],
             'device_ip' => ['required','string','regex:/^[^\s]+$/','unique:devices,device_ip'],
-            'pin'=>['required','numeric','regex:/^[^\s]+$/','unique:devices,pin'],
+            'pin'=>['required','numeric','regex:/^[^\s]+$/','unique:devices,pin','digits:4'],
         ];
     }
 

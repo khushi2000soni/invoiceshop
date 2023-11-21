@@ -26,7 +26,7 @@ class UpdateRequest extends FormRequest
             'staff_id' => ['required','numeric','unique:devices,staff_id,'.$this->device->id],
             'device_id' => ['required','string','regex:/^[^\s]+$/','unique:devices,device_id,'.$this->device->id],
             'device_ip' => ['required','string','regex:/^[^\s]+$/','unique:devices,device_ip,'.$this->device->id],
-            'pin'=>['required','numeric','regex:/^[^\s]+$/','unique:devices,pin,'.$this->device->id],
+            'pin'=>['required','numeric','regex:/^[^\s]+$/','digits:4','unique:devices,pin,'.$this->device->id],
         ];
     }
 
