@@ -86,10 +86,7 @@ class LoginController extends Controller
 
     public function LoginWithPin(Request $request){
 
-        $validator = Validator::make($request->all(), [
-            'email' => ['required','email','exists:users'],
-            'pin'    => ['required','numeric','exists:devices','digits:4'],
-        ]);
+        $validator = Validator::make($request->all(), ['pin'    => ['required','numeric','exists:devices','digits:4']]);
 
         if($validator->fails()){
             $responseData = [
@@ -100,42 +97,40 @@ class LoginController extends Controller
         }
 
         try{
-            $user = User::where('email', $request->email)
-            ->whereHas('device', function ($query) {
-                $query->where('deleted_at', null);
-            })->with('device')->first();
-            //dd($request->pin,$user->device->pin);
-            if(!$user){
-                $responseData = [
-                    'status'        => false,
-                    'error'         => trans('messages.wrong_credentials'),
-                ];
-                return response()->json($responseData, 401);
-            }
-            elseif($request->pin !== $user->device->pin){
-                $responseData = [
-                    'status'        => false,
-                    'error'         => trans('messages.invalid_pin'),
-                ];
-                return response()->json($responseData, 401);
-            }
-            else{
-                $accessToken = $user->createToken(config('auth.api_token_name'))->plainTextToken;
-                $responseData = [
-                    'status'            => true,
-                    'message'           => 'You have logged in successfully!',
-                    'userData'          => [
-                        'id'           => $user->id,
-                        'name'   => $user->name ?? '',
-                        'username'    => $user->username ?? '',
-                        'email'    => $user->email ?? '',
-                        'phone'    => $user->phone ?? '',
-                        'address'    => $user->address->name ?? '',
-                        'profile_image'=> $user->profile_image_url ?? '',
-                    ],
-                    'access_token'      => $accessToken
-                ];
-                return response()->json($responseData, 200);
+
+            if (Auth::check()) {
+                $user = auth()->user();
+
+                if(!$user){
+                    $responseData = [
+                        'status'        => false,
+                        'error'         => trans('messages.wrong_credentials'),
+                    ];
+                    return response()->json($responseData, 401);
+                }
+                elseif($request->pin !== $user->device->pin){
+                    $responseData = [
+                        'status'        => false,
+                        'error'         => trans('messages.invalid_pin'),
+                    ];
+                    return response()->json($responseData, 401);
+                }
+                else{
+                    $responseData = [
+                        'status'            => true,
+                        'message'           => 'You have logged in successfully!',
+                        'userData'          => [
+                            'id'           => $user->id,
+                            'name'   => $user->name ?? '',
+                            'username'    => $user->username ?? '',
+                            'email'    => $user->email ?? '',
+                            'phone'    => $user->phone ?? '',
+                            'address'    => $user->address->name ?? '',
+                            'profile_image'=> $user->profile_image_url ?? '',
+                        ],
+                    ];
+                    return response()->json($responseData, 200);
+                }
             }
         }catch (\Exception $e) {
             //dd($e->getMessage().'->'.$e->getLine());

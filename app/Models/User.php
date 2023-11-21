@@ -91,7 +91,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function device()
     {
-        return $this->hasOne(Device::class,'staff_id');
+        return $this->hasOne(Device::class,'staff_id','id');
     }
 
     public function sendPasswordResetOtpNotification($request, $user)

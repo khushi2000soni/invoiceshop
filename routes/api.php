@@ -5,6 +5,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\Auth\LoginController;
 use App\Http\Controllers\Api\Auth\LogoutController;
+use App\Http\Controllers\Api\CustomerController;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,16 +26,22 @@ use App\Http\Controllers\Api\Auth\LogoutController;
 Route::group(['middleware' => 'checkDevice'], function () {
     Route::controller(LoginController::class)->group(function(){
         Route::post('login', 'login');
-        Route::post('/device/login', 'LoginWithPin');
         Route::post('forgot-password', 'forgotPassword');
         Route::post('password/verify-otp', 'verifyOtp');
         Route::post('password/reset', 'resetPassword');
     });
 
     Route::middleware(['auth:sanctum'])->group(function () {
+
+        Route::post('/device/login', [LoginController::class, 'LoginWithPin']);
         Route::post('/logout', [LogoutController::class, 'logout']);
+
+        Route::group(['prefix' => 'customers'], function () {
+            Route::get('/index', [CustomerController::class, 'PartyInvoiceList']);
+        });
+
     });
-    //Route::post('logout',[LogoutController::class,'logout']);
+
 
 });
 
