@@ -88,7 +88,7 @@ class LoginController extends Controller
 
         $validator = Validator::make($request->all(), [
             'email' => ['required','email','exists:users'],
-            'pin'    => ['required','numeric','digits:4'],
+            'pin'    => ['required','numeric','exists:devices','digits:4'],
         ]);
 
         if($validator->fails()){
@@ -104,11 +104,18 @@ class LoginController extends Controller
             ->whereHas('device', function ($query) {
                 $query->where('deleted_at', null);
             })->with('device')->first();
-            //dd($user,$user->device->pin);
-            if(!$user && $request->pin !== $user->device->pin){
+            //dd($request->pin,$user->device->pin);
+            if(!$user){
                 $responseData = [
                     'status'        => false,
                     'error'         => trans('messages.wrong_credentials'),
+                ];
+                return response()->json($responseData, 401);
+            }
+            elseif($request->pin !== $user->device->pin){
+                $responseData = [
+                    'status'        => false,
+                    'error'         => trans('messages.invalid_pin'),
                 ];
                 return response()->json($responseData, 401);
             }

@@ -17,6 +17,7 @@ return [
     'device_error'=> 'Unauthorized Device',
     'invalid_email'=>'Invalid Email',
     'invalid_otp'=>'Invalid OTP',
+    'invalid_pin'=>'Invalid PIN',
     'wrong_credentials'=>'These credentials do not match our records!',
     'otp_sent_email'=>'We have successfully sent OTP on your Registered Email',
     'expire_otp'=> 'OTP has been Expired',
