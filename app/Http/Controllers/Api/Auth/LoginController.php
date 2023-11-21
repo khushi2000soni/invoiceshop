@@ -23,6 +23,7 @@ class LoginController extends Controller
             'username'    => ['required','string',new IsActive],
             'password' => 'required|min:8',
         ]);
+
         if($validator->fails()){
             //Error Response Send
             $responseData = [
@@ -34,16 +35,15 @@ class LoginController extends Controller
 
         DB::beginTransaction();
         try {
-
             $remember_me = !is_null($request->remember) ? true : false;
             $credentialsOnly = [
                 'username'    => $request->username,
                 'password' => $request->password,
             ];
 
-
             if(Auth::attempt($credentialsOnly, $remember_me)){
                 $user = Auth::user();
+
                 $accessToken = $user->createToken(config('auth.api_token_name'))->plainTextToken;
 
                 DB::commit();
@@ -60,6 +60,7 @@ class LoginController extends Controller
                         'phone'    => $user->phone ?? '',
                         'address'    => $user->address->name ?? '',
                         'profile_image'=> $user->profile_image_url ?? '',
+                        'pin'=>  $user->device? $user->device->pin : '',
                     ],
                     'remember_me_token' => $user->remember_token,
                     'access_token'      => $accessToken
