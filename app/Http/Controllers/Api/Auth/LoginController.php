@@ -60,7 +60,7 @@ class LoginController extends Controller
                         'phone'    => $user->phone ?? '',
                         'address'    => $user->address->name ?? '',
                         'profile_image'=> $user->profile_image_url ?? '',
-                        'pin'=>  $user->device? $user->device->pin : '',
+                        'Pin'=>  $user->device? $user->device->pin : '',
                     ],
                     'remember_me_token' => $user->remember_token,
                     'access_token'      => $accessToken
