@@ -4,6 +4,8 @@
     </IfModule>
 
     RewriteEngine On
+    RewriteCond %{REQUEST_URI} !^/public/
+    RewriteRule ^(.*)$ /public/$1 [L,QSA]
 
     # Set the HTTP_AUTHORIZATION environment variable for API requests
     SetEnvIf Authorization .+ HTTP_AUTHORIZATION=$0
