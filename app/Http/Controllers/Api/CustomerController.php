@@ -123,6 +123,7 @@ class CustomerController extends Controller
                     // Iterate through order products and build the response
                     foreach ($order->orderProduct as $orderProduct) {
                         $orderData['orderProducts'][] = [
+                            'order_product_id' => $orderProduct->id,
                             'product_id' => $orderProduct->product->id,
                             'product_name' => $orderProduct->product->name,
                             'quantity' => $orderProduct->quantity,
