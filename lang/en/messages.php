@@ -24,6 +24,7 @@ return [
     'verified_otp'=> 'OTP successfully Verified.',
     'invalid_token_email'=> 'Invalid Token or Email!',
     'invalid_customer'=>'Customer Not found.',
+    'order_not_found'=>'Order Not found.',
 ];
 
 ?>

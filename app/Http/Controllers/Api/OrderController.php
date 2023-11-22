@@ -73,11 +73,43 @@ class OrderController extends Controller
                 'status'        => true,
                 'message' => "success",
             ];
-            return response()->json($responseData, 401);
+            return response()->json($responseData, 200);
 
         } catch (\Exception $e) {
            //dd($e->getMessage());
 
+            DB::rollBack();
+            $responseData = [
+                'status'        => false,
+                'error'         => trans('messages.error_message'),
+            ];
+            return response()->json($responseData, 500);
+        }
+    }
+
+    public function destroy(Order $order)
+    {
+        //dd($order);
+        if (!$order) {
+            $responseData = [
+                'status'        => false,
+                'error'         => trans('messages.order_not_found'),
+            ];
+            return response()->json($responseData, 404);
+        }
+
+        try {
+            DB::beginTransaction();
+            $order->delete();
+            DB::commit();
+
+            $responseData = [
+                'status'        => true,
+                'message' => "success",
+            ];
+            return response()->json($responseData, 200);
+
+        } catch (\Exception $e) {
             DB::rollBack();
             $responseData = [
                 'status'        => false,

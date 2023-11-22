@@ -47,6 +47,7 @@ Route::group(['middleware' => 'checkDevice'], function () {
 
         Route::group(['prefix' => 'orders'], function () {
             Route::post('/store', [OrderController::class, 'store']);
+            Route::delete('/{order}', [OrderController::class, 'destroy']);
         });
     });
 
