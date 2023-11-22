@@ -87,7 +87,7 @@ class OrderController extends Controller
             'message' => trans('messages.crud.add_record'),
             'alert-type'=> trans('quickadmin.alert-type.success')], 200);
 
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
            dd($e->getMessage());
 
             DB::rollBack();
@@ -200,7 +200,7 @@ class OrderController extends Controller
                 'message' => trans('messages.crud.update_record'),
                 'alert-type' => trans('quickadmin.alert-type.success')
             ], 200);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             dd($e->getMessage());
             DB::rollBack();
             return response()->json([

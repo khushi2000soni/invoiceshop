@@ -172,6 +172,14 @@ class CustomerController extends Controller
             'city_id'=>['required','numeric'],
         ]);
 
+        if($validator->fails()){
+            $responseData = [
+                'status'        => false,
+                'validation_errors' => $validator->errors(),
+            ];
+            return response()->json($responseData, 401);
+        }
+
         try{
             $input = $request->all();
             $input['name']=ucwords($request->name);
@@ -239,4 +247,6 @@ class CustomerController extends Controller
 
         return response()->json($responseData, 200);
     }
+
+
 }

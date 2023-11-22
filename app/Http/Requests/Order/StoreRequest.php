@@ -26,6 +26,7 @@ class StoreRequest extends FormRequest
             'thaila_price' => 'nullable|numeric',
             'is_round_off' => 'required|boolean',
             'round_off' => 'nullable|numeric',
+            'sub_total'=> 'required|numeric',
             'grand_total' => 'required|numeric',
             'products' => 'required|array',
             'products.*.product_id' => 'required|exists:products,id',

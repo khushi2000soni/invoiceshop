@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\Auth\LoginController;
 use App\Http\Controllers\Api\Auth\LogoutController;
 use App\Http\Controllers\Api\CustomerController;
+use App\Http\Controllers\Api\OrderController;
 
 /*
 |--------------------------------------------------------------------------
@@ -43,8 +44,11 @@ Route::group(['middleware' => 'checkDevice'], function () {
         });
         Route::get('/get-cities', [CustomerController::class, 'AllCities']);
         Route::get('/get-products', [CustomerController::class, 'AllProducts']);
-    });
 
+        Route::group(['prefix' => 'orders'], function () {
+            Route::post('/store', [OrderController::class, 'store']);
+        });
+    });
 
 });
 
