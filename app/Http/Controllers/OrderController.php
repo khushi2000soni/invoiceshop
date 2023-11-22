@@ -61,7 +61,7 @@ class OrderController extends Controller
                 'thaila_price' => (float)$request->thaila_price,
                 'is_round_off' => $request->is_round_off,
                 'sub_total' => (float)$request->sub_total,
-                'round_off' => $request->round_off_amount,
+                'round_off' => (float)$request->round_off_amount,
                 'grand_total' => (float)$request->grand_total,
                 'invoice_date' => Carbon::now(),
             ]);

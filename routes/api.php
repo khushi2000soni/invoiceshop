@@ -38,6 +38,7 @@ Route::group(['middleware' => 'checkDevice'], function () {
 
         Route::group(['prefix' => 'customers'], function () {
             Route::get('/index', [CustomerController::class, 'PartyInvoiceList']);
+            Route::get('/order-details', [CustomerController::class, 'PartyOrderDetail']);
         });
 
     });

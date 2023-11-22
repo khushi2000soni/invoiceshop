@@ -23,6 +23,7 @@ return [
     'expire_otp'=> 'OTP has been Expired',
     'verified_otp'=> 'OTP successfully Verified.',
     'invalid_token_email'=> 'Invalid Token or Email!',
+    'invalid_customer'=>'Customer Not found.',
 ];
 
 ?>
