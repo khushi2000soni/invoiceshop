@@ -3,13 +3,17 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Customer\CreateRequest;
+use App\Models\Address;
 use App\Models\Customer;
 use App\Models\Order;
+use App\Models\Product;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Validator;
 
 class CustomerController extends Controller
 {
@@ -155,5 +159,84 @@ class CustomerController extends Controller
             return response()->json($responseData, 401);
         }
 
+    }
+
+    public function store(Request $request){
+
+        $validator = Validator::make($request->all(),[
+            'name' => ['required','string','max:150', 'regex:/^[^\s]+$/'],
+            'guardian_name' => ['required','string','max:150','regex:/^[^\s]+$/'],
+            // 'email' => ['required','email','unique:customers,email'],
+            'phone' => ['required','digits:10','numeric','unique:customers,phone'],
+            'phone2' => ['nullable','digits:10','numeric','unique:customers,phone2'],
+            'city_id'=>['required','numeric'],
+        ]);
+
+        try{
+            $input = $request->all();
+            $input['name']=ucwords($request->name);
+            $input['address_id']=ucwords($request->city_id);
+            $input['guardian_name']=ucwords($request->guardian_name);
+            $customer=Customer::create($input);
+            $responseData = [
+                'status'            => true,
+                'message'           => 'success',
+                'userData'          => [
+                    'customer_id'        => $customer->id ?? '',
+                    'customer_name'   => $customer->name ?? '',
+                    'customer_email'   => $customer->email ?? '',
+                    'customer_phone1'   => $customer->phone ?? '',
+                    'customer_phone2'   => $customer->phone2 ?? '',
+                    'customer_address'   => $customer->address->address ?? '',
+                ],
+            ];
+            return response()->json($responseData, 200);
+        }catch (\Exception $e) {
+            //dd($e->getMessage().'->'.$e->getLine());
+            //Return Error Response
+            $responseData = [
+                'status'        => false,
+                'error'         => trans('messages.error_message'),
+            ];
+            return response()->json($responseData, 401);
+        }
+    }
+
+    public function AllCities(){
+        $allcities = Address::orderBy('id','desc')->get();
+
+        $responseData = [
+            'status'    => true,
+            'message'   => 'success',
+            'cityData'  => [],
+        ];
+        foreach ($allcities as $city) {
+            $responseData['cityData'][] = [
+                'city_id'           => $city->id ?? '',
+                'city_name'     => $city->address ?? '',
+            ];
+        }
+
+        return response()->json($responseData, 200);
+    }
+
+    public function AllProducts(){
+        $allproducts = Product::with('category')->orderBy('id','desc')->get();
+
+        $responseData = [
+            'status'    => true,
+            'message'   => 'success',
+            'productData'  => [],
+        ];
+        foreach ($allproducts as $product) {
+            $responseData['productData'][] = [
+                'product_id'           => $product->id ?? '',
+                'product_name'     => $product->name ?? '',
+                'category_id'      => $product->category_id ?? '',
+                'category_name'      => $product->category_id ? $product->category->name : '',
+            ];
+        }
+
+        return response()->json($responseData, 200);
     }
 }

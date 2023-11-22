@@ -48,7 +48,7 @@ class CreateRequest extends FormRequest
             'phone.digits' => 'The Phone number must be 10 digits.',
             'phone.numeric' => 'The Phone number must be a number.',
             'phone.unique' => 'The Phone number has already been taken.',
-            'address_id.required'=> 'The Address is required.',
+            'address_id.required'=> 'The City is required.',
         ];
     }
 }
