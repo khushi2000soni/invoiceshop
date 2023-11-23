@@ -19,6 +19,7 @@ class Order extends Model
         'thaila_price',
         'is_round_off',
         'round_off',
+        'sub_total',
         'grand_total',
         'invoice_number',
         'invoice_date',
