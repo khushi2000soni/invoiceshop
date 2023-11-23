@@ -87,6 +87,85 @@ class OrderController extends Controller
         }
     }
 
+    public function update(Request $request, Order $order)
+    {
+       //dd($request->all());
+       $validator = Validator::make($request->all(),[
+        'customer_id' => ['required','integer'],
+        'thaila_price' => ['nullable','numeric'],
+        'is_round_off' => ['required','boolean'],
+        'round_off_amount' => ['nullable','numeric'],
+        'sub_total'=> ['required','numeric'],
+        'grand_total' => ['required','numeric'],
+        'products' => ['required','array'],
+        // 'products.*.order_product_id' => ['required','exists:order_products,id'],
+        'products.*.product_id' => ['required','exists:products,id'],
+        'products.*.quantity' => ['required','integer','min:1'],
+        'products.*.price' => ['required','numeric'],
+        'products.*.total_price' => ['required','numeric'],
+        ]);
+
+        if($validator->fails()){
+            $responseData = [
+                'status'        => false,
+                'validation_errors' => $validator->errors(),
+            ];
+            return response()->json($responseData, 401);
+        }
+
+        try {
+            DB::beginTransaction();
+            $order->update([
+                'customer_id' => (int)$request->customer_id,
+                'thaila_price' => (float)$request->thaila_price,
+                'is_round_off' => $request->is_round_off,
+                'sub_total' => (float)$request->sub_total,
+                'round_off' => (float)$request->round_off_amount,
+                'grand_total' => (float)$request->grand_total,
+            ]);
+
+            $existingOrderProductIds = $order->orderProduct->pluck('id')->toArray();
+            $updatedOrderProductIds = collect($request->products)->pluck('id')->toArray();
+            $deletedOrderProductIds = array_diff($existingOrderProductIds, $updatedOrderProductIds); // it will return the ids from 1st array that is not present the 2nd array
+
+            //dd($existingOrderProductIds , $updatedOrderProductIds, $deletedOrderProductIds);
+
+            OrderProduct::whereIn('id', $deletedOrderProductIds)->delete();   // Delete existing order products that are not in the updated list
+
+            // Update or create order products
+            foreach ($request->products as $productData) {
+                $productId = $productData['id'] ?? null;
+                OrderProduct::updateOrCreate(
+                    ['id' => $productId],
+                    [
+                        'order_id' => $order->id,
+                        'product_id' => $productData['product_id'],
+                        'quantity' => $productData['quantity'],
+                        'price' => $productData['price'],
+                        'total_price' => $productData['total_price'],
+                    ]
+                );
+            }
+
+            DB::commit();
+
+            $responseData = [
+                'status'        => true,
+                'message' => "success",
+            ];
+            return response()->json($responseData, 200);
+
+        } catch (\Exception $e) {
+            //dd($e->getMessage());
+            DB::rollBack();
+            $responseData = [
+                'status'        => false,
+                'error'         => trans('messages.error_message'),
+            ];
+            return response()->json($responseData, 500);
+        }
+    }
+
     public function destroy(Order $order)
     {
         //dd($order);

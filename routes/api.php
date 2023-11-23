@@ -39,6 +39,7 @@ Route::group(['middleware' => 'checkDevice'], function () {
 
         Route::group(['prefix' => 'customers'], function () {
             Route::get('/index', [CustomerController::class, 'PartyInvoiceList']);
+            Route::get('/party-list', [CustomerController::class, 'AllCustomerList']);
             Route::post('/store', [CustomerController::class, 'store']);
             Route::get('/order-details', [CustomerController::class, 'PartyOrderDetail']);
         });
@@ -48,6 +49,7 @@ Route::group(['middleware' => 'checkDevice'], function () {
         Route::group(['prefix' => 'orders'], function () {
             Route::post('/store', [OrderController::class, 'store']);
             Route::delete('/{order}', [OrderController::class, 'destroy']);
+            Route::put('/{order}', [OrderController::class, 'update']);
         });
     });
 

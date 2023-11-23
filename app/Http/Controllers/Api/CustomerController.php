@@ -210,6 +210,24 @@ class CustomerController extends Controller
         }
     }
 
+    public function AllCustomerList(){
+        $allcustomers = Customer::orderBy('id','desc')->get();
+
+        $responseData = [
+            'status'    => true,
+            'message'   => 'success',
+            'customerData'  => [],
+        ];
+        foreach ($allcustomers as $customer) {
+            $responseData['customerData'][] = [
+                'customer_id'           => $customer->id ?? '',
+                'customer_name'     => $customer->name ?? '',
+            ];
+        }
+
+        return response()->json($responseData, 200);
+    }
+
     public function AllCities(){
         $allcities = Address::orderBy('id','desc')->get();
 
