@@ -57,6 +57,10 @@ class PhoneBookDataTable extends DataTable
      */
     public function query(Customer $model): QueryBuilder
     {
+        if(isset(request()->address_id) && request()->address_id){
+            $model = $model->where('address_id', request()->address_id);
+        }
+
         return $model->newQuery()->with('address');
     }
 

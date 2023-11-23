@@ -75,6 +75,10 @@ class CustomerDataTable extends DataTable
      */
     public function query(Customer $model): QueryBuilder
     {
+        if(isset(request()->address_id) && request()->address_id){
+            $model = $model->where('address_id', request()->address_id);
+        }
+
         return $model->newQuery()->with('address');
     }
 
@@ -95,11 +99,7 @@ class CustomerDataTable extends DataTable
         ->orderBy(1)
         // ->selectStyleSingle()
         ->buttons([
-            Button::make('print', [
-                'exportOptions' => [
-                    'columns' => [0, 1, 2, 3, 4], // Exclude the action column (column index 5)
-                ],
-            ]),
+           Button::make('print'),
         ]);
     }
 

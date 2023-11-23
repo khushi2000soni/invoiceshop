@@ -162,8 +162,10 @@ return [
 			'credit_limit'  => 'Credit Limit',
 			'phone_number' 	=> 'Phone Number',
 			'opening_blance'=> 'Opening Blance',
-            'add' 	=> 'Add New',
+            'add' 	=> 'Add Party',
             'edit' => 'Edit Party',
+            'select_address' => 'Select City',
+
 		],
 	],
 

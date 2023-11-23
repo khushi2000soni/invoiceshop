@@ -22,7 +22,8 @@ class CustomerController extends Controller
     {
         //
         abort_if(Gate::denies('customer_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-        return $dataTable->render('admin.customer.index');
+        $addresses = Address::orderBy('id','desc')->get();
+        return $dataTable->render('admin.customer.index',compact('addresses'));
     }
 
     /**
@@ -97,7 +98,7 @@ class CustomerController extends Controller
 
 
     public function showPhoneBook(PhoneBookDataTable $dataTable){
-
-        return $dataTable->render('admin.customer.phone-book');
+        $addresses = Address::orderBy('id','desc')->get();
+        return $dataTable->render('admin.customer.phone-book',compact('addresses'));
     }
 }
