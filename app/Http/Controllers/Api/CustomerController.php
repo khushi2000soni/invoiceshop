@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Customer\CreateRequest;
 use App\Models\Address;
+use App\Models\Category;
 use App\Models\Customer;
 use App\Models\Order;
 use App\Models\Product;
@@ -246,25 +247,7 @@ class CustomerController extends Controller
         return response()->json($responseData, 200);
     }
 
-    public function AllProducts(){
-        $allproducts = Product::with('category')->orderBy('id','desc')->get();
 
-        $responseData = [
-            'status'    => true,
-            'message'   => 'success',
-            'productData'  => [],
-        ];
-        foreach ($allproducts as $product) {
-            $responseData['productData'][] = [
-                'product_id'           => $product->id ?? '',
-                'product_name'     => $product->name ?? '',
-                'category_id'      => $product->category_id ?? '',
-                'category_name'      => $product->category_id ? $product->category->name : '',
-            ];
-        }
-
-        return response()->json($responseData, 200);
-    }
 
 
 }

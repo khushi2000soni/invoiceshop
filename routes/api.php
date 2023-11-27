@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\Auth\LoginController;
 use App\Http\Controllers\Api\Auth\LogoutController;
 use App\Http\Controllers\Api\CustomerController;
 use App\Http\Controllers\Api\OrderController;
+use App\Http\Controllers\Api\ProductController;
 
 /*
 |--------------------------------------------------------------------------
@@ -44,13 +45,16 @@ Route::group(['middleware' => 'checkDevice'], function () {
             Route::get('/order-details', [CustomerController::class, 'PartyOrderDetail']);
         });
         Route::get('/get-cities', [CustomerController::class, 'AllCities']);
-        Route::get('/get-products', [CustomerController::class, 'AllProducts']);
 
         Route::group(['prefix' => 'orders'], function () {
             Route::post('/store', [OrderController::class, 'store']);
             Route::delete('/{order}', [OrderController::class, 'destroy']);
             Route::put('/{order}', [OrderController::class, 'update']);
         });
+
+        Route::post('products/store', [ProductController::class, 'store']);
+        Route::get('/get-products', [ProductController::class, 'AllProducts']);
+        Route::get('/get-categories', [ProductController::class, 'AllCategories']);
     });
 
 });
