@@ -229,25 +229,5 @@ class CustomerController extends Controller
         return response()->json($responseData, 200);
     }
 
-    public function AllCities(){
-        $allcities = Address::orderBy('id','desc')->get();
-
-        $responseData = [
-            'status'    => true,
-            'message'   => 'success',
-            'cityData'  => [],
-        ];
-        foreach ($allcities as $city) {
-            $responseData['cityData'][] = [
-                'city_id'           => $city->id ?? '',
-                'city_name'     => $city->address ?? '',
-            ];
-        }
-
-        return response()->json($responseData, 200);
-    }
-
-
-
 
 }

@@ -1,6 +1,6 @@
 <?php
 
-
+use App\Http\Controllers\Api\AddressController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\Auth\LoginController;
@@ -44,7 +44,6 @@ Route::group(['middleware' => 'checkDevice'], function () {
             Route::post('/store', [CustomerController::class, 'store']);
             Route::get('/order-details', [CustomerController::class, 'PartyOrderDetail']);
         });
-        Route::get('/get-cities', [CustomerController::class, 'AllCities']);
 
         Route::group(['prefix' => 'orders'], function () {
             Route::post('/store', [OrderController::class, 'store']);
@@ -55,6 +54,9 @@ Route::group(['middleware' => 'checkDevice'], function () {
         Route::post('products/store', [ProductController::class, 'store']);
         Route::get('/get-products', [ProductController::class, 'AllProducts']);
         Route::get('/get-categories', [ProductController::class, 'AllCategories']);
+
+        Route::get('/get-cities', [AddressController::class, 'AllCities']);
+        Route::post('address/store', [AddressController::class, 'store']);
     });
 
 });
