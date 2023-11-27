@@ -39,7 +39,8 @@ Route::group(['middleware' => 'checkDevice'], function () {
         Route::post('/logout', [LogoutController::class, 'logout']);
 
         Route::group(['prefix' => 'customers'], function () {
-            Route::get('/index', [CustomerController::class, 'PartyInvoiceList']);
+            Route::get('/index', [CustomerController::class, 'PartyAllInvoiceList']);
+           // Route::get('/index', [CustomerController::class, 'PartyInvoiceList']);     // Old List With Recent Party Invoice
             Route::get('/party-list', [CustomerController::class, 'AllCustomerList']);
             Route::post('/store', [CustomerController::class, 'store']);
             Route::get('/order-details', [CustomerController::class, 'PartyOrderDetail']);

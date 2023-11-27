@@ -18,6 +18,78 @@ use Illuminate\Support\Facades\Validator;
 
 class CustomerController extends Controller
 {
+    public function PartyAllInvoiceList(){
+
+        //$user= auth()->user();
+        //$guardName = auth()->user()->guard_name;
+        //$user = auth()->guard('sanctum')->user();
+        //dd($user);
+        // if (!$user->hasPermissionTo('customer_access')) {
+        //     abort(403, 'Forbidden');
+        // }
+        // $permissions = $user->getAllPermissions();
+        // dd($permissions);
+        //abort_if(Gate::denies('customer_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        try{
+            $today = Carbon::today();
+            $orders = Order::with('customer.address')->whereDate('created_at', $today)->get();
+            //dd($orders);
+            if($orders){
+                $responseData = [
+                    'status'    => true,
+                    'message'   => 'success',
+                    'userData'  => [],
+                ];
+
+                $groupedOrders = $orders->groupBy('customer_id');
+
+                foreach ($groupedOrders as $customerId => $customerOrders) {
+                    $customer = $customerOrders->first()->customer;
+
+                    $customerData = [
+                        'customer_id' => $customer->id,
+                        'no_of_invoice' => $customerOrders->count(),
+                        'invoices_total' => number_format($customerOrders->sum('grand_total'), 2),
+                        'customer_name' => $customer->name,
+                        'customer_email' => $customer->email,
+                        'customer_phone1' => $customer->phone1,
+                        'customer_phone2' => $customer->phone2,
+                        'customer_address' => $customer->address->address, // Adjust this based on your actual structure
+                        'invoiceData' => $customerOrders->map(function ($order) {
+                            return [
+                                'order_id' => $order->id,
+                                'invoice_number' => $order->invoice_number, // Adjust this based on your actual attribute
+                                'grand_total' => number_format($order->grand_total, 2),
+                                'invoice_date' => $order->created_at->toDateString(), // Adjust this based on your actual attribute
+                            ];
+                        }),
+                    ];
+
+                    $responseData['userData'][] = $customerData;
+                }
+
+
+                return response()->json($responseData, 200);
+            }
+
+            $responseData = [
+                'status'            => true,
+                'message'           => 'No Record for Today!',
+            ];
+            return response()->json($responseData, 200);
+
+        }catch (\Exception $e) {
+            dd($e->getMessage().'->'.$e->getLine());
+            //Return Error Response
+            $responseData = [
+                'status'        => false,
+                'error'         => trans('messages.error_message'),
+            ];
+            return response()->json($responseData, 401);
+        }
+
+    }
+
     public function PartyInvoiceList(){
 
         //$user= auth()->user();
