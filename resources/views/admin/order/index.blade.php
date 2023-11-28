@@ -4,6 +4,7 @@
 @section('customCss')
 <meta name="csrf-token" content="{{ csrf_token() }}" >
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<link rel="stylesheet" href="{{ asset('admintheme/assets/css/printView-datatable.css')}}">
 <style>
     .dropdown-toggle::after {
     display: none;

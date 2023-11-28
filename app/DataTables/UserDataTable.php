@@ -96,6 +96,7 @@ class UserDataTable extends DataTable
         ->parameters([
             'responsive' => true,
             'pageLength' => 70,
+            'lengthMenu' => [[10, 25, 50, 70, 100, -1], [10, 25, 50, 70, 100, 'All']],
         ])
         ->columns($this->getColumns())
         ->minifiedAjax()
@@ -103,8 +104,8 @@ class UserDataTable extends DataTable
         ->orderBy(1)
         // ->selectStyleSingle()
         ->buttons([
-            Button::make('excel')->exportOptions(['columns' => [0, 1, 2, 3, 4, 5]]),
-            Button::make('print')->exportOptions(['columns' => [0, 1, 2, 3, 4, 5]]),
+            Button::make('excel')->exportOptions(['columns' => [0, 1, 2, 3, 4, 5,6]]),
+            Button::make('print')->exportOptions(['columns' => [0, 1, 2, 3, 4, 5,6]]),
             // Button::make('csv'),
             // Button::make('pdf'),
         ]);

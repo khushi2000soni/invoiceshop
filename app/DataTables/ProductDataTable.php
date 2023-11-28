@@ -76,6 +76,7 @@ class ProductDataTable extends DataTable
         ->parameters([
             'responsive' => true,
             'pageLength' => 70,
+            'lengthMenu' => [[10, 25, 50, 70, 100, -1], [10, 25, 50, 70, 100, 'All']],
         ])
         ->columns($this->getColumns())
         ->minifiedAjax()
@@ -83,6 +84,8 @@ class ProductDataTable extends DataTable
         ->orderBy(1)
         // ->selectStyleSingle()
         ->buttons([
+            Button::make('excel')->exportOptions(['columns' => [0, 1, 2, 3]]),
+            Button::make('print')->exportOptions(['columns' => [0, 1, 2, 3]]),
             // Button::make('excel'),
             // Button::make('csv'),
             // Button::make('pdf'),

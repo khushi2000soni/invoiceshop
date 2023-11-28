@@ -3,6 +3,7 @@
 @section('title')@lang('quickadmin.product-management.title')@endsection
 @section('customCss')
 <meta name="csrf-token" content="{{ csrf_token() }}" >
+<link rel="stylesheet" href="{{ asset('admintheme/assets/css/printView-datatable.css')}}">
 <style>
     .dropdown-toggle::after {
     display: none;

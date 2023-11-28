@@ -3,6 +3,7 @@
 @section('title')@lang('quickadmin.device-management.title')@endsection
 @section('customCss')
 <meta name="csrf-token" content="{{ csrf_token() }}" >
+<link rel="stylesheet" href="{{ asset('admintheme/assets/css/printView-datatable.css')}}">
 @endsection
 
 @section('main-content')

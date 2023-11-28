@@ -85,25 +85,45 @@ class CustomerDataTable extends DataTable
     /**
      * Optional method if you want to use the html builder.
      */
+    // public function html(): HtmlBuilder
+    // {
+    //     return $this->builder()
+    //     ->setTableId('customers-table')
+    //     ->parameters([
+    //         'responsive' => true,
+    //         'pageLength' => 70,
+    //         'lengthMenu' => [[10, 25, 50, 70, 100, -1], [10, 25, 50, 70, 100, 'All']],
+    //     ])
+    //     ->columns($this->getColumns())
+    //     ->minifiedAjax()
+    //     ->dom('lBfrtip')
+    //     ->orderBy(1)
+    //     ->selectStyleSingle()
+    //     ->buttons([
+    //         Button::make('excel')->exportOptions(['columns' => [0, 1, 2, 3, 4, 5]]),
+    //         Button::make('print')->exportOptions(['columns' => [0, 1, 2, 3, 4, 5]]),
+    //     ]);
+    // }
+
     public function html(): HtmlBuilder
     {
         return $this->builder()
-        ->setTableId('customers-table')
-        ->parameters([
-            'responsive' => true,
-            'pageLength' => 70,
-        ])
-        ->columns($this->getColumns())
-        ->minifiedAjax()
-        ->dom('lBfrtip')
-        ->orderBy(1)
-        ->selectStyleSingle()
-        ->buttons([
-            Button::make('excel')->exportOptions(['columns' => [0, 1, 2, 3, 4, 5]]),
-            // Button::make('print')->exportOptions(['columns' => [0, 1, 2, 3, 4, 5]]),
-        ]);
+            ->setTableId('customers-table')
+            ->parameters([
+                'responsive' => true,
+                'pageLength' => 70,
+                'lengthMenu' => [[10, 25, 50, 70, 100, -1], [10, 25, 50, 70, 100, 'All']],
+            ])
+            ->columns($this->getColumns())
+            ->minifiedAjax()
+            ->dom('lBfrtip')
+            ->orderBy(1)
+            ->selectStyleSingle()
+            ->buttons([
+                Button::make('excel')->exportOptions(['columns' => [0, 1, 2, 3, 4, 5]]),
+                Button::make('print')->exportOptions(['columns' => [0, 1, 2, 3, 4, 5]]),
+            ]);
     }
-
 
     /**
      * Get the dataTable columns definition.

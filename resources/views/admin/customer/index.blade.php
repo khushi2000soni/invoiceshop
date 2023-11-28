@@ -26,6 +26,7 @@
                   <button type="button" class="btn btn-outline-dark addRecordBtn" data-toggle="modal" data-target="#centerModal" data-href="{{ route('customers.create')}}"><i class="fas fa-plus"></i> @lang('quickadmin.roles.fields.add')</button>
                   @endcan
                 </div> --}}
+
                 <div class="card-body">
                     <form id="citiwise-filter-form">
                         <div class="row align-items-end">
@@ -49,6 +50,7 @@
                                     @can('customer_create')
                                     <button type="button" class="btn btn-outline-dark addRecordBtn" data-toggle="modal" data-target="#centerModal" data-href="{{ route('customers.create')}}"><i class="fas fa-plus"></i> @lang('quickadmin.customers.fields.add')</button>
                                     @endcan
+                                    {{-- <button class="btn btn-primary mr-1 col"  id="print-button">Print</button> --}}
                                 </div>
                             </div>
                         </div>
@@ -78,7 +80,6 @@
 
 <script>
 $(document).ready(function () {
-
     var DataaTable = $('#dataaTable').DataTable();
 
     $(document).on('click','.addRecordBtn', function(){
