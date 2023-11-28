@@ -3,19 +3,19 @@
 @section('title')@lang('quickadmin.customer-management.fields.list')@endsection
 @section('customCss')
 <meta name="csrf-token" content="{{ csrf_token() }}" >
+<link rel="stylesheet" href="{{ asset('admintheme/assets/css/printView-datatable.css')}}">
 <style>
-    @media print {
-    th:last-of-type {
-        display: none;
-    }
-    }
+    /* @media print {
+        table, table tr, table td {
+            border: 1px solid #3d3c3c;
+        }
+    } */
 </style>
 @endsection
 
 @section('main-content')
 
 <section class="section roles" style="z-index: unset">
-
     <div class="section-body">
           <div class="row">
             <div class="col-12">
@@ -78,12 +78,6 @@
 
 <script>
 $(document).ready(function () {
-
-    //$('#your-datatable').find('th:last-child, td:last-child').hide();
-    // $(document).on('click', '.buttons-print', function(){
-    //     $('#dataaTable').find('th:last-child, td:last-child').hide();
-    // });
-
 
     var DataaTable = $('#dataaTable').DataTable();
 

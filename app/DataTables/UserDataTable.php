@@ -103,10 +103,10 @@ class UserDataTable extends DataTable
         ->orderBy(1)
         // ->selectStyleSingle()
         ->buttons([
-            // Button::make('excel'),
+            Button::make('excel')->exportOptions(['columns' => [0, 1, 2, 3, 4, 5]]),
+            Button::make('print')->exportOptions(['columns' => [0, 1, 2, 3, 4, 5]]),
             // Button::make('csv'),
             // Button::make('pdf'),
-            // Button::make('print'),
         ]);
     }
 
