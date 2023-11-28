@@ -33,8 +33,8 @@ class CustomerController extends Controller
         try{
             $today = Carbon::today();
             $orders = Order::with('customer.address')->whereDate('created_at', $today)->get();
-            //dd($orders);
-            if($orders){
+
+            if($orders->isNotEmpty()){
                 $responseData = [
                     'status'    => true,
                     'message'   => 'success',
@@ -44,23 +44,24 @@ class CustomerController extends Controller
                 $groupedOrders = $orders->groupBy('customer_id');
 
                 foreach ($groupedOrders as $customerId => $customerOrders) {
-                    $customer = $customerOrders->first()->customer;
 
+                    $customer = $customerOrders->first()->customer;
+                    //dd($customerOrders);
                     $customerData = [
-                        'customer_id' => $customer->id,
+                        'customer_id' => $customer->id ?? '',
                         'no_of_invoice' => $customerOrders->count(),
                         'invoices_total' => number_format($customerOrders->sum('grand_total'), 2),
-                        'customer_name' => $customer->name,
-                        'customer_email' => $customer->email,
-                        'customer_phone1' => $customer->phone1,
-                        'customer_phone2' => $customer->phone2,
-                        'customer_address' => $customer->address->address, // Adjust this based on your actual structure
+                        'customer_name' => $customer->name ?? '',
+                        'customer_email' => $customer->email ?? '',
+                        'customer_phone1' => $customer->phone ?? '',
+                        'customer_phone2' => $customer->phone2 ?? '',
+                        'customer_address' => $customer->address? $customer->address->address : '',
                         'invoiceData' => $customerOrders->map(function ($order) {
                             return [
                                 'order_id' => $order->id,
-                                'invoice_number' => $order->invoice_number, // Adjust this based on your actual attribute
+                                'invoice_number' => $order->invoice_number,
                                 'grand_total' => number_format($order->grand_total, 2),
-                                'invoice_date' => $order->created_at->toDateString(), // Adjust this based on your actual attribute
+                                'invoice_date' => $order->created_at->toDateString(),
                             ];
                         }),
                     ];
@@ -79,7 +80,7 @@ class CustomerController extends Controller
             return response()->json($responseData, 200);
 
         }catch (\Exception $e) {
-            dd($e->getMessage().'->'.$e->getLine());
+            //dd($e->getMessage().'->'.$e->getLine());
             //Return Error Response
             $responseData = [
                 'status'        => false,
