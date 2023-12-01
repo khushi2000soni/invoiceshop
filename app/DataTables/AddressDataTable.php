@@ -3,6 +3,7 @@
 namespace App\DataTables;
 
 use App\Models\Address;
+use App\Models\Customer;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Illuminate\Support\Facades\Gate;
 use Yajra\DataTables\EloquentDataTable;
@@ -25,8 +26,18 @@ class AddressDataTable extends DataTable
         return datatables()
         ->eloquent($query)
             ->addIndexColumn()
-            ->editColumn('address',function($address){
-                return $address->address ?? "";
+            ->editColumn('address', function ($address) {
+                $customerCount = $address->customers->count();
+                if ($customerCount > 0) {
+                    // If customers exist, use accordion functionality
+                    return '<button class="btn btn-link toggle-accordion" type="button" title="' . $customerCount . ' '. trans('quickadmin.qa_record_found').'" data-address-id="' . $address->id . '" data-target="#customers_' . $address->id . '">' . $address->address . '</button>';
+                } else {
+                    // If no customers, display a simple button with title
+                    return '<button class="btn" type="button" title="'.trans('quickadmin.qa_no_record').'">' . $address->address . '</button>';
+                }
+            })
+            ->editColumn('no_of_customer', function ($address) {
+                return $address->customers->count() ?? 0;
             })
             ->editColumn('created_at', function ($address) {
                 return $address->created_at->format('d-M-Y H:i A');
@@ -34,7 +45,7 @@ class AddressDataTable extends DataTable
             ->addColumn('action',function($address){
                 $action='';
                 if (Gate::check('address_edit')) {
-                $action .= '<button type="button" class="btn edit-address-btn" data-toggle="modal" data-target="#editAddressModal" data-id="'.encrypt($address->id).'" data-address="'. $address->address .'"><i class="fas fa-edit"></i></button>';
+                $action .= '<button type="button" class="btn edit-address-btn" data-toggle="modal" data-target="#editAddressModal" data-id="'.encrypt($address->id).'" data-address="'. $address->address .'" data-href="'.route('address.edit', $address->id).'"><i class="fas fa-edit"></i></button>';
             }
                 if (Gate::check('address_delete')) {
                 $action .= '<form action="'.route('address.destroy', $address->id).'" method="POST" class="deleteAddressForm m-1" id="deleteAddressForm">
@@ -47,14 +58,19 @@ class AddressDataTable extends DataTable
             ->filterColumn('created_at', function ($query, $keyword) {
                 $query->whereRaw("DATE_FORMAT(address.created_at,'%d-%M-%Y') like ?", ["%$keyword%"]); //date_format when searching using date
             })
-            ->rawColumns(['action']);
+            ->rawColumns(['action','address', 'customersTable']);
     }
+
 
     /**
      * Get the query source of dataTable.
      */
     public function query(Address $model): QueryBuilder
     {
+        if(isset(request()->address_id) && request()->address_id){
+            $model = $model->where('id', request()->address_id);
+        }
+
         return $model->newQuery();
     }
 
@@ -76,8 +92,8 @@ class AddressDataTable extends DataTable
         ->orderBy(1)
         // ->selectStyleSingle()
         ->buttons([
-            Button::make('excel')->exportOptions(['columns' => [0, 1, 2]]),
-            Button::make('print')->exportOptions(['columns' => [0, 1, 2]]),
+            Button::make('excel')->exportOptions(['columns' => [0, 1, 2,3]]),
+            Button::make('print')->exportOptions(['columns' => [0, 1, 2,3]]),
             // Button::make('excel'),
             // Button::make('csv'),
             // Button::make('pdf'),
@@ -94,6 +110,7 @@ class AddressDataTable extends DataTable
 
             Column::make('DT_RowIndex')->title(trans('quickadmin.qa_sn'))->orderable(false)->searchable(false),
             Column::make('address')->title(trans('quickadmin.address.fields.list.address')),
+            Column::make('no_of_customer')->title(trans('quickadmin.address.fields.list.no_of_customer')),
             Column::make('created_at')->title(trans('quickadmin.address.fields.list.created_at')),
             Column::computed('action')
             ->exportable(false)

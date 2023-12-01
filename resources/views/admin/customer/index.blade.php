@@ -4,12 +4,78 @@
 @section('customCss')
 <meta name="csrf-token" content="{{ csrf_token() }}" >
 <link rel="stylesheet" href="{{ asset('admintheme/assets/css/printView-datatable.css')}}">
+
 <style>
     /* @media print {
         table, table tr, table td {
             border: 1px solid #3d3c3c;
         }
     } */
+    .custom-select2 select{
+        width: 200px;
+        z-index: 1;
+        position: relative;
+    }
+    .custom-select2 .form-control-inner{
+        position: relative;
+    }
+    .custom-select2 .form-control-inner label{
+        position: absolute;
+        left: 10px;
+        top: -8px;
+        background-color: #fff;
+        padding: 0 5px;
+        z-index: 1;
+        font-size: 12px;
+    }
+    .select2-results{
+        padding-top: 48px;
+        position: relative;
+    }
+    .select2-link2{
+        position: absolute;
+        top: 6px;
+        left: 5px;
+        width: 100%;
+    }
+    .select2-container--default .select2-selection--single,
+    .select2-container--default .select2-selection--single .select2-selection__arrow{
+        height: 40px;
+    }
+    .select2-container--default .select2-selection--single .select2-selection__rendered{
+        line-height: 41px;
+    }
+    .select2-search--dropdown .select2-search__field{
+        padding: 10px;
+        font-size: 15px;
+    }
+    .select2-search--dropdown .select2-search__field:focus{
+        outline: none;
+    }
+    .select2-link2 .btns {
+        color: #3584a5;
+        background-color: transparent;
+        border: none;
+        font-size: 14px;
+        padding: 7px 15px;
+        cursor: pointer;
+        border: 1px solid #3584a5;
+        border-radius: 60px;
+    }
+    #centerModal{
+        z-index: 99999;
+    }
+    #centerModal::before{
+        display: none;
+    }
+    .modal-open .modal-backdrop.show{
+        display: block !important;
+        z-index: 9999;
+    }
+
+    .select2-dropdown{
+        z-index: 99999;
+    }
 </style>
 @endsection
 
@@ -60,12 +126,11 @@
                     </div>
                 </div>
               </div>
-
-              <div class="popup_render_div"></div>
             </div>
           </div>
         </div>
   </section>
+  <div class="popup_render_div"></div>
 @endsection
 
 
@@ -73,17 +138,49 @@
 {!! $dataTable->scripts() !!}
   <script src="{{ asset('admintheme/assets/bundles/datatables/datatables.min.js') }}"></script>
   <script src="{{ asset('admintheme/assets/bundles/datatables/DataTables-1.10.16/js/dataTables.bootstrap4.min.js') }}"></script>
-  <script src="{{ asset('admintheme/assets/bundles/jquery-ui/jquery-ui.min.js') }}"></script>
+
   <!-- Page Specific JS File -->
   <script src="{{ asset('admintheme/assets/js/page/datatables.js') }}"></script>
 
 
 <script>
+
 $(document).ready(function () {
+    ////********************** Select Box
+
+
     var DataaTable = $('#dataaTable').DataTable();
 
-    $(document).on('click','.addRecordBtn', function(){
-       // $('#preloader').css('display', 'flex');
+    $(document).on('click', '.select2-container .get-city', function (e) {
+        e.preventDefault();
+        var gethis = $(this);
+        var hrefUrl = "{{ route('address.create') }}";
+        // Fetch data and populate the second modal
+        $.ajax({
+            type: 'get',
+            url: hrefUrl,
+            dataType: 'json',
+            success: function (response) {
+                if (response.success) {
+                    console.log('success');
+
+                    $('.popup_render_div').after('<div class="addressmodalbody" style="display: block;"></div>');
+                    $('.addressmodalbody').html(response.htmlView);
+
+                    // $('.addressmodalbody #centerModal').modal('show');
+                    // $('.addressmodalbody #centerModal').attr('style', 'z-index: 100000');
+                    $('.popup_render_div #centerModal').modal('show');
+                    $('.popup_render_div #centerModal').on('shown.bs.modal', function () {
+                        $('.addressmodalbody #centerModal').modal('show');
+                        $('.addressmodalbody #centerModal').attr('style', 'z-index: 100000');
+                    });
+                }
+            }
+        });
+    });
+
+    $(document).on('click', '.addRecordBtn', function (e) {
+        e.preventDefault();
         var hrefUrl = $(this).attr('data-href');
         console.log(hrefUrl);
         $.ajax({
@@ -91,15 +188,28 @@ $(document).ready(function () {
             url: hrefUrl,
             dataType: 'json',
             success: function (response) {
-                //$('#preloader').css('display', 'none');
-                if(response.success) {
-                    console.log('success');
+                if (response.success) {
+                    // Render the modal content for the first modal
                     $('.popup_render_div').html(response.htmlView);
-                    $('#centerModal').modal('show');
+
+                    // Show the first modal
+                    $('.popup_render_div #centerModal').modal('show');
+
+                    // Initialize select2 for the first modal
+                    $(".js-example-basic-single").select2({
+                    dropdownParent: $('.popup_render_div #centerModal') // Set the dropdown parent to the modal
+                    }).on('select2:open', function () {
+                    let a = $(this).data('select2');
+                    if (!$('.select2-link').length) {
+                        a.$results.parents('.select2-results')
+                        .append('<div class="select2-link2"><button class="btns get-city close-select2" data-toggle="modal" data-target="#centerModal"><i class="fa fa-plus-circle"></i> Add New</button></div>');
+                    }
+                    });
                 }
             }
         });
     });
+
 
     $("body").on("click", ".edit-customers-btn", function () {
             var hrefUrl = $(this).attr('data-href');
@@ -137,7 +247,7 @@ $(document).ready(function () {
             });
     });
 
-
+    /// Add Party
     $(document).on('submit', '#AddForm', function (e) {
         e.preventDefault();
 
@@ -299,6 +409,58 @@ $(document).ready(function () {
         }
         });
     });
+
+    // Add Address Instatntly
+
+    $(document).on('submit', '#AddaddressForm', function (e) {
+        e.preventDefault();
+
+        $("#AddaddressForm button[type=submit]").prop('disabled',true);
+        $(".error").remove();
+        $(".is-invalid").removeClass('is-invalid');
+        var formData = $(this).serialize();
+        var formAction = $(this).attr('action');
+        $.ajax({
+            url: formAction,
+            type: 'POST',
+            headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+            data: formData,
+            success: function (response) {
+                    $('.addressmodalbody #centerModal').modal('hide');
+
+                    if (!$('.js-example-basic-single').data('select2')) {
+                        $('.js-example-basic-single').select2();
+                    }
+                    var newOption = new Option(response.address.address, response.address.id, true, true);
+                    //console.log(newOption);
+                    $('.popup_render_div #centerModal #address_id').append(newOption).trigger('change');
+                    $('#citiwise-filter-form #address_id').append(newOption).trigger('change');
+
+                    var alertType = response['alert-type'];
+                    var message = response['message'];
+                    var title = "{{ trans('quickadmin.address.address') }}";
+                    showToaster(title,alertType,message);
+                    $('#AddaddressForm')[0].reset();
+                    //location.reload();
+                    //DataaTable.ajax.reload();
+                    $("#AddaddressForm button[type=submit]").prop('disabled',false);
+            },
+            error: function (xhr) {
+                var errors= xhr.responseJSON.errors;
+                console.log(xhr.responseJSON);
+
+                for (const elementId in errors) {
+                    $("#"+elementId).addClass('is-invalid');
+                    var errorHtml = '<div><span class="error text-danger">'+errors[elementId]+'</span></';
+                    $(errorHtml).insertAfter($("#"+elementId).parent());
+                }
+                $("#AddaddressForm button[type=submit]").prop('disabled',false);
+            }
+        });
+    });
+
 
     $('#reset-filter').on('click', function(e) {
         e.preventDefault();

@@ -81,6 +81,15 @@ class CustomerController extends Controller
         'alert-type'=> trans('quickadmin.alert-type.success')], 200);
     }
 
+
+    public function CustomerListOfAddress(string $id){
+
+        $address = Address::where('id',$id)->first();
+       // $addressname= $address->address;
+        $customers = Customer::where('address_id',$id)->get();
+        return view('admin.address.address-list-customer', compact('customers','address'));
+    }
+
     /**
      * Remove the specified resource from storage.
      */

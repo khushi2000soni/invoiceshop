@@ -14,65 +14,47 @@
           <div class="row">
             <div class="col-12">
               <div class="card">
-                <div class="card-header d-flex justify-content-between align-items-center">
-                  <h4>@lang('quickadmin.address.fields.list-title')</h4>
-                  @can('address_create')
-                  <button type="button" class="btn btn-outline-dark" data-toggle="modal" data-target="#centerModal"><i class="fas fa-plus"></i> @lang('quickadmin.roles.fields.add')</button>
-                  @endcan
-                </div>
+                {{-- <div class="card-header d-flex justify-content-between align-items-center">
+                  <h4>@lang('quickadmin.address.title')</h4>
+                </div> --}}
                 <div class="card-body">
+                    <form id="citiwise-filter-form">
+                        <div class="row align-items-end">
+                            <div class="col-md-3">
+                                <div class="form-group label-position">
+                                    <label for="address_id">@lang('quickadmin.customers.fields.select_address')</label>
+                                    <div class="input-group">
+                                        <select class="form-control @error('address_id') is-invalid @enderror" name="address_id" id="address_id" value="">
+                                            <option value="">@lang('quickadmin.customers.fields.select_address')</option>
+                                            @foreach($addresses as $address)
+                                            <option value="{{ $address->id }}">{{ $address->address }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3 text-end">
+                                <div class="form-group d-flex justify-content-end">
+                                    <button type="submit" class="btn btn-primary mr-1 col" id="apply-filter">@lang('quickadmin.qa_submit')</button>
+                                    <button type="reset" class="btn btn-primary mr-1 col" id="reset-filter">@lang('quickadmin.qa_reset')</button>
+                                    @can('address_create')
+                                    <button type="button" class="btn btn-outline-dark addRecordBtn" data-toggle="modal" data-target="#centerModal" data-href="{{ route('address.create')}}"><i class="fas fa-plus"></i> @lang('quickadmin.roles.fields.add')</button>
+                                    @endcan
+                                    {{-- <button class="btn btn-primary mr-1 col"  id="print-button">Print</button> --}}
+                                </div>
+                            </div>
+                        </div>
+                    </form>
                   <div class="table-responsive">
-                    {{$dataTable->table(['class' => 'table dt-responsive', 'style' => 'width:100%;','id'=>'addressTable'])}}
+                    {{$dataTable->table(['class' => 'table dt-responsive subBodyTable', 'style' => 'width:100%;','id'=>'addressTable'])}}
                   </div>
                 </div>
               </div>
-
-              <div class="modal fade px-3" id="centerModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalCenterTitle">@lang('quickadmin.address.fields.add')</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div class="modal-body">
-                                <form method="post" id="AddaddressForm" action="">
-                                @include('admin.address.form')
-                                </form>
-                                {{-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> --}}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal fade px-3" id="editAddressModal" tabindex="-1" role="dialog" aria-labelledby="editModalCenterTitle" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="editModalCenterTitle">@lang('quickadmin.address.fields.edit')</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div class="modal-body">
-                                <form method="post" id="EditaddressForm" action="">
-                                @include('admin.address.form')
-                                </form>
-                                {{-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> --}}
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
           </div>
-
-          {{-- @dd(session()->all()) --}}
-
         </div>
   </section>
-
-
-
+  <div class="popup_render_div"></div>
 @endsection
 
 @section('customJS')
@@ -82,33 +64,129 @@
   <!-- Page Specific JS File -->
   <script src="{{ asset('admintheme/assets/js/page/datatables.js') }}"></script>
 <script>
+
 $(document).ready(function () {
     var addressDataTable = $('#addressTable').DataTable();
 
-    $("body").on("click", ".edit-address-btn", function () {
-            let editAddressId;
-            editAddressId = $(this).data('id');
-            let editAddress = $(this).data('address');
-            console.log(editAddress,editAddressId);
-            let form = $('#EditaddressForm');
-            let formAction = "{{ route('address.update', ':id') }}"; // Define the route
-            formAction = formAction.replace(':id', editAddressId);
-            form.attr('action', formAction);
-            $(document).find('#EditaddressForm #address').val(editAddress);
+    // $('#addressTable tbody').on('click', 'tr', function () {
+    //     var data = addressDataTable.row(this).data();
+    //     //console.log(data.id);
+    //     toggleAccordion(data.id);
+    // });
 
-            $('#editAddressModal').modal('show');
+    $(document).on('click', '.toggle-accordion', function (e) {
+        e.preventDefault();
+        var addressId = $(this).data('address-id');
+        var accordionContent = $('#customers_' + addressId);
+        console.log(addressId);
+        // Check if the accordion content is already loaded
+        if (!$(this).data('loaded')) {
+            $('.accordion-content-row').remove();
+
+            $.ajax({
+                url: '{{ route("CustomerListOfAddress", ["address_id" => ":addressId"]) }}'.replace(':addressId', addressId),
+                type: 'GET',
+                success: function (data) {
+                    var accordionRow = $(this).closest('tr');
+                    var accordionContentRow = '<tr class="accordion-content-row"><td colspan="5"><div class="accordian-body collapse" id="customers_' + addressId + '">' + data + '</div></td></tr>';
+
+                    // Append the new accordion content row
+                    accordionRow.after(accordionContentRow);
+
+                    // Update the loaded flag on the button element
+                    $(this).data('loaded', true);
+
+                    // Close any previously opened accordion
+                    $('.toggle-accordion').not(this).each(function () {
+                        var otherAddressId = $(this).data('address-id');
+                        var otherAccordionContent = $('#customers_' + otherAddressId);
+                        otherAccordionContent.collapse('hide');
+                        $(this).data('loaded', false);
+                    });
+
+                    // Manually toggle the accordion visibility
+                    var accordionContent = accordionRow.next('.accordion-content-row').find('.accordian-body');
+                    accordionContent.collapse('toggle');
+                }.bind(this),
+                error: function (xhr, status, error) {
+                    console.error('Error fetching customer list:', error);
+                }
+            });
+        } else {
+            // Use a custom attribute to track the accordion state
+            var isOpen = accordionContent.hasClass('show');
+
+            if (isOpen) {
+
+                accordionContent.closest('.accordion-content-row').hide();
+                accordionContent.collapse('hide');
+                //$('.accordion-content-row').remove();
+            } else {
+
+                accordionContent.closest('.accordion-content-row').show();
+                accordionContent.collapse('show');
+            }
+        }
     });
 
-    $('#AddaddressForm').on('submit', function (e) {
+    $(document).on('click', '.close-accordion', function (e) {
+        e.preventDefault();
+        var addressId = $(this).data('address-id');
+        var accordionContent = $('#customers_' + addressId);
+
+        if (accordionContent.length) {
+            accordionContent.collapse('hide');
+            accordionContent.closest('.accordion-content-row').hide();
+        }
+    });
+
+    $(document).on('click','.addRecordBtn', function(){
+       // $('#preloader').css('display', 'flex');
+        var hrefUrl = $(this).attr('data-href');
+        console.log(hrefUrl);
+        $.ajax({
+            type: 'get',
+            url: hrefUrl,
+            dataType: 'json',
+            success: function (response) {
+                //$('#preloader').css('display', 'none');
+                if(response.success) {
+                    console.log('success');
+                    $('.popup_render_div').html(response.htmlView);
+                    $('#centerModal').modal('show');
+                }
+            }
+        });
+    });
+
+    $("body").on("click", ".edit-address-btn", function () {
+            var hrefUrl = $(this).attr('data-href');
+            console.log(hrefUrl);
+            $.ajax({
+                type: 'get',
+                url: hrefUrl,
+                dataType: 'json',
+                success: function (response) {
+                    //$('#preloader').css('display', 'none');
+                    if(response.success) {
+                        console.log('success');
+                        $('.popup_render_div').html(response.htmlView);
+                        $('#editAddressModal').modal('show');
+                    }
+                }
+            });
+    });
+
+    $(document).on('submit', '#AddaddressForm', function (e) {
         e.preventDefault();
 
         $("#AddaddressForm button[type=submit]").prop('disabled',true);
         $(".error").remove();
         $(".is-invalid").removeClass('is-invalid');
         var formData = $(this).serialize();
-
+        var formAction = $(this).attr('action');
         $.ajax({
-            url: '{{ route('address.store') }}',
+            url: formAction,
             type: 'POST',
             headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -139,7 +217,8 @@ $(document).ready(function () {
         });
     });
 
-    $('#EditaddressForm').on('submit', function (e) {
+
+    $(document).on('submit', '#EditaddressForm', function (e) {
         e.preventDefault();
 
         $("#EditaddressForm button[type=submit]").prop('disabled',true);
@@ -222,7 +301,27 @@ $(document).ready(function () {
         });
     });
 
+    $('#reset-filter').on('click', function(e) {
+        e.preventDefault();
+        $('#citiwise-filter-form')[0].reset();
 
+        addressDataTable.ajax.url("{{ route('address.index') }}").load();
+    });
+
+    $('#citiwise-filter-form').on('submit', function(e) {
+        e.preventDefault();
+
+        var address_id = $('#address_id').val();
+        if(address_id == undefined){
+            address_id = '';
+        }
+        var params = {
+            address_id      : address_id,
+        };
+        // Apply filters to the DataTable
+        addressDataTable.ajax.url("{{ route('address.index') }}?"+$.param(params)).load();
+
+    });
 
 
 });

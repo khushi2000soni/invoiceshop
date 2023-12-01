@@ -21,7 +21,7 @@
     // Add an event listener for the modal's "hidden.bs.modal" event
 
 
-    $('#centerModal').modal('dispose');
+    //$('#centerModal').modal('dispose');
     function showToaster(title,alertType, message) {
         console.log(alertType);
         var position = 'topRight'; // You can change the default position here
@@ -49,6 +49,7 @@
     }
 
     $(document).ready(function(){
+        $('select').select2();
         @if(Session::has('message'))
             var alertType = "{{ Session::get('alert-type') }}";
             var message = "{{ Session::get('message') }}";

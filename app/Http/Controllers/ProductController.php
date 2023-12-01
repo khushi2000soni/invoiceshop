@@ -45,6 +45,14 @@ class ProductController extends Controller
         'title' => trans('quickadmin.product.product')], 200);
     }
 
+
+
+    public function ProductListOfCategory(string $id){
+        $category = Category::where('id',$id)->first();
+        $products = Product::where('category_id',$id)->get();
+        return view('admin.category.product-list-category', compact('products','category'));
+    }
+
     /**
      * Display the specified resource.
      */

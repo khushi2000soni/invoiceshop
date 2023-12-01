@@ -12445,15 +12445,15 @@ body:not(.sidebar-mini) .sidebar-style-2 .sidebar-menu li.active ul.dropdown-men
 
 
 /* *************** */
-.table-responsive tbody tr td:last-child {
+.dt-responsive tbody tr td:last-child {
     display: flex;
     align-items: center;
     justify-content: center;
 }
-.table-responsive tbody tr td:last-child.dataTables_empty{
+.dt-responsive tbody tr td:last-child.dataTables_empty{
     display: table-cell;
 }
-.table-responsive tbody tr td:last-child .btn {
+.dt-responsive tbody tr td:last-child .btn {
     line-height: 20px;
     height: 27px;
     width: 27px;
@@ -12462,10 +12462,10 @@ body:not(.sidebar-mini) .sidebar-style-2 .sidebar-menu li.active ul.dropdown-men
     justify-content: center;
 }
 
-.table-responsive {
+.dt-responsive {
     position: relative;
 }
-.table-responsive .dataTables_filter {
+.dt-responsive .dataTables_filter {
     position: absolute;
     right: 0;
     top: 0;
@@ -12882,3 +12882,47 @@ button#addProductBtn {
     background: #042c48 !important;
     color: #fff;
 }
+
+.subBodyTable.table tbody tr.accordion-content-row td:last-child{
+    display: table-cell !important;
+}
+
+.subBodyTable.table tbody tr.accordion-content-row table tr td, .subBodyTable.table tbody tr.accordion-content-row table tr th {
+    font-size: 12px;
+    height: 30px !important;
+}
+
+.subBodyTable.table tbody tr.accordion-content-row td .accordian-body{
+    max-height: 190px;
+    overflow-y: auto;
+}
+
+.subBodyTable.table tbody tr.accordion-content-row table thead  tr th {
+    background-color: #082f4c !important;
+}
+.subBodyTable.table tbody tr.accordion-content-row{
+    border: 1px solid #082f4c ;
+}
+
+/* For Chrome, Edge, and Safari */
+::-webkit-scrollbar {
+    width: 4px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-color: #00a5a2;
+  }
+
+  ::-webkit-scrollbar-track {
+    background-color: lightgrey;
+  }
+
+  /* For Firefox */
+  * {
+    scrollbar-color: #00a5a2 lightgrey;
+    scrollbar-width: thin;
+  }
+
+  .fullselect2 .select2-container {
+    width: 100% !important;
+  }

@@ -86,7 +86,7 @@ class LoginController extends Controller
 
     public function LoginWithPin(Request $request){
 
-        $validator = Validator::make($request->all(), ['pin'    => ['required','numeric','exists:devices','digits:4']]);
+        $validator = Validator::make($request->all(), ['pin'    => ['required','numeric'/*,'exists:devices'*/,'digits:4']]);
 
         if($validator->fails()){
             $responseData = [

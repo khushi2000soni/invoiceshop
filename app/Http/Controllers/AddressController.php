@@ -19,7 +19,8 @@ class AddressController extends Controller
 
         abort_if(Gate::denies('address_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
         //$roles = Address::orderBy('id','asc')->get();
-        return $dataTable->render('admin.address.index');
+        $addresses = Address::orderBy('id','desc')->get();
+        return $dataTable->render('admin.address.index',compact('addresses'));
     }
 
     /**
@@ -27,7 +28,8 @@ class AddressController extends Controller
      */
     public function create()
     {
-        //
+        $htmlView = view('admin.address.create')->render();
+        return response()->json(['success' => true, 'htmlView' => $htmlView]);
     }
 
     /**
@@ -43,7 +45,16 @@ class AddressController extends Controller
         ]);
 
         $address=Address::create($validatedData);
-        return response()->json(['success' => true, 'message' => trans('messages.crud.add_record'),'alert-type'=> trans('quickadmin.alert-type.success')], 200);
+        // return response()->json(['success' => true, 'message' => trans('messages.crud.add_record'),'alert-type'=> trans('quickadmin.alert-type.success')], 200);
+        return response()->json([
+            'success' => true,
+            'message' => trans('messages.crud.add_record'),
+            'alert-type' => trans('quickadmin.alert-type.success'),
+            'address' => [
+                'id' => $address->id,
+                'address' => $address->address,
+            ],
+        ], 200);
     }
 
     /**
@@ -59,7 +70,9 @@ class AddressController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $address = Address::findOrFail($id);
+        $htmlView = view('admin.address.edit', compact('address'))->render();
+        return response()->json(['success' => true, 'htmlView' => $htmlView]);
     }
 
     /**
@@ -67,8 +80,7 @@ class AddressController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
-        $id=decrypt($id);
+
         $address = Address::find($id);
         $validatedData =$request->validate([
             'address' => ['required','string','unique:address,address,'.$address->id, new TitleValidationRule],

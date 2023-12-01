@@ -25,9 +25,39 @@ class CategoryDataTable extends DataTable
         return datatables()
         ->eloquent($query)
             ->addIndexColumn()
-            ->editColumn('name',function($category){
-                return ucwords($category->name) ?? "";
+            // ->editColumn('name', function ($category) {
+
+            //     $productCount = $category->products->count();
+            //     if ($productCount > 0) {
+            //         return '<button class="btn btn-link toggle-accordion" type="button" title="'. $productCount. ' '.trans('quickadmin.qa_record_found').'" data-category-id="'. $category->id .'" data-target="#products_'. $category->id .'">'. $category->name.'</button>';
+            //     } else {
+            //         return '<button class="btn" type="button" title="'.trans('quickadmin.qa_no_record').'">' . $category->name. '</button>';
+            //     }
+            // })
+            ->editColumn('name', function ($category) {
+                $name='';
+                $productCount = $category->products->count();
+                if ($productCount > 0) {
+                    $name = '<button class="btn btn-link toggle-accordion" type="button" title="' . $productCount . ' '. trans('quickadmin.qa_record_found').'" data-category-id="' . $category->id . '" data-target="#products_' . $category->id . '">' . ucwords($category->name). '</button>';
+                } else {
+                    $name = '<button class="btn" type="button" title="'.trans('quickadmin.qa_no_record').'">' . ucwords($category->name). '</button>';
+                }
+                return $name;
             })
+
+            // ->editColumn('address', function ($address) {
+            //     $customerCount = $address->customers->count();
+            //     if ($customerCount > 0) {
+            //         // If customers exist, use accordion functionality
+            //         return '<button class="btn btn-link toggle-accordion" type="button" title="' . $customerCount . ' '. trans('quickadmin.qa_record_found').'" data-address-id="' . $address->id . '" data-target="#customers_' . $address->id . '">' . $address->address . '</button>';
+            //     } else {
+            //         // If no customers, display a simple button with title
+            //         return '<button class="btn" type="button" title="'.trans('quickadmin.qa_no_record').'">' . $address->address . '</button>';
+            //     }
+            // })
+            // ->editColumn('name',function($category){
+            //     return ucwords($category->name) ?? "";
+            // })
             ->editColumn('total_product', function ($category) {
                 return $category->products->count();
             })
@@ -51,7 +81,7 @@ class CategoryDataTable extends DataTable
                 $query->whereRaw("DATE_FORMAT(categories.created_at,'%d-%M-%Y') like ?", ["%$keyword%"]); //date_format when searching using date
             })
 
-            ->rawColumns(['action']);
+            ->rawColumns(['action','name']);
     }
 
 

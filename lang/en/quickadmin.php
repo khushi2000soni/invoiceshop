@@ -213,6 +213,7 @@ return [
             'list-title'=>'City List',
             'list'=> [
                 'address'=>'City',
+                'no_of_customer' =>'No. of Party',
                 'created_at'=>'Created At',
             ]
 		],
@@ -256,6 +257,7 @@ return [
             'created_at'=>'Created At',
             'add' 	=> 'Add New',
             'edit' => 'Edit Category',
+            'list' 	=> 'Item List',
 		],
 	],
 
@@ -676,6 +678,7 @@ return [
     'qa_action' => 'Actions',
     'qa_sn'=>'Sn.',
     'qa_no_record'=>'No Record Found!',
+    'qa_record_found'=>'Record Found!',
 
 
 ];

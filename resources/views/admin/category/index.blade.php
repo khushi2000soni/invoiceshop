@@ -22,7 +22,7 @@
                 </div>
                 <div class="card-body">
                   <div class="table-responsive">
-                    {{$dataTable->table(['class' => 'table dt-responsive', 'style' => 'width:100%;','id'=>'categoryTable'])}}
+                    {{$dataTable->table(['class' => 'table dt-responsive subBodyTable', 'style' => 'width:100%;','id'=>'categoryTable'])}}
                   </div>
                 </div>
               </div>
@@ -88,9 +88,75 @@
 $(document).ready(function () {
     var categoryDataTable = $('#categoryTable').DataTable();
 
+    $(document).on('click', '.toggle-accordion', function (e) {
+        e.preventDefault();
+        var categoryId = $(this).data('category-id');
+        var accordionContent = $('#products_' + categoryId);
+        console.log(categoryId);
+        // Check if the accordion content is already loaded
+        if (!$(this).data('loaded')) {
+            $('.accordion-content-row').remove();
+
+            $.ajax({
+                url: '{{ route("ProductListOfCategory", ["category_id" => ":categoryId"]) }}'.replace(':categoryId', categoryId),
+                type: 'GET',
+                success: function (data) {
+                    var accordionRow = $(this).closest('tr');
+                    var accordionContentRow = '<tr class="accordion-content-row"><td colspan="5"><div class="accordian-body collapse" id="products_' + categoryId + '">' + data + '</div></td></tr>';
+
+                    // Append the new accordion content row
+                    accordionRow.after(accordionContentRow);
+
+                    // Update the loaded flag on the button element
+                    $(this).data('loaded', true);
+
+                    // Close any previously opened accordion
+                    $('.toggle-accordion').not(this).each(function () {
+                        var otherCategoryId = $(this).data('category-id');
+                        var otherAccordionContent = $('#products_' + otherCategoryId);
+                        otherAccordionContent.collapse('hide');
+                        $(this).data('loaded', false);
+                    });
+
+                    // Manually toggle the accordion visibility
+                    var accordionContent = accordionRow.next('.accordion-content-row').find('.accordian-body');
+                    accordionContent.collapse('toggle');
+                }.bind(this),
+                error: function (xhr, status, error) {
+                    console.error('Error fetching customer list:', error);
+                }
+            });
+        } else {
+            // Use a custom attribute to track the accordion state
+            var isOpen = accordionContent.hasClass('show');
+
+            if (isOpen) {
+
+                accordionContent.closest('.accordion-content-row').hide();
+                accordionContent.collapse('hide');
+                //$('.accordion-content-row').remove();
+            } else {
+
+                accordionContent.closest('.accordion-content-row').show();
+                accordionContent.collapse('show');
+            }
+        }
+    });
+
+    $(document).on('click', '.close-accordion', function (e) {
+        e.preventDefault();
+        var categoryId = $(this).data('category-id');
+        var accordionContent = $('#products_' + categoryId);
+
+        if (accordionContent.length) {
+            accordionContent.collapse('hide');
+            accordionContent.closest('.accordion-content-row').hide();
+        }
+    });
+
 
     $("body").on("click", ".edit-category-btn", function () {
-            let editAddressId;
+            let otherCategoryId;
             editId = $(this).data('id');
             let editName = $(this).data('name');
             console.log(editName);

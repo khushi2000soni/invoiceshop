@@ -40,10 +40,27 @@
 
     <div class="row">
         <div class="col-md-12">
-            <div class="form-group">
+
+            {{-- <div class="form-group">
                 <label for="address_id">@lang('quickadmin.customers.fields.address')</label>
                 <div class="input-group">
                     <select class="form-control @error('address_id') is-invalid @enderror" name="address_id" id="address_id" >
+                        <option value="{{ isset($customer) ? $customer->address->id : old('address_id') }}">
+                            {{ isset($customer) ? $customer->address->address : trans('quickadmin.customers.select_address') }}
+                        </option>
+                        @foreach($addresses as $address)
+                            @if (!isset($customer) || $customer->address->id !== $address->id)
+                            <option value="{{ $address->id }}">{{ $address->address }}</option>
+                            @endif
+                        @endforeach
+                    </select>
+                </div>
+            </div> --}}
+
+            <div class="custom-select2 fullselect2">
+                <div class="form-control-inner">
+                    <label>@lang('quickadmin.customers.fields.address')</label>
+                    <select class="js-example-basic-single @error('address_id') is-invalid @enderror" name="address_id" id="address_id" >
                         <option value="{{ isset($customer) ? $customer->address->id : old('address_id') }}">
                             {{ isset($customer) ? $customer->address->address : trans('quickadmin.customers.select_address') }}
                         </option>
@@ -60,7 +77,7 @@
 
 
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-auto ml-auto mt-4">
             <button type="submit" class="btn btn-primary">@lang('quickadmin.qa_submit')</button>
         </div>
     </div>

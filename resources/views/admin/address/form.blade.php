@@ -8,7 +8,7 @@
           <i class="fas fa-map-marker-alt"></i>
         </div>
       </div>
-      <input type="text" class="form-control phone-number " name="address" value="{{ old('address') }}" id="address" autocomplete="true">
+      <input type="text" class="form-control phone-number " name="address" value="{{ isset($address) ? $address->address : old('address') }}" id="address" autocomplete="true">
     </div>
 </div>
 

@@ -111,7 +111,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr class="template-row" style="display: none;">
+                                <tr class="template-row">
                                     <td class="text-right">
                                         <div class="d-flex align-items-center buttonGroup justify-content-end">
                                             <button class="btn btn-dark btn-sm copy-product"><i class="fas fa-copy"></i></button>
@@ -120,7 +120,7 @@
                                     </td>
                                     <td>
                                         <div class="form-group m-0">
-                                            <div class="custom-select2">
+                                            <div class="custom-select2 fullselect2">
                                                 <div class="form-control-inner">
                                                     {{-- <label>@lang('quickadmin.order.fields.product_name')</label> --}}
                                                     <select class="js-product-basic-single @error('product_id') is-invalid @enderror" name="product_id" id="product_id">

@@ -12,7 +12,7 @@
                         @endforeach
                     </select>
             </div> --}}
-            <div class="custom-select2">
+            <div class="custom-select2 fullselect2">
                 <div class="form-control-inner">
                     <label>@lang('quickadmin.order.fields.customer_name')</label>
                     <select class="js-example-basic-single @error('customer_id') is-invalid @enderror" name="customer_id" id="customer_id" >
