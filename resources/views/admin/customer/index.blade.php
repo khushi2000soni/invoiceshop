@@ -436,7 +436,7 @@ $(document).ready(function () {
                     var newOption = new Option(response.address.address, response.address.id, true, true);
                     //console.log(newOption);
                     $('.popup_render_div #centerModal #address_id').append(newOption).trigger('change');
-                    $('#citiwise-filter-form #address_id').append(newOption).trigger('change');
+                    //$('#citiwise-filter-form #address_id').append(newOption).trigger('change');
 
                     var alertType = response['alert-type'];
                     var message = response['message'];

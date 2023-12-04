@@ -3,11 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\DataTables\AddressDataTable;
+use App\Exports\AddressExport;
 use App\Models\Address;
 use App\Rules\TitleValidationRule;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Gate;
+use Maatwebsite\Excel\Facades\Excel;
 
 class AddressController extends Controller
 {
@@ -21,6 +23,21 @@ class AddressController extends Controller
         //$roles = Address::orderBy('id','asc')->get();
         $addresses = Address::orderBy('id','desc')->get();
         return $dataTable->render('admin.address.index',compact('addresses'));
+    }
+
+    public function printView()
+    {
+        //dd('test');
+        abort_if(Gate::denies('address_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        //$roles = Address::orderBy('id','asc')->get();
+        $addresses = Address::orderBy('id','desc')->get();
+        //dd($addresses);
+
+       return view('admin.address.print-address-list',compact('addresses'))->render();
+    }
+
+    public function export(){
+        return Excel::download(new AddressExport, 'cities.xlsx');
     }
 
     /**

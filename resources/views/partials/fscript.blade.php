@@ -16,6 +16,7 @@
 <script src="{{ asset('admintheme/assets/bundles/sweetalert/sweetalert.min.js') }}"></script>
 <script src="{{ asset('admintheme/assets/js/page/sweetalert.js') }}"></script>
 <script src="{{ asset('admintheme/assets/bundles/select2/dist/js/select2.full.min.js') }}"></script>
+<script src="{{ asset('admintheme/assets/js/jquery.printPage.js') }}"></script>
 
 <script>
     // Add an event listener for the modal's "hidden.bs.modal" event

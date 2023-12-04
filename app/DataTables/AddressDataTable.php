@@ -5,6 +5,7 @@ namespace App\DataTables;
 use App\Models\Address;
 use App\Models\Customer;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
@@ -88,17 +89,17 @@ class AddressDataTable extends DataTable
         ])
         ->columns($this->getColumns())
         ->minifiedAjax()
-        ->dom('lBfrtip')
-        ->orderBy(1)
+        ->dom('lfrtip')
+        ->orderBy(1);
         // ->selectStyleSingle()
-        ->buttons([
-            Button::make('excel')->exportOptions(['columns' => [0, 1, 2,3]]),
-            Button::make('print')->exportOptions(['columns' => [0, 1, 2,3]]),
-            // Button::make('excel'),
-            // Button::make('csv'),
-            // Button::make('pdf'),
-            // Button::make('print'),
-        ]);
+        // ->buttons([
+        //     // Button::make('excel')->exportOptions(['columns' => [0, 1, 2,3]]),
+        //     // Button::make('print')->exportOptions(['columns' => [0, 1, 2,3]]),
+        //     // Button::make('excel'),
+        //     // Button::make('csv'),
+        //     // Button::make('pdf'),
+        //     // Button::make('print'),
+        // ]);
     }
 
     /**
@@ -110,7 +111,7 @@ class AddressDataTable extends DataTable
 
             Column::make('DT_RowIndex')->title(trans('quickadmin.qa_sn'))->orderable(false)->searchable(false),
             Column::make('address')->title(trans('quickadmin.address.fields.list.address')),
-            Column::make('no_of_customer')->title(trans('quickadmin.address.fields.list.no_of_customer')),
+            Column::make('no_of_customer')->title(trans('quickadmin.address.fields.list.no_of_customer'))->orderable(false)->searchable(false),
             Column::make('created_at')->title(trans('quickadmin.address.fields.list.created_at')),
             Column::computed('action')
             ->exportable(false)

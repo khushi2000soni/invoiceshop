@@ -12650,6 +12650,13 @@ button.btn.btn-outline-dark.addRecordBtn {
     border-radius: 6px !important;
     font-size: 14px;
 }
+button.btn.btn-outline-dark.addRecordBtn.sm_btn{
+    border-radius: .25rem !important;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 24px;
+    padding: .2rem .8rem;
+}
 button.btn.btn-outline-dark.addRecordBtn i {
     margin-right: 3px;
 }
@@ -12925,4 +12932,23 @@ button#addProductBtn {
 
   .fullselect2 .select2-container {
     width: 100% !important;
+  }
+
+
+
+  .fixed_Search .dataTables_wrapper  {
+    position: relative;
+  }
+  .fixed_Search .dataTables_wrapper .dataTables_filter{
+    position: absolute;
+    top: 0;
+    right: 0;
+  }
+  .fixed_Search .dataTables_wrapper .dataTables_length{
+    margin-bottom: 20px;
+  }
+
+  .deleteBtn {
+    padding: 7px 15px;
+    font-size: 13px;
   }
