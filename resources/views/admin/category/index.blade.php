@@ -15,13 +15,29 @@
             <div class="col-12">
               <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
-                  <h4>@lang('quickadmin.category.list-title')</h4>
-                  @can('category_create')
-                  <button type="button" class="btn btn-outline-dark" data-toggle="modal" data-target="#centerModal"><i class="fas fa-plus"></i> @lang('quickadmin.roles.fields.add')</button>
-                  @endcan
+                    <div class="row align-items-center w-100 mx-0">
+                        <div class="col pl-0">
+                            <h4>@lang('quickadmin.category.list-title')</h4>
+                        </div>
+                        <div class="col-auto pe-0">
+                            <div class="row align-items-center">
+                                <div class="col-auto px-1">
+                                    @can('category_create')
+                                    <button type="button" class="btn btn-outline-dark" data-toggle="modal" data-target="#centerModal"><i class="fas fa-plus"></i> @lang('quickadmin.roles.fields.add')</button>
+                                  @endcan
+                                </div>
+                                <div class="col-auto px-1">
+                                    <a href="{{ route('categories.print') }}" class="btn h-10 btn-success mr-1 col"  id="print-button">@lang('quickadmin.qa_print')</a>
+                                </div>
+                                <div class="col-auto pl-1 pr-0">
+                                    <a href="#" class="btn h-10 btn-warning mr-1 col"  id="excel-button">@lang('quickadmin.qa_excel')</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="card-body">
-                  <div class="table-responsive">
+                  <div class="table-responsive fixed_Search">
                     {{$dataTable->table(['class' => 'table dt-responsive subBodyTable', 'style' => 'width:100%;','id'=>'categoryTable'])}}
                   </div>
                 </div>
@@ -87,6 +103,8 @@
 <script>
 $(document).ready(function () {
     var categoryDataTable = $('#categoryTable').DataTable();
+
+    $('#print-button').printPage();
 
     $(document).on('click', '.toggle-accordion', function (e) {
         e.preventDefault();

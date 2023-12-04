@@ -4,29 +4,6 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>@lang('quickadmin.address.fields.list-title')</title>
-<style>
- footer{
-    position: fixed;
-    bottom:0px;
-    left: 20px;
-    right: 0px;
-    height: 50px;
-    margin-bottom: -10px;
-}
-
-footer .pagenum:before {
-content: counter(page);
-}
-/* .page-header {
-    position: fixed;
-    top: 0px;
-    left: 0;
-    right: 0px;
-    height: 200px;
-} */
-
-</style>
-
 </head>
 <body style="padding: 50px 0 0;margin: 0;font-family: Arial, Helvetica, sans-serif;" class="">
 

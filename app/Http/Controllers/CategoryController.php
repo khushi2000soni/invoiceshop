@@ -20,6 +20,17 @@ class CategoryController extends Controller
         return $dataTable->render('admin.category.index');
     }
 
+    public function printView()
+    {
+        //dd('test');
+        abort_if(Gate::denies('category_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        //$roles = Address::orderBy('id','asc')->get();
+        $categories = Category::orderBy('id','desc')->get();
+        //dd($addresses);
+
+       return view('admin.category.print-category-list',compact('categories'))->render();
+    }
+
     /**
      * Show the form for creating a new resource.
      */

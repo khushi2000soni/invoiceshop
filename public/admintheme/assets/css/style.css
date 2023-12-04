@@ -4736,7 +4736,7 @@ h6 .badge {
 .btn-dark.disabled:hover,
 .btn-dark.disabled:focus,
 .btn-dark.disabled:active {
-    background-color: #000 !important
+    background-color: #08416a !important
 }
 
 .btn-outline-dark:hover,
@@ -4745,7 +4745,7 @@ h6 .badge {
 .btn-outline-dark.disabled:hover,
 .btn-outline-dark.disabled:focus,
 .btn-outline-dark.disabled:active {
-    background-color: #000 !important;
+    background-color: #08416a !important;
     color: #fff !important
 }
 
@@ -8453,7 +8453,7 @@ body:not(.sidebar-mini) .sidebar-style-2 .sidebar-menu li.active ul.dropdown-men
 }
 
 .theme-white .btn-primary:focus {
-    background-color: #00a5a2 !important
+    background-color: #02cfcb !important
 }
 
 .theme-white .btn-primary:focus:active {

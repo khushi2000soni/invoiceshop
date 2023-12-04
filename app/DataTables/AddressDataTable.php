@@ -31,10 +31,10 @@ class AddressDataTable extends DataTable
                 $customerCount = $address->customers->count();
                 if ($customerCount > 0) {
                     // If customers exist, use accordion functionality
-                    return '<button class="btn btn-link toggle-accordion" type="button" title="' . $customerCount . ' '. trans('quickadmin.qa_record_found').'" data-address-id="' . $address->id . '" data-target="#customers_' . $address->id . '">' . $address->address . '</button>';
+                    return '<a class="btn btn-link toggle-accordion" href="'.route('customers.index',['address_id'=>$address->id]).'" title="' . $customerCount . ' '. trans('quickadmin.qa_record_found').'">' . $address->address . '</a>';
                 } else {
                     // If no customers, display a simple button with title
-                    return '<button class="btn" type="button" title="'.trans('quickadmin.qa_no_record').'">' . $address->address . '</button>';
+                    return '<a class="btn" role="button" title="'.trans('quickadmin.qa_no_record').'">' . $address->address . '</a>';
                 }
             })
             ->editColumn('no_of_customer', function ($address) {

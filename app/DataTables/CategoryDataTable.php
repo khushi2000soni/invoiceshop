@@ -107,17 +107,17 @@ class CategoryDataTable extends DataTable
         ])
         ->columns($this->getColumns())
         ->minifiedAjax()
-        ->dom('lBfrtip')
-        ->orderBy(1)
+        ->dom('lfrtip')
+        ->orderBy(1);
         // ->selectStyleSingle()
-        ->buttons([
-            Button::make('excel')->exportOptions(['columns' => [0, 1, 2,3]]),
-            Button::make('print')->exportOptions(['columns' => [0, 1, 2,3]]),
-            // Button::make('excel'),
-            // Button::make('csv'),
-            // Button::make('pdf'),
-            // Button::make('print'),
-        ]);
+        // ->buttons([
+        //     Button::make('excel')->exportOptions(['columns' => [0, 1, 2,3]]),
+        //     Button::make('print')->exportOptions(['columns' => [0, 1, 2,3]]),
+        //     // Button::make('excel'),
+        //     // Button::make('csv'),
+        //     // Button::make('pdf'),
+        //     // Button::make('print'),
+        // ]);
     }
 
     /**

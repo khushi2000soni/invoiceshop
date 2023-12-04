@@ -55,13 +55,14 @@ Route::middleware(['auth','PreventBackHistory'])->group(function () {
     Route::get('address-export',[AddressController::class,'export'])->name('address.export');
 
     Route::resource('/categories',CategoryController::class);
+    Route::get('/categories-printView',[CategoryController::class,'printView'])->name('categories.print');
 
     Route::resource('/staff',UserController::class);
     Route::get('/staff/password/{id}',[UserController::class,'staffpassword'])->name('staff.password');
     Route::put('/staff/password/{id}',[UserController::class,'staffUpdatePass'])->name('staff.change-password');
 
     Route::resource('/customers',CustomerController::class);
-    Route::get('/customers/address-list/{address_id}',[CustomerController::class,'CustomerListOfAddress'])->name('CustomerListOfAddress');
+    Route::get('/customers/index/{address_id?}',[CustomerController::class,'index'])->name('customer.index');
 
     Route::get('/phone-book',[CustomerController::class,'showPhoneBook'])->name('showPhoneBook');
     Route::resource('/products',ProductController::class);
