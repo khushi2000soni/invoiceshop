@@ -378,7 +378,9 @@ $(document).ready(function () {
     $('#reset-filter').on('click', function(e) {
         e.preventDefault();
         $('#citiwise-filter-form')[0].reset();
+        var select2Element = $('#address_id');
 
+        select2Element.val(null).trigger('change');
         addressDataTable.ajax.url("{{ route('address.index') }}").load();
     });
 
