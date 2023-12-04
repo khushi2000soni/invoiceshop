@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use DB;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Customer\CreateRequest;
 use App\Models\Address;
@@ -18,6 +19,40 @@ use Illuminate\Support\Facades\Validator;
 
 class CustomerController extends Controller
 {
+    public function todayInvoiceGroupList(){
+        //abort_if(Gate::denies('customer_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        
+        try{
+            $today = Carbon::today();
+            $customerOrders = Customer::select('customers.id as customer_id','customers.name as customer_name',
+                DB::raw('COUNT(orders.id) as total_orders'),
+                DB::raw('SUM(orders.grand_total) as total_order_amount'),
+                'orders.invoice_date as invoice_date'
+            )
+            ->leftJoin('orders', 'customers.id', '=', 'orders.customer_id')
+            ->where('orders.invoice_date', $today)
+            ->groupBy('customers.id', 'customers.name')
+            ->get()->toArray();
+            
+            return response()->json([
+                'status' => true,
+                'data' => $customerOrders
+            ])->setStatusCode(Response::HTTP_OK);
+            
+            // return response()->json($customerOrders, 200);
+
+        }catch (\Exception $e) {
+            dd($e->getMessage().'->'.$e->getLine());
+            //Return Error Response
+            $responseData = [
+                'status'        => false,
+                'error'         => trans('messages.error_message'),
+            ];
+            return response()->json($responseData, 401);
+        }
+
+    }
+
     public function PartyAllInvoiceList(){
 
         //$user= auth()->user();
@@ -80,7 +115,7 @@ class CustomerController extends Controller
             return response()->json($responseData, 200);
 
         }catch (\Exception $e) {
-            //dd($e->getMessage().'->'.$e->getLine());
+            dd($e->getMessage().'->'.$e->getLine());
             //Return Error Response
             $responseData = [
                 'status'        => false,
