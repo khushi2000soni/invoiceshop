@@ -75,7 +75,7 @@ class LoginController extends Controller
         } catch (\Exception $e) {
             DB::rollBack();
             //dd($e->getMessage().'->'.$e->getLine());
-            //Return Error Response
+//Return Error Response
             $responseData = [
                 'status'        => false,
                 'error'         => trans('messages.error_message'),
@@ -202,6 +202,104 @@ class LoginController extends Controller
             return response()->json($responseData, 401);
         }
     }
+
+    public function verifyOtp(Request $request)
+    {
+        $validation = Validator::make($request->all(), [
+            'email' => 'required|email|exists:password_resets,email',
+            'otp'   => 'required|numeric|min:6'
+        ]);
+        if ($validation->fails()) {
+            $responseData = [
+                'status'        => false,
+                'validation_errors' => $validation->errors(),
+            ];
+            return response()->json($responseData, 401);
+        }
+        $email = $request->email;
+        $otpToken = $request->otp;
+
+        $passwordReset = DB::table('password_resets')->where('token', $otpToken)
+                ->where('email', $email)
+                ->orderBy('created_at','desc')
+                ->first();
+
+        if (!$passwordReset){
+            $responseData = [
+                'status'        => false,
+                'error'         => trans('messages.invalid_otp'),
+            ];
+            return response()->json($responseData, 401);
+        }
+
+
+        if (Carbon::parse($passwordReset->created_at)->addMinutes(config('auth.passwords.users.expire'))->isPast()) {
+            $responseData = [
+                'status'        => false,
+                'error'         => trans('messages.expire_otp'),
+            ];
+            return response()->json($responseData, 401);
+        }
+
+        $responseData = [
+            'status'        => true,
+            'token'         => encrypt($otpToken),
+            'message'         => trans('messages.verified_otp'),
+        ];
+        return response()->json($responseData, 200);
+    }
+
+    public function resetPassword(Request $request)
+    {
+
+        $validation = Validator::make($request->all(), [
+            'token' => 'required',
+            'email'     => 'required|email|exists:password_resets,email',
+            'password'  => 'required|string|min:8',
+            'confirmed_password' => 'required|string|min:8',
+        ]);
+
+        if ($validation->fails()) {
+            $responseData = [
+                'status'        => false,
+                'validation_errors' => $validation->errors(),
+            ];
+            return response()->json($responseData, 401);
+        }
+        $token = decrypt($request->token);
+        $passwordReset = DB::table('password_resets')->where('token',$token)
+                ->where('email', $request->email)
+                ->orderBy('created_at','desc')
+                ->first();
+
+        if (!$passwordReset)
+        {
+            $responseData = [
+                'status'        => false,
+                'validation_errors' => trans('messages.invalid_token_email'),
+            ];
+            return response()->json($responseData, 401);
+        }
+
+        $user = User::where('email', $passwordReset->email)->first();
+        if (!$user){
+            $responseData = [
+                'status'        => false,
+                'validation_errors' => trans('messages.invalid_email'),
+            ];
+            return response()->json($responseData, 401);
+        }
+
+        $user->password = bcrypt($request->password);
+        $user->save();
+        DB::table('password_resets')->where('email',$passwordReset->email)->delete();
+        $responseData = [
+            'status'        => true,
+            'message'         => trans('passwords.reset'),
+        ];
+        return response()->json($responseData, 200);
+    }
+
 
     public function verifyOtp(Request $request)
     {
