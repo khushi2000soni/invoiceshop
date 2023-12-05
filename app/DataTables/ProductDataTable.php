@@ -20,6 +20,7 @@ class ProductDataTable extends DataTable
      *
      * @param QueryBuilder $query Results from query() method.
      */
+
     public function dataTable(QueryBuilder $query)
     {
         return datatables()
@@ -63,6 +64,10 @@ class ProductDataTable extends DataTable
      */
     public function query(Product $model): QueryBuilder
     {
+        if(isset(request()->category_id) && request()->category_id){
+            $model = $model->where('category_id', request()->category_id);
+        }
+
         return $model->newQuery()->with('category');
     }
 
@@ -80,17 +85,17 @@ class ProductDataTable extends DataTable
         ])
         ->columns($this->getColumns())
         ->minifiedAjax()
-        ->dom('lBfrtip')
-        ->orderBy(1)
+        ->dom('lfrtip')
+        ->orderBy(1);
         // ->selectStyleSingle()
-        ->buttons([
-            Button::make('excel')->exportOptions(['columns' => [0, 1, 2, 3]]),
-            Button::make('print')->exportOptions(['columns' => [0, 1, 2, 3]]),
-            // Button::make('excel'),
-            // Button::make('csv'),
-            // Button::make('pdf'),
-            // Button::make('print'),
-        ]);
+        // ->buttons([
+        //     Button::make('excel')->exportOptions(['columns' => [0, 1, 2, 3]]),
+        //     Button::make('print')->exportOptions(['columns' => [0, 1, 2, 3]]),
+        //     // Button::make('excel'),
+        //     // Button::make('csv'),
+        //     // Button::make('pdf'),
+        //     // Button::make('print'),
+        // ]);
     }
 
     /**

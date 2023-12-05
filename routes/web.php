@@ -56,6 +56,7 @@ Route::middleware(['auth','PreventBackHistory'])->group(function () {
 
     Route::resource('/categories',CategoryController::class);
     Route::get('/categories-printView',[CategoryController::class,'printView'])->name('categories.print');
+    Route::get('categories-export',[CategoryController::class,'export'])->name('categories.export');
 
     Route::resource('/staff',UserController::class);
     Route::get('/staff/password/{id}',[UserController::class,'staffpassword'])->name('staff.password');
@@ -63,10 +64,13 @@ Route::middleware(['auth','PreventBackHistory'])->group(function () {
 
     Route::resource('/customers',CustomerController::class);
     Route::get('/customers/index/{address_id?}',[CustomerController::class,'index'])->name('customer.index');
-
     Route::get('/phone-book',[CustomerController::class,'showPhoneBook'])->name('showPhoneBook');
+
+
+    Route::get('/products/index/{category_id?}', [ProductController::class,'index'])->name('products.index');
     Route::resource('/products',ProductController::class);
-    Route::get('/products/product-list/{category_id}',[ProductController::class,'ProductListOfCategory'])->name('ProductListOfCategory');
+    Route::get('/products-printView',[ProductController::class,'printView'])->name('products.print');
+    Route::get('/products-export',[ProductController::class,'export'])->name('products.export');
 
     Route::resource('/device',DeviceController::class);
     Route::resource('/orders',OrderController::class);

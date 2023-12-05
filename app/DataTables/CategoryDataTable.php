@@ -25,39 +25,16 @@ class CategoryDataTable extends DataTable
         return datatables()
         ->eloquent($query)
             ->addIndexColumn()
-            // ->editColumn('name', function ($category) {
-
-            //     $productCount = $category->products->count();
-            //     if ($productCount > 0) {
-            //         return '<button class="btn btn-link toggle-accordion" type="button" title="'. $productCount. ' '.trans('quickadmin.qa_record_found').'" data-category-id="'. $category->id .'" data-target="#products_'. $category->id .'">'. $category->name.'</button>';
-            //     } else {
-            //         return '<button class="btn" type="button" title="'.trans('quickadmin.qa_no_record').'">' . $category->name. '</button>';
-            //     }
-            // })
             ->editColumn('name', function ($category) {
                 $name='';
                 $productCount = $category->products->count();
                 if ($productCount > 0) {
-                    $name = '<button class="btn btn-link toggle-accordion" type="button" title="' . $productCount . ' '. trans('quickadmin.qa_record_found').'" data-category-id="' . $category->id . '" data-target="#products_' . $category->id . '">' . ucwords($category->name). '</button>';
+                    $name = '<a class="btn btn-link toggle-accordion" title="' . $productCount . ' '. trans('quickadmin.qa_record_found').'" href="'.route('products.index',['category_id'=>$category->id]).'">' . ucwords($category->name). '</a>';
                 } else {
-                    $name = '<button class="btn" type="button" title="'.trans('quickadmin.qa_no_record').'">' . ucwords($category->name). '</button>';
+                    $name = '<a class="btn" type="button" title="'.trans('quickadmin.qa_no_record').'">' . ucwords($category->name). '</a>';
                 }
                 return $name;
             })
-
-            // ->editColumn('address', function ($address) {
-            //     $customerCount = $address->customers->count();
-            //     if ($customerCount > 0) {
-            //         // If customers exist, use accordion functionality
-            //         return '<button class="btn btn-link toggle-accordion" type="button" title="' . $customerCount . ' '. trans('quickadmin.qa_record_found').'" data-address-id="' . $address->id . '" data-target="#customers_' . $address->id . '">' . $address->address . '</button>';
-            //     } else {
-            //         // If no customers, display a simple button with title
-            //         return '<button class="btn" type="button" title="'.trans('quickadmin.qa_no_record').'">' . $address->address . '</button>';
-            //     }
-            // })
-            // ->editColumn('name',function($category){
-            //     return ucwords($category->name) ?? "";
-            // })
             ->editColumn('total_product', function ($category) {
                 return $category->products->count();
             })
@@ -67,7 +44,7 @@ class CategoryDataTable extends DataTable
             ->addColumn('action',function($category){
                 $action='';
                 if (Gate::check('category_edit')) {
-                $action .= '<button type="button" class="btn edit-category-btn" data-toggle="modal" data-target="#editCategoryModal" data-id="'.encrypt($category->id).'" data-name="'. $category->name .'"><i class="fas fa-edit"></i></button>';
+                $action .= '<button type="button" class="btn edit-category-btn" data-toggle="modal" data-target="#editCategoryModal" data-id="'.encrypt($category->id).'" data-name="'. $category->name .'" data-href="'.route('categories.edit', $category->id).'"><i class="fas fa-edit"></i></button>';
             }
                 if (Gate::check('category_delete')) {
                 $action .= '<form action="'.route('categories.destroy', $category->id).'" method="POST" class="deleteCategoryForm m-1" id="deleteCategoryForm">
@@ -90,6 +67,7 @@ class CategoryDataTable extends DataTable
      */
     public function query(Category $model): QueryBuilder
     {
+
         return $model->newQuery()->with('products');
     }
 

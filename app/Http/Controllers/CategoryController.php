@@ -3,11 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\DataTables\CategoryDataTable;
+use App\Exports\CategoryExport;
 use App\Models\Category;
 use App\Rules\TitleValidationRule;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Gate;
+use Maatwebsite\Excel\Facades\Excel;
 
 class CategoryController extends Controller
 {
@@ -31,12 +33,17 @@ class CategoryController extends Controller
        return view('admin.category.print-category-list',compact('categories'))->render();
     }
 
+    public function export(){
+        return Excel::download(new CategoryExport, 'categories.xlsx');
+    }
+
     /**
      * Show the form for creating a new resource.
      */
     public function create()
     {
-        //
+        $htmlView = view('admin.category.create')->render();
+        return response()->json(['success' => true, 'htmlView' => $htmlView]);
     }
 
     /**
@@ -69,7 +76,9 @@ class CategoryController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $category = Category::findOrFail($id);
+        $htmlView = view('admin.category.edit', compact('category'))->render();
+        return response()->json(['success' => true, 'htmlView' => $htmlView]);
     }
 
     /**
@@ -78,7 +87,6 @@ class CategoryController extends Controller
     public function update(Request $request, string $id)
     {
         //
-        $id=decrypt($id);
         $category = Category::find($id);
         $validatedData =$request->validate([
             'name' => ['required','string','unique:categories,name,'.$category->id, new TitleValidationRule],

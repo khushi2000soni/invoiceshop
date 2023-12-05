@@ -3,7 +3,7 @@
     <label>@lang('quickadmin.category.fields.name')</label>
 
     <div class="input-group">
-      <input type="text" class="form-control phone-number " name="name" value="{{ old('name') }}" id="name" autocomplete="true">
+      <input type="text" class="form-control " name="name" value="{{ isset($category) ? $category->name : old('name') }}" id="name" autocomplete="true">
     </div>
 </div>
 

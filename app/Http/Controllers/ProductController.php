@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\DataTables\ProductDataTable;
+use App\Exports\ProductExport;
 use App\Http\Requests\Product\StoreRequest;
 use App\Http\Requests\Product\UpdateRequest;
 use App\Models\Category;
@@ -10,6 +11,7 @@ use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Gate;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ProductController extends Controller
 {
@@ -20,6 +22,20 @@ class ProductController extends Controller
     {
         abort_if(Gate::denies('product_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
         return $dataTable->render('admin.product.index');
+    }
+
+    public function printView()
+    {
+        //dd('test');
+        abort_if(Gate::denies('product_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        $products = Product::orderBy('id','desc')->get();
+        //dd($addresses);
+
+       return view('admin.product.print-product-list',compact('products'))->render();
+    }
+
+    public function export(){
+        return Excel::download(new ProductExport, 'items.xlsx');
     }
 
     /**
@@ -43,14 +59,6 @@ class ProductController extends Controller
         'message' => trans('messages.crud.add_record'),
         'alert-type'=> trans('quickadmin.alert-type.success'),
         'title' => trans('quickadmin.product.product')], 200);
-    }
-
-
-
-    public function ProductListOfCategory(string $id){
-        $category = Category::where('id',$id)->first();
-        $products = Product::where('category_id',$id)->get();
-        return view('admin.category.product-list-category', compact('products','category'));
     }
 
     /**

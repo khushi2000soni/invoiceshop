@@ -17,25 +17,40 @@
     <div class="section-body">
           <div class="row">
             <div class="col-12">
-              <div class="card">
-                <div class="card-header d-flex justify-content-between align-items-center">
-                  <h4>@lang('quickadmin.product-management.fields.list')</h4>
-                  @can('product_create')
-                  <button type="button" class="btn btn-outline-dark addRecordBtn" data-toggle="modal" data-target="#centerModal" data-href="{{ route('products.create')}}"><i class="fas fa-plus"></i> @lang('quickadmin.roles.fields.add')</button>
-                  @endcan
+                <div class="card">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <div class="row align-items-center w-100 mx-0">
+                                <div class="col pl-0">
+                                    <h4>@lang('quickadmin.product-management.fields.list')</h4>
+                                </div>
+                                <div class="col-auto pe-0">
+                                    <div class="row align-items-center">
+                                        <div class="col-auto px-1">
+                                            @can('product_create')
+                                            <button type="button" class="btn btn-outline-dark addRecordBtn sm_btn" data-toggle="modal" data-target="#centerModal" data-href="{{ route('products.create')}}"><i class="fas fa-plus"></i> @lang('quickadmin.roles.fields.add')</button>
+                                            @endcan
+                                        </div>
+                                        <div class="col-auto px-1">
+                                            <a href="{{ route('products.print') }}" class="btn h-10 btn-success mr-1 col"  id="print-button">@lang('quickadmin.qa_print')</a>
+                                        </div>
+                                        <div class="col-auto pl-1 pr-0">
+                                            <a href="{{ route('products.export')}}" class="btn h-10 btn-warning mr-1 col"  id="excel-button">@lang('quickadmin.qa_excel')</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                        <div class="table-responsive fixed_Search">
+                            {{$dataTable->table(['class' => 'table dt-responsive', 'style' => 'width:100%;','id'=>'dataaTable'])}}
+                        </div>
+                        </div>
                 </div>
-                <div class="card-body">
-                  <div class="table-responsive">
-                    {{$dataTable->table(['class' => 'table dt-responsive', 'style' => 'width:100%;','id'=>'dataaTable'])}}
-                  </div>
-                </div>
-              </div>
-
-              <div class="popup_render_div"></div>
             </div>
           </div>
         </div>
   </section>
+  <div class="popup_render_div"></div>
 @endsection
 
 
@@ -51,6 +66,17 @@
 <script>
 $(document).ready(function () {
     var DataaTable = $('#dataaTable').DataTable();
+
+    $('#print-button').printPage();
+
+    $(document).on('click' , 'excel-button' , function(e){
+        e.preventDefault();
+        var iframe = document.createElement('iframe');
+        console.log('iframe');
+        iframe.style.display = 'none';
+        iframe.src = '/products-export'; // Replace with the actual URL for your export route
+        document.body.appendChild(iframe);
+    });
 
     $(document).on('click','.addRecordBtn', function(){
        // $('#preloader').css('display', 'flex');
