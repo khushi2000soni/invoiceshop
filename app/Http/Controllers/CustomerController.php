@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\DataTables\CustomerDataTable;
 use App\DataTables\PhoneBookDataTable;
+use App\Exports\CustomerExport;
 use App\Http\Requests\Customer\CreateRequest;
 use App\Http\Requests\Customer\UpdateRequest;
 use App\Models\Address;
@@ -12,6 +13,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
+use Maatwebsite\Excel\Facades\Excel;
 
 class CustomerController extends Controller
 {
@@ -24,6 +26,24 @@ class CustomerController extends Controller
         abort_if(Gate::denies('customer_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
         $addresses = Address::orderBy('id','desc')->get();
         return $dataTable->render('admin.customer.index',compact('addresses'));
+    }
+
+    public function printView($address_id = null)
+    {
+        //dd('test');
+        abort_if(Gate::denies('customer_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
+        $query = Customer::query();
+        if ($address_id !== null) {
+            $query->where('address_id', $address_id);
+        }
+
+        $customers = $query->orderBy('id','desc')->get();
+        return view('admin.customer.print-customer-list',compact('customers'))->render();
+    }
+
+    public function export($address_id = null){
+        return Excel::download(new CustomerExport($address_id), 'parties.xlsx');
     }
 
     /**

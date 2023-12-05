@@ -39,15 +39,6 @@ class AddressExport implements FromCollection, WithHeadings
                 'Created At' => $address->created_at->format('d-m-Y'),
             ];
         });
-
-        // return Address::all()->map(function ($address, $key) {
-        //     return [
-        //         'Sn.' => $key + 1,
-        //         'Address' => $address->address,
-        //         'No. of Customer' => $address->customers->count() ?? 0,
-        //         'Created At' => $address->created_at->format('d-m-Y'),
-        //     ];
-        // });
     }
 
     public function headings(): array

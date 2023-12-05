@@ -31,10 +31,10 @@
                                             @endcan
                                         </div>
                                         <div class="col-auto px-1">
-                                            <a href="{{ route('products.print') }}" class="btn h-10 btn-success mr-1 col"  id="print-button">@lang('quickadmin.qa_print')</a>
+                                            <a href="{{ route('products.print') }}" class="btn h-10 btn-success mr-1 col"  id="print-button"><i class="fas fa-print"></i> @lang('quickadmin.qa_print')</a>
                                         </div>
                                         <div class="col-auto pl-1 pr-0">
-                                            <a href="{{ route('products.export')}}" class="btn h-10 btn-warning mr-1 col"  id="excel-button">@lang('quickadmin.qa_excel')</a>
+                                            <a href="{{ route('products.export')}}" class="btn h-10 btn-warning mr-1 col"  id="excel-button"><i class="fas fa-file-excel"></i> @lang('quickadmin.qa_excel')</a>
                                         </div>
                                     </div>
                                 </div>

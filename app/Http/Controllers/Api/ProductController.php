@@ -58,7 +58,7 @@ class ProductController extends Controller
     public function store(Request $request){
 
         $validator = Validator::make($request->all(),[
-            'name' => ['required','string','max:150','unique:products,name', 'regex:/^[^\s]+$/'],
+            'name' => ['required','string','max:150','unique:products,name', 'regex:/^[^\s]+(?:\s[^\s]+)?$/'],
             'category_id'=>['required','numeric'],
         ]);
 

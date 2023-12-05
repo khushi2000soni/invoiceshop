@@ -21,7 +21,7 @@ class CustomerController extends Controller
 {
     public function todayInvoiceGroupList(){
         //abort_if(Gate::denies('customer_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-        
+
         try{
             $today = Carbon::today();
             $customerOrders = Customer::select('customers.id as customer_id','customers.name as customer_name',
@@ -31,14 +31,15 @@ class CustomerController extends Controller
             )
             ->leftJoin('orders', 'customers.id', '=', 'orders.customer_id')
             ->where('orders.invoice_date', $today)
+            ->whereNull('orders.deleted_at')
             ->groupBy('customers.id', 'customers.name')
             ->get()->toArray();
-            
+
             return response()->json([
                 'status' => true,
                 'data' => $customerOrders
             ])->setStatusCode(Response::HTTP_OK);
-            
+
             // return response()->json($customerOrders, 200);
 
         }catch (\Exception $e) {
@@ -273,7 +274,7 @@ class CustomerController extends Controller
     public function store(Request $request){
 
         $validator = Validator::make($request->all(),[
-            'name' => ['required','string','max:150', 'regex:/^[^\s]+$/'],
+            'name' => ['required','string','max:150', 'regex:/^[^\s]+(?:\s[^\s]+)?$/'],
             'guardian_name' => ['required','string','max:150','regex:/^[^\s]+$/'],
             // 'email' => ['required','email','unique:customers,email'],
             'phone' => ['required','digits:10','numeric','unique:customers,phone'],

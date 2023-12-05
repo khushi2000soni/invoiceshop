@@ -64,6 +64,8 @@ Route::middleware(['auth','PreventBackHistory'])->group(function () {
 
     Route::resource('/customers',CustomerController::class);
     Route::get('/customers/index/{address_id?}',[CustomerController::class,'index'])->name('customer.index');
+    Route::get('/customers-printView/{address_id?}',[CustomerController::class,'printView'])->name('customers.print');
+    Route::get('/customers-export/{address_id?}',[CustomerController::class,'export'])->name('customers.export');
     Route::get('/phone-book',[CustomerController::class,'showPhoneBook'])->name('showPhoneBook');
 
 

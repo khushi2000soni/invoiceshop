@@ -116,13 +116,13 @@ class CustomerDataTable extends DataTable
             ])
             ->columns($this->getColumns())
             ->minifiedAjax()
-            ->dom('lBfrtip')
+            ->dom('lfrtip')
             ->orderBy(1)
-            ->selectStyleSingle()
-            ->buttons([
-                Button::make('excel')->exportOptions(['columns' => [0, 1, 2, 3, 4, 5]]),
-                Button::make('print')->exportOptions(['columns' => [0, 1, 2, 3, 4, 5]]),
-            ]);
+            ->selectStyleSingle();
+            // ->buttons([
+            //     Button::make('excel')->exportOptions(['columns' => [0, 1, 2, 3, 4, 5]]),
+            //     Button::make('print')->exportOptions(['columns' => [0, 1, 2, 3, 4, 5]]),
+            // ]);
     }
 
     /**

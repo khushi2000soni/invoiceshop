@@ -92,18 +92,6 @@
                             <form id="citiwise-filter-form">
                                 <div class="row align-items-center">
                                     <div class="col-xl-3 col-lg-4 col-md-5 col-sm-6 pr-sm-1 mb-sm-0 mb-3">
-                                        {{-- <div class="form-group label-position m-0">
-                                            <label for="address_id">@lang('quickadmin.customers.fields.select_address')</label>
-                                            <div class="input-group">
-                                                <select class="form-control @error('address_id') is-invalid @enderror" name="address_id" id="address_id" value="">
-                                                    <option value="">@lang('quickadmin.customers.fields.select_address')</option>
-                                                    @foreach($addresses as $address)
-                                                    <option value="{{ $address->id }}">{{ $address->address }}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                        </div> --}}
-
                                         <div class="custom-select2 fullselect2">
                                             <div class="form-control-inner">
                                                 <label for="address_id">@lang('quickadmin.customers.fields.select_address')</label>
@@ -133,10 +121,10 @@
                                     @endcan
                                 </div>
                                 <div class="col-auto px-1">
-                                    <a href="{{ route('address.print') }}" class="btn h-10 btn-success mr-1 col"  id="print-button">@lang('quickadmin.qa_print')</a>
+                                    <a href="{{ route('address.print') }}" class="btn h-10 btn-success mr-1 col"  id="print-button"><i class="fas fa-print"></i> @lang('quickadmin.qa_print')</a>
                                 </div>
                                 <div class="col-auto pl-1">
-                                    <a href="{{ route('address.export') }}" class="btn h-10 btn-warning mr-1 col"  id="excel-button">@lang('quickadmin.qa_excel')</a>
+                                    <a href="{{ route('address.export') }}" class="btn h-10 btn-warning mr-1 col"  id="excel-button"><i class="fas fa-file-excel"></i> @lang('quickadmin.qa_excel')</a>
                                 </div>
                             </div>
                         </div>
