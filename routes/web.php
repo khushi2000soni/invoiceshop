@@ -51,8 +51,8 @@ Route::middleware(['auth','PreventBackHistory'])->group(function () {
     Route::get('/change-password',[UserController::class,'showchangepassform'])->name('user.change-password');
     Route::post('/change-password',[UserController::class,'updatePassword'])->name('reset-password');
     Route::resource('/address',AddressController::class);
-    Route::get('/address-printView',[AddressController::class,'printView'])->name('address.print');
-    Route::get('address-export',[AddressController::class,'export'])->name('address.export');
+    Route::get('/address-printView/{address_id?}',[AddressController::class,'printView'])->name('address.print');
+    Route::get('/address-export/{address_id?}',[AddressController::class,'export'])->name('address.export');
 
     Route::resource('/categories',CategoryController::class);
     Route::get('/categories-printView',[CategoryController::class,'printView'])->name('categories.print');

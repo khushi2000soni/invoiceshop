@@ -25,19 +25,26 @@ class AddressController extends Controller
         return $dataTable->render('admin.address.index',compact('addresses'));
     }
 
-    public function printView()
+    public function printView($address_id = null)
     {
         //dd('test');
         abort_if(Gate::denies('address_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-        //$roles = Address::orderBy('id','asc')->get();
-        $addresses = Address::orderBy('id','desc')->get();
+
+        $query = Address::query();
+        if ($address_id !== null) {
+            $query->where('id', $address_id);
+        }
+
+        $addresses = $query->orderBy('id','desc')->get();
+
+       // $addresses = Address::orderBy('id','desc')->get();
         //dd($addresses);
 
        return view('admin.address.print-address-list',compact('addresses'))->render();
     }
 
-    public function export(){
-        return Excel::download(new AddressExport, 'cities.xlsx');
+    public function export($address_id = null){
+        return Excel::download(new AddressExport($address_id), 'cities.xlsx');
     }
 
     /**

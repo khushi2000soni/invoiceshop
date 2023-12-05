@@ -382,21 +382,30 @@ $(document).ready(function () {
 
         select2Element.val(null).trigger('change');
         addressDataTable.ajax.url("{{ route('address.index') }}").load();
+        originalExportUrl = "{{ route('address.export') }}";
+        originalPrintUrl = "{{ route('address.print') }}";
+        $('#excel-button').attr('href', originalExportUrl);
+        $('#print-button').attr('href', originalPrintUrl);
     });
 
     $('#citiwise-filter-form').on('submit', function(e) {
         e.preventDefault();
 
         var address_id = $('#address_id').val();
+
         if(address_id == undefined){
             address_id = '';
         }
         var params = {
             address_id      : address_id,
         };
+        exportUrl = "{{ route('address.export') }}" + '/' + address_id;
+        printUrl = "{{ route('address.print') }}" + '/' + address_id;
+        console.log(exportUrl);
         // Apply filters to the DataTable
         addressDataTable.ajax.url("{{ route('address.index') }}?"+$.param(params)).load();
-
+        $('#excel-button').attr('href', exportUrl);
+        $('#print-button').attr('href', printUrl);
     });
 
 
