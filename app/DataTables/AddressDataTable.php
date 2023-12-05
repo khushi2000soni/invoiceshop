@@ -71,8 +71,7 @@ class AddressDataTable extends DataTable
         if(isset(request()->address_id) && request()->address_id){
             $model = $model->where('id', request()->address_id);
         }
-
-        return $model->newQuery();
+        return $model->orderBy('id','desc')->newQuery();
     }
 
     /**
