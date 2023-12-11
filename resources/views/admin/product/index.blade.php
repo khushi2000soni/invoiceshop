@@ -460,6 +460,7 @@ $(document).ready(function () {
         $("#AddCategoryForm button[type=submit]").prop('disabled',true);
         $(".error").remove();
         $(".is-invalid").removeClass('is-invalid');
+        var form = $(this);
         var formData = $(this).serialize();
         var formAction = $(this).attr('action');
         console.log(formAction);
@@ -473,7 +474,12 @@ $(document).ready(function () {
             },
             data: formData,
             success: function (response) {
-                    $('.categorymodalbody #centerModal').modal('hide');
+
+                    // $('.categorymodalbody #centerModal').modal('hide');
+                    // $('.popup_render_div #centerModal').modal('hide');
+
+                    form.closest('#centerModal').modal('hide');
+
                     var alertType = response['alert-type'];
                     var message = response['message'];
                     var title = "{{ trans('quickadmin.category.category') }}";

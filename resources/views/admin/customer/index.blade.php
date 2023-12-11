@@ -499,6 +499,7 @@ $(document).ready(function () {
         $("#AddaddressForm button[type=submit]").prop('disabled',true);
         $(".error").remove();
         $(".is-invalid").removeClass('is-invalid');
+        var form = $(this);
         var formData = $(this).serialize();
         var formAction = $(this).attr('action');
         $.ajax({
@@ -509,20 +510,14 @@ $(document).ready(function () {
         },
             data: formData,
             success: function (response) {
-                    $('.addressmodalbody #centerModal').modal('hide');
-                    $('.popup_render_div #centerModal').modal('hide');
+                    // $('.addressmodalbody #centerModal').modal('hide');
+                    // $('.popup_render_div #centerModal').modal('hide');
 
-                    if (!$('.js-example-basic-single').data('select2')) {
-                        $('.js-example-basic-single').select2();
-                    }
-
-                    if (!$('.filter-address-select').data('select2')) {
-                        $('.filter-address-select').select2();
-                    }
+                    form.closest('#centerModal').modal('hide');
 
                     var newOption = new Option(response.address.address, response.address.id, true, true);
                     //console.log(newOption);
-                    $('.popup_render_div #centerModal #address_id').append(newOption).trigger('change');
+                    $('.popup_render_div #address_id').append(newOption).trigger('change');
                     $('#citiwise-filter-form #address_id').append(newOption).trigger('change');
 
                     var alertType = response['alert-type'];
