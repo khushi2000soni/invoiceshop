@@ -26,14 +26,14 @@ class CategoryController extends Controller
     public function printView($category_id = null)
     {
         //dd('test');
-        abort_if(Gate::denies('category_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');        
-        
+        abort_if(Gate::denies('category_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
         $query = Category::query();
         if ($category_id !== null) {
             $query->where('id', $category_id);
         }
-        $categories = $query->orderBy('id','desc')->get();        
-        
+        $categories = $query->orderBy('id','desc')->get();
+
        // $categories = Category::orderBy('id','desc')->get();
        return view('admin.category.print-category-list',compact('categories'))->render();
     }
@@ -62,10 +62,15 @@ class CategoryController extends Controller
             'name' => ['required','string','unique:categories,name', new TitleValidationRule],
         ]);
 
-        $address=Category::create($validatedData);
+        $category=Category::create($validatedData);
         return response()->json(['success' => true,
          'message' => trans('messages.crud.add_record'),
-         'alert-type'=> trans('quickadmin.alert-type.success')], 200);
+         'alert-type'=> trans('quickadmin.alert-type.success'),
+         'category' => [
+            'id' => $category->id,
+            'name' => $category->name,
+            ],
+        ], 200);
     }
 
     /**

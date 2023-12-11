@@ -95,7 +95,7 @@
                                     <form id="citiwise-filter-form">
                                         <div class="row align-items-center">
                                             <div class="col-xl-3 col-lg-4 col-md-5 col-sm-6 pr-sm-1 mb-sm-0 mb-3">
-                                                <div class="custom-select2 fullselect2">     
+                                                <div class="custom-select2 fullselect2">
                                                     <div class="form-control-inner">
                                                         <label for="category_id">Select Category</label>
                                                         <select class="js-example-basic-single form-control @error('category_id') is-invalid @enderror" name="category_id" id="category_id" value="">
@@ -179,6 +179,7 @@ $(document).ready(function () {
                 .append('<div class="select2-link2"><button class="btns addNewBtn"><i class="fa fa-plus-circle"></i> Add New</button></div>');
         }
     });
+
     $(document).on('click','.addNewBtn',function(){
         $(".addRecordBtn").trigger('click');
         $('#category_id').select2('close');

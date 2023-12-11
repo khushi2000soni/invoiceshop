@@ -103,12 +103,12 @@
                     <div class="row align-items-center mb-4 cart_filter_box">
                         <div class="col">
                             <form id="citiwise-filter-form">
-                                <div class="row align-items-end">
+                                <div class="row">
                                     <div class="col-md-3">
-                                        <div class="form-group label-position">
-                                            <label for="address_id">@lang('quickadmin.customers.fields.select_address')</label>
-                                            <div class="input-group">
-                                                <select class="form-control @error('address_id') is-invalid @enderror" name="address_id" id="address_id" value="">
+                                        <div class="custom-select2 fullselect2">
+                                            <div class="form-control-inner">
+                                                <label>@lang('quickadmin.customers.fields.address')</label>
+                                                <select class="form-control filter-address-select @error('address_id') is-invalid @enderror" name="address_id" id="address_id" >
                                                     <option value="">@lang('quickadmin.customers.fields.select_address')</option>
                                                     @foreach($addresses as $address)
                                                     <option value="{{ $address->id }}">{{ $address->address }}</option>
@@ -177,6 +177,40 @@ $(document).ready(function () {
 
     $('#print-button').printPage();
 
+    $(".filter-address-select").select2({
+    }).on('select2:open', function () {
+        let a = $(this).data('select2');
+        if (!$('.select2-link').length) {
+            a.$results.parents('.select2-results')
+                .append('<div class="select2-link2"><button class="btns addNewAddressBtn"><i class="fa fa-plus-circle"></i> Add New</button></div>');
+        }
+    });
+
+    $(document).on('click','.addNewAddressBtn',function(e){
+        e.preventDefault();
+
+        var hrefUrl = '{{ route('address.create') }}';
+        console.log(hrefUrl);
+        $.ajax({
+            type: 'get',
+            url: hrefUrl,
+            dataType: 'json',
+            success: function (response) {
+                //$('#preloader').css('display', 'none');
+                if(response.success) {
+                    console.log('success');
+                    $('.popup_render_div').html(response.htmlView);
+                    $('#centerModal').modal('show');
+                    $(".js-example-basic-single").select2({
+                        dropdownParent: $('.popup_render_div #centerModal') // Set the dropdown parent to the modal
+                    });
+                }
+            }
+        });
+
+        $('#citiwise-filter-form #address_id').select2('close');
+    });
+
     $(document).on('click' , 'excel-button' , function(e){
         e.preventDefault();
         var iframe = document.createElement('iframe');
@@ -198,7 +232,7 @@ $(document).ready(function () {
             success: function (response) {
                 if (response.success) {
                     console.log('success');
-
+                    $('.popup_render_div #address_id').select2('close');
                     $('.popup_render_div').after('<div class="addressmodalbody" style="display: block;"></div>');
                     $('.addressmodalbody').html(response.htmlView);
 
@@ -239,11 +273,11 @@ $(document).ready(function () {
                     $(".js-example-basic-single").select2({
                     dropdownParent: $('.popup_render_div #centerModal') // Set the dropdown parent to the modal
                     }).on('select2:open', function () {
-                    let a = $(this).data('select2');
-                    if (!$('.select2-link').length) {
-                        a.$results.parents('.select2-results')
-                        .append('<div class="select2-link2"><button class="btns get-city close-select2" data-toggle="modal" data-target="#centerModal"><i class="fa fa-plus-circle"></i> Add New</button></div>');
-                    }
+                        let a = $(this).data('select2');
+                        if (!$('.select2-link').length) {
+                            a.$results.parents('.select2-results')
+                            .append('<div class="select2-link2"><button class="btns get-city close-select2" data-toggle="modal" data-target="#centerModal"><i class="fa fa-plus-circle"></i> Add New</button></div>');
+                        }
                     });
                 }
             }
@@ -476,14 +510,20 @@ $(document).ready(function () {
             data: formData,
             success: function (response) {
                     $('.addressmodalbody #centerModal').modal('hide');
+                    $('.popup_render_div #centerModal').modal('hide');
 
                     if (!$('.js-example-basic-single').data('select2')) {
                         $('.js-example-basic-single').select2();
                     }
+
+                    if (!$('.filter-address-select').data('select2')) {
+                        $('.filter-address-select').select2();
+                    }
+
                     var newOption = new Option(response.address.address, response.address.id, true, true);
                     //console.log(newOption);
                     $('.popup_render_div #centerModal #address_id').append(newOption).trigger('change');
-                    //$('#citiwise-filter-form #address_id').append(newOption).trigger('change');
+                    $('#citiwise-filter-form #address_id').append(newOption).trigger('change');
 
                     var alertType = response['alert-type'];
                     var message = response['message'];

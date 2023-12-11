@@ -144,75 +144,6 @@ class OrderController extends Controller
         }
     }
 
-    public function updateWng(Request $request, $id)
-    {
-        $validator = Validator::make($request->all(),[
-            'customer_id'       => ['required','integer'],
-            'thaila_price'      => ['nullable','numeric'],
-            'is_round_off'      => ['required','boolean'],
-            'round_off'  => ['nullable','numeric'],
-            'sub_total'         => ['required','numeric'],
-            'grand_total'       => ['required','numeric'],
-            'products'                  => ['required','array'],
-            'products.*.product_id'     => ['required','exists:products,id'],
-            'products.*.quantity'       => ['required','integer','min:1'],
-            'products.*.price'          => ['required','numeric'],
-            'products.*.total_price'    => ['required','numeric'],
-        ]);
-
-        if($validator->fails()){
-            $responseData = [
-                'status'        => false,
-                'validation_errors' => $validator->errors(),
-            ];
-            return response()->json($responseData, 401);
-        }
-
-        try {
-            DB::beginTransaction();
-                // Update order
-                $orderDetails =  Order::find($id);
-                $orderData = $request->except('products');
-                $orderDetails->fill($orderData);
-                $orderDetails->save();
-
-                // Create order products
-                $productItem = $request->products;
-                // $order->orderProduct()->createMany($productItem);
-                foreach ($productItem as $item) {
-                    if(isset($item['id'])){
-                        $orderDetails->orderProduct()->updateOrCreate(
-                            ['id' => $item['id']], // Use appropriate condition to identify the product
-                            [
-                                'product_id' => $item['product_id'],
-                                'quantity' => $item['quantity'],
-                                'price' => $item['price'],
-                                'total_price' => $item['total_price'],
-                            ]
-                        );
-                    }else{
-                        $productsar['products'] = $item;
-                        $orderDetails->orderProduct()->createMany($productsar);
-                    }
-                }
-            DB::commit();
-            $responseData = [
-                'status'        => true,
-                'message' => trans('messages.success'),
-            ];
-            return response()->json($responseData, 200);
-
-        } catch (\Exception $e) {
-
-            DB::rollBack();
-            $responseData = [
-                'status'        => false,
-                'error'         => $e->getMessage(),
-            ];
-            return response()->json($responseData, 500);
-        }
-    }
-
     public function update(Request $request, Order $order)
     {
        //dd($request->all());
@@ -253,11 +184,7 @@ class OrderController extends Controller
             $existingOrderProductIds = $order->orderProduct->pluck('id')->toArray();
             $updatedOrderProductIds = collect($request->products)->pluck('id')->toArray();
             $deletedOrderProductIds = array_diff($existingOrderProductIds, $updatedOrderProductIds); // it will return the ids from 1st array that is not present the 2nd array
-
-            //dd($existingOrderProductIds , $updatedOrderProductIds, $deletedOrderProductIds);
-
             OrderProduct::whereIn('id', $deletedOrderProductIds)->delete();   // Delete existing order products that are not in the updated list
-
             // Update or create order products
             foreach ($request->products as $productData) {
                 $productId = $productData['id'] ?? null;

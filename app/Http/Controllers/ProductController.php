@@ -68,7 +68,12 @@ class ProductController extends Controller
         return response()->json(['success' => true,
         'message' => trans('messages.crud.add_record'),
         'alert-type'=> trans('quickadmin.alert-type.success'),
-        'title' => trans('quickadmin.product.product')], 200);
+        'title' => trans('quickadmin.product.product'),
+        'product' => [
+            'id' => $product->id,
+            'name' => $product->name,
+            ],
+        ], 200);
     }
 
     /**
