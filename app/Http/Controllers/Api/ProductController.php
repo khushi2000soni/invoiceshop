@@ -22,7 +22,7 @@ class ProductController extends Controller
 
         $responseData = [
             'status'    => true,
-            'message'   => 'success',
+            'message'   => 'Success',
             'productData'  => [],
         ];
         foreach ($allproducts as $product) {

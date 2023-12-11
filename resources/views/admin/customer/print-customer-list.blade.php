@@ -8,7 +8,7 @@
 @section('content')
     <div class="page-header">
         <header style="padding: 1px 0;">
-            <h2 style="margin: 0;color: #2a2a33;font-size: 30px;font-weight: bold; text-align:center;"><strong>@lang('quickadmin.customer-management.fields.list')</strong></h2>
+            <h2 style="margin: 0;color: #2a2a33;font-size: 20px;font-weight: bold; text-align:center;"><strong>@lang('quickadmin.customer-management.fields.list')</strong></h2>
         </header>
     </div>
     {{-- <footer>
@@ -33,7 +33,7 @@
                     <td style="padding: 10px;border: 1px solid #000;border-right: none;border-top: none;" align="left">{{ $key + 1 }}</td>
                     <td style="padding: 10px;border: 1px solid #000;border-right: none;border-top: none;" align="center">{{ $customer->name ?? '' }}</td>
                     <td style="padding: 10px;border: 1px solid #000;border-right: none;border-top: none;" align="center">{{ $customer->guardian_name ?? '' }}</td>
-                    <td style="padding: 10px;border: 1px solid #000;border-right: none;border-top: none;" align="center">{{ $customer->phone .'/'. $customer->phone2 }}</td>
+                    <td style="padding: 10px;border: 1px solid #000;border-right: none;border-top: none;" align="center">{{ $customer->phone}} @if($customer->phone2 !='') {{'/'. $customer->phone2}} @endif </td>
                     <td style="padding: 10px;border: 1px solid #000;border-right: none;border-top: none;" align="center">{{ $customer->address_id ? $customer->address->address : '' }}</td>
                     <td style="padding: 10px;border: 1px solid #000;border-top: none;" align="center">{{ $customer->created_at->format('d-M-Y')  ?? ''}}</td>
                 </tr>

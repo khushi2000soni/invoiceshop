@@ -8,7 +8,7 @@
 @section('content')
     <div class="page-header">
         <header style="padding: 1px 0;">
-            <h2 style="margin: 0;color: #2a2a33;font-size: 30px;font-weight: bold; text-align:center;"><strong>@lang('quickadmin.category.list-title')</strong></h2>
+            <h2 style="margin: 0;color: #2a2a33;font-size: 20px;font-weight: bold; text-align:center;"><strong>@lang('quickadmin.category.list-title')</strong></h2>
         </header>
     </div>
     {{-- <footer>
