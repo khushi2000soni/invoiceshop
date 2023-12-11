@@ -55,7 +55,7 @@ class OrderController extends Controller
 
             $responseData = [
                 'status'        => true,
-                'message' => "Success",
+                'message' => trans('messages.success'),
             ];
             return response()->json($responseData, 200);
 
@@ -128,7 +128,7 @@ class OrderController extends Controller
 
             $responseData = [
                 'status'        => true,
-                'message' => "Success",
+                'message' => trans('messages.success'),
             ];
             return response()->json($responseData, 200);
 
@@ -198,7 +198,7 @@ class OrderController extends Controller
             DB::commit();
             $responseData = [
                 'status'        => true,
-                'message' => "Success",
+                'message' => trans('messages.success'),
             ];
             return response()->json($responseData, 200);
 
@@ -278,7 +278,7 @@ class OrderController extends Controller
 
             $responseData = [
                 'status'        => true,
-                'message' => "Success",
+                'message' => trans('messages.success'),
             ];
             return response()->json($responseData, 200);
 
@@ -311,7 +311,7 @@ class OrderController extends Controller
 
             $responseData = [
                 'status'        => true,
-                'message' => "Success",
+                'message' => trans('messages.success'),
             ];
             return response()->json($responseData, 200);
 

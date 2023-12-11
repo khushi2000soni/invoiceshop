@@ -22,7 +22,7 @@ class ProductController extends Controller
 
         $responseData = [
             'status'    => true,
-            'message'   => 'Success',
+            'message'   => trans('messages.success'),
             'productData'  => [],
         ];
         foreach ($allproducts as $product) {
@@ -42,7 +42,7 @@ class ProductController extends Controller
 
         $responseData = [
             'status'    => true,
-            'message'   => 'Success',
+            'message'   => trans('messages.success'),
             'categoryData'  => [],
         ];
         foreach ($allcategories as $category) {
@@ -75,7 +75,7 @@ class ProductController extends Controller
             $product=Product::create($input);
             $responseData = [
                 'status'            => true,
-                'message'           => 'Success',
+                'message'           => trans('messages.success'),
             ];
             return response()->json($responseData, 200);
         }catch (\Exception $e) {
