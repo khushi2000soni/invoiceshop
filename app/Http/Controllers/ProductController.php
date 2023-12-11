@@ -21,21 +21,31 @@ class ProductController extends Controller
     public function index(ProductDataTable $dataTable)
     {
         abort_if(Gate::denies('product_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-        return $dataTable->render('admin.product.index');
+        $products = Product::orderBy('id','desc')->get();
+        $categories = Category::orderBy('id','desc')->get();
+        return $dataTable->render('admin.product.index',compact('products','categories'));
     }
 
-    public function printView()
+    public function printView($category_id = null, $product_id = null)
     {
         //dd('test');
         abort_if(Gate::denies('product_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-        $products = Product::orderBy('id','desc')->get();
-        //dd($addresses);
+        //$products = Product::orderBy('id','desc')->get();
+
+        $query = Product::query();
+        if ($category_id !== null && $category_id != 'null') {
+            $query->where('category_id', $category_id);
+        }
+        if ($product_id !== null) {
+            $query->where('id', $product_id);
+        }
+        $products = $query->orderBy('id','desc')->get();
 
        return view('admin.product.print-product-list',compact('products'))->render();
     }
 
-    public function export(){
-        return Excel::download(new ProductExport, 'items.xlsx');
+    public function export($category_id = null, $product_id = null){
+        return Excel::download(new ProductExport($category_id,$product_id), 'items.xlsx');
     }
 
     /**
@@ -43,7 +53,7 @@ class ProductController extends Controller
      */
     public function create()
     {
-        $categories = Category::orderBy('id','asc')->get();
+        $categories = Category::orderBy('id','DESC')->get();
         $htmlView = view('admin.product.create', compact('categories'))->render();
         return response()->json(['success' => true, 'htmlView' => $htmlView]);
     }
@@ -75,7 +85,7 @@ class ProductController extends Controller
     public function edit(string $id)
     {
         $product = Product::with('category')->findOrFail($id);
-        $categories = Category::all();
+        $categories = Category::orderBy('id','desc')->get();;
         $htmlView = view('admin.product.edit', compact('categories','product'))->render();
         return response()->json(['success' => true, 'htmlView' => $htmlView]);
     }

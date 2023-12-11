@@ -23,6 +23,7 @@ class ProductDataTable extends DataTable
 
     public function dataTable(QueryBuilder $query)
     {
+        $query->orderBy('id','desc')->get();
         return datatables()
         ->eloquent($query)
             ->addIndexColumn()
@@ -39,7 +40,7 @@ class ProductDataTable extends DataTable
             ->addColumn('action',function($product){
                 $action='';
                 if (Gate::check('product_edit')) {
-                $action .= '<button type="button" class="btn btn-icon btn-info edit-products-btn p-1 mx-1" data-toggle="modal" data-target="#editModal" data-id="'.encrypt($product->id).'" data-href="'.route('products.edit', $product->id).'"><i class="fas fa-edit"></i></button>';
+                $action .= '<button type="button" class="btn btn-icon btn-info edit-products-btn p-1 mx-1"  data-id="'.encrypt($product->id).'" data-href="'.route('products.edit', $product->id).'"><i class="fas fa-edit"></i></button>';
                 }
                 if (Gate::check('product_delete')) {
                 $action .= '<form action="'.route('products.destroy', $product->id).'" method="POST" class="deleteForm m-1" id="deleteForm">
@@ -66,6 +67,9 @@ class ProductDataTable extends DataTable
     {
         if(isset(request()->category_id) && request()->category_id){
             $model = $model->where('category_id', request()->category_id);
+        }
+        if(isset(request()->product_id) && request()->product_id){
+            $model = $model->where('id', request()->product_id);
         }
 
         return $model->newQuery()->with('category');

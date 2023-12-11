@@ -24,7 +24,7 @@ class CustomerController extends Controller
     {
         //
         abort_if(Gate::denies('customer_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-        $addresses = Address::orderBy('id','desc')->get();
+        $addresses = Address::orderByRaw('CAST(address AS SIGNED), address')->get();
         return $dataTable->render('admin.customer.index',compact('addresses'));
     }
 
@@ -51,7 +51,7 @@ class CustomerController extends Controller
      */
     public function create()
     {
-        $addresses = Address::orderBy('id','asc')->get();
+        $addresses = Address::orderByRaw('CAST(address AS SIGNED), address')->get();
         $htmlView = view('admin.customer.create', compact('addresses'))->render();
         return response()->json(['success' => true, 'htmlView' => $htmlView]);
     }
@@ -85,7 +85,8 @@ class CustomerController extends Controller
     public function edit(string $id)
     {
         $customer = Customer::with('address')->findOrFail($id);
-        $addresses = Address::all();
+        // $addresses = Address::all();
+        $addresses =   Address::orderByRaw('CAST(address AS SIGNED), address')->get();
         $htmlView = view('admin.customer.edit', compact('addresses','customer'))->render();
         return response()->json(['success' => true, 'htmlView' => $htmlView]);
     }

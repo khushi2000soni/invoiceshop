@@ -24,6 +24,7 @@ class CustomerDataTable extends DataTable
 
      public function dataTable(QueryBuilder $query): EloquentDataTable
      {
+        $query->orderBy('id','desc')->get();
          return (new EloquentDataTable($query))
             ->addIndexColumn()
             ->editColumn('name',function($customer){
@@ -50,7 +51,7 @@ class CustomerDataTable extends DataTable
             ->addColumn('action',function($customer){
                 $action='';
                 if (Gate::check('customer_edit')) {
-                $action .= '<button type="button" class="btn btn-icon btn-info edit-customers-btn p-1 mx-1" data-toggle="modal" data-target="#editModal" data-id="'.encrypt($customer->id).'" data-href="'.route('customers.edit', $customer->id).'"><i class="fas fa-edit"></i></button>';
+                $action .= '<button type="button" class="btn btn-icon btn-info edit-customers-btn p-1 mx-1"  data-id="'.encrypt($customer->id).'" data-href="'.route('customers.edit', $customer->id).'"><i class="fas fa-edit"></i></button>';
                 }
                 if (Gate::check('customer_delete')) {
                 $action .= '<form action="'.route('customers.destroy', $customer->id).'" method="POST" class="deleteForm m-1" id="deleteForm">

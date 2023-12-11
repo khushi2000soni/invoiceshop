@@ -57,17 +57,20 @@
         border: 1px solid #3584a5;
         border-radius: 60px;
     }
-    #centerModal{
+    #centerModal, #editAddressModal{
         z-index: 99999;
     }
-    #centerModal::before{
+    #centerModal::before, #editAddressModal::before{
         display: none;
     }
     .modal-open .modal-backdrop.show{
         display: block !important;
         z-index: 9999;
     }
-
+    .cart_filter_box{
+        border-bottom: 1px solid #e5e9f2;
+        padding-bottom: 4px;
+    }
     .select2-dropdown{
         z-index: 99999;
     }
@@ -87,7 +90,7 @@
                   <h4>@lang('quickadmin.address.title')</h4>
                 </div> --}}
                 <div class="card-body">
-                    <div class="row align-items-center mb-4">
+                    <div class="row align-items-center mb-4 cart_filter_box">
                         <div class="col">
                             <form id="citiwise-filter-form">
                                 <div class="row align-items-center">
@@ -164,14 +167,20 @@ $(document).ready(function () {
         document.body.appendChild(iframe);
     });
 
+
     $(".js-example-basic-single").select2({
     }).on('select2:open', function () {
         let a = $(this).data('select2');
         if (!$('.select2-link').length) {
             a.$results.parents('.select2-results')
-                .append('<div class="select2-link2"><button class="btns addNewBtn get-city" data-toggle="modal" data-target="#centerModal"><i class="fa fa-plus-circle"></i> Add New</button></div>');
+                .append('<div class="select2-link2"><button class="btns addNewBtn"><i class="fa fa-plus-circle"></i> Add New</button></div>');
         }
     });
+
+    $(document).on('click','.addNewBtn',function(){
+        $(".addRecordBtn").trigger('click');
+        $('#address_id').select2('close');
+    })
 
     $(document).on('click', '.select2-container .get-city', function (e) {
         e.preventDefault();
@@ -197,6 +206,7 @@ $(document).ready(function () {
     $(document).on('click','.addRecordBtn', function(){
        // $('#preloader').css('display', 'flex');
         var hrefUrl = $(this).attr('data-href');
+        $('.modal-backdrop').remove();
         console.log(hrefUrl);
         $.ajax({
             type: 'get',
@@ -216,6 +226,7 @@ $(document).ready(function () {
     $("body").on("click", ".edit-address-btn", function () {
             var hrefUrl = $(this).attr('data-href');
             console.log(hrefUrl);
+            $('.modal-backdrop').remove();
             $.ajax({
                 type: 'get',
                 url: hrefUrl,
@@ -226,6 +237,7 @@ $(document).ready(function () {
                         console.log('success');
                         $('.popup_render_div').html(response.htmlView);
                         $('#editAddressModal').modal('show');
+                        // Initialize select2 for the first modal 
                     }
                 }
             });

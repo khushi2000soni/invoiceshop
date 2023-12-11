@@ -27,7 +27,7 @@ class CustomerExport implements FromCollection , WithHeadings
             $query->where('address_id', $this->address_id);
         }
 
-        $customers = $query->get();
+        $customers = $query->orderBy('id','desc')->get();
 
         return $customers->map(function ($customer, $key) {
             return [

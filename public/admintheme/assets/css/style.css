@@ -12954,3 +12954,128 @@ button#addProductBtn {
     padding: 7px 15px;
     font-size: 13px;
   }
+
+  button#apply-filter {
+    margin-right: 8px !important;
+}
+
+  @media(max-width:991px){
+    .main-content {
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+
+    .navbar{
+        padding-left: 0;
+        padding-right: 0;
+    }
+    .cart_filter_box{
+        align-items: self-start !important;
+        padding-bottom: 10px !important;
+    }
+
+    form#citiwise-filter-form .row.align-items-center {
+        row-gap: 15px;
+    }
+
+    form#citiwise-filter-form .row.align-items-center .col-xl-3.col-lg-4.col-sm-6.text-end.pl-sm-1 {
+        padding-left: 15px !important;
+    }
+  }
+
+  @media(max-width:767px){
+
+    .navbar .navbar-nav li.dropdown {
+        position: absolute;
+        top: 10px;
+        right: 5px;
+    }
+    .nav-link-lg.collapse-btn {
+        padding-left: 10px !important;
+    }
+    .navbar .fullscreen-btn {
+        display: none;
+    }
+    .navbar{
+        position: inherit;
+        height: auto;
+        gap: 10px;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .navbar-bg{
+        height: 100px;
+    }
+    .navbar .default_btn{
+        font-size: 12px;
+    }
+
+    .main-content{
+        padding-top: 30px;
+    }
+
+    .cart_filter_box .col-md-auto {
+        margin-bottom: 1rem;
+    }
+
+    .navbar .default_btn svg {
+        width: 15px;
+        height: 15px;
+    }
+
+    div.dataTables_wrapper div.dataTables_paginate ul.pagination {
+        padding-bottom: 20px;
+    }
+
+    .cart_filter_box .col-md-auto .row.align-items-center {
+        padding-left: 11px;
+    }
+
+    form#citiwise-filter-form .row.align-items-center {
+        row-gap: 15px;
+    }
+
+    form#citiwise-filter-form .row.align-items-center .col-xl-3.col-lg-4.col-sm-6.text-end.pl-sm-1 {
+        padding-left: 15px !important;
+    }
+
+    form#citiwise-filter-form .row.align-items-center .col-xl-3.col-lg-4.col-md-5.col-sm-6.pr-sm-1.mb-sm-0.mb-3 {
+        padding-right: 15px !important;
+    }
+    form#citiwise-filter-form .row.align-items-center .col-xl-3.col-lg-4.col-md-5.col-sm-6.pr-sm-1.mb-sm-0.mb-3:last-child{
+        padding-left: 5px !important;
+    }
+    .main-footer{
+        font-size: 12px;
+    }
+  }
+
+  @media(max-width:550px){
+    .fixed_Search .dataTables_wrapper .dataTables_filter {
+        position: relative;
+        top: 0;
+        right: 0;
+    }
+
+    div.dataTables_wrapper div.dataTables_length label {
+        font-weight: normal;
+        text-align: left;
+        white-space: nowrap;
+        justify-content: center;
+    }
+
+    form#citiwise-filter-form .row.align-items-center .col-xl-3.col-lg-4.col-md-5.col-sm-6.pr-sm-1.mb-sm-0.mb-3{
+        margin-bottom: 3px !important;
+    }
+
+    form#citiwise-filter-form .row.align-items-center .col-xl-3.col-lg-4.col-md-5.col-sm-6.pr-sm-1.mb-sm-0.mb-3:nth-child(2n) {
+        margin-bottom: 0 !important;
+    }
+  }
+
+@media(max-width:350px){
+    .navbar .default_btn {
+        font-size: 11px;
+    }
+}

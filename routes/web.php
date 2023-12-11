@@ -55,8 +55,8 @@ Route::middleware(['auth','PreventBackHistory'])->group(function () {
     Route::get('/address-export/{address_id?}',[AddressController::class,'export'])->name('address.export');
 
     Route::resource('/categories',CategoryController::class);
-    Route::get('/categories-printView',[CategoryController::class,'printView'])->name('categories.print');
-    Route::get('categories-export',[CategoryController::class,'export'])->name('categories.export');
+    Route::get('/categories-printView/{address_id?}',[CategoryController::class,'printView'])->name('categories.print');
+    Route::get('categories-export/{address_id?}',[CategoryController::class,'export'])->name('categories.export');
 
     Route::resource('/staff',UserController::class);
     Route::get('/staff/password/{id}',[UserController::class,'staffpassword'])->name('staff.password');
@@ -71,8 +71,8 @@ Route::middleware(['auth','PreventBackHistory'])->group(function () {
 
     Route::get('/products/index/{category_id?}', [ProductController::class,'index'])->name('products.index');
     Route::resource('/products',ProductController::class);
-    Route::get('/products-printView',[ProductController::class,'printView'])->name('products.print');
-    Route::get('/products-export',[ProductController::class,'export'])->name('products.export');
+    Route::get('/products-printView/{category_id?}/{product_id?}',[ProductController::class,'printView'])->name('products.print');
+    Route::get('/products-export/{category_id?}/{product_id?}',[ProductController::class,'export'])->name('products.export');
 
     Route::resource('/device',DeviceController::class);
     Route::resource('/orders',OrderController::class);

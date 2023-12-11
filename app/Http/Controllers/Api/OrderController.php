@@ -15,6 +15,63 @@ use Illuminate\Support\Facades\Validator;
 class OrderController extends Controller
 {
     public function store(Request $request){
+        $validator = Validator::make($request->all(),[
+            'customer_id'       => ['required','integer'],
+            'thaila_price'      => ['nullable','numeric'],
+            'is_round_off'      => ['required','boolean'],
+            'round_off_amount'  => ['nullable','numeric'],
+            'sub_total'         => ['required','numeric'],
+            'grand_total'       => ['required','numeric'],
+            'products'                  => ['required','array'],
+            'products.*.product_id'     => ['required','exists:products,id'],
+            'products.*.quantity'       => ['required','integer','min:1'],
+            'products.*.price'          => ['required','numeric'],
+            'products.*.total_price'    => ['required','numeric'],
+        ]);
+
+        if($validator->fails()){
+            $responseData = [
+                'status'        => false,
+                'validation_errors' => $validator->errors(),
+            ];
+            return response()->json($responseData, 401);
+        }
+
+        try {
+            DB::beginTransaction();
+                // Create a new order
+                $orderRequest = $request->except('products');
+                $orderRequest['invoice_date'] = Carbon::now();
+                $order = Order::create($orderRequest);
+        
+                // Generate the invoice number
+                $invoiceNumber = generateInvoiceNumber($order->id);
+                $order->update(['invoice_number' => $invoiceNumber]);
+                
+                // Create order products
+                $productItem = $request->products;
+                $order->orderProduct()->createMany($productItem);           
+            DB::commit();
+
+            $responseData = [
+                'status'        => true,
+                'message' => "success",
+            ];
+            return response()->json($responseData, 200);
+
+        } catch (\Exception $e) {
+
+            DB::rollBack();
+            $responseData = [
+                'status'        => false,
+                'error'         => $e->getMessage(),
+            ];
+            return response()->json($responseData, 500);
+        }
+    }
+
+
+    public function storeOld(Request $request){
         //dd($request->all());
 
         $validator = Validator::make($request->all(),[
@@ -87,7 +144,77 @@ class OrderController extends Controller
         }
     }
 
-    public function update(Request $request, Order $order)
+    public function update(Request $request, $id)
+    {
+        $validator = Validator::make($request->all(),[
+            'customer_id'       => ['required','integer'],
+            'thaila_price'      => ['nullable','numeric'],
+            'is_round_off'      => ['required','boolean'],
+            'round_off_amount'  => ['nullable','numeric'],
+            'sub_total'         => ['required','numeric'],
+            'grand_total'       => ['required','numeric'],
+            'products'                  => ['required','array'],
+            'products.*.product_id'     => ['required','exists:products,id'],
+            'products.*.quantity'       => ['required','integer','min:1'],
+            'products.*.price'          => ['required','numeric'],
+            'products.*.total_price'    => ['required','numeric'],
+        ]);
+
+        if($validator->fails()){
+            $responseData = [
+                'status'        => false,
+                'validation_errors' => $validator->errors(),
+            ];
+            return response()->json($responseData, 401);
+        }
+
+        try {
+            DB::beginTransaction();
+                // Update order 
+                $orderDetails =  Order::find($id);
+                $orderData = $request->except('products');
+                $orderDetails->fill($orderData);
+                $orderDetails->save();
+                
+                // Create order products
+                $productItem = $request->products;
+                // $order->orderProduct()->createMany($productItem);
+                foreach ($productItem as $item) {
+                    if(isset($item['id'])){
+                        $orderDetails->orderProduct()->updateOrCreate(
+                            ['id' => $item['id']], // Use appropriate condition to identify the product
+                            [
+                                'product_id' => $item['product_id'],
+                                'quantity' => $item['quantity'],
+                                'price' => $item['price'],
+                                'total_price' => $item['total_price'],
+                            ]
+                        );
+                    }else{
+                        $productsar['products'] = $item;
+                        $orderDetails->orderProduct()->createMany($productsar);
+                    }                    
+                }                
+            DB::commit();
+            $responseData = [
+                'status'        => true,
+                'message' => "success",
+            ];
+            return response()->json($responseData, 200);
+
+        } catch (\Exception $e) {
+
+            DB::rollBack();
+            $responseData = [
+                'status'        => false,
+                'error'         => $e->getMessage(),
+            ];
+            return response()->json($responseData, 500);
+        } 
+    }
+
+
+    public function updateOLD(Request $request, Order $order)
     {
        //dd($request->all());
        $validator = Validator::make($request->all(),[

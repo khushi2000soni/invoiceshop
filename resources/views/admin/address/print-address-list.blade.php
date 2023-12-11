@@ -5,7 +5,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>@lang('quickadmin.address.fields.list-title')</title>
 </head>
-<body style="padding: 50px 0 0;margin: 0;font-family: Arial, Helvetica, sans-serif;" class="">
+<body style="margin: 0;font-family: Arial, Helvetica, sans-serif;" class="">
 
     <div class="page-header">
 		<header style="padding: 1px 0;">
@@ -16,13 +16,13 @@
             <div class="pagenum-container"><small>Page <span class="pagenum"></span></small></div>
         </footer> --}}
 		<main class="main" style="max-width: 620px;margin: 0 auto;padding: 40px;padding-top: 0;">
-			<table cellpadding="0" cellspacing="0" border="1" width="100%" style="color: #000;font-size: 16px;">
+			<table cellpadding="0" cellspacing="0" width="100%" style="color: #000;font-size: 16px;">
 				<thead>
 					<tr>
-						<th style="padding: 10px;" align="left">@lang('quickadmin.qa_sn')</th>
-						<th style="padding: 10px;" align="center">@lang('quickadmin.address.fields.list.address')</th>
-						<th style="padding: 10px;" align="center">@lang('quickadmin.address.fields.list.no_of_customer')</th>
-						<th style="padding: 10px;" align="center">@lang('quickadmin.address.fields.list.created_at')</th>
+						<th style="padding: 10px;border: 1px solid #000;border-right: none;" align="left">@lang('quickadmin.qa_sn')</th>
+						<th style="padding: 10px;border: 1px solid #000;border-right: none;" align="center">@lang('quickadmin.address.fields.list.address')</th>
+						<th style="padding: 10px;border: 1px solid #000;border-right: none;" align="center">@lang('quickadmin.address.fields.list.no_of_customer')</th>
+						<th style="padding: 10px;border: 1px solid #000;" align="center">@lang('quickadmin.address.fields.list.created_at')</th>
 
 					</tr>
 				</thead>
@@ -30,10 +30,10 @@
 
 					@forelse ($addresses as $key => $address)
 				    <tr>
-				        <td style="padding: 10px;" align="left">{{ $key + 1 }}</td>
-						<td style="padding: 10px;" align="center">{{ $address->address }}</td>
-						<td style="padding: 10px;" align="center">{{ $address->customers->count() ?? 0 }}</td>
-						<td style="padding: 10px;" align="center">{{ $address->created_at->format('d-M-Y') }}</td>
+				        <td style="padding: 10px;border: 1px solid #000;border-right: none;border-top: none;" align="left">{{ $key + 1 }}</td>
+						<td style="padding: 10px;border: 1px solid #000;border-right: none;border-top: none;" align="center">{{ $address->address }}</td>
+						<td style="padding: 10px;border: 1px solid #000;border-right: none;border-top: none;" align="center">{{ $address->customers->count() ?? 0 }}</td>
+						<td style="padding: 10px;border: 1px solid #000;border-top: none;" align="center">{{ $address->created_at->format('d-M-Y') }}</td>
 					</tr>
                     @empty
                     <tr>

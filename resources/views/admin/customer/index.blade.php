@@ -62,12 +62,13 @@
         border: 1px solid #3584a5;
         border-radius: 60px;
     }
-    #centerModal{
+    #centerModal, #editModal{
         z-index: 99999;
     }
-    #centerModal::before{
+    #centerModal::before, #editModal::before{
         display: none;
     }
+
     .modal-open .modal-backdrop.show{
         display: block !important;
         z-index: 9999;
@@ -76,9 +77,14 @@
     .select2-dropdown{
         z-index: 99999;
     }
+    .cart_filter_box{
+        border-bottom: 1px solid #e5e9f2;
+    }
+    #editModal .select2-results{
+        padding-top: 0px !important;
+    }
 </style>
 @endsection
-
 @section('main-content')
 
 <section class="section roles" style="z-index: unset">
@@ -94,7 +100,7 @@
                 </div> --}}
 
                 <div class="card-body">
-                    <div class="row align-items-center mb-4">
+                    <div class="row align-items-center mb-4 cart_filter_box">
                         <div class="col">
                             <form id="citiwise-filter-form">
                                 <div class="row align-items-end">
@@ -126,7 +132,7 @@
                             <div class="row align-items-center">
                                 <div class="col-auto px-md-1 pr-1">
                                     @can('customer_create')
-                                    <button type="button" class="btn btn-outline-dark addRecordBtn sm_btn" data-toggle="modal" data-target="#centerModal" data-href="{{ route('customers.create')}}"><i class="fas fa-plus"></i> @lang('quickadmin.customers.fields.add')</button>
+                                    <button type="button" class="btn btn-outline-dark addRecordBtn sm_btn"  data-href="{{ route('customers.create')}}"><i class="fas fa-plus"></i> @lang('quickadmin.customers.fields.add')</button>
                                     @endcan
                                 </div>
                                 <div class="col-auto px-1">
@@ -253,6 +259,13 @@ $(document).ready(function () {
                         console.log('success');
                         $('.popup_render_div').html(response.htmlView);
                         $('#editModal').modal('show');
+                         // Initialize select2 for the first modal
+                        $(".js-example-basic-single").select2({
+                        dropdownParent: $('.popup_render_div #editModal') // Set the dropdown parent to the modal
+                        });                 
+                        setTimeout(() => {
+                            $('.modal-backdrop').not(':first').remove();
+                        }, 300);                       
                     }
                 }
             });

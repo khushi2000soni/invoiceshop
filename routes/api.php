@@ -50,6 +50,7 @@ Route::group(['middleware' => 'checkDevice'], function () {
 
         Route::group(['prefix' => 'orders'], function () {
             Route::post('/store', [OrderController::class, 'store']);
+           // Route::post('/update/{id}', [OrderController::class, 'update']);
             Route::delete('/{order}', [OrderController::class, 'destroy']);
             Route::put('/{order}', [OrderController::class, 'update']);
         });

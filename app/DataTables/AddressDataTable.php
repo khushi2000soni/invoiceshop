@@ -46,7 +46,7 @@ class AddressDataTable extends DataTable
             ->addColumn('action',function($address){
                 $action='';
                 if (Gate::check('address_edit')) {
-                $action .= '<button type="button" class="btn edit-address-btn" data-toggle="modal" data-target="#editAddressModal" data-id="'.encrypt($address->id).'" data-address="'. $address->address .'" data-href="'.route('address.edit', $address->id).'"><i class="fas fa-edit"></i></button>';
+                $action .= '<button type="button" class="btn edit-address-btn"  data-id="'.encrypt($address->id).'" data-address="'. $address->address .'" data-href="'.route('address.edit', $address->id).'"><i class="fas fa-edit"></i></button>';
             }
                 if (Gate::check('address_delete')) {
                 $action .= '<form action="'.route('address.destroy', $address->id).'" method="POST" class="deleteAddressForm m-1" id="deleteAddressForm">

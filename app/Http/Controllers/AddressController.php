@@ -21,7 +21,8 @@ class AddressController extends Controller
 
         abort_if(Gate::denies('address_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
         //$roles = Address::orderBy('id','asc')->get();
-        $addresses = Address::orderBy('id','desc')->get();
+        // $addresses = Address::orderBy('address','asc')->get();
+        $addresses = Address::orderByRaw('CAST(address AS SIGNED), address')->get();
         return $dataTable->render('admin.address.index',compact('addresses'));
     }
 
@@ -35,8 +36,8 @@ class AddressController extends Controller
             $query->where('id', $address_id);
         }
 
-        $addresses = $query->orderBy('id','desc')->get();
-
+        $addresses = $query->orderByRaw('CAST(address AS SIGNED), address')->get();
+        
        // $addresses = Address::orderBy('id','desc')->get();
         //dd($addresses);
 

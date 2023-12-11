@@ -29,13 +29,13 @@ class AddressExport implements FromCollection, WithHeadings
             $query->where('id', $this->address_id);
         }
 
-        $addresses = $query->get();
+        $addresses = $query->orderBy('address','asc')->get();
 
         return $addresses->map(function ($address, $key) {
             return [
                 'Sn.' => $key + 1,
-                'Address' => $address->address,
-                'No. of Customer' => $address->customers->count() ?? 0,
+                'City' => $address->address,
+                'No. of Party' => $address->customers->count() ?? 0,
                 'Created At' => $address->created_at->format('d-m-Y'),
             ];
         });
@@ -43,7 +43,7 @@ class AddressExport implements FromCollection, WithHeadings
 
     public function headings(): array
     {
-        return ["Sn.", "Address" , "No. of Customer" , "Created At"];
+        return ["Sn.", "City" , "No. of Party" , "Created At"];
     }
 
 }

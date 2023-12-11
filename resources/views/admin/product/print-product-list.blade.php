@@ -15,23 +15,23 @@
         <div class="pagenum-container"><small>Page <span class="pagenum"></span></small></div>
     </footer> --}}
     <main class="main" style="max-width: 620px;margin: 0 auto;padding: 40px;padding-top: 0;">
-        <table cellpadding="0" cellspacing="0" border="1" width="100%" style="color: #000;font-size: 16px;">
+        <table cellpadding="0" cellspacing="0" width="100%" style="color: #000;font-size: 16px;padding-right: 20px;">
             <thead>
                 <tr>
-                    <th style="padding: 10px;" align="left">@lang('quickadmin.qa_sn')</th>
-                    <th style="padding: 10px;" align="center">@lang('quickadmin.product.fields.name')</th>
-                    <th style="padding: 10px;" align="center">@lang('quickadmin.product.fields.category_name')</th>
-                    <th style="padding: 10px;" align="center">@lang('quickadmin.product.fields.created_at')</th>
+                    <th style="padding: 10px;border: 1px solid #000;border-right: none;" align="left">@lang('quickadmin.qa_sn')</th>
+                    <th style="padding: 10px;border: 1px solid #000;border-right: none;" align="center">@lang('quickadmin.product.fields.name')</th>
+                    <th style="padding: 10px;border: 1px solid #000;border-right: none;" align="center">@lang('quickadmin.product.fields.category_name')</th>
+                    <th style="padding: 10px;border: 1px solid #000;" align="center">@lang('quickadmin.product.fields.created_at')</th>
                 </tr>
             </thead>
             <tbody>
 
                 @forelse ($products as $key => $product)
                 <tr>
-                    <td style="padding: 10px;" align="left">{{ $key + 1 }}</td>
-                    <td style="padding: 10px;" align="center">{{ ucwords($product->name) ?? '' }}</td>
-                    <td style="padding: 10px;" align="center">{{ ucwords($product->category->name) ?? '' }}</td>
-                    <td style="padding: 10px;" align="center">{{ $product->created_at->format('d-M-Y') }}</td>
+                    <td style="padding: 10px;border: 1px solid #000;border-right: none;border-top: none;" align="left">{{ $key + 1 }}</td>
+                    <td style="padding: 10px;border: 1px solid #000;border-right: none;border-top: none;" align="center">{{ ucwords($product->name) ?? '' }}</td>
+                    <td style="padding: 10px;border: 1px solid #000;border-right: none;border-top: none;" align="center">{{ ucwords($product->category->name) ?? '' }}</td>
+                    <td style="padding: 10px;border: 1px solid #000;border-top: none;" align="center">{{ $product->created_at->format('d-M-Y') }}</td>
                 </tr>
                 @empty
                 <tr>

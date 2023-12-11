@@ -11,13 +11,32 @@ class CategoryExport implements FromCollection , WithHeadings
     /**
     * @return \Illuminate\Support\Collection
     */
+    protected $category_id;
+
+
+
+    public function __construct($category_id)
+    {
+        $this->category_id = $category_id;
+    }
+
     public function collection()
     {
-        return Category::all()->map(function ($category, $key) {
+        $query = Category::query();
+
+        // If $address_id is not null, filter by city
+        if ($this->category_id !== null) {
+            $query->where('id', $this->category_id);
+        }
+
+        $categories = $query->orderBy('id','desc')->get();
+
+        // return Category::all()->map(function ($category, $key) {
+            return $categories->map(function ($category, $key) {
             return [
                 'Sn.' => $key + 1,
                 'Name' => $category->name,
-                'No. of Customer' => $category->products->count() ?? 0,
+                'Total Item' => $category->products->count() ?? 0,
                 'Created At' => $category->created_at->format('d-m-Y'),
             ];
         });
@@ -25,7 +44,7 @@ class CategoryExport implements FromCollection , WithHeadings
 
     public function headings(): array
     {
-        return ["Sn.", "Name" , "No. of Products" , "Created At"];
+        return ["Sn.", "Name" , "Total Item" , "Created At"];
     }
 
 }

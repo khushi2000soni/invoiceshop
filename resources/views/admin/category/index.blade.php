@@ -4,6 +4,78 @@
 @section('customCss')
 <meta name="csrf-token" content="{{ csrf_token() }}" >
 <link rel="stylesheet" href="{{ asset('admintheme/assets/css/printView-datatable.css')}}">
+
+<style>
+    .custom-select2 select{
+        width: 200px;
+        z-index: 1;
+        position: relative;
+    }
+    .custom-select2 .form-control-inner{
+        position: relative;
+    }
+    .custom-select2 .form-control-inner label{
+        position: absolute;
+        left: 10px;
+        top: -8px;
+        background-color: #fff;
+        padding: 0 5px;
+        z-index: 1;
+        font-size: 12px;
+    }
+    .select2-results{
+        padding-top: 48px;
+        position: relative;
+    }
+    .select2-link2{
+        position: absolute;
+        top: 6px;
+        left: 5px;
+        width: 100%;
+    }
+    .select2-container--default .select2-selection--single,
+    .select2-container--default .select2-selection--single .select2-selection__arrow{
+        height: 40px;
+    }
+    .select2-container--default .select2-selection--single .select2-selection__rendered{
+        line-height: 41px;
+    }
+    .select2-search--dropdown .select2-search__field{
+        padding: 10px;
+        font-size: 15px;
+    }
+    .select2-search--dropdown .select2-search__field:focus{
+        outline: none;
+    }
+    .select2-link2 .btns {
+        color: #3584a5;
+        background-color: transparent;
+        border: none;
+        font-size: 14px;
+        padding: 7px 15px;
+        cursor: pointer;
+        border: 1px solid #3584a5;
+        border-radius: 60px;
+    }
+    #centerModal, #editCategoryModal{
+        z-index: 99999;
+    }
+    #centerModal::before, #editCategoryModal::before{
+        display: none;
+    }
+    .modal-open .modal-backdrop.show{
+        display: block !important;
+        z-index: 9999;
+    }
+    .cart_filter_box{
+        border-bottom: 1px solid #e5e9f2;
+        padding-bottom: 4px;
+    }
+    .select2-dropdown{
+        z-index: 99999;
+    }
+</style>
+
 @endsection
 
 @section('main-content')
@@ -14,32 +86,57 @@
         <div class="row">
             <div class="col-12">
                 <div class="card">
-                    <div class="card-header d-flex justify-content-between align-items-center">
-                        <div class="row align-items-center w-100 mx-0">
-                            <div class="col pl-0">
-                                <h4>@lang('quickadmin.category.list-title')</h4>
-                            </div>
-                            <div class="col-auto pe-0">
-                                <div class="row align-items-center">
-                                    <div class="col-auto px-1">
-                                        @can('category_create')
-                                        <button type="button" class="btn btn-outline-dark addRecordBtn sm_btn" data-toggle="modal" data-target="#centerModal" data-href="{{ route('categories.create')}}"><i class="fas fa-plus"></i> @lang('quickadmin.roles.fields.add')</button>
-                                    @endcan
-                                    </div>
-                                    <div class="col-auto px-1">
-                                        <a href="{{ route('categories.print') }}" class="btn h-10 btn-success mr-1 col"  id="print-button"><i class="fas fa-print"></i> @lang('quickadmin.qa_print')</a>
-                                    </div>
-                                    <div class="col-auto pl-1 pr-0">
-                                        <a href="{{ route('categories.export')}}" class="btn h-10 btn-warning mr-1 col"  id="excel-button"><i class="fas fa-file-excel"></i> @lang('quickadmin.qa_excel')</a>
+                    <div class="card-body">
+                        <div class="row align-items-center mb-4 cart_filter_box">
+                                <!-- <div class="col pl-0">
+                                    <h4>@lang('quickadmin.category.list-title')</h4>
+                                </div> -->
+                                <div class="col">
+                                    <form id="citiwise-filter-form">
+                                        <div class="row align-items-center">
+                                            <div class="col-xl-3 col-lg-4 col-md-5 col-sm-6 pr-sm-1 mb-sm-0 mb-3">
+                                                <div class="custom-select2 fullselect2">     
+                                                    <div class="form-control-inner">
+                                                        <label for="category_id">Select Category</label>
+                                                        <select class="js-example-basic-single form-control @error('category_id') is-invalid @enderror" name="category_id" id="category_id" value="">
+                                                            <option value="">Select Category</option>
+                                                            @foreach($categories as $category)
+                                                                <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-xl-3 col-lg-4 col-sm-6 text-end pl-sm-1">
+                                                <div class="form-group d-flex justify-content-end m-0">
+                                                    <button type="submit" class="btn btn-primary mr-1 col" id="apply-filter">@lang('quickadmin.qa_submit')</button>
+                                                    <button type="reset" class="btn btn-primary mr-1 col" id="reset-filter">@lang('quickadmin.qa_reset')</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+
+                                <div class="col-md-auto col-12 mt-md-0 mt-3">
+                                    <div class="row align-items-center">
+                                        <div class="col-auto px-1">
+                                            @can('category_create')
+                                            <button type="button" class="btn btn-outline-dark addRecordBtn sm_btn"  data-href="{{ route('categories.create')}}"><i class="fas fa-plus"></i> @lang('quickadmin.roles.fields.add')</button>
+                                        @endcan
+                                        </div>
+                                        <div class="col-auto px-1">
+                                            <a href="{{ route('categories.print') }}" class="btn h-10 btn-success mr-1 col"  id="print-button"><i class="fas fa-print"></i> @lang('quickadmin.qa_print')</a>
+                                        </div>
+                                        <div class="col-auto pl-1">
+                                            <a href="{{ route('categories.export')}}" class="btn h-10 btn-warning mr-1 col"  id="excel-button"><i class="fas fa-file-excel"></i> @lang('quickadmin.qa_excel')</a>
+                                        </div>
                                     </div>
                                 </div>
+
                             </div>
+                        <div class="table-responsive fixed_Search">
+                            {{$dataTable->table(['class' => 'table dt-responsive subBodyTable', 'style' => 'width:100%;','id'=>'categoryTable'])}}
                         </div>
-                    </div>
-                    <div class="card-body">
-                    <div class="table-responsive fixed_Search">
-                        {{$dataTable->table(['class' => 'table dt-responsive subBodyTable', 'style' => 'width:100%;','id'=>'categoryTable'])}}
-                    </div>
                     </div>
                 </div>
             </div>
@@ -74,6 +171,19 @@ $(document).ready(function () {
         document.body.appendChild(iframe);
     });
 
+    $(".js-example-basic-single").select2({
+    }).on('select2:open', function () {
+        let a = $(this).data('select2');
+        if (!$('.select2-link').length) {
+            a.$results.parents('.select2-results')
+                .append('<div class="select2-link2"><button class="btns addNewBtn"><i class="fa fa-plus-circle"></i> Add New</button></div>');
+        }
+    });
+    $(document).on('click','.addNewBtn',function(){
+        $(".addRecordBtn").trigger('click');
+        $('#category_id').select2('close');
+    })
+
     $(document).on('click','.addRecordBtn', function(){
        // $('#preloader').css('display', 'flex');
         var hrefUrl = $(this).attr('data-href');
@@ -88,6 +198,9 @@ $(document).ready(function () {
                     console.log('success');
                     $('.popup_render_div').html(response.htmlView);
                     $('#centerModal').modal('show');
+                    setTimeout(() => {
+                        $('.modal-backdrop').not(':first').remove();
+                    }, 300);
                 }
             }
         });
@@ -106,6 +219,9 @@ $(document).ready(function () {
                         console.log('success');
                         $('.popup_render_div').html(response.htmlView);
                         $('#editCategoryModal').modal('show');
+                        setTimeout(() => {
+                        $('.modal-backdrop').not(':first').remove();
+                    }, 300);
                     }
                 }
             });
@@ -241,6 +357,42 @@ $(document).ready(function () {
     });
 
 
+
+    $('#reset-filter').on('click', function(e) {
+        e.preventDefault();
+        $('#citiwise-filter-form')[0].reset();
+        var select2Element = $('#category_id');
+
+        select2Element.val(null).trigger('change');
+
+        categoryDataTable.ajax.url("{{ route('categories.index') }}").load();
+
+        originalExportUrl = "{{ route('categories.export') }}";
+        originalPrintUrl = "{{ route('categories.print') }}";
+        $('#excel-button').attr('href', originalExportUrl);
+        $('#print-button').attr('href', originalPrintUrl);
+    });
+
+
+    $('#citiwise-filter-form').on('submit', function(e) {
+        e.preventDefault();
+
+        // Collect filter values (customer, from_date, to_date) from the form
+        var category_id = $('#category_id').val();
+        if(category_id == undefined){
+            category_id = '';
+        }
+        var params = {
+            category_id      : category_id,
+        };
+
+        exportUrl = "{{ route('categories.export') }}" + '/' + category_id;
+        printUrl = "{{ route('categories.print') }}" + '/' + category_id;
+        // Apply filters to the DataTable
+        categoryDataTable.ajax.url("{{ route('categories.index') }}?"+$.param(params)).load();
+        $('#excel-button').attr('href', exportUrl);
+        $('#print-button').attr('href', printUrl);
+    });
 
 
 });

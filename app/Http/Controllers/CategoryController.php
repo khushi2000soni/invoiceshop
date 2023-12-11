@@ -19,22 +19,27 @@ class CategoryController extends Controller
     public function index(CategoryDataTable $dataTable)
     {
         abort_if(Gate::denies('category_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-        return $dataTable->render('admin.category.index');
+        $categories = Category::orderBy('id','desc')->get();
+        return $dataTable->render('admin.category.index',compact('categories'));
     }
 
-    public function printView()
+    public function printView($category_id = null)
     {
         //dd('test');
-        abort_if(Gate::denies('category_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-        //$roles = Address::orderBy('id','asc')->get();
-        $categories = Category::orderBy('id','desc')->get();
-        //dd($addresses);
-
+        abort_if(Gate::denies('category_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');        
+        
+        $query = Category::query();
+        if ($category_id !== null) {
+            $query->where('id', $category_id);
+        }
+        $categories = $query->orderBy('id','desc')->get();        
+        
+       // $categories = Category::orderBy('id','desc')->get();
        return view('admin.category.print-category-list',compact('categories'))->render();
     }
 
-    public function export(){
-        return Excel::download(new CategoryExport, 'categories.xlsx');
+    public function export($category_id = null){
+        return Excel::download(new CategoryExport($category_id), 'categories.xlsx');
     }
 
     /**
