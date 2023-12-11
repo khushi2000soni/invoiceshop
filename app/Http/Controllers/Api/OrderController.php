@@ -247,7 +247,6 @@ class OrderController extends Controller
                 'round_off' => $request->round_off,
                 'is_round_off' => $request->is_round_off,
                 'sub_total' => $request->sub_total,
-                'round_off' => $request->round_off_amount,
                 'grand_total' => $request->grand_total,
             ]);
 
