@@ -19,7 +19,7 @@ class OrderController extends Controller
             'customer_id'       => ['required','integer'],
             'thaila_price'      => ['nullable','numeric'],
             'is_round_off'      => ['required','boolean'],
-            'round_off_amount'  => ['nullable','numeric'],
+            'round_off'  => ['nullable','numeric'],
             'sub_total'         => ['required','numeric'],
             'grand_total'       => ['required','numeric'],
             'products'                  => ['required','array'],
@@ -43,19 +43,19 @@ class OrderController extends Controller
                 $orderRequest = $request->except('products');
                 $orderRequest['invoice_date'] = Carbon::now();
                 $order = Order::create($orderRequest);
-        
+
                 // Generate the invoice number
                 $invoiceNumber = generateInvoiceNumber($order->id);
                 $order->update(['invoice_number' => $invoiceNumber]);
-                
+
                 // Create order products
                 $productItem = $request->products;
-                $order->orderProduct()->createMany($productItem);           
+                $order->orderProduct()->createMany($productItem);
             DB::commit();
 
             $responseData = [
                 'status'        => true,
-                'message' => "success",
+                'message' => "Success",
             ];
             return response()->json($responseData, 200);
 
@@ -128,7 +128,7 @@ class OrderController extends Controller
 
             $responseData = [
                 'status'        => true,
-                'message' => "success",
+                'message' => "Success",
             ];
             return response()->json($responseData, 200);
 
@@ -144,13 +144,13 @@ class OrderController extends Controller
         }
     }
 
-    public function update(Request $request, $id)
+    public function updateWng(Request $request, $id)
     {
         $validator = Validator::make($request->all(),[
             'customer_id'       => ['required','integer'],
             'thaila_price'      => ['nullable','numeric'],
             'is_round_off'      => ['required','boolean'],
-            'round_off_amount'  => ['nullable','numeric'],
+            'round_off'  => ['nullable','numeric'],
             'sub_total'         => ['required','numeric'],
             'grand_total'       => ['required','numeric'],
             'products'                  => ['required','array'],
@@ -170,12 +170,12 @@ class OrderController extends Controller
 
         try {
             DB::beginTransaction();
-                // Update order 
+                // Update order
                 $orderDetails =  Order::find($id);
                 $orderData = $request->except('products');
                 $orderDetails->fill($orderData);
                 $orderDetails->save();
-                
+
                 // Create order products
                 $productItem = $request->products;
                 // $order->orderProduct()->createMany($productItem);
@@ -193,12 +193,12 @@ class OrderController extends Controller
                     }else{
                         $productsar['products'] = $item;
                         $orderDetails->orderProduct()->createMany($productsar);
-                    }                    
-                }                
+                    }
+                }
             DB::commit();
             $responseData = [
                 'status'        => true,
-                'message' => "success",
+                'message' => "Success",
             ];
             return response()->json($responseData, 200);
 
@@ -210,18 +210,17 @@ class OrderController extends Controller
                 'error'         => $e->getMessage(),
             ];
             return response()->json($responseData, 500);
-        } 
+        }
     }
 
-
-    public function updateOLD(Request $request, Order $order)
+    public function update(Request $request, Order $order)
     {
        //dd($request->all());
        $validator = Validator::make($request->all(),[
         'customer_id' => ['required','integer'],
         'thaila_price' => ['nullable','numeric'],
         'is_round_off' => ['required','boolean'],
-        'round_off_amount' => ['nullable','numeric'],
+        'round_off' => ['nullable','numeric'],
         'sub_total'=> ['required','numeric'],
         'grand_total' => ['required','numeric'],
         'products' => ['required','array'],
@@ -243,12 +242,13 @@ class OrderController extends Controller
         try {
             DB::beginTransaction();
             $order->update([
-                'customer_id' => (int)$request->customer_id,
-                'thaila_price' => (float)$request->thaila_price,
+                'customer_id' => $request->customer_id,
+                'thaila_price' => $request->thaila_price,
+                'round_off' => $request->round_off,
                 'is_round_off' => $request->is_round_off,
-                'sub_total' => (float)$request->sub_total,
-                'round_off' => (float)$request->round_off_amount,
-                'grand_total' => (float)$request->grand_total,
+                'sub_total' => $request->sub_total,
+                'round_off' => $request->round_off_amount,
+                'grand_total' => $request->grand_total,
             ]);
 
             $existingOrderProductIds = $order->orderProduct->pluck('id')->toArray();
@@ -278,7 +278,7 @@ class OrderController extends Controller
 
             $responseData = [
                 'status'        => true,
-                'message' => "success",
+                'message' => "Success",
             ];
             return response()->json($responseData, 200);
 
@@ -311,7 +311,7 @@ class OrderController extends Controller
 
             $responseData = [
                 'status'        => true,
-                'message' => "success",
+                'message' => "Success",
             ];
             return response()->json($responseData, 200);
 

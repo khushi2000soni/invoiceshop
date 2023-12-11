@@ -214,6 +214,11 @@ $(document).ready(function () {
         });
     });
 
+    $(document).on('hidden.bs.modal','.addressmodalbody .modal', function (e) {
+        e.preventDefault();
+        $('.addressmodalbody').remove();
+    });
+
     $(document).on('click', '.addRecordBtn', function (e) {
         e.preventDefault();
         var hrefUrl = $(this).attr('data-href');

@@ -73,7 +73,7 @@ class CustomerController extends Controller
             if($orders->isNotEmpty()){
                 $responseData = [
                     'status'    => true,
-                    'message'   => 'success',
+                    'message'   => 'Success',
                     'userData'  => [],
                 ];
 
@@ -146,7 +146,7 @@ class CustomerController extends Controller
             if($orders){
                 $responseData = [
                     'status'    => true,
-                    'message'   => 'success',
+                    'message'   => 'Success',
                     'userData'  => [],
                 ];
                 foreach ($orders as $order) {
@@ -208,7 +208,7 @@ class CustomerController extends Controller
             if ($orders->isNotEmpty()) {
                 $responseData = [
                     'status' => true,
-                    'message' => 'success',
+                    'message' => 'Success',
                     'customerData' => [
                         'customer_id'        => $customer->id ?? '',
                         'customer_name'   => $customer->name ?? '',
@@ -298,7 +298,7 @@ class CustomerController extends Controller
             $customer=Customer::create($input);
             $responseData = [
                 'status'            => true,
-                'message'           => 'success',
+                'message'           => 'Success',
                 'userData'          => [
                     'customer_id'        => $customer->id ?? '',
                     'customer_name'   => $customer->name ?? '',
@@ -325,7 +325,7 @@ class CustomerController extends Controller
 
         $responseData = [
             'status'    => true,
-            'message'   => 'success',
+            'message'   => 'Success',
             'customerData'  => [],
         ];
         foreach ($allcustomers as $customer) {

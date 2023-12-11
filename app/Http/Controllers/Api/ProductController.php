@@ -42,7 +42,7 @@ class ProductController extends Controller
 
         $responseData = [
             'status'    => true,
-            'message'   => 'success',
+            'message'   => 'Success',
             'categoryData'  => [],
         ];
         foreach ($allcategories as $category) {
