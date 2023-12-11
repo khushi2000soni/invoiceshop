@@ -16,15 +16,15 @@ class CheckDevice
      */
     public function handle(Request $request, Closure $next): Response
     {
-        /*$deviceId = $request->header('device_id');
-        dd($request, $deviceId , Device::where('device_id', $deviceId)->exists());
-        if (!$deviceId || !Device::where('device_id', $deviceId)->exists()) {
-            $responseData = [
-                'status'        => false,
-                'error' => trans('messages.device_error')
-            ];
-            return response()->json($responseData, 401);
-        }*/
+    //     $deviceId = $request->header('device_id');
+    //    // dd($deviceId , Device::where('device_id', $deviceId)->exists());
+    //     if (!$deviceId || !Device::where('device_id', $deviceId)->exists()) {
+    //         $responseData = [
+    //             'status'        => false,
+    //             'error' => trans('messages.device_error')
+    //         ];
+    //         return response()->json($responseData, 401);
+    //     }
 
         return $next($request);
     }

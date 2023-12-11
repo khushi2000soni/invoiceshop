@@ -75,7 +75,7 @@ class ProductController extends Controller
             $product=Product::create($input);
             $responseData = [
                 'status'            => true,
-                'message'           => 'success',
+                'message'           => 'Success',
             ];
             return response()->json($responseData, 200);
         }catch (\Exception $e) {

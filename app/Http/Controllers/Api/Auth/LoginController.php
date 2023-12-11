@@ -75,65 +75,6 @@ class LoginController extends Controller
         } catch (\Exception $e) {
             DB::rollBack();
             //dd($e->getMessage().'->'.$e->getLine());
-//Return Error Response
-            $responseData = [
-                'status'        => false,
-                'error'         => trans('messages.error_message'),
-            ];
-            return response()->json($responseData, 401);
-        }
-    }
-
-    public function LoginWithPin(Request $request){
-
-        $validator = Validator::make($request->all(), ['pin'    => ['required','numeric'/*,'exists:devices'*/,'digits:4']]);
-
-        if($validator->fails()){
-            $responseData = [
-                'status'        => false,
-                'validation_errors' => $validator->errors(),
-            ];
-            return response()->json($responseData, 401);
-        }
-
-        try{
-
-            if (Auth::check()) {
-                $user = auth()->user();
-
-                if(!$user){
-                    $responseData = [
-                        'status'        => false,
-                        'error'         => trans('messages.wrong_credentials'),
-                    ];
-                    return response()->json($responseData, 401);
-                }
-                elseif($request->pin !== $user->device->pin){
-                    $responseData = [
-                        'status'        => false,
-                        'error'         => trans('messages.invalid_pin'),
-                    ];
-                    return response()->json($responseData, 401);
-                }
-                else{
-                    $responseData = [
-                        'status'            => true,
-                        'message'           => 'You have logged in successfully!',
-                        'userData'          => [
-                            'id'           => $user->id,
-                            'name'   => $user->name ?? '',
-                            'username'    => $user->username ?? '',
-                            'email'    => $user->email ?? '',
-                            'phone'    => $user->phone ?? '',
-                            'address'    => $user->address->name ?? '',
-                            'profile_image'=> $user->profile_image_url ?? '',
-                        ],
-                    ];
-                    return response()->json($responseData, 200);
-                }
-            }
-        }catch (\Exception $e) {
-            //dd($e->getMessage().'->'.$e->getLine());
             //Return Error Response
             $responseData = [
                 'status'        => false,
@@ -141,7 +82,6 @@ class LoginController extends Controller
             ];
             return response()->json($responseData, 401);
         }
-
     }
 
     public function forgotPassword(Request $request){
@@ -185,7 +125,7 @@ class LoginController extends Controller
             //Success Response Send
             $responseData = [
                 'status'        => true,
-                'otp_time_allow' => config('auth.passwords.users.expire').' Minutes',
+                'otp_time_allow' => '2 Minutes',
                 'otp' => $token,
                 'message'         => trans('messages.otp_sent_email'),
             ];
