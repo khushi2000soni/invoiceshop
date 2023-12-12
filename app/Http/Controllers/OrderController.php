@@ -224,8 +224,16 @@ class OrderController extends Controller
 
     public function printPDF(Request $request, $order,$type=null)
     {
-        // Get the order data here (e.g., from the database).
-        $order = Order::withTrashed()->with('orderProduct.product')->findOrFail($order);
+        if($type=='deleted'){
+            $order = Order::withTrashed()
+            ->with(['orderProduct' => function ($query) {
+                $query->withTrashed()->with('product');
+            }])
+            ->findOrFail($order);
+        }else{
+            $order = Order::withTrashed()->with('orderProduct.product')->findOrFail($order);
+        }
+
         $pdfFileName = 'invoice_' . $order->invoice_number . '.pdf';
         $pdf = PDF::loadView('admin.order.pdf.invoice-pdf', compact('order','type'));
         $pdf->setPaper('A4', 'portrait');

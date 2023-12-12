@@ -78,7 +78,7 @@ content: counter(page);
 				</thead>
 				<tbody>
 
-					@foreach ($order->orderProduct()->get() as $index => $product)
+					@foreach ($order->orderProduct as $index => $product)
 				    <tr>
 				        <td style="padding: 10px;" align="left">{{ $index + 1 }}</td>
 						<td style="padding: 10px;" align="center">{{ $product->product->name }}</td>
