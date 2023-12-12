@@ -3,6 +3,7 @@
 use App\Models\Order;
 use App\Models\Setting;
 use App\Models\Uploads;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str as Str;
 
@@ -33,6 +34,13 @@ if (!function_exists('generateRandomString')) {
 		$randomString = Str::random($length);
 
 		return $randomString;
+	}
+}
+
+if (!function_exists('getWithDateTimezone')) {
+	function getWithDateTimezone($date) {
+        $newdate= Carbon::parse($date)->setTimezone(config('app.timezone'))->format('d-m-Y H:i:s');
+		return $newdate;
 	}
 }
 

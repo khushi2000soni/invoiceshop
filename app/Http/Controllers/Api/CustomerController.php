@@ -40,7 +40,10 @@ class CustomerController extends Controller
             ->get()->toArray();
 
             foreach ($customerOrders as &$order) {
-                $order['created_at'] = Carbon::parse($order['created_at'])->format('d-m-Y H:i:s');
+                //dd($order);
+                $order['created_at'] = getWithDateTimezone($order['created_at']);
+
+                //$order['created_at'] = Carbon::parse($order['created_at'])->format('d-m-Y H:i:s');
             }
 
             return response()->json([
