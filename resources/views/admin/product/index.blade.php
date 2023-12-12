@@ -81,6 +81,9 @@
     /* #editModal .select2-results, #centerModal .select2-results{
         padding-top: 0px !important;
     } */
+    #editModal .select2-results{
+        padding-top: 0px !important;
+    }
 </style>
 @endsection
 

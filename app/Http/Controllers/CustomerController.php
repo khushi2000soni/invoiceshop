@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\DataTables\CustomerDataTable;
 use App\DataTables\PhoneBookDataTable;
 use App\Exports\CustomerExport;
+use App\Exports\PhoneBookExport;
 use App\Http\Requests\Customer\CreateRequest;
 use App\Http\Requests\Customer\UpdateRequest;
 use App\Models\Address;
@@ -117,9 +118,27 @@ class CustomerController extends Controller
         ], 200);
     }
 
+    //***************************Phone-Book Methods************************************** */
 
     public function showPhoneBook(PhoneBookDataTable $dataTable){
         $addresses = Address::orderBy('id','desc')->get();
         return $dataTable->render('admin.customer.phone-book',compact('addresses'));
+    }
+    public function PhoneBookprintView($address_id = null)
+    {
+        //dd('test');
+        abort_if(Gate::denies('customer_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
+        $query = Customer::query();
+        if ($address_id !== null) {
+            $query->where('address_id', $address_id);
+        }
+
+        $customers = $query->orderBy('name','asc')->get();
+        return view('admin.customer.print-phone-book',compact('customers'))->render();
+    }
+
+    public function PhoneBookexport($address_id = null){
+        return Excel::download(new PhoneBookExport($address_id), 'phone-book.xlsx');
     }
 }

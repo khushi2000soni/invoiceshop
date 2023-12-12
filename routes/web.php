@@ -67,6 +67,8 @@ Route::middleware(['auth','PreventBackHistory'])->group(function () {
     Route::get('/customers-printView/{address_id?}',[CustomerController::class,'printView'])->name('customers.print');
     Route::get('/customers-export/{address_id?}',[CustomerController::class,'export'])->name('customers.export');
     Route::get('/phone-book',[CustomerController::class,'showPhoneBook'])->name('showPhoneBook');
+    Route::get('/phone-book-printView/{address_id?}',[CustomerController::class,'PhoneBookprintView'])->name('PhoneBook.print');
+    Route::get('/phone-book-export/{address_id?}',[CustomerController::class,'PhoneBookexport'])->name('PhoneBook.export');
 
 
     Route::get('/products/index/{category_id?}', [ProductController::class,'index'])->name('products.index');

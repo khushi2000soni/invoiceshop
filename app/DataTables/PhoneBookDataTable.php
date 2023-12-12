@@ -78,15 +78,15 @@ class PhoneBookDataTable extends DataTable
         ])
         ->columns($this->getColumns())
         ->minifiedAjax()
-        ->dom('lBfrtip')
+        ->dom('lfrtip')
         ->orderBy(1)
-        // ->selectStyleSingle()
-        ->buttons([
-            //Button::make('excel'),
-            // Button::make('csv'),
-            // Button::make('pdf'),
-            Button::make('print'),
-        ]);
+        ->selectStyleSingle();
+        // ->buttons([
+        //     //Button::make('excel'),
+        //     // Button::make('csv'),
+        //     // Button::make('pdf'),
+        //     Button::make('print'),
+        // ]);
     }
 
 

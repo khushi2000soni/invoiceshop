@@ -237,7 +237,7 @@ $(document).ready(function () {
                         console.log('success');
                         $('.popup_render_div').html(response.htmlView);
                         $('#editAddressModal').modal('show');
-                        // Initialize select2 for the first modal 
+                        // Initialize select2 for the first modal
                     }
                 }
             });
