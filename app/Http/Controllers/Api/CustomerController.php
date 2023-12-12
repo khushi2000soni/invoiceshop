@@ -27,7 +27,7 @@ class CustomerController extends Controller
             $customerOrders = Customer::select('customers.id as customer_id','customers.name as customer_name',
                 DB::raw('COUNT(orders.id) as total_orders'),
                 DB::raw('SUM(orders.grand_total) as total_order_amount'),
-                'orders.invoice_date as invoice_date'
+                'orders.invoice_date as invoice_date','orders.created_at as created_at'
             )
             ->leftJoin('orders', 'customers.id', '=', 'orders.customer_id')
             ->where('orders.invoice_date', $today)
@@ -35,6 +35,10 @@ class CustomerController extends Controller
             ->orderBy('orders.created_at','desc')
             ->groupBy('customers.id', 'customers.name')
             ->get()->toArray();
+
+            foreach ($customerOrders as &$order) {
+                $order['created_at'] = Carbon::parse($order['created_at'])->format('d-m-Y H:i:s');
+            }
 
             return response()->json([
                 'status' => true,
