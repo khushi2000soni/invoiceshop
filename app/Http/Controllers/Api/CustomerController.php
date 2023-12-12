@@ -32,6 +32,7 @@ class CustomerController extends Controller
             ->leftJoin('orders', 'customers.id', '=', 'orders.customer_id')
             ->where('orders.invoice_date', $today)
             ->whereNull('orders.deleted_at')
+            ->orderByDesc('orders.created_at')
             ->groupBy('customers.id', 'customers.name')
             ->get()->toArray();
 
