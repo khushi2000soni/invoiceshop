@@ -14,6 +14,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB as FacadesDB;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Validator;
 
@@ -24,12 +25,14 @@ class CustomerController extends Controller
 
         try{
             $today = Carbon::today();
-            $customerOrders = Customer::select('customers.id as customer_id','customers.name as customer_name',
+            $customerOrders = Customer::select('customers.id as customer_id','customers.name as customer_name','customers.address_id as address_id',
                 DB::raw('COUNT(orders.id) as total_orders'),
                 DB::raw('SUM(orders.grand_total) as total_order_amount'),
-                'orders.invoice_date as invoice_date','orders.created_at as created_at'
+                'orders.invoice_date as invoice_date','orders.created_at as created_at',
+                'address.address as city_name'
             )
             ->leftJoin('orders', 'customers.id', '=', 'orders.customer_id')
+            ->leftJoin('address','customers.address_id','=','address.id')
             ->where('orders.invoice_date', $today)
             ->whereNull('orders.deleted_at')
             ->orderBy('orders.created_at','desc')

@@ -41,6 +41,7 @@ content: counter(page);
     @if ($type=='deleted')
     <div class="cancel-watermark">Cancelled</div>
     @endif
+
     <div class="page-header">
 		<header style="padding: 10px 0;">
 			{{-- <h2 style="margin: 0;color: #2a2a33;font-size: 30px;font-weight: bold;"><strong>Invoice</strong></h2> --}}

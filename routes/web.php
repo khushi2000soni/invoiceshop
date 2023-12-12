@@ -79,7 +79,7 @@ Route::middleware(['auth','PreventBackHistory'])->group(function () {
     Route::resource('/device',DeviceController::class);
     Route::resource('/orders',OrderController::class);
     Route::get('/get-orders/{type?}', [OrderController::class,'getTypeOrder'])->name('orders.getTypeOrder');
-    Route::get('/orders/{order}/generate-pdf',[OrderController::class,'generatePdf'])->name('orders.generate-pdf');
+    Route::get('/orders/{order}/generate-pdf/{type?}',[OrderController::class,'generatePdf'])->name('orders.generate-pdf');
     Route::get('/print-pdf/{order}/{type?}',[OrderController::class,'printPDF'])->name('orders.print-pdf');
     Route::get('/share-email/{order}',[OrderController::class,'shareEmail'])->name('orders.share-email');
     Route::get('/share-whatsapp/{order}',[OrderController::class,'shareWhatsApp'])->name('orders.share-whatsapp');
