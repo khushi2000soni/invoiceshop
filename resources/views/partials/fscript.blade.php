@@ -57,7 +57,13 @@
             var title = "{{ Session::get('title') }}";
             showToaster(title, alertType, message);
         @endif
+
 	});
+
+    $(document).on('focus', '.select2-selection.select2-selection--single', function (e) {
+        console.log('test');
+        $(this).closest(".select2-container").siblings('select:enabled').select2('open');
+    });
 
 
 </script>

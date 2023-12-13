@@ -108,7 +108,7 @@
                                         <div class="custom-select2 fullselect2">
                                             <div class="form-control-inner">
                                                 <label>@lang('quickadmin.customers.fields.address')</label>
-                                                <select class="form-control filter-address-select @error('address_id') is-invalid @enderror" name="address_id" id="address_id" >
+                                                <select class="form-control filter-address-select @error('address_id') is-invalid @enderror" name="address_id" id="address_id" tabindex="0">
                                                     <option value="">@lang('quickadmin.customers.fields.select_address')</option>
                                                     @foreach($addresses as $address)
                                                     <option value="{{ $address->id }}">{{ $address->address }}</option>
@@ -579,9 +579,6 @@ $(document).ready(function () {
         $('#excel-button').attr('href', exportUrl);
         $('#print-button').attr('href', printUrl);
     });
-
-
-
 
 });
 
