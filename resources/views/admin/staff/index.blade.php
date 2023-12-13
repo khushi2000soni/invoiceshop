@@ -25,11 +25,11 @@
                                     <h4>@lang('quickadmin.category.list-title')</h4>
                                 </div> -->
 
-                                <div class="col-md-auto col-12 mt-md-0 mt-3">
+                                <div class="col-auto  mt-md-0 mt-3 ml-auto">
                                     <div class="row align-items-center">
                                         <div class="col-auto px-1">
                                             @can('staff_create')
-                                            <button type="button" class="btn btn-outline-dark addRecordBtn" data-toggle="modal" data-target="#centerModal" data-href="{{ route('staff.create')}}"><i class="fas fa-plus"></i> @lang('quickadmin.roles.fields.add')</button>
+                                            <button type="button" class="btn btn-outline-dark addRecordBtn sm_btn" data-toggle="modal" data-target="#centerModal" data-href="{{ route('staff.create')}}"><i class="fas fa-plus"></i> @lang('quickadmin.roles.fields.add')</button>
                                             @endcan
                                         </div>
                                         <div class="col-auto px-1">

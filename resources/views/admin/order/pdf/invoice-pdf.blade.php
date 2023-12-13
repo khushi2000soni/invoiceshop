@@ -104,6 +104,9 @@ content: counter(page);
 					</tr>
 				</tfoot>
 			</table>
+            <div>
+                <p> <small> {{ getSetting('custom_invoice_print_message') ?? ''}}</small></p>
+            </div>
 
 		</main>
 

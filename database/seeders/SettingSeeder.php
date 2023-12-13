@@ -17,7 +17,6 @@ class SettingSeeder extends Seeder
         //
         $settings = [
             [
-                'id'     => 1,
                 'key'    => 'site_logo',
                 'value'  => null,
                 'type'   => 'image',
@@ -28,7 +27,6 @@ class SettingSeeder extends Seeder
                 'created_by' => 1,
             ],
             [
-                'id'     => 2,
                 'key'    => 'favicon',
                 'value'  => null,
                 'type'   => 'image',
@@ -39,7 +37,6 @@ class SettingSeeder extends Seeder
                 'created_by' => 1,
             ],
             [
-                'id'     => 3,
                 'key'    => 'phone_num',
                 'value'  =>  null,
                 'type'   => 'number',
@@ -50,7 +47,6 @@ class SettingSeeder extends Seeder
                 'created_by' => 1,
             ],
             [
-                'id'     => 4,
                 'key'    => 'thaila_price',
                 'value'  =>  null,
                 'type'   => 'number',
@@ -61,7 +57,6 @@ class SettingSeeder extends Seeder
                 'created_by' => 1,
             ],
             [
-                'id'     => 5,
                 'key'    => 'share_invoice_mail_message',
                 'value'  => 'Hello Dear, Please check your attached invoice pdf.',
                 'type'   => 'text',
@@ -72,11 +67,20 @@ class SettingSeeder extends Seeder
                 'created_by' => 1,
             ],
             [
-                'id'     => 6,
                 'key'    => 'share_invoice_whatsapp_message',
                 'value'  =>  'Hello Dear, Please check your attached invoice pdf.',
                 'type'   => 'text',
                 'display_name'=>'Share-Invoice Whatsapp Message',
+                'group'  => 'web',
+                'status' => 1,
+                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+                'created_by' => 1,
+            ],
+            [
+                'key'    => 'custom_invoice_print_message',
+                'value'  =>  'Hello Dear, Please check your invoice Details. If there is any query , kindly contact with us.',
+                'type'   => 'text',
+                'display_name'=>'Custom Print-Invoice Bottom Message',
                 'group'  => 'web',
                 'status' => 1,
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),

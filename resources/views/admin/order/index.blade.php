@@ -66,7 +66,7 @@
                         @endif
 
                         <div class="table-responsive">
-                            {{$dataTable->table(['class' => 'table dt-responsive invoicdatatable', 'style' => 'width:100%;','id'=>'dataaTable'])}}
+                            {{$dataTable->table(['class' => 'table dt-responsive invoicdatatable dropdownBtnTable', 'style' => 'width:100%;','id'=>'dataaTable'])}}
                         </div>
                     </div>
                 </div>

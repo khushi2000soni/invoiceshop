@@ -13079,3 +13079,8 @@ button#addProductBtn {
         font-size: 11px;
     }
 }
+
+.dropdownBtnTable tbody tr td:last-child {
+    display: flex;
+    align-items: center;
+}
