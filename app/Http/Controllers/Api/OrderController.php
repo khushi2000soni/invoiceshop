@@ -9,8 +9,11 @@ use App\Models\OrderProduct;
 use App\Models\Product;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
+use PDF;
 
 class OrderController extends Controller
 {
@@ -250,4 +253,27 @@ class OrderController extends Controller
             return response()->json($responseData, 500);
         }
     }
+
+
+    public function generateInvoicePdf($orderId, $type = null)
+    {
+        try {
+            $order = Order::with('orderProduct.product')->findOrFail($orderId);
+            $pdf = PDF::loadView('admin.order.pdf.invoice-pdf', compact('order', 'type'));
+            $pdf->setPaper('A4', 'portrait');
+            //return $pdf->download('order_' . $order->invoice_number . '.pdf');
+            //return $pdf->stream('order_' . $order->invoice_number . '.pdf');
+            $pdfContent = $pdf->output();
+            $base64Pdf = base64_encode($pdfContent);
+
+            return response()->json([
+                'status'        => true,
+                'pdf' => $base64Pdf,
+            ]);
+        } catch (\Exception $e) {
+            //dd($e->getMessage());
+            return response()->json(['error' => 'Error generating PDF'], 500);
+        }
+    }
+
 }

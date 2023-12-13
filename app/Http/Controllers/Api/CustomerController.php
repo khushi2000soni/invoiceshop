@@ -28,20 +28,20 @@ class CustomerController extends Controller
             $customerOrders = Customer::select('customers.id as customer_id','customers.name as customer_name','customers.address_id as address_id',
                 DB::raw('COUNT(orders.id) as total_orders'),
                 DB::raw('SUM(orders.grand_total) as total_order_amount'),
-                'orders.invoice_date as invoice_date','orders.created_at as created_at',
+                'orders.invoice_date as invoice_date','orders.updated_at as updated_at',
                 'address.address as city_name'
             )
             ->leftJoin('orders', 'customers.id', '=', 'orders.customer_id')
             ->leftJoin('address','customers.address_id','=','address.id')
             ->where('orders.invoice_date', $today)
             ->whereNull('orders.deleted_at')
-            ->orderBy('orders.created_at','desc')
+            ->orderBy('orders.updated_at','desc')
             ->groupBy('customers.id', 'customers.name')
             ->get()->toArray();
 
             foreach ($customerOrders as &$order) {
                 //dd($order);
-                $order['created_at'] = getWithDateTimezone($order['created_at']);
+                $order['updated_at'] = getWithDateTimezone($order['updated_at']);
                 //$order['created_at'] = Carbon::parse($order['created_at'])->format('d-m-Y H:i:s');
             }
 

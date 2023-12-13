@@ -53,6 +53,7 @@ Route::group(['middleware' => 'checkDevice'], function () {
            // Route::post('/update/{id}', [OrderController::class, 'update']);
             Route::delete('/{order}', [OrderController::class, 'destroy']);
             Route::put('/{order}', [OrderController::class, 'update']);
+            Route::get('/generate-pdf/{order}{type?}',[OrderController::class,'generateInvoicePdf']);
         });
 
         Route::post('products/store', [ProductController::class, 'store']);
