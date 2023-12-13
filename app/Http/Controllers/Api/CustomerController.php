@@ -212,6 +212,7 @@ class CustomerController extends Controller
             //$orders = Order::with('customer')->whereDate('created_at', $today)->where(['id'=>$request->order_id,'customer_id'=>$request->customer_id])->get();
             $orders = Order::with(['customer.address', 'orderProduct.product'])->whereDate('created_at', $today)
             ->where('customer_id', $request->customer_id)
+            ->orderBy('updated_at','desc')
             ->get();
 
             //dd($orders);
@@ -241,18 +242,19 @@ class CustomerController extends Controller
                         'round_off_amount' => $order->round_off_amount ?? '',
                         'sub_total' => $order->sub_total ?? '',
                         'grand_total' => $order->grand_total ?? '',
+                        'updated_at' => $order->updated_at->format('d-m-Y H:i:s') ?? '',
                         'orderProducts' => [],
                     ];
 
                     // Iterate through order products and build the response
                     foreach ($order->orderProduct as $orderProduct) {
                         $orderData['orderProducts'][] = [
-                            'order_product_id' => $orderProduct->id,
-                            'product_id' => $orderProduct->product->id,
-                            'product_name' => $orderProduct->product->name,
-                            'quantity' => $orderProduct->quantity,
-                            'price' => $orderProduct->price,
-                            'total_price' => $orderProduct->total_price,
+                            'order_product_id' => $orderProduct->id ?? '',
+                            'product_id' => $orderProduct->product->id ?? '',
+                            'product_name' => $orderProduct->product->name ?? '',
+                            'quantity' => $orderProduct->quantity ?? '',
+                            'price' => $orderProduct->price ?? '',
+                            'total_price' => $orderProduct->total_price ?? '',
                         ];
                     }
 
