@@ -21,7 +21,7 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-body pt-4">
-                        @if ($type != 'deleted')
+
 
                         <form id="invoice-filter-form">
                             <div class="row align-items-end">
@@ -58,14 +58,16 @@
                                     <div class="form-group d-flex justify-content-end">
                                         <button type="submit" class="btn btn-primary mr-1 col" id="apply-filter">@lang('quickadmin.qa_submit')</button>
                                         <button type="reset" class="btn btn-primary mr-1 col" id="reset-filter">@lang('quickadmin.qa_reset')</button>
+                                        @if ($type != 'deleted')
                                         <a class="btn btn-outline-primary col" href="{{ route('orders.getTypeOrder',['type'=>'deleted'])}}" id="trashed-data"><i class="fa fa-trash"></i> @lang('quickadmin.order.recycle')</a>
+                                        @endif
                                     </div>
                                 </div>
                             </div>
                         </form>
-                        @endif
 
-                        <div class="table-responsive">
+
+                        <div class="table-responsive fixed_Search">
                             {{$dataTable->table(['class' => 'table dt-responsive invoicdatatable dropdownBtnTable', 'style' => 'width:100%;','id'=>'dataaTable'])}}
                         </div>
                     </div>
@@ -182,11 +184,30 @@ $(document).ready(function () {
         e.preventDefault();
         $('#invoice-filter-form')[0].reset();
 
-        dataTable.ajax.url("{{ route('orders.index') }}").load();
+        var select2Element = $('#customer_id');
+        select2Element.val(null).trigger('change');
+        var select2Elementfrom_date = $('#from_date');
+        select2Elementfrom_date.val(null).trigger('change');
+        var select2Elementto_date = $('#to_date');
+        select2Elementto_date.val(null).trigger('change');
+
+        var type = "{{$type}}";
+
+        if(type == 'deleted'){
+            var url = "{{ route('orders.getTypeOrder') }}/" + type;
+            dataTable.ajax.url(url).load();
+        }else{
+            dataTable.ajax.url("{{ route('orders.index') }}").load();
+        }
+
+
     });
 
     $('#invoice-filter-form').on('submit', function(e) {
         e.preventDefault();
+
+        var type = "{{$type}}";
+        console.log("{{$type}}");
 
         // Collect filter values (customer, from_date, to_date) from the form
         var customer_id = $('#customer_id').val();
@@ -208,7 +229,13 @@ $(document).ready(function () {
                 to_date          : to_date,
         };
         // Apply filters to the DataTable
-        dataTable.ajax.url("{{ route('orders.index') }}?"+$.param(params)).load();
+        if(type == 'deleted'){
+            dataTable.ajax.url("{{ route('orders.getTypeOrder') }}/" + type + "?" +$.param(params)).load();
+        }else{
+
+            dataTable.ajax.url("{{ route('orders.index') }}?"+$.param(params)).load();
+        }
+
 
     });
 

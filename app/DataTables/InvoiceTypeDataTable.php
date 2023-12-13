@@ -70,6 +70,19 @@ class InvoiceTypeDataTable extends DataTable
     public function query(Order $model): QueryBuilder
     {
         $model = $model->onlyTrashed();
+
+
+        if(isset(request()->customer_id) && request()->customer_id){
+            $model = $model->where('customer_id', request()->customer_id);
+        }
+
+        if(isset(request()->from_date) && request()->from_date){
+            $model = $model->whereDate('invoice_date','>=', request()->from_date);
+        }
+        if(isset(request()->to_date) && request()->to_date){
+            $model = $model->whereDate('invoice_date','<=', request()->to_date);
+        }
+
         return $model->newQuery()->with('customer');
     }
 
@@ -88,17 +101,17 @@ class InvoiceTypeDataTable extends DataTable
         ])
         ->columns($this->getColumns())
         ->minifiedAjax()
-        ->dom('lBfrtip')
+        ->dom('lfrtip')
         ->orderBy(1)
-        // ->selectStyleSingle()
-        ->buttons([
-            Button::make('excel')->exportOptions(['columns' => [0, 1, 2, 3, 4, 5,6]]),
-            Button::make('print')->exportOptions(['columns' => [0, 1, 2, 3, 4, 5,6]]),
-            // Button::make('excel'),
-            // Button::make('csv'),
-            // Button::make('pdf'),
-            // Button::make('print'),
-        ]);
+        ->selectStyleSingle();
+        // ->buttons([
+        //     Button::make('excel')->exportOptions(['columns' => [0, 1, 2, 3, 4, 5,6]]),
+        //     Button::make('print')->exportOptions(['columns' => [0, 1, 2, 3, 4, 5,6]]),
+        //     // Button::make('excel'),
+        //     // Button::make('csv'),
+        //     // Button::make('pdf'),
+        //     // Button::make('print'),
+        // ]);
     }
 
     /**
