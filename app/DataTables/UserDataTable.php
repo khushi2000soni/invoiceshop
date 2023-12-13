@@ -100,15 +100,15 @@ class UserDataTable extends DataTable
         ])
         ->columns($this->getColumns())
         ->minifiedAjax()
-        ->dom('lBfrtip')
+        ->dom('lfrtip')
         ->orderBy(1)
-        // ->selectStyleSingle()
-        ->buttons([
-            Button::make('excel')->exportOptions(['columns' => [0, 1, 2, 3, 4, 5,6]]),
-            Button::make('print')->exportOptions(['columns' => [0, 1, 2, 3, 4, 5,6]]),
-            // Button::make('csv'),
-            // Button::make('pdf'),
-        ]);
+        ->selectStyleSingle();
+        // ->buttons([
+        //     Button::make('excel')->exportOptions(['columns' => [0, 1, 2, 3, 4, 5,6]]),
+        //     Button::make('print')->exportOptions(['columns' => [0, 1, 2, 3, 4, 5,6]]),
+        //     // Button::make('csv'),
+        //     // Button::make('pdf'),
+        // ]);
     }
 
     /**

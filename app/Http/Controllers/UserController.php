@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\DataTables\UserDataTable;
+use App\Exports\UserExport;
 use App\Http\Requests\Staff\StaffCreateRequest;
 use App\Http\Requests\Staff\StaffUpdateRequest;
 use App\Models\Address;
@@ -15,6 +16,7 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Hash;
+use Maatwebsite\Excel\Facades\Excel;
 
 class UserController extends Controller
 {
@@ -114,6 +116,21 @@ class UserController extends Controller
         return response()->json(['success' => true,
         'message' => trans('passwords.reset'),
         'alert-type'=> trans('quickadmin.alert-type.success')], 200);
+    }
+
+
+    public function printView($address_id = null)
+    {
+        //dd('test');
+        abort_if(Gate::denies('staff_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
+        $query = User::query();
+        $allstaff = $query->orderBy('name','asc')->get();
+        return view('admin.staff.print-staff-list',compact('allstaff'))->render();
+    }
+
+    public function export($address_id = null){
+        return Excel::download(new UserExport($address_id), 'staff.xlsx');
     }
 
     /**

@@ -133,7 +133,7 @@
                                     </div>
                                 </div>
 
-                            </div>
+                        </div>
                         <div class="table-responsive fixed_Search">
                             {{$dataTable->table(['class' => 'table dt-responsive subBodyTable', 'style' => 'width:100%;','id'=>'categoryTable'])}}
                         </div>

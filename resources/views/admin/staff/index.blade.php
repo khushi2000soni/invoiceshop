@@ -10,25 +10,45 @@
 
 <section class="section roles" style="z-index: unset">
     <div class="section-body">
-          <div class="row">
+        <div class="row">
             <div class="col-12">
-              <div class="card">
-                <div class="card-header d-flex justify-content-between align-items-center">
-                  <h4>@lang('quickadmin.user-management.fields.list-title')</h4>
-                  @can('staff_create')
-                  <button type="button" class="btn btn-outline-dark addRecordBtn" data-toggle="modal" data-target="#centerModal" data-href="{{ route('staff.create')}}"><i class="fas fa-plus"></i> @lang('quickadmin.roles.fields.add')</button>
-                  @endcan
-                </div>
-                <div class="card-body">
-                  <div class="table-responsive">
-                    {{$dataTable->table(['class' => 'table dt-responsive', 'style' => 'width:100%;','id'=>'dataaTable'])}}
-                  </div>
-                </div>
-              </div>
+                <div class="card">
+                    {{-- <div class="card-header d-flex justify-content-between align-items-center">
+                    <h4>@lang('quickadmin.user-management.fields.list-title')</h4>
+                    @can('staff_create')
+                    <button type="button" class="btn btn-outline-dark addRecordBtn" data-toggle="modal" data-target="#centerModal" data-href="{{ route('staff.create')}}"><i class="fas fa-plus"></i> @lang('quickadmin.roles.fields.add')</button>
+                    @endcan
+                    </div> --}}
+                        <div class="card-body">
+                            <div class="row align-items-center mb-4 cart_filter_box">
+                                <!-- <div class="col pl-0">
+                                    <h4>@lang('quickadmin.category.list-title')</h4>
+                                </div> -->
 
-              <div class="popup_render_div"></div>
+                                <div class="col-md-auto col-12 mt-md-0 mt-3">
+                                    <div class="row align-items-center">
+                                        <div class="col-auto px-1">
+                                            @can('staff_create')
+                                            <button type="button" class="btn btn-outline-dark addRecordBtn" data-toggle="modal" data-target="#centerModal" data-href="{{ route('staff.create')}}"><i class="fas fa-plus"></i> @lang('quickadmin.roles.fields.add')</button>
+                                            @endcan
+                                        </div>
+                                        <div class="col-auto px-1">
+                                            <a href="{{ route('staff.print') }}" class="btn h-10 btn-success mr-1 col"  id="print-button"><i class="fas fa-print"></i> @lang('quickadmin.qa_print')</a>
+                                        </div>
+                                        <div class="col-auto pl-1">
+                                            <a href="{{ route('staff.export')}}" class="btn h-10 btn-warning mr-1 col"  id="excel-button"><i class="fas fa-file-excel"></i> @lang('quickadmin.qa_excel')</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="table-responsive fixed_Search">
+                                {{$dataTable->table(['class' => 'table dt-responsive', 'style' => 'width:100%;','id'=>'dataaTable'])}}
+                            </div>
+                        </div>
+                </div>
+            <div class="popup_render_div"></div>
             </div>
-          </div>
+        </div>
         </div>
   </section>
 @endsection
@@ -46,7 +66,7 @@
 <script>
 $(document).ready(function () {
     var DataaTable = $('#dataaTable').DataTable();
-
+    $('#print-button').printPage();
     // Create Form
 
     $(document).on('click','.addRecordBtn', function(){

@@ -31,10 +31,10 @@ class RoleDataTable extends DataTable
             ->addColumn('action',function($role){
                 $action='';
                 if (Gate::check('role_edit')) {
-                $action .= '<a href="'.route('roles.edit',$role->id).'" class="btn btn-outline-info m-1"><i class="fas fa-edit"></i></a>';
+                $action .= '<a href="'.route('roles.edit',$role->id).'" class="btn btn-icon btn-info m-1"><i class="fas fa-edit"></i></a>';
                 }
                 if (Gate::check('role_show')) {
-                $action .= '<a href="'.route('roles.show',$role->id).'" class="btn btn-outline-danger m-1"><i class="fas fa-trash"></i></a>';
+                $action .= '<a href="'.route('roles.show',$role->id).'" class="btn btn-icon btn-danger m-1"><i class="fas fa-trash"></i></a>';
                 }
                 return $action;
             })->rawColumns(['action']);

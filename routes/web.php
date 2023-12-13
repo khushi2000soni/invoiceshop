@@ -61,6 +61,8 @@ Route::middleware(['auth','PreventBackHistory'])->group(function () {
     Route::resource('/staff',UserController::class);
     Route::get('/staff/password/{id}',[UserController::class,'staffpassword'])->name('staff.password');
     Route::put('/staff/password/{id}',[UserController::class,'staffUpdatePass'])->name('staff.change-password');
+    Route::get('/staff-printView/',[UserController::class,'printView'])->name('staff.print');
+    Route::get('staff-export/',[UserController::class,'export'])->name('staff.export');
 
     Route::resource('/customers',CustomerController::class);
     Route::get('/customers/index/{address_id?}',[CustomerController::class,'index'])->name('customer.index');

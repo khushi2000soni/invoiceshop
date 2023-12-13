@@ -18,8 +18,17 @@
 
         {{-- @can('role_access')
         <li class="{{ Request::is('roles*') ? 'active' : '' }}">
-            <a href="{{route('roles.index')}}" class="nav-link">
-
+            <a href="{{route('roles.index')}}" class="nav-link"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <g clip-path="url(#clip0_212_3741)">
+                <path d="M13.3692 11.6667H6.63083C5.53567 11.6681 4.48575 12.1037 3.71135 12.8781C2.93696 13.6525 2.50132 14.7024 2.5 15.7976V20.0001H17.5V15.7976C17.4987 14.7024 17.063 13.6525 16.2886 12.8781C15.5143 12.1037 14.4643 11.6681 13.3692 11.6667Z" fill="#B0B3B7"/>
+                <path d="M10 10C12.7614 10 15 7.76142 15 5C15 2.23858 12.7614 0 10 0C7.23858 0 5 2.23858 5 5C5 7.76142 7.23858 10 10 10Z" fill="#B0B3B7"/>
+                </g>
+                <defs>
+                <clipPath id="clip0_212_3741">
+                <rect width="20" height="20" fill="white"/>
+                </clipPath>
+                </defs>
+                </svg>
             <span>@lang('quickadmin.roles.title')</span></a>
         </li>
         @endcan --}}
