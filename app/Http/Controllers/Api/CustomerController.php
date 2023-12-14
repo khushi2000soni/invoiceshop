@@ -10,6 +10,7 @@ use App\Models\Category;
 use App\Models\Customer;
 use App\Models\Order;
 use App\Models\Product;
+use App\Rules\UniquePhoneNumber;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -17,6 +18,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB as FacadesDB;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 class CustomerController extends Controller
 {
@@ -287,11 +289,11 @@ class CustomerController extends Controller
 
         $validator = Validator::make($request->all(),[
         'name' => ['required','string','max:150'/*, 'regex:/^[^\s]+(?:\s[^\s]+)?$/' */],
-            'guardian_name' => ['required','string','max:150'/*,'regex:/^[^\s]+$/'  */],
-            // 'email' => ['required','email','unique:customers,email'],
-            'phone' => ['nullable','digits:10','numeric','unique:customers,phone'],
-            'phone2' => ['nullable','digits:10','numeric','unique:customers,phone2'],
-            'city_id'=>['required','numeric'],
+        'guardian_name' => ['required','string','max:150'/*,'regex:/^[^\s]+$/'  */],
+        // 'email' => ['required','email','unique:customers,email'],
+        'phone' => ['nullable','digits:10','numeric',/*'unique:customers,phone'*/new UniquePhoneNumber($request->phone),],
+        'phone2' => ['nullable','digits:10','numeric',/*'unique:customers,phone2'*/new UniquePhoneNumber($request->phone),],
+        'city_id'=>['required','numeric'],
         ]);
 
         if($validator->fails()){
@@ -330,6 +332,28 @@ class CustomerController extends Controller
             ];
             return response()->json($responseData, 401);
         }
+    }
+
+    public function PhoneValidation(Request $request){
+        //dd($request->all());
+        $validator = Validator::make($request->all(),[
+           // 'phone' => ['numeric','digits:10','unique:customers,phone,phone2'],
+           'phone' => ['numeric','digits:10',new UniquePhoneNumber($request->phone)],
+        ]);
+
+        if($validator->fails()){
+            $responseData = [
+                'status'        => false,
+                'validation_errors' => $validator->errors(),
+            ];
+            return response()->json($responseData, 401);
+        }
+
+        $responseData = [
+            'status'            => true,
+            'message'           => trans('messages.success'),
+        ];
+        return response()->json($responseData, 200);
     }
 
     public function AllCustomerList(){

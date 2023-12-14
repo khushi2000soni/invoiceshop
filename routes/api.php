@@ -46,6 +46,7 @@ Route::group(['middleware' => 'checkDevice'], function () {
             Route::get('/party-list', [CustomerController::class, 'AllCustomerList']);
             Route::post('/store', [CustomerController::class, 'store']);
             Route::get('/order-details', [CustomerController::class, 'PartyOrderDetail']);
+            Route::post('/phone-validate',[CustomerController::class,'PhoneValidation']);
         });
 
         Route::group(['prefix' => 'orders'], function () {
