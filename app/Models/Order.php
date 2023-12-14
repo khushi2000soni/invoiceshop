@@ -43,12 +43,12 @@ class Order extends Model
             $model->deleted_by = auth()->user()->id;
             $model->save();
 
-            $model->orderProduct->each(function ($orderProduct) {
-                $orderProduct->deleted_by = auth()->user()->id;
-                $orderProduct->save();
-            });
+            // $model->orderProduct->each(function ($orderProduct) {
+            //     $orderProduct->deleted_by = auth()->user()->id;
+            //     $orderProduct->save();
+            // });
 
-            $model->orderProduct()->delete();
+            // $model->orderProduct()->delete();
         });
 
         static::updating(function(Order $model) {

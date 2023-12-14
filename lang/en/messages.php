@@ -5,11 +5,14 @@ return [
     'crud'=>[
         'add_record'=>'Successfully Added !',
         'update_record'=>'Successfully Updated !',
-        'delete_record'=> 'This record has been succesfully deleted!'
+        'delete_record'=> 'This record has been succesfully deleted!',
+        'restore_record'=> 'This record has been succesfully Restored!'
     ],
 
     'areYouSure'=>'Are you sure you want to delete this record?',
     'deletetitle'=>'Delete Confirmation',
+    'restoretitle'=>'Restore Confirmation',
+    'areYouSureRestore'=>'Are you sure you want to restore this record?',
     'error_message'   => 'Something went wrong....please try again later!',
     'no_record_found' => 'No Records Found!',
     'error1'=>'An error occurred while saving the order.',

@@ -180,6 +180,46 @@ $(document).ready(function () {
         });
     });
 
+
+    $(document).on('submit', '.restoreForm', function(e) {
+        e.preventDefault();
+        console.log(2);
+        var formAction = $(this).attr('action');
+        swal({
+        title: "{{ trans('messages.restoretitle') }}",
+        text: "{{ trans('messages.areYouSureRestore') }}",
+        icon: 'warning',
+        buttons: {
+        confirm: 'Yes, Restore it',
+        cancel: 'No, cancel',
+         },
+        dangerMode: true,
+        }).then((willDelete) => {
+        if (willDelete) {
+            $.ajax({
+            url: formAction,
+            type: 'PATCH',
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            success: function (response) {
+                var alertType = response['alert-type'];
+                    var message = response['message'];
+                    var title = "{{ trans('quickadmin.order.invoice') }}";
+                    showToaster(title,alertType,message);
+                    dataTable.ajax.reload();
+                    // location.reload();
+
+            },
+            error: function (xhr) {
+                // Handle error response
+                swal("{{ trans('quickadmin.order.invoice') }}", 'Some mistake is there.', 'error');
+            }
+            });
+        }
+        });
+    });
+
     $('#reset-filter').on('click', function(e) {
         e.preventDefault();
         $('#invoice-filter-form')[0].reset();

@@ -80,6 +80,7 @@ Route::middleware(['auth','PreventBackHistory'])->group(function () {
 
     Route::resource('/device',DeviceController::class);
     Route::resource('/orders',OrderController::class);
+    Route::patch('/orders/{order}/restore',[OrderController::class,'restore'])->name('orders.restore');
     Route::get('/get-orders/{type?}', [OrderController::class,'getTypeOrder'])->name('orders.getTypeOrder');
     Route::get('/orders/{order}/generate-pdf/{type?}',[OrderController::class,'generatePdf'])->name('orders.generate-pdf');
     Route::get('/print-pdf/{order}/{type?}',[OrderController::class,'printPDF'])->name('orders.print-pdf');

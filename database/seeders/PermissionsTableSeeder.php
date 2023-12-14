@@ -382,6 +382,13 @@ class PermissionsTableSeeder extends Seeder
                 'updated_at' => $updateDate,
             ],
             [
+                'name'      => 'invoice_restore',
+                'guard_name'=>'web',
+                'route_name'=>'invoice',
+                'created_at' => $createDate,
+                'updated_at' => $updateDate,
+            ],
+            [
                 'name'      => 'order_product_access',
                 'guard_name'=>'web',
                 'route_name'=>'invoice',

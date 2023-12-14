@@ -270,12 +270,50 @@ class OrderController extends Controller
     public function destroy(string $id)
     {
         abort_if(Gate::denies('invoice_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-        $order = Order::findOrFail($id);
-        $order->delete();
-        return response()->json(['success' => true,
-         'message' => trans('messages.crud.delete_record'),
-         'alert-type'=> trans('quickadmin.alert-type.success'),
-         'title' => trans('quickadmin.order.invoice')
-        ], 200);
+        try {
+            DB::beginTransaction();
+            $order = Order::findOrFail($id);
+            $order->delete();
+            DB::commit();
+            return response()->json(['success' => true,
+            'message' => trans('messages.crud.delete_record'),
+            'alert-type'=> trans('quickadmin.alert-type.success'),
+            'title' => trans('quickadmin.order.invoice')
+            ], 200);
+        }
+        catch (\Exception $e) {
+            //dd($e->getMessage());
+            DB::rollBack();
+            return response()->json([
+                'success' => false,
+                'message' => trans('messages.error_message'),
+                'alert-type' => trans('quickadmin.alert-type.error')
+            ], 500);
+        }
+    }
+
+    public function restore($id){
+        abort_if(Gate::denies('invoice_restore'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
+        try {
+            DB::beginTransaction();
+            $order = Order::withTrashed()->findOrFail($id);
+            $order->restore();
+            DB::commit();
+            return response()->json(['success' => true,
+            'message' => trans('messages.crud.restore_record'),
+            'alert-type'=> trans('quickadmin.alert-type.success'),
+            'title' => trans('quickadmin.order.invoice')
+            ], 200);
+        }
+        catch (\Exception $e) {
+            //dd($e->getMessage());
+            DB::rollBack();
+            return response()->json([
+                'success' => false,
+                'message' => trans('messages.error_message'),
+                'alert-type' => trans('quickadmin.alert-type.error')
+            ], 500);
+        }
     }
 }
