@@ -276,4 +276,45 @@ class OrderController extends Controller
         }
     }
 
+
+    public function generatePartyAllInvoicePdf($customerId)
+    {
+        try {
+            $today = Carbon::today();
+            $type = null;
+            $orders = Order::with(['customer.address', 'orderProduct.product'])->whereDate('created_at', $today)
+            ->where('customer_id', $customerId)
+            ->orderBy('updated_at','desc')
+            ->get();
+
+            $pdfs = [];
+
+            foreach($orders as $order){
+                $pdf = PDF::loadView('admin.order.pdf.invoice-pdf', compact('order', 'type'));
+                $pdf->setPaper('A4', 'portrait');
+                $pdfContent = $pdf->output();
+                $base64Pdf = base64_encode($pdfContent);
+
+                $pdfs[] = [
+                    'order_id' => $order->id,
+                    'pdf'      => $base64Pdf,
+                ];
+            }
+
+            return response()->json([
+                'status' => true,
+                'pdfs'   => $pdfs,
+            ]);
+
+        } catch (\Exception $e) {
+            //dd($e->getMessage());
+            return response()->json(['error' => 'Error generating PDF'], 500);
+        }
+    }
+
+
+
+
+
+
 }
