@@ -5,7 +5,6 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <link href="https://fonts.googleapis.com/css2?family=Your+Hindi+Font&display=swap" rel="stylesheet">
 
 	<title>View Invoice</title>
 <style>
@@ -193,7 +192,6 @@ body{
 					</tr>
 				</thead>
 				<tbody>
-
 					@foreach ($order->orderProduct as $index => $product)
 				    <tr>
 				        <td style="padding: 5px 10px;" align="left">{{ $index + 1 }}</td>
@@ -202,7 +200,6 @@ body{
 						<td style="padding: 5px 10px;" align="right">{{ handleDataTypeTwoDigit($product->price) ?? ''}}</td>
 						<td style="padding: 5px 10px;" align="right">{{ handleDataTypeTwoDigit($product->total_price) ?? '0'}}</td>
 					</tr>
-
 		            @endforeach
 				</tbody>
 			</table>
@@ -230,8 +227,8 @@ body{
                 </tr>
                 <tr >
                     <td></td>
-                    <td style="width: 100px; padding: 4px; font-size: 16px;  border-top: 1px solid #000; border-bottom: 1px solid #000;"><div class="valus totalamount"><strong>Grand Total</strong></div></td>
-                    <td style="width: 200px;font-size: 16px; padding: 4px; border-top: 1px solid #000; border-bottom: 1px solid #000;" align="right"><strong class="amounnt">{{ handleDataTypeTwoDigit($order->grand_total) ?? 0  }}</strong></td>
+                    <td style="width: 200px; padding: 4px; font-size: 20px;  border-top: 1px solid #000; border-bottom: 1px solid #000;"><div class="valus totalamount"><strong>Grand Total</strong></div></td>
+                    <td style="width: 200px;font-size: 20px; padding: 4px; border-top: 1px solid #000; border-bottom: 1px solid #000;" align="right"><strong class="amounnt">{{ handleDataTypeTwoDigit($order->grand_total) ?? 0  }}</strong></td>
                 </tr>
                 <tr>
                     <td colspan="3" class="loremtext" style="font-size: 14px; padding: 50px 20px 4px 4px;"><i><span style="color: red;">Remark: </span> {{ getSetting('custom_invoice_print_message') ?? ''}}</i></td>

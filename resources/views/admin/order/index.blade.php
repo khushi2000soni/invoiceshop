@@ -61,6 +61,7 @@
                                         @if ($type != 'deleted')
                                         <a class="btn btn-outline-primary col" href="{{ route('orders.getTypeOrder',['type'=>'deleted'])}}" id="trashed-data"><i class="fa fa-trash"></i> @lang('quickadmin.order.recycle')</a>
                                         @endif
+                                        <a href="{{route('orders.print', 2)}}" class="btn btn-icon btn-info print-order-btn p-1 px-2 print-button"  id="print-button-2"> <i class="fas fa-print"></i> </a>
                                     </div>
                                 </div>
                             </div>
@@ -93,7 +94,25 @@
 $(document).ready(function () {
 
     var dataTable = $('#dataaTable').DataTable();
-    //$('.print-button').printPage();
+   // $('#print-button-2').printPage();
+    $(document).ready(function() {
+
+        // $('.print-button').each(function() {
+        //     var actionId = $(this).attr('id');
+        //     $('#' + actionId).printPage();
+        // });
+        // document.querySelectorAll('.print-button').forEach(
+        //     var actionid = $(this).attr('id');
+        //     $('#'+actionid).printPage();
+        // );
+
+        // $(document).on('click', '.print-button', function(e) {
+        //     var actionid = $(this).attr('id');
+        //     console.log('actionid: ','#'+actionid);
+        //     $('#print-button-2').printPage;
+        // });
+
+    });
 
 
     flatpickr('.datepicker', {
@@ -113,7 +132,7 @@ $(document).ready(function () {
     $(document).on('click', '.print-button', function(e) {
         e.preventDefault();
 
-        var body = $('#body').html();
+       // var body = $('#body').html();
         var actionurl = $(this).data('href');
         console.log(actionurl);
         // Fetch the HTML content of the specific invoice item based on itemId
@@ -121,15 +140,26 @@ $(document).ready(function () {
             url: actionurl,
             method: 'GET',
             success: function(response) {
-                var data = response;
-                $('#body').html(data);
-                window.print();
-                $('#body').html('');
-                $('#body').html(body);
-            },
-            error: function(error) {
-                console.error('Error fetching invoice:', error);
-            }
+                // var data = response;
+                // $('#body').html(data);
+                // window.print();
+                // $('#body').html('');
+                // $('#body').html(body);
+                //console.log(response.pdf);
+                var decodedPdfContent = atob(response.pdf);
+
+                // Open a new window and set the iframe src to the data URL of the PDF
+                var mywindow = window.open('', 'PRINT', 'height=400,width=600');
+                mywindow.document.write('<html><head><title>PRINT PREVIEW</title>');
+                mywindow.document.write('</head><body >');
+                mywindow.document.write('<embed type="application/pdf" width="100%" height="100%" src="data:application/pdf;base64,' + decodedPdfContent + '" />');
+                mywindow.document.write('</body></html>');
+                mywindow.print();
+                mywindow.close();
+                },
+                error: function(error) {
+                    console.error('Error fetching invoice:', error);
+                }
         });
     });
 
