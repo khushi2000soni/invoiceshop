@@ -61,7 +61,7 @@
                                         @if ($type != 'deleted')
                                         <a class="btn btn-outline-primary col" href="{{ route('orders.getTypeOrder',['type'=>'deleted'])}}" id="trashed-data"><i class="fa fa-trash"></i> @lang('quickadmin.order.recycle')</a>
                                         @endif
-                                        <a href="{{route('orders.print', 2)}}" class="btn btn-icon btn-info print-order-btn p-1 px-2 print-button"  id="print-button-2"> <i class="fas fa-print"></i> </a>
+
                                     </div>
                                 </div>
                             </div>

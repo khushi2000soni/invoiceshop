@@ -166,7 +166,7 @@ body{
                         {{-- <br> --}}
                         <div class="headerBill"><strong>Address : </strong> {{ $order->customer->address->address }}</div>
                         {{-- <br> --}}
-                        <div class="headerBill "><strong>Phone no:</strong>{{ $order->customer->phone ?? 0 }}</div>
+                        <div class="headerBill "><strong>Phone no:</strong> {{ $order->customer->phone ?? 0 }}</div>
 					</div>
 					<div style="width: 50%;line-height: 22px;padding-top: 10px;padding-bottom: 10px;float: right;text-align: right;">
                         <div class="headerBill"><strong>Invoice no:</strong> #{{ $order->invoice_number }}</div>
