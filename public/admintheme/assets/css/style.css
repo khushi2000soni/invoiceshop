@@ -13084,3 +13084,12 @@ button#addProductBtn {
     display: flex;
     align-items: center;
 }
+
+.dangerBtn {
+    background-color: #ff396f !important;
+    border-color: #ff396f !important;
+}
+.dangerBtn:hover{
+    background-color: #f60043 !important;
+    box-shadow: 0 2px 6px #ff86a7 !important;
+}

@@ -679,6 +679,7 @@ return [
     'qa_sn'=>'Sn.',
     'qa_no_record'=>'No Record Found!',
     'qa_record_found'=>'Record Found!',
+    'thaila' => 'थैला',
 
 
 ];

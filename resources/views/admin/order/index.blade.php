@@ -91,7 +91,11 @@
 <script>
 
 $(document).ready(function () {
+
     var dataTable = $('#dataaTable').DataTable();
+    //$('.print-button').printPage();
+
+
     flatpickr('.datepicker', {
         dateFormat: 'Y-m-d', // Set the desired date format
         allowInput: true,    // Allow manual input
@@ -103,6 +107,29 @@ $(document).ready(function () {
         });
         element.addEventListener('blur', function () {
             this.type = 'text';
+        });
+    });
+
+    $(document).on('click', '.print-button', function(e) {
+        e.preventDefault();
+
+        var body = $('#body').html();
+        var actionurl = $(this).data('href');
+        console.log(actionurl);
+        // Fetch the HTML content of the specific invoice item based on itemId
+        $.ajax({
+            url: actionurl,
+            method: 'GET',
+            success: function(response) {
+                var data = response;
+                $('#body').html(data);
+                window.print();
+                $('#body').html('');
+                $('#body').html(body);
+            },
+            error: function(error) {
+                console.error('Error fetching invoice:', error);
+            }
         });
     });
 

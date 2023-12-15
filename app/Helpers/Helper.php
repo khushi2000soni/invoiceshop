@@ -7,8 +7,6 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str as Str;
 
-
-
 if (!function_exists('getCommonValidationRuleMsgs')) {
 	function getCommonValidationRuleMsgs()
 	{
@@ -135,5 +133,15 @@ if (!function_exists('generateInvoicePdf')) {
         return $tempPdfFile;
     }
 }
+
+// Define a helper function in your app/helpers.php file or any appropriate location.
+
+if (!function_exists('convertToWords')) {
+    function convertToWords($num)
+    {
+
+    }
+}
+
 
 ?>

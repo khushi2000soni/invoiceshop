@@ -1,5 +1,7 @@
 @can('invoice_print')
+{{-- <button class="btn btn-icon btn-info print-order-btn p-1 px-2 print-button" data-href="{{route('orders.print', $order->id)}}" title="@lang('quickadmin.qa_print')" ><i class="fas fa-print"></i> </button> --}}
 <a type="button" class="btn btn-icon btn-info print-order-btn p-1 px-2" href="{{route('orders.print-pdf', $order->id)}}" title="@lang('quickadmin.qa_print')"><i class="fas fa-print"></i> </a>
+
 @endcan
 
 @can('invoice_share')
@@ -19,7 +21,7 @@
                             @php
                                 $recipientMail = $order->customer->email ?? "";
                             @endphp
-                            <a href="javascript:void(0);" data-order-id="{{ $order->id }}" data-recipient-email="{{ $recipientMail }}" data-href="{{route('orders.generate-pdf', $order->id)}}" class="btn btn-danger text-white btn-block m-2 share-email-btn">
+                            <a href="javascript:void(0);" data-order-id="{{ $order->id }}" data-recipient-email="{{ $recipientMail }}" data-href="{{route('orders.generate-pdf', $order->id)}}" class="btn btn-danger dangerBtn text-white btn-block m-2 share-email-btn">
                                 <i class="fas fa-envelope py-1 px-1"></i>
                             </a>
                         </div>

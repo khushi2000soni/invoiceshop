@@ -211,6 +211,26 @@ class OrderController extends Controller
         }
     }
 
+    public function printView($order,$type=null)
+    {
+        //dd('test');
+        abort_if(Gate::denies('invoice_print'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        if($type=='deleted'){
+            $order = Order::withTrashed()
+            ->with(['orderProduct' => function ($query) {
+                $query->withTrashed()->with('product');
+            }])
+            ->findOrFail($order);
+        }else{
+            $order = Order::withTrashed()->with('orderProduct.product')->findOrFail($order);
+        }
+
+        // $invoiceContent = view('admin.order.pdf.invoice-pdf',compact('order','type'))->render();
+        // return response()->json(['content' => $invoiceContent]);
+
+        return view('admin.order.pdf.invoice-pdf',compact('order','type'))->render();
+    }
+
 
     public function generatePdf($orderId,$type=null)
     {
@@ -237,8 +257,8 @@ class OrderController extends Controller
         $pdfFileName = 'invoice_' . $order->invoice_number . '.pdf';
         $pdf = PDF::loadView('admin.order.pdf.invoice-pdf', compact('order','type'));
         $pdf->setPaper('A4', 'portrait');
-        return $pdf->stream($pdfFileName, ['Attachment' => false]);
-        //return view('admin.order.pdf.invoice-pdf', compact('order','type'));
+       return $pdf->stream($pdfFileName, ['Attachment' => false]);
+       // return view('admin.order.pdf.invoice-pdf', compact('order','type'));
     }
 
     public function shareEmail(Request $request, $order)
