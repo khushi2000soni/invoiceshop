@@ -197,10 +197,10 @@ body{
 					@foreach ($order->orderProduct as $index => $product)
 				    <tr>
 				        <td style="padding: 5px 10px;" align="left">{{ $index + 1 }}</td>
-						<td style="padding: 5px 10px;" align="left">{{ $product->product->name }}</td>
-						<td style="padding: 5px 10px;" align="right">{{ $product->quantity }}</td>
-						<td style="padding: 5px 10px;" align="right">{{ $product->price }}</td>
-						<td style="padding: 5px 10px;" align="right">{{ $product->total_price }}</td>
+						<td style="padding: 5px 10px;" align="left">{{ $product->product->name ?? ''}}</td>
+						<td style="padding: 5px 10px;" align="right">{{ handleDataTypeThreeDigit($product->quantity) ?? ''}}</td>
+						<td style="padding: 5px 10px;" align="right">{{ handleDataTypeTwoDigit($product->price) ?? ''}}</td>
+						<td style="padding: 5px 10px;" align="right">{{ handleDataTypeTwoDigit($product->total_price) ?? '0'}}</td>
 					</tr>
 
 		            @endforeach
@@ -211,27 +211,27 @@ body{
             <table class="pdfFooter" cellpadding="0" cellspacing="0" style="width: 100%; margin-top: 30px">
                 <tr>
                     <td  style="padding-bottom: 15px" class="amountHeadning">{{--Invoice Amount In Words--}}</td>
-                    <td  style="padding-bottom: 15px" class="amountHeadning">Amount</td>
+                    <td  style="padding-bottom: 15px" class="amountHeadning">Amounts</td>
                 </tr>
                 <tr>
                     <td class="loremtext" style="font-size: 14px; padding: 4px 4px 4px 4px;">{{--{{ convertToWords($order->grand_total ?? 0) }} --}}</td>
                     <td style="width: 100px; padding: 4px; font-size: 14px;"><div class="valus">Sub Total </div></td>
-                    <td style="width: 200px;font-size: 14px; padding: 4px;" align="right"><span class="amounnt">{{ $order->sub_total ?? 0  }}</span></td>
+                    <td style="width: 200px;font-size: 14px; padding: 4px;" align="right"><span class="amounnt">{{ handleDataTypeTwoDigit($order->sub_total) ?? 0  }}</span></td>
                 </tr>
                 <tr>
                     <td></td>
                     <td style="width: 100px; padding: 4px; font-size: 14px;"><div class="valus hindi">@lang('quickadmin.thaila') </div></td>
-                    <td style="width: 200px;font-size: 14px; padding: 4px;" align="right"><span class="amounnt">{{ $order->thaila_price ?? 0  }}</span></td>
+                    <td style="width: 200px;font-size: 14px; padding: 4px;" align="right"><span class="amounnt">{{ handleDataTypeTwoDigit($order->thaila_price) ?? 0  }}</span></td>
                 </tr>
                 <tr>
                     <td></td>
                     <td style="width: 100px; padding: 4px; font-size: 14px;"><div class="valus">Round Off</div></td>
-                    <td style="width: 200px;font-size: 14px; padding: 4px;" align="right"><span class="amounnt">{{ $order->round_off ?? 0  }}</span></td>
+                    <td style="width: 200px;font-size: 14px; padding: 4px;" align="right"><span class="amounnt">{{ handleDataTypeTwoDigit($order->round_off) ?? 0  }}</span></td>
                 </tr>
                 <tr >
                     <td></td>
                     <td style="width: 100px; padding: 4px; font-size: 16px;  border-top: 1px solid #000; border-bottom: 1px solid #000;"><div class="valus totalamount"><strong>Grand Total</strong></div></td>
-                    <td style="width: 200px;font-size: 16px; padding: 4px; border-top: 1px solid #000; border-bottom: 1px solid #000;" align="right"><strong class="amounnt">{{ $order->grand_total ?? 0  }}</strong></td>
+                    <td style="width: 200px;font-size: 16px; padding: 4px; border-top: 1px solid #000; border-bottom: 1px solid #000;" align="right"><strong class="amounnt">{{ handleDataTypeTwoDigit($order->grand_total) ?? 0  }}</strong></td>
                 </tr>
                 <tr>
                     <td colspan="3" class="loremtext" style="font-size: 14px; padding: 50px 20px 4px 4px;"><i><span style="color: red;">Remark: </span> {{ getSetting('custom_invoice_print_message') ?? ''}}</i></td>

@@ -144,4 +144,24 @@ if (!function_exists('convertToWords')) {
 }
 
 
+/// Function for handling Data Type of a number , if 50.00 then return 50 , if 50.64 then return 50.64
+/// It will return 2 digit after point
+
+if(!function_exists('handleDataTypeTwoDigit')){
+    function handleDataTypeTwoDigit($number){
+        $number = $number == intval($number) ? intval($number) : number_format($number, 2, '.', '');
+
+        return $number;
+    }
+}
+
+/// It will return 3 digit after point
+if (!function_exists('handleDataTypeThreeDigit')) {
+    function handleDataTypeThreeDigit($number) {
+        $number = $number == intval($number) ? intval($number) : number_format($number, (fmod($number, 1) !== 0) ? 3 : 0, '.', '');
+
+        return $number;
+    }
+}
+
 ?>
