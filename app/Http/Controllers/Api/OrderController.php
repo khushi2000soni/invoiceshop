@@ -27,7 +27,7 @@ class OrderController extends Controller
             'grand_total'       => ['required','numeric'],
             'products'                  => ['required','array'],
             'products.*.product_id'     => ['required','exists:products,id'],
-            'products.*.quantity'       => ['required','integer','min:1'],
+            'products.*.quantity'       => ['required','numeric','min:1'],
             'products.*.price'          => ['required','numeric'],
             'products.*.total_price'    => ['required','numeric'],
         ]);
@@ -160,7 +160,7 @@ class OrderController extends Controller
         'products' => ['required','array'],
         // 'products.*.order_product_id' => ['required','exists:order_products,id'],
         'products.*.product_id' => ['required','exists:products,id'],
-        'products.*.quantity' => ['required','integer','min:1'],
+        'products.*.quantity' => ['required','numeric','min:1'],
         'products.*.price' => ['required','numeric'],
         'products.*.total_price' => ['required','numeric'],
         ]);
