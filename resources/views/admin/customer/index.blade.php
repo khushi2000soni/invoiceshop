@@ -224,6 +224,7 @@ $(document).ready(function () {
         e.preventDefault();
         var gethis = $(this);
         var hrefUrl = "{{ route('address.create') }}";
+        $('.modal-backdrop').remove();
         // Fetch data and populate the second modal
         $.ajax({
             type: 'get',
@@ -232,17 +233,19 @@ $(document).ready(function () {
             success: function (response) {
                 if (response.success) {
                     console.log('success');
+                    $('.addressmodalbody').remove();
                     $('.popup_render_div #address_id').select2('close');
                     $('.popup_render_div').after('<div class="addressmodalbody" style="display: block;"></div>');
                     $('.addressmodalbody').html(response.htmlView);
-
+                    $('.addressmodalbody #centerModal').modal('show');
+                    $('.addressmodalbody #centerModal').attr('style', 'z-index: 100000');
                     // $('.addressmodalbody #centerModal').modal('show');
                     // $('.addressmodalbody #centerModal').attr('style', 'z-index: 100000');
-                    $('.popup_render_div #centerModal').modal('show');
-                    $('.popup_render_div #centerModal').on('shown.bs.modal', function () {
-                        $('.addressmodalbody #centerModal').modal('show');
-                        $('.addressmodalbody #centerModal').attr('style', 'z-index: 100000');
-                    });
+                    // $('.popup_render_div #centerModal').modal('show');
+                    // $('.popup_render_div #centerModal').on('shown.bs.modal', function () {
+                    //     $('.addressmodalbody #centerModal').modal('show');
+                    //     $('.addressmodalbody #centerModal').attr('style', 'z-index: 100000');
+                    // });
                 }
             }
         });
@@ -276,7 +279,7 @@ $(document).ready(function () {
                         let a = $(this).data('select2');
                         if (!$('.select2-link').length) {
                             a.$results.parents('.select2-results')
-                            .append('<div class="select2-link2"><button class="btns get-city close-select2" data-toggle="modal" data-target="#centerModal"><i class="fa fa-plus-circle"></i> Add New</button></div>');
+                            .append('<div class="select2-link2"><button class="btns get-city close-select2"><i class="fa fa-plus-circle"></i> Add New</button></div>');
                         }
                     });
                 }

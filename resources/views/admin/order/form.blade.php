@@ -15,7 +15,7 @@
             <div class="custom-select2 fullselect2">
                 <div class="form-control-inner">
                     <label>@lang('quickadmin.order.fields.customer_name')</label>
-                    <select class="js-example-basic-single @error('customer_id') is-invalid @enderror" name="customer_id" id="customer_id" >
+                    <select class="js-customer-list @error('customer_id') is-invalid @enderror" name="customer_id" id="customer_id" >
                         <option value="{{ isset($order) ? $order->customer->id : old('customer_id') }}">
                             {{ isset($order) ? $order->customer->name : trans('quickadmin.order.fields.select_customer') }}
                         </option>

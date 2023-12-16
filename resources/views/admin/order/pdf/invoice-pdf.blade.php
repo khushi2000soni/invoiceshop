@@ -162,16 +162,16 @@ body{
 				<h3 style="margin: 0;padding-bottom: 10px;padding-top: 1px;text-align: center;"><strong>Estimate</strong></h3> --}}
 				<div style="height: 60px;">
 					<div class="" style="width: 50%;line-height: 22px;padding-top: 1px;padding-bottom: 5px;float: left;">
-						<div class="headerBill"><strong style="font-size: 20px;">Bill To : </strong> {{ $order->customer->name }}</div>
+						<div class="headerBill" style="font-size: 20px;"><strong>Bill To : </strong> {{ $order->customer->name }}</div>
                         {{-- <br> --}}
-                        <div class="headerBill"><strong style="font-size: 20px;">Address : </strong> {{ $order->customer->address->address }}</div>
+                        <div class="headerBill" style="font-size: 20px;"><strong>Address : </strong> {{ $order->customer->address->address }}</div>
                         {{-- <br> --}}
-                        <div class="headerBill "><strong style="font-size: 20px;">Phone no:</strong> {{ $order->customer->phone ?? 0 }}</div>
+                        <div class="headerBill " style="font-size: 20px;"><strong>Phone no:</strong> {{ $order->customer->phone ?? 0 }}</div>
 					</div>
 					<div style="width: 50%;line-height: 22px;padding-top: 1px;padding-bottom: 5px;float: right;text-align: right;">
-                        <div class="headerBill"><strong style="font-size: 20px;">Invoice no:</strong> #{{ $order->invoice_number }}</div>
-                        <div class="headerBill"><strong style="font-size: 20px;">Date:</strong> {{$order->created_at->format('d-M-Y')}}</div>
-                        <div class="headerBill"><strong style="font-size: 20px;">Time:</strong> {{$order->created_at->format('H:i:s')}}</div>
+                        <div class="headerBill" style="font-size: 20px;"><strong>Invoice no:</strong> #{{ $order->invoice_number }}</div>
+                        <div class="headerBill" style="font-size: 20px;"><strong>Date:</strong> {{$order->created_at->format('d-M-Y')}}</div>
+                        <div class="headerBill" style="font-size: 20px;"><strong>Time:</strong> {{$order->created_at->format('H:i:s')}}</div>
 					</div>
 				</div>
 			</div>

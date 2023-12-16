@@ -132,6 +132,7 @@ $(document).ready(function () {
         e.preventDefault();
         var actionurl = $(this).data('href');
         console.log(actionurl);
+
         $.ajax({
             url: actionurl,
             method: 'GET',
