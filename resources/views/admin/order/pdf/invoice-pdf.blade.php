@@ -156,22 +156,22 @@ body{
 
     <div class="page-header">
 		<header style="padding: 10px 0;">
-			<h2 class="invoiceHeading" style="margin: 0;color: #2a2a33;font-size: 20px; text-align:center;"><strong>Invoice</strong></h2>
+			{{-- <h2 class="invoiceHeading" style="margin: 0;color: #2a2a33;font-size: 20px; text-align:center;"><strong>Invoice</strong></h2> --}}
             <div style="max-width: 700px;margin: 0 auto;font-size: 16px;">
 				{{-- <p style="margin: 0;text-align: center;">Phone no: {{ $order->customer->phone ?? 0 }}</p>
 				<h3 style="margin: 0;padding-bottom: 10px;padding-top: 1px;text-align: center;"><strong>Estimate</strong></h3> --}}
-				<div style="height: 90px;">
-					<div class="" style="width: 50%;line-height: 22px;padding-top: 10px;padding-bottom: 10px;float: left;">
-						<div class="headerBill"><strong>Bill To : </strong> {{ $order->customer->name }}</div>
+				<div style="height: 60px;">
+					<div class="" style="width: 50%;line-height: 22px;padding-top: 1px;padding-bottom: 5px;float: left;">
+						<div class="headerBill"><strong style="font-size: 20px;">Bill To : </strong> {{ $order->customer->name }}</div>
                         {{-- <br> --}}
-                        <div class="headerBill"><strong>Address : </strong> {{ $order->customer->address->address }}</div>
+                        <div class="headerBill"><strong style="font-size: 20px;">Address : </strong> {{ $order->customer->address->address }}</div>
                         {{-- <br> --}}
-                        <div class="headerBill "><strong>Phone no:</strong> {{ $order->customer->phone ?? 0 }}</div>
+                        <div class="headerBill "><strong style="font-size: 20px;">Phone no:</strong> {{ $order->customer->phone ?? 0 }}</div>
 					</div>
-					<div style="width: 50%;line-height: 22px;padding-top: 10px;padding-bottom: 10px;float: right;text-align: right;">
-                        <div class="headerBill"><strong>Invoice no:</strong> #{{ $order->invoice_number }}</div>
-                        <div class="headerBill"><strong>Date:</strong> {{$order->created_at->format('d-M-Y')}}</div>
-                        <div class="headerBill"><strong>Time:</strong> {{$order->created_at->format('H:i:s')}}</div>
+					<div style="width: 50%;line-height: 22px;padding-top: 1px;padding-bottom: 5px;float: right;text-align: right;">
+                        <div class="headerBill"><strong style="font-size: 20px;">Invoice no:</strong> #{{ $order->invoice_number }}</div>
+                        <div class="headerBill"><strong style="font-size: 20px;">Date:</strong> {{$order->created_at->format('d-M-Y')}}</div>
+                        <div class="headerBill"><strong style="font-size: 20px;">Time:</strong> {{$order->created_at->format('H:i:s')}}</div>
 					</div>
 				</div>
 			</div>
@@ -180,7 +180,7 @@ body{
         <footer>
             <div class="pagenum-container"><small>Page <span class="pagenum"></span></small></div>
         </footer>
-		<main class="main tabledata" style="max-width: 700px;margin: 30px auto 0px;padding: 40px 0px;padding-top: 0;">
+		<main class="main tabledata" style="max-width: 700px;margin: 0px auto 0px;padding: 40px 0px;padding-top: 0;">
 			<table cellpadding="0" cellspacing="0" border="1" width="100%" style="color: #000;font-size: 16px;">
 				<thead>
 					<tr>
@@ -207,8 +207,8 @@ body{
 
             <table class="pdfFooter" cellpadding="0" cellspacing="0" style="width: 100%; margin-top: 30px">
                 <tr>
-                    <td  style="padding-bottom: 15px" class="amountHeadning">{{--Invoice Amount In Words--}}</td>
-                    <td  style="padding-bottom: 15px" class="amountHeadning">Amounts</td>
+                    <td  style="padding-bottom: 10px" class="amountHeadning">{{--Invoice Amount In Words--}}</td>
+                    <td  style="padding-bottom: 5px;font-size: 20px;" class="amountHeadning">Amounts</td>
                 </tr>
                 <tr>
                     <td class="loremtext" style="font-size: 14px; padding: 4px 4px 4px 4px;">{{--{{ convertToWords($order->grand_total ?? 0) }} --}}</td>
