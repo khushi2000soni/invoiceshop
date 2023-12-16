@@ -217,7 +217,16 @@ class OrderController extends Controller
         abort_if(Gate::denies('invoice_print'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         try {
-            $order = Order::with('orderProduct.product')->findOrFail($order);
+            if($type=='deleted'){
+                $order = Order::withTrashed()
+                ->with(['orderProduct' => function ($query) {
+                    $query->withTrashed()->with('product');
+                }])
+                ->findOrFail($order);
+            }else{
+                $order = Order::withTrashed()->with('orderProduct.product')->findOrFail($order);
+            }
+
             $pdf = PDF::loadView('admin.order.pdf.invoice-pdf', compact('order', 'type'));
             $pdf->setPaper('A4', 'portrait');
             //return $pdf->download('order_' . $order->invoice_number . '.pdf');
@@ -233,27 +242,15 @@ class OrderController extends Controller
             //dd($e->getMessage());
             return response()->json(['error' => 'Error generating PDF'], 500);
         }
-        // if($type=='deleted'){
-        //     $order = Order::withTrashed()
-        //     ->with(['orderProduct' => function ($query) {
-        //         $query->withTrashed()->with('product');
-        //     }])
-        //     ->findOrFail($order);
-        // }else{
-        //     $order = Order::withTrashed()->with('orderProduct.product')->findOrFail($order);
-        // }
-
-        // $invoiceContent = view('admin.order.pdf.invoice-pdf',compact('order','type'))->render();
-        // return response()->json(['content' => $invoiceContent]);
-        // $pdfFileName = 'invoice_' . $order->invoice_number . '.pdf';
-        // $pdf = PDF::loadView('admin.order.pdf.invoice-pdf', compact('order','type'));
-        // $pdf->setPaper('A4', 'portrait');
-
-        // $pdfContent = $pdf->output();
-        // $base64Pdf = base64_encode($pdfContent);
-
-        // return response()->json(['pdfContent' => base64_encode($pdfContent)]);
-       // return view('admin.order.pdf.invoice-pdf',compact('order','type'))->render();
+        if($type=='deleted'){
+            $order = Order::withTrashed()
+            ->with(['orderProduct' => function ($query) {
+                $query->withTrashed()->with('product');
+            }])
+            ->findOrFail($order);
+        }else{
+            $order = Order::withTrashed()->with('orderProduct.product')->findOrFail($order);
+        }
     }
 
 

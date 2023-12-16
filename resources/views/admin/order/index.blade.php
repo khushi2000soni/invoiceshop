@@ -67,7 +67,6 @@
                             </div>
                         </form>
 
-
                         <div class="table-responsive fixed_Search">
                             {{$dataTable->table(['class' => 'table dt-responsive invoicdatatable dropdownBtnTable', 'style' => 'width:100%;','id'=>'dataaTable'])}}
                         </div>
@@ -109,7 +108,7 @@ $(document).ready(function () {
         // $(document).on('click', '.print-button', function(e) {
         //     var actionid = $(this).attr('id');
         //     console.log('actionid: ','#'+actionid);
-        //     $('#print-button-2').printPage;
+        //     $('#print-button-2').printPage();
         // });
 
     });
@@ -131,31 +130,29 @@ $(document).ready(function () {
 
     $(document).on('click', '.print-button', function(e) {
         e.preventDefault();
-
-       // var body = $('#body').html();
         var actionurl = $(this).data('href');
         console.log(actionurl);
-        // Fetch the HTML content of the specific invoice item based on itemId
         $.ajax({
             url: actionurl,
             method: 'GET',
             success: function(response) {
-                // var data = response;
-                // $('#body').html(data);
-                // window.print();
-                // $('#body').html('');
-                // $('#body').html(body);
-                //console.log(response.pdf);
-                var decodedPdfContent = atob(response.pdf);
+                var basestringpdf = response.pdf;
+                var objbuilder= '';
+                objbuilder += ('<object width = "100%" height="100%" data="data:application/pdf;base64,');
+                objbuilder += (basestringpdf);
+                objbuilder += ('" type="application/pdf" class="internal">');
+                objbuilder += ('<embed type="application/pdf" src="data:application/pdf;base64,' + basestringpdf + '" />');
+                objbuilder += ('</object>');
 
-                // Open a new window and set the iframe src to the data URL of the PDF
-                var mywindow = window.open('', 'PRINT', 'height=400,width=600');
+                var mywindow = window.open('', 'PRINT', 'height=600,width=800');
                 mywindow.document.write('<html><head><title>PRINT PREVIEW</title>');
                 mywindow.document.write('</head><body >');
-                mywindow.document.write('<embed type="application/pdf" width="100%" height="100%" src="data:application/pdf;base64,' + decodedPdfContent + '" />');
+                // mywindow.document.write('<embed type="application/pdf" width="100%" height="100%" src="data:application/pdf;base64,' + decodedPdfContent + '" />');
+                mywindow.document.write(objbuilder);
                 mywindow.document.write('</body></html>');
-                mywindow.print();
-                mywindow.close();
+                layer = $(mywindow.document);
+                // mywindow.print();
+                // mywindow.close();
                 },
                 error: function(error) {
                     console.error('Error fetching invoice:', error);
