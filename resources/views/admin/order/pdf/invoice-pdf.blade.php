@@ -42,25 +42,25 @@
 } */
 
 
- footer{
+ /* footer{
     position: fixed;
     bottom:0px;
     left: 20px;
     right: 0px;
     height: 50px;
     margin-bottom: -10px;
-}
+} */
 
-footer .pagenum:before {
+/* footer .pagenum:before {
 content: counter(page);
-}
+} */
 
 .page-header {
-    position: fixed;
+    /* position: fixed; */
     top: 0px;
     left: 0;
     right: 0px;
-    height: 200px;
+    height: 100px;
 }
 
 /*
@@ -106,9 +106,12 @@ body{
     font-family: 'timefont', sans-serif;
 }
 
+.headerBill strong{
+    font-size:20px !important; 
+}
 .cancel-watermark {
     position: fixed;
-    top: 20%;
+    top: 19%;
     left: 25%;
     transform: translate(-50%, -50%);
     color: rgba(255, 0, 0, 0.2);
@@ -141,6 +144,10 @@ body{
 }
 
 table tr td{
+    font-size:20px;
+}
+
+table tr th{
     font-size:18px;
 }
 
@@ -155,7 +162,7 @@ table tr td{
 </style>
 
 </head>
-<body style="padding: 100px 0 0;margin: 0;" class="">
+<body style="padding:0px 0 0; margin: 0;" class="">
     @if ($type=='deleted')
     <div class="cancel-watermark">Cancelled</div>
     @endif
@@ -169,11 +176,11 @@ table tr td{
                 {{-- {{ $order->customer->name }} --}}
 				<div style="height: 60px;">
 					<div class="" style="width: 50%;line-height: 22px;padding-top: 1px;padding-bottom: 5px;float: left;">
-						<div class="headerBill" style="font-size: 20px;"><strong>Bill To : </strong>{{ $order->customer->name }}</div>
+						<div class="headerBill" style="font-size: 22px;"><strong>Bill To : </strong>{{ $order->customer->name }}</div>
                         {{-- <br> --}}
-                        <div class="headerBill" style="font-size: 20px;"><strong>Address : </strong> <span class="hindi">{{ $order->customer->address->address }}</span></div>
+                        <div class="headerBill" style="font-size: 22px;"><strong>Address : </strong> <span class="hindi">{{ $order->customer->address->address }}</span></div>
                         {{-- <br> --}}
-                        <div class="headerBill headerBill_end" style="font-size: 20px;"><strong>Phone no:</strong> {{ $order->customer->phone ?? 0 }}</div>
+                        <div class="headerBill headerBill_end" style="font-size: 22px;"><strong>Phone no:</strong> {{ $order->customer->phone ?? 0 }}</div>
 					</div>
 					<div style="width: 50%;line-height: 22px;padding-top: 1px;padding-bottom: 5px;float: right;text-align: right;">
                         <div class="headerBill" style="font-size: 20px;"><strong>Invoice no:</strong> #{{ $order->invoice_number }}</div>
@@ -185,11 +192,11 @@ table tr td{
 		</header>
     </div>
         
-    <footer>
+    <!-- <footer>
         <div class="pagenum-container"><small>Page <span class="pagenum"></span></small></div>
-    </footer>
+    </footer> -->
 
-    <main class="main tabledata" style="max-width: 700px;margin: 0px auto 0px; padding: 40px 0px;padding-top: 0;">
+    <main class="main tabledata" style="max-width: 700px;margin: 0px auto 0px; padding: 40px 0px 10px;padding-top: 0;">
         <table cellpadding="0" cellspacing="0" border="1" width="100%" style="color: #000;font-size: 16px;">
             <thead>
                 <tr>
@@ -214,25 +221,25 @@ table tr td{
         </table>
 
 
-        <table class="pdfFooter" cellpadding="0" cellspacing="0" style="width: 100%; margin-top: 30px">
+        <table class="pdfFooter" cellpadding="0" cellspacing="0" style="width: 100%; margin-top: 10px">
             <tr>
                 <td  style="padding-bottom: 10px" class="amountHeadning">{{--Invoice Amount In Words--}}</td>
                 <td  style="padding-bottom: 5px;font-size: 20px;" class="amountHeadning">Amounts</td>
             </tr>
             <tr>
                 <td class="loremtext" style="font-size: 14px; padding: 4px 4px 4px 4px;">{{--{{ convertToWords($order->grand_total ?? 0) }} --}}</td>
-                <td style="width: 100px; padding: 4px; font-size: 16px;"><div class="valus">Sub Total </div></td>
-                <td style="width: 200px;font-size: 14px; padding: 4px;" align="right"><span class="amounnt">{{ handleDataTypeTwoDigit($order->sub_total) ?? 0  }}</span></td>
+                <td style="width: 100px; padding: 1px; font-size: 20px;"><div class="valus">Sub Total </div></td>
+                <td style="width: 200px;font-size: 20px; padding: 4px;" align="right"><span class="amounnt">{{ handleDataTypeTwoDigit($order->sub_total) ?? 0  }}</span></td>
             </tr>
             <tr>
                 <td></td>
-                <td style="width: 100px; padding: 4px; font-size: 16px;"><div class="valus hindi">@lang('quickadmin.thaila') </div></td>
-                <td style="width: 200px;font-size: 14px; padding: 4px;" align="right"><span class="amounnt">{{ handleDataTypeTwoDigit($order->thaila_price) ?? 0  }}</span></td>
+                <td style="width: 100px; padding: 4px; font-size: 20px;"><div class="valus hindi">@lang('quickadmin.thaila') </div></td>
+                <td style="width: 200px;font-size: 20px; padding: 4px;" align="right"><span class="amounnt">{{ handleDataTypeTwoDigit($order->thaila_price) ?? 0  }}</span></td>
             </tr>
             <tr>
                 <td></td>
-                <td style="width: 100px; padding: 4px; font-size: 16px;"><div class="valus">Round Off</div></td>
-                <td style="width: 200px;font-size: 14px; padding: 4px;" align="right"><span class="amounnt">{{ handleDataTypeTwoDigit($order->round_off) ?? 0  }}</span></td>
+                <td style="width: 100px; padding: 4px; font-size: 20px;"><div class="valus">Round Off</div></td>
+                <td style="width: 200px;font-size: 20px; padding: 4px;" align="right"><span class="amounnt">{{ handleDataTypeTwoDigit($order->round_off) ?? 0  }}</span></td>
             </tr>
             <tr >
                 <td></td>
@@ -240,7 +247,7 @@ table tr td{
                 <td style="width: 200px;font-size: 20px; padding: 4px; border-top: 1px solid #000; border-bottom: 1px solid #000;" align="right"><strong class="amounnt">{{ handleDataTypeTwoDigit($order->grand_total) ?? 0  }}</strong></td>
             </tr>
             <tr>
-                <td colspan="3" class="loremtext" style="font-size: 14px; padding: 50px 20px 4px 4px;"><i><span style="color: red;">Remark: </span> {{ getSetting('custom_invoice_print_message') ?? ''}}</i></td>
+                <td colspan="3" class="loremtext" style="font-size: 14px; padding: 50px 20px 4px 4px;"><i><span style="color: red;">Remark: </span>  {{ getSetting('custom_invoice_print_message') ?? ''}}</i></td>
             </tr>
         </table>
     </main>
