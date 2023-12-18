@@ -1,6 +1,6 @@
-@can('customer_edit')
+{{-- @can('customer_edit')
 <button type="button" class="btn btn-icon btn-info edit-invoice-customer-btn p-1 mx-1"  data-href="{{route('customers.editPhone', $order->customer->id)}}" title="Edit Phone Number"><i class="fas fa-edit"></i></button>
-@endcan
+@endcan --}}
 
 @can('invoice_print')
 <button class="btn btn-icon btn-info print-order-btn p-1 px-2 print-button" data-href="{{route('orders.print', $order->id)}}" title="@lang('quickadmin.qa_print')" ><i class="fas fa-print"></i> </button>
