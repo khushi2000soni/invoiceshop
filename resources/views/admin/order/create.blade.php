@@ -414,29 +414,29 @@
             });
         });
 
-    $(document).on('click', '.select2-container .get-city', function (e) {
-        e.preventDefault();
-        var gethis = $(this);
-        var hrefUrl = "{{ route('address.create') }}";
-        $('.modal-backdrop').remove();
-        // Fetch data and populate the second modal
-        $.ajax({
-            type: 'get',
-            url: hrefUrl,
-            dataType: 'json',
-            success: function (response) {
-                if (response.success) {
-                    console.log('success');
-                    $('.addressmodalbody').remove();
-                    $('.popup_render_div #address_id').select2('close');
-                    $('.popup_render_div').after('<div class="addressmodalbody" style="display: block;"></div>');
-                    $('.addressmodalbody').html(response.htmlView);
-                    $('.addressmodalbody #centerModal').modal('show');
-                    $('.addressmodalbody #centerModal').attr('style', 'z-index: 100000');
+        $(document).on('click', '.select2-container .get-city', function (e) {
+            e.preventDefault();
+            var gethis = $(this);
+            var hrefUrl = "{{ route('address.create') }}";
+            $('.modal-backdrop').remove();
+            // Fetch data and populate the second modal
+            $.ajax({
+                type: 'get',
+                url: hrefUrl,
+                dataType: 'json',
+                success: function (response) {
+                    if (response.success) {
+                        console.log('success');
+                        $('.addressmodalbody').remove();
+                        $('.popup_render_div #address_id').select2('close');
+                        $('.popup_render_div').after('<div class="addressmodalbody" style="display: block;"></div>');
+                        $('.addressmodalbody').html(response.htmlView);
+                        $('.addressmodalbody #centerModal').modal('show');
+                        $('.addressmodalbody #centerModal').attr('style', 'z-index: 100000');
+                    }
                 }
-            }
+            });
         });
-    });
 
         $(document).on('click', '.select2-container .get-product', function (e) {
             e.preventDefault();
@@ -449,7 +449,6 @@
                 dataType: 'json',
                 success: function (response) {
                     if(response.success) {
-                        console.log('success');
 
                         //$("body").addClass("modal-open");
                         $('.popup_render_div').html(response.htmlView);
@@ -468,41 +467,41 @@
             });
         });
 
-    $(document).on('click', '.select2-container .get-category', function (e) {
-        e.preventDefault();
-        var gethis = $(this);
-        var hrefUrl = "{{ route('categories.create') }}";
-        $('.modal-backdrop').remove();
-        // Fetch data and populate the second modal
-        $.ajax({
-            type: 'get',
-            url: hrefUrl,
-            dataType: 'json',
-            success: function (response) {
-                if (response.success) {
-                    console.log('success');
-                    $('.categorymodalbody').remove();
-                    $('.popup_render_div #category_id').select2('close');
-                    $('.popup_render_div').after('<div class="categorymodalbody" style="display: block;"></div>');
-                    $('.categorymodalbody').html(response.htmlView);
-                    $('.categorymodalbody #centerModal').modal('show');
-                    $('.categorymodalbody #centerModal').attr('style', 'z-index: 100000');
-                   // $('.popup_render_div #centerModal').modal('show');
-                    //$('.popup_render_div #centerModal').attr('style', 'z-index: 9999');
-                    // $('.popup_render_div #centerModal').on('shown.bs.modal', function () {
-                    //     $('.categorymodalbody #centerModal').modal('show');
-                    //     $('.categorymodalbody #centerModal').attr('style', 'z-index: 100000');
-                    // });
+        $(document).on('click', '.select2-container .get-category', function (e) {
+            e.preventDefault();
+            var gethis = $(this);
+            var hrefUrl = "{{ route('categories.create') }}";
+            $('.modal-backdrop').remove();
+            // Fetch data and populate the second modal
+            $.ajax({
+                type: 'get',
+                url: hrefUrl,
+                dataType: 'json',
+                success: function (response) {
+                    if (response.success) {
+                        $('.categorymodalbody').remove();
+                        $('.popup_render_div #category_id').select2('close');
+                        $('.popup_render_div').after('<div class="categorymodalbody" style="display: block;"></div>');
+                        $('.categorymodalbody').html(response.htmlView);
+                        $('.categorymodalbody #centerModal').modal('show');
+                        $('.categorymodalbody #centerModal').attr('style', 'z-index: 100000');
+                    // $('.popup_render_div #centerModal').modal('show');
+                        //$('.popup_render_div #centerModal').attr('style', 'z-index: 9999');
+                        // $('.popup_render_div #centerModal').on('shown.bs.modal', function () {
+                        //     $('.categorymodalbody #centerModal').modal('show');
+                        //     $('.categorymodalbody #centerModal').attr('style', 'z-index: 100000');
+                        // });
+                    }
                 }
-            }
+            });
         });
-    });
 
-    $(document).on('hidden.bs.modal','.categorymodalbody .modal', function (e) {
-        e.preventDefault();
-        $('.categorymodalbody').remove();
-    });
+        $(document).on('hidden.bs.modal','.categorymodalbody .modal', function (e) {
+            e.preventDefault();
+            $('.categorymodalbody').remove();
+        });
 
+        // Code Add New Customer or Product Both
 
         $(document).on('submit', '#AddForm', function (e) {
             e.preventDefault();
@@ -523,15 +522,23 @@
                         var alertType = response['alert-type'];
                         var message = response['message'];
                         var title = response['title'];
+
+                        var newOption = new Option(response.selectdata.name, response.selectdata.id, true, true);
+                        //console.log(newOption);
+                        if (response.selectdata.formtype == 'customer') {
+                            $('#customer_id').append(newOption).trigger('change');
+                        } else if (response.selectdata.formtype == 'product') {
+                            $('#product_id').append(newOption).trigger('change');
+                        }
+
                         showToaster(title,alertType,message);
                         $('#AddForm')[0].reset();
-                        location.reload();
-                    DataaTable.ajax.reload();
+                        //location.reload();
                     $("#AddForm button[type=submit]").prop('disabled',false);
                 },
                 error: function (xhr) {
                     var errors= xhr.responseJSON.errors;
-                    console.log(xhr.responseJSON);
+                    //console.log(xhr.responseJSON);
 
                     for (const elementId in errors) {
                         $("#"+elementId).addClass('is-invalid');
@@ -542,6 +549,114 @@
                 }
             });
         });
+
+        // Add Address Instatntly
+
+        $(document).on('submit', '#AddaddressForm', function (e) {
+            e.preventDefault();
+
+            $("#AddaddressForm button[type=submit]").prop('disabled',true);
+            $(".error").remove();
+            $(".is-invalid").removeClass('is-invalid');
+            var form = $(this);
+            var formData = $(this).serialize();
+            var formAction = $(this).attr('action');
+            $.ajax({
+                url: formAction,
+                type: 'POST',
+                headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+                data: formData,
+                success: function (response) {
+                        // $('.addressmodalbody #centerModal').modal('hide');
+                        // $('.popup_render_div #centerModal').modal('hide');
+
+                        form.closest('#centerModal').modal('hide');
+
+                        var newOption = new Option(response.address.address, response.address.id, true, true);
+                        //console.log(newOption);
+                        $('.popup_render_div #centerModal #address_id').append(newOption).trigger('change');
+
+                        var alertType = response['alert-type'];
+                        var message = response['message'];
+                        var title = "{{ trans('quickadmin.address.address') }}";
+                        showToaster(title,alertType,message);
+                        $('#AddaddressForm')[0].reset();
+                        //location.reload();
+                        //DataaTable.ajax.reload();
+                        $("#AddaddressForm button[type=submit]").prop('disabled',false);
+                },
+                error: function (xhr) {
+                    var errors= xhr.responseJSON.errors;
+                    console.log(xhr.responseJSON);
+
+                    for (const elementId in errors) {
+                        $("#"+elementId).addClass('is-invalid');
+                        var errorHtml = '<div><span class="error text-danger">'+errors[elementId]+'</span></';
+                        $(errorHtml).insertAfter($("#"+elementId).parent());
+                    }
+                    $("#AddaddressForm button[type=submit]").prop('disabled',false);
+                }
+            });
+        });
+
+        // add new category
+        $(document).on('submit', '#AddCategoryForm', function (e) {
+            e.preventDefault();
+
+            $("#AddCategoryForm button[type=submit]").prop('disabled',true);
+            $(".error").remove();
+            $(".is-invalid").removeClass('is-invalid');
+            var form = $(this);
+            var formData = $(this).serialize();
+            var formAction = $(this).attr('action');
+            console.log(formAction);
+            console.log(formData);
+
+            $.ajax({
+                url: formAction,
+                type: 'POST',
+                headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                data: formData,
+                success: function (response) {
+                        // $('.categorymodalbody #centerModal').modal('hide');
+                        // $('.popup_render_div #centerModal').modal('hide');
+
+                        form.closest('#centerModal').modal('hide');
+
+                        var alertType = response['alert-type'];
+                        var message = response['message'];
+                        var title = "{{ trans('quickadmin.category.category') }}";
+
+                        var newOption = new Option(response.category.name, response.category.id, true, true);
+                        //console.log(newOption);
+                        $('.popup_render_div #category_id').append(newOption).trigger('change');
+                        showToaster(title,alertType,message);
+                        $('#AddCategoryForm')[0].reset();
+                    // location.reload();
+
+                    $("#AddCategoryForm button[type=submit]").prop('disabled',false);
+                },
+                error: function (xhr) {
+                    var errors= xhr.responseJSON.errors;
+                    console.log(xhr.responseJSON);
+
+                    for (const elementId in errors) {
+                        $("#"+elementId).addClass('is-invalid');
+                        var errorHtml = '<div><span class="error text-danger">'+errors[elementId]+'</span></';
+                        $(errorHtml).insertAfter($("#"+elementId).parent());
+                    }
+                    $("#AddCategoryForm button[type=submit]").prop('disabled',false);
+                }
+            });
+        });
+
+
+
+
 
         // ***********Code End for select box modal of party and item***********
     });

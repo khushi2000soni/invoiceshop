@@ -73,6 +73,11 @@ class ProductController extends Controller
             'id' => $product->id,
             'name' => $product->name,
             ],
+        'selectdata' => [
+            'id' => $product->id,
+            'name' => $product->name,
+            'formtype' => 'product',
+        ],
         ], 200);
     }
 

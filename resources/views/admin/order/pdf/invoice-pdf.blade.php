@@ -4,10 +4,44 @@
 	<meta charset="utf-8">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-
-
+    <link rel="stylesheet" href="../../../../../storage/hindifont/stylesheet.css">
 	<title>View Invoice</title>
+
 <style>
+
+/* @font-face {
+    font-family: 'Mangal';
+    src: url('/fonts/Mangal-Bold.woff2') format('woff2'),
+        url('/fonts/Mangal-Bold.woff') format('woff');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Mangal';
+    src: url('/fonts/Mangal-Regular.woff2') format('woff2'),
+        url('/fonts/Mangal-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+
+@font-face {
+    font-family: 'Mangal', sans-serif;
+    src: url('/fonts/Mangal-Bold.eot');
+     src: url('/fonts/Mangal-Bold.eot?#iefix') format('embedded-opentype'),
+        url('/fonts/Mangal-Bold.woff2') format('woff2'),
+        url('/fonts/Mangal-Bold.woff') format('woff'),
+        url('/fonts/Mangal-Bold.ttf') format('truetype')
+        url('/fonts/Mangal-Bold.svg#Mangal-Bold') format('svg');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+} */
+
+
  footer{
     position: fixed;
     bottom:0px;
@@ -28,70 +62,22 @@ content: counter(page);
     height: 200px;
 }
 
-/* @font-face {
-    font-family: 'Tiro Devanagari Hindi';
-    src: url('{{ asset("fonts/TiroDevaHindi-Italic.woff") }}') format('woff'),
-        url('{{ asset("fonts/TiroDevaHindi-Italic.ttf") }}') format('truetype');
-    font-weight: normal;
-    font-style: italic;
-    font-display: swap;
-}
 
+
+/*
 @font-face {
-    font-family: 'Tiro Devanagari Hindi';
-    src: url('{{ asset("fonts/TiroDevaHindi-Regular.woff") }}') format('woff'),
-        url('{{ asset("fonts/TiroDevaHindi-Regular.ttf") }}') format('truetype');
-    font-weight: normal;
-    font-style: normal;
-    font-display: swap;
-} */
-
-
-/* @font-face {
-    font-family: 'Tiro Devanagari Hindi';
-    src: url('{{ asset("fonts/TiroDevaHindi-Italic.woff2") }}') format('woff2'),
-        url('{{ asset("fonts/TiroDevaHindi-Italic.woff") }}') format('woff');
-    font-weight: normal;
-    font-style: italic;
-    font-display: swap;
-}
-
-@font-face {
-    font-family: 'Tiro Devanagari Hindi';
-    src: url('{{ asset("fonts/TiroDevaHindi-Regular.woff2") }}') format('woff2'),
-        url('{{ asset("fonts/TiroDevaHindi-Regular.woff") }}') format('woff');
-    font-weight: normal;
-    font-style: normal;
-    font-display: swap;
-} */
-
-@font-face {
-    font-family: 'Poppins';
-    src: url('Poppins-Light.woff2') format('woff2'),
-        url('Poppins-Light.woff') format('woff');
-    font-weight: 300;
-    font-style: normal;
-    font-display: swap;
-}
-
-@font-face {
-    font-family: 'Poppins';
-    src: url('Poppins-Regular.woff2') format('woff2'),
-        url('Poppins-Regular.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
-    font-display: swap;
-}
-
-
-
-
-/* @font-face {
     font-family: 'Tiro Devanagari Hindi';
     src: url('{{ asset("fonts/TiroDevanagariHindi-Regular.ttf") }}') format('truetype');
 } */
+
+
 .HI, .hindi{
+    /* font-family: 'Mangal', sans-serif; */
+    /* font-weight: bold; */
     font-family: 'Tiro Devanagari Hindi', serif;
+    /* font-family: 'Mangal'; */
+    /* font-family: 'Anek Devanagari Condensed'; */
+    /* font-family: 'Poppins'; */
 }
 
 .EN{
@@ -99,14 +85,15 @@ content: counter(page);
 }
 
 body{
-    /* font-family: 'timefont', sans-serif; */
+
     font-family: 'Tiro Devanagari Hindi', serif;
+    /* font-family: 'Mangal', sans-serif; */
 }
 .tabledata {
     font-family: 'timefont', sans-serif;
 }
 .headerBill {
-    line-height: 15px;
+    line-height: 18px;
 }
 .headerBill strong, .invoiceHeading{
     font-family: 'timefont', sans-serif;
@@ -160,11 +147,12 @@ body{
             <div style="max-width: 700px;margin: 0 auto;font-size: 16px;">
 				{{-- <p style="margin: 0;text-align: center;">Phone no: {{ $order->customer->phone ?? 0 }}</p>
 				<h3 style="margin: 0;padding-bottom: 10px;padding-top: 1px;text-align: center;"><strong>Estimate</strong></h3> --}}
+                {{-- {{ $order->customer->name }} --}}
 				<div style="height: 60px;">
 					<div class="" style="width: 50%;line-height: 22px;padding-top: 1px;padding-bottom: 5px;float: left;">
-						<div class="headerBill" style="font-size: 20px;"><strong>Bill To : </strong> {{ $order->customer->name }}</div>
+						<div class="headerBill" style="font-size: 20px;"><strong>Bill To : </strong>{{ $order->customer->name }}</div>
                         {{-- <br> --}}
-                        <div class="headerBill" style="font-size: 20px;"><strong>Address : </strong> {{ $order->customer->address->address }}</div>
+                        <div class="headerBill" style="font-size: 20px;"><strong>Address : </strong> <span class="hindi">{{ $order->customer->address->address }}</span></div>
                         {{-- <br> --}}
                         <div class="headerBill " style="font-size: 20px;"><strong>Phone no:</strong> {{ $order->customer->phone ?? 0 }}</div>
 					</div>
@@ -184,21 +172,21 @@ body{
 			<table cellpadding="0" cellspacing="0" border="1" width="100%" style="color: #000;font-size: 16px;">
 				<thead>
 					<tr>
-						<th style="padding: 5px 10px; font-weight: bold; width: 30px;" align="left">Sn.</th>
-						<th style="padding: 5px 10px; font-weight: bold;" align="left">Item Name</th>
-						<th style="padding: 5px 10px; font-weight: bold; width: 80px;" align="right">Quantity</th>
-						<th style="padding: 5px 10px; font-weight: bold; width: 80px;" align="right">Price</th>
-						<th style="padding: 5px 10px; font-weight: bold; width: 150px;" align="right">Amount</th>
+						<th style="padding: 7px 10px; font-weight: bold; width: 30px;" align="left">Sn.</th>
+						<th style="padding: 7px 10px; font-weight: bold;" align="left">Item Name</th>
+						<th style="padding: 7px 10px; font-weight: bold; width: 80px;" align="right">Quantity</th>
+						<th style="padding: 7px 10px; font-weight: bold; width: 80px;" align="right">Price</th>
+						<th style="padding: 7px 10px; font-weight: bold; width: 150px;" align="right">Amount</th>
 					</tr>
 				</thead>
 				<tbody>
 					@foreach ($order->orderProduct as $index => $product)
 				    <tr>
-				        <td style="padding: 5px 10px;" align="left">{{ $index + 1 }}</td>
-						<td style="padding: 5px 10px;" align="left">{{ $product->product->name ?? ''}}</td>
-						<td style="padding: 5px 10px;" align="right">{{ handleDataTypeThreeDigit($product->quantity) ?? ''}}</td>
-						<td style="padding: 5px 10px;" align="right">{{ handleDataTypeTwoDigit($product->price) ?? ''}}</td>
-						<td style="padding: 5px 10px;" align="right">{{ handleDataTypeTwoDigit($product->total_price) ?? '0'}}</td>
+				        <td style="padding: 7px 10px;" align="left">{{ $index + 1 }}</td>
+						<td style="padding: 7px 10px;" align="left">{{ $product->product->name ?? ''}}</td>
+						<td style="padding: 7px 10px;" align="right">{{ handleDataTypeThreeDigit($product->quantity) ?? ''}}</td>
+						<td style="padding: 7px 10px;" align="right">{{ handleDataTypeTwoDigit($product->price) ?? ''}}</td>
+						<td style="padding: 7px 10px;" align="right">{{ handleDataTypeTwoDigit($product->total_price) ?? '0'}}</td>
 					</tr>
 		            @endforeach
 				</tbody>

@@ -280,7 +280,7 @@ class OrderController extends Controller
         $pdf = PDF::loadView('admin.order.pdf.invoice-pdf', compact('order','type'));
         $pdf->setPaper('A4', 'portrait');
        return $pdf->stream($pdfFileName, ['Attachment' => false]);
-       // return view('admin.order.pdf.invoice-pdf', compact('order','type'));
+       //return view('admin.order.pdf.invoice-pdf', compact('order','type'));
     }
 
     public function shareEmail(Request $request, $order)

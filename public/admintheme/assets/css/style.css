@@ -8,6 +8,26 @@
     url("https://db.onlinewebfonts.com/t/be9b9dc6273bfa79a55f2f381d16b42a.svg#Roadgeek 2005 Series C")format("svg");
 } */
 
+
+@font-face {
+    font-family: 'Mangal';
+    src: url('{{ asset("hindifont/Mangal-Bold.woff2") }}') format('woff2'),
+        url('{{ asset("hindifont/Mangal-Bold.woff") }}') format('woff');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Mangal';
+    src: url('{{ asset("hindifont/Mangal-Regular.woff2") }}') format('woff2'),
+        url('{{ asset("hindifont/Mangal-Regular.woff") }}') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+
 .m-l--125 {
     margin-left: -125px
 }
