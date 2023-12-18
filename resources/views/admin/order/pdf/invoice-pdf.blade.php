@@ -42,18 +42,18 @@
 } */
 
 
- /* footer{
+ footer{
     position: fixed;
-    bottom:0px;
-    left: 20px;
+    bottom:-50px;
+    left: 0;
     right: 0px;
     height: 50px;
-    margin-bottom: -10px;
-} */
+    margin-bottom: 0px;
+}
 
-/* footer .pagenum:before {
+footer .pagenum:before {
 content: counter(page);
-} */
+}
 
 .page-header {
     /* position: fixed; */
@@ -107,7 +107,7 @@ body{
 }
 
 .headerBill strong{
-    font-size:20px !important;
+    font-size:20px !important; 
 }
 .cancel-watermark {
     position: fixed;
@@ -159,6 +159,15 @@ table tr th{
     font-weight:400;
     font-size:20px;
 }
+
+.text-center-number{
+    display: block;
+    text-align:center;
+    height:30px;
+    font-size:22px;
+    font-family: 'timefont', sans-serif;
+}
+
 </style>
 
 </head>
@@ -166,13 +175,12 @@ table tr th{
     @if ($type=='deleted')
     <div class="cancel-watermark">Cancelled</div>
     @endif
-
+    <p class="text-center-number" style="margin: 0;text-align: center;">{{ $order->customer->phone ?? 0 }}</p>
     <div class="page-header">
 		<header style="padding: 0 0 10px;">
 			{{-- <h2 class="invoiceHeading" style="margin: 0;color: #2a2a33;font-size: 20px; text-align:center;"><strong>Invoice</strong></h2> --}}
             <div style="max-width: 700px;margin: 0 auto;font-size: 16px;">
-				{{-- <p style="margin: 0;text-align: center;">Phone no: {{ $order->customer->phone ?? 0 }}</p>
-				<h3 style="margin: 0;padding-bottom: 10px;padding-top: 1px;text-align: center;"><strong>Estimate</strong></h3> --}}
+				{{-- <h3 style="margin: 0;padding-bottom: 10px;padding-top: 1px;text-align: center;"><strong>Estimate</strong></h3> --}}
                 {{-- {{ $order->customer->name }} --}}
 				<div style="height: 60px;">
 					<div class="" style="width: 50%;line-height: 22px;padding-top: 1px;padding-bottom: 5px;float: left;">
@@ -191,12 +199,12 @@ table tr th{
 			</div>
 		</header>
     </div>
-
-    <!-- <footer>
+        
+    <footer>
         <div class="pagenum-container"><small>Page <span class="pagenum"></span></small></div>
-    </footer> -->
+    </footer>
 
-    <main class="main tabledata" style="max-width: 700px;margin: 0px auto 0px; padding: 40px 0px 10px;padding-top: 0;">
+    <main class="main tabledata" style="max-width: 700px;margin: 0px auto 0px; padding: 40px 0px 0px;padding-top: 0;">
         <table cellpadding="0" cellspacing="0" border="1" width="100%" style="color: #000;font-size: 16px;">
             <thead>
                 <tr>
@@ -229,12 +237,12 @@ table tr th{
             <tr>
                 <td class="loremtext" style="font-size: 14px; padding: 4px 4px 4px 4px;">{{--{{ convertToWords($order->grand_total ?? 0) }} --}}</td>
                 <td style="width: 100px; padding: 1px; font-size: 20px;"><div class="valus">Sub Total </div></td>
-                <td style="width: 200px;font-size: 20px; padding: 4px;" align="right"><span class="amounnt">{{ handleDataTypeTwoDigit($order->sub_total) ?? 0  }}</span></td>
+                <td style="width: 200px;font-size: 20px; padding: 1px;" align="right"><span class="amounnt">{{ handleDataTypeTwoDigit($order->sub_total) ?? 0  }}</span></td>
             </tr>
             <tr>
                 <td></td>
-                <td style="width: 100px; padding: 4px; font-size: 20px;"><div class="valus hindi">@lang('quickadmin.thaila') </div></td>
-                <td style="width: 200px;font-size: 20px; padding: 4px;" align="right"><span class="amounnt">{{ handleDataTypeTwoDigit($order->thaila_price) ?? 0  }}</span></td>
+                <td style="width: 100px; padding: 1px; font-size: 20px;"><div class="valus hindi">@lang('quickadmin.thaila') </div></td>
+                <td style="width: 200px;font-size: 20px; padding: 1px;" align="right"><span class="amounnt">{{ handleDataTypeTwoDigit($order->thaila_price) ?? 0  }}</span></td>
             </tr>
             <tr>
                 <td></td>
@@ -247,7 +255,7 @@ table tr th{
                 <td style="width: 200px;font-size: 20px; padding: 4px; border-top: 1px solid #000; border-bottom: 1px solid #000;" align="right"><strong class="amounnt">{{ handleDataTypeTwoDigit($order->grand_total) ?? 0  }}</strong></td>
             </tr>
             <tr>
-                <td colspan="3" class="loremtext" style="font-size: 14px; padding: 50px 20px 4px 4px;"><i><span style="color: red;">Remark: </span>  {{ getSetting('custom_invoice_print_message') ?? ''}}</i></td>
+                <td colspan="3" class="loremtext" style="font-size: 14px; padding: 40px 20px 4px 4px;"><i><span style="color: red;">Remark: </span>  {{ getSetting('custom_invoice_print_message') ?? ''}}</i></td>
             </tr>
         </table>
     </main>
