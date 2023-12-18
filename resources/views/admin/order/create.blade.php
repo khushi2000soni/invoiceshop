@@ -357,8 +357,6 @@
         }
         // new
 
-
-
         // ***********Code Starts for select box modal of party and item ***********
 
         $(".js-customer-list").select2({

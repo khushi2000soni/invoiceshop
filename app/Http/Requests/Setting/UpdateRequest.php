@@ -29,6 +29,7 @@ class UpdateRequest extends FormRequest
             'favicon' => 'image|mimes:jpeg,png,jpg,PNG,JPG|max:2048',
             'phone_num' => 'numeric',
             'thaila_price' => 'numeric',
+            'invoice_pdf_top_title' => 'string|max:120',
         ];
     }
 

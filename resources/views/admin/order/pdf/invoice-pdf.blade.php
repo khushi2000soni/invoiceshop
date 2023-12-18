@@ -107,7 +107,7 @@ body{
 }
 
 .headerBill strong{
-    font-size:20px !important; 
+    font-size:20px !important;
 }
 .cancel-watermark {
     position: fixed;
@@ -175,13 +175,10 @@ table tr th{
     @if ($type=='deleted')
     <div class="cancel-watermark">Cancelled</div>
     @endif
-    <p class="text-center-number" style="margin: 0;text-align: center;">{{ $order->customer->phone ?? 0 }}</p>
+    <p class="text-center-number" style="margin: 0;text-align: center;">{{ getSetting('invoice_pdf_top_title') ?? ''}}</p>
     <div class="page-header">
 		<header style="padding: 0 0 10px;">
-			{{-- <h2 class="invoiceHeading" style="margin: 0;color: #2a2a33;font-size: 20px; text-align:center;"><strong>Invoice</strong></h2> --}}
             <div style="max-width: 700px;margin: 0 auto;font-size: 16px;">
-				{{-- <h3 style="margin: 0;padding-bottom: 10px;padding-top: 1px;text-align: center;"><strong>Estimate</strong></h3> --}}
-                {{-- {{ $order->customer->name }} --}}
 				<div style="height: 60px;">
 					<div class="" style="width: 50%;line-height: 22px;padding-top: 1px;padding-bottom: 5px;float: left;">
 						<div class="headerBill" style="font-size: 22px;"><strong>Bill To : </strong>{{ $order->customer->name }}</div>
@@ -192,14 +189,14 @@ table tr th{
 					</div>
 					<div style="width: 50%;line-height: 22px;padding-top: 1px;padding-bottom: 5px;float: right;text-align: right;">
                         <div class="headerBill" style="font-size: 20px;"><strong>Invoice no:</strong> #{{ $order->invoice_number }}</div>
-                        <div class="headerBill" style="font-size: 20px;"><strong>Date:</strong> {{$order->created_at->format('d-M-Y')}}</div>
+                        <div class="headerBill" style="font-size: 20px;"><strong>Date:</strong> {{$order->created_at->format('d-m-Y')}}</div>
                         <div class="headerBill headerBill_end" style="font-size: 20px;"><strong>Time:</strong> {{$order->created_at->format('H:i:s')}}</div>
 					</div>
 				</div>
 			</div>
 		</header>
     </div>
-        
+
     <footer>
         <div class="pagenum-container"><small>Page <span class="pagenum"></span></small></div>
     </footer>

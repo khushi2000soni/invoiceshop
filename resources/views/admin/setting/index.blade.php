@@ -86,8 +86,8 @@ $(document).ready(function(){
 
                 for (const elementId in errors) {
                     $("#settingform #"+elementId).addClass('is-invalid');
-                    var errorHtml = '<div><span class="error text-danger">'+errors[elementId]+'</span></';
-                    $(errorHtml).insertAfter($("#settingform #"+elementId).parent());
+                    var errorHtml = '<span class="error text-danger">'+errors[elementId]+'</span>';
+                    $(errorHtml).insertAfter($("#settingform #"+elementId));
                 }
                 $("#settingform button[type=submit]").prop('disabled',false);
             }
