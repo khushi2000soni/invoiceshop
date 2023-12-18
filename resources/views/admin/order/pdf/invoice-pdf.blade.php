@@ -175,7 +175,11 @@ table tr th{
     @if ($type=='deleted')
     <div class="cancel-watermark">Cancelled</div>
     @endif
+
+    @if (!is_null(getSetting('invoice_pdf_top_title')))
     <p class="text-center-number" style="margin: 0;text-align: center;">{{ getSetting('invoice_pdf_top_title') ?? ''}}</p>
+    @endif
+
     <div class="page-header">
 		<header style="padding: 0 0 10px;">
             <div style="max-width: 700px;margin: 0 auto;font-size: 16px;">
