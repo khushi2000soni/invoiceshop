@@ -128,6 +128,34 @@ $(document).ready(function () {
         });
     });
 
+    $("body").on("click", ".edit-customers-btn", function () {
+            var hrefUrl = $(this).attr('data-href');
+            $('.modal-backdrop').remove();
+            console.log(hrefUrl);
+            $.ajax({
+                type: 'get',
+                url: hrefUrl,
+                dataType: 'json',
+                success: function (response) {
+                    //$('#preloader').css('display', 'none');
+                    if(response.success) {
+                        console.log('success');
+
+                        $('.popup_render_div').html(response.htmlView);
+                        $('#editModal').modal('show');
+                         // Initialize select2 for the first modal
+                        $(".js-example-basic-single").select2({
+                        dropdownParent: $('.popup_render_div #editModal') // Set the dropdown parent to the modal
+                        });
+                        setTimeout(() => {
+                            $('.modal-backdrop').not(':first').remove();
+                        }, 300);
+                    }
+                }
+            });
+    });
+
+
     $(document).on('click', '.print-button', function(e) {
         e.preventDefault();
         var actionurl = $(this).data('href');
