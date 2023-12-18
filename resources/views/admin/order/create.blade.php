@@ -111,7 +111,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr class="template-row">
+                                <tr class="template-row" style="display:none;">
                                     <td class="text-right">
                                         <div class="d-flex align-items-center buttonGroup justify-content-end">
                                             <button class="btn btn-dark btn-sm copy-product"><i class="fas fa-copy"></i></button>
@@ -244,16 +244,53 @@
         });
 
 
+        // $('#addNewBlankRow').click(function () {
+        //     // Clone the Template Row
+        //     var newRow = $('.template-row').clone().removeClass('template-row');
+        //     // Clear input values in the new row
+        //     newRow.find('input').val('');
+        //     // Append the new row to the table body
+        //     $('.ordertable tbody').append(newRow);
+        //     // Show the new row
+        //     newRow.show();
+        //     $(document).find(".js-product-basic-single").select2({
+        //     }).on('select2:open', function () {
+        //         let a = $(this).data('select2');
+        //         if (!$('.select2-link').length) {
+        //             a.$results.parents('.select2-results')
+        //                 .append('<div class="select2-link2"><button class="btns addNewBtn get-product"><i class="fa fa-plus-circle"></i> Add New</button></div>');
+        //         }
+        //     });
+
+        // });
+
         $('#addNewBlankRow').click(function () {
             // Clone the Template Row
             var newRow = $('.template-row').clone().removeClass('template-row');
+            // Assign a unique ID for the new row (you can use a counter or generate a unique ID)
+            var rowIndex = $('.ordertable tbody tr').length + 1;
+            newRow.attr('id', 'row_' + rowIndex);
+            // Update IDs of select elements to ensure uniqueness
+            newRow.find('.js-product-basic-single').attr('id', 'product_id_' + rowIndex);
+            // Set data attribute for rowIndex
+            newRow.data('rowIndex', rowIndex);
             // Clear input values in the new row
             newRow.find('input').val('');
+            // Remove display: none style from the new row
+            newRow.css('display', '');
             // Append the new row to the table body
+            //$('.js-product-basic-single').off('select2:open');
             $('.ordertable tbody').append(newRow);
-            // Show the new row
             newRow.show();
+            newRow.find(".js-product-basic-single").select2().one('select2:open', function () {
+                let a = $(this).data('select2');
+                if (!$('.select2-link').length) {
+                    a.$results.parents('.select2-results')
+                        .append('<div class="select2-link2"><button class="btns addNewBtn get-product"><i class="fa fa-plus-circle"></i> Add New</button></div>');
+                }
+            });
         });
+
 
 
         function addBlankRow() {
@@ -368,7 +405,7 @@
             }
         });
 
-        $(".js-product-basic-single").select2({
+        $(document).find(".js-product-basic-single").select2({
         }).on('select2:open', function () {
             let a = $(this).data('select2');
             if (!$('.select2-link').length) {
