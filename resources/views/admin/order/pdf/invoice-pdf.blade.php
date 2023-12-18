@@ -107,7 +107,7 @@ body{
 }
 
 .headerBill strong{
-    font-size:20px !important; 
+    font-size:20px !important;
 }
 .cancel-watermark {
     position: fixed;
@@ -191,7 +191,7 @@ table tr th{
 			</div>
 		</header>
     </div>
-        
+
     <!-- <footer>
         <div class="pagenum-container"><small>Page <span class="pagenum"></span></small></div>
     </footer> -->

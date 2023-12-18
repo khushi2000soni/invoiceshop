@@ -10,10 +10,12 @@ use App\Http\Requests\Customer\CreateRequest;
 use App\Http\Requests\Customer\UpdateRequest;
 use App\Models\Address;
 use App\Models\Customer;
+use App\Rules\UniquePhoneNumber;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Validator;
 use Maatwebsite\Excel\Facades\Excel;
 
 class CustomerController extends Controller
@@ -96,6 +98,37 @@ class CustomerController extends Controller
         $addresses =   Address::orderByRaw('CAST(address AS SIGNED), address')->get();
         $htmlView = view('admin.customer.edit', compact('addresses','customer'))->render();
         return response()->json(['success' => true, 'htmlView' => $htmlView]);
+    }
+
+    public function EditPhone($id)
+    {
+        $customer = Customer::findOrFail($id);
+        $htmlView = view('admin.customer.edit-phone', compact('customer'))->render();
+        return response()->json(['success' => true, 'htmlView' => $htmlView]);
+    }
+
+
+
+    public function upatePhone(Request $request, Customer $customer)
+    {
+        //dd($customer);
+        $validator = Validator::make($request->all(),[
+        'phone' => ['nullable','digits:10','numeric',/*'unique:customers,phone'*/new UniquePhoneNumber($request->phone),],
+        'phone2' => ['nullable','digits:10','numeric',/*'unique:customers,phone2'*/new UniquePhoneNumber($request->phone),],
+        ]);
+
+        if($validator->fails()){
+            $responseData = [
+                'status'        => false,
+                'validation_errors' => $validator->errors(),
+            ];
+            return response()->json($responseData, 401);
+        }
+
+        $customer->update($request->all());
+        return response()->json(['success' => true,
+        'message' => trans('messages.crud.update_record'),
+        'alert-type'=> trans('quickadmin.alert-type.success')], 200);
     }
 
     /**

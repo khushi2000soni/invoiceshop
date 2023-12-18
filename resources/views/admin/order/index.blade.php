@@ -128,7 +128,7 @@ $(document).ready(function () {
         });
     });
 
-    $("body").on("click", ".edit-customers-btn", function () {
+    $("body").on("click", ".edit-invoice-customer-btn", function () {
             var hrefUrl = $(this).attr('data-href');
             $('.modal-backdrop').remove();
             console.log(hrefUrl);
@@ -140,19 +140,56 @@ $(document).ready(function () {
                     //$('#preloader').css('display', 'none');
                     if(response.success) {
                         console.log('success');
-
                         $('.popup_render_div').html(response.htmlView);
-                        $('#editModal').modal('show');
-                         // Initialize select2 for the first modal
-                        $(".js-example-basic-single").select2({
-                        dropdownParent: $('.popup_render_div #editModal') // Set the dropdown parent to the modal
-                        });
+                        $('#editPhoneModal').modal('show');
+
                         setTimeout(() => {
                             $('.modal-backdrop').not(':first').remove();
                         }, 300);
                     }
                 }
             });
+    });
+
+    $(document).on('submit', '#EditCustomerPhone', function (e) {
+        e.preventDefault();
+        $("#EditCustomerPhone button[type=submit]").prop('disabled',true);
+        $(".error").remove();
+        $(".is-invalid").removeClass('is-invalid');
+        var formData = $(this).serialize();
+        var formAction = $(this).attr('action');
+        console.log(formAction);
+
+        $.ajax({
+            url: formAction,
+            type: 'PUT',
+            headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+            data: formData,
+            success: function (response) {
+                    $('#editPhoneModal').modal('hide');
+                    var alertType = response['alert-type'];
+                    var message = response['message'];
+                    var title = "{{ trans('quickadmin.customers.customer') }}";
+                    showToaster(title,alertType,message);
+                    $('#EditCustomerPhone')[0].reset();
+                    //location.reload();
+                    DataaTable.ajax.reload();
+                    $("#EditCustomerPhone button[type=submit]").prop('disabled',false);
+            },
+            error: function (xhr) {
+                var errors= xhr.responseJSON.errors;
+                console.log(xhr.responseJSON);
+
+                for (const elementId in errors) {
+                    $("#EditCustomerPhone #"+elementId).addClass('is-invalid');
+                    var errorHtml = '<div><span class="error text-danger">'+errors[elementId]+'</span></';
+                    $(errorHtml).insertAfter($("#EditForm #"+elementId).parent());
+                }
+                $("#EditForm button[type=submit]").prop('disabled',false);
+            }
+        });
     });
 
 

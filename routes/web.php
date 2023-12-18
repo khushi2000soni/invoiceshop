@@ -14,6 +14,7 @@ use App\Http\Controllers\ReportController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\UserController;
+use App\Models\Customer;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -61,10 +62,12 @@ Route::middleware(['auth','PreventBackHistory'])->group(function () {
     Route::resource('/staff',UserController::class);
     Route::get('/staff/password/{id}',[UserController::class,'staffpassword'])->name('staff.password');
     Route::put('/staff/password/{id}',[UserController::class,'staffUpdatePass'])->name('staff.change-password');
-    Route::get('/staff-printView/',[UserController::class,'printView'])->name('staff.print');
+    Route::get('/staff-printView',[UserController::class,'printView'])->name('staff.print');
     Route::get('staff-export/',[UserController::class,'export'])->name('staff.export');
 
     Route::resource('/customers',CustomerController::class);
+    Route::get('/customers/edit-phone/{customerid}',[CustomerController::class,'EditPhone'])->name('customers.editPhone');
+    Route::put('/custmers/phone-update/{customer}',[CustomerController::class,'upatePhone'])->name('customers.phoneUpdate');
     Route::get('/customers/index/{address_id?}',[CustomerController::class,'index'])->name('customer.index');
     Route::get('/customers-printView/{address_id?}',[CustomerController::class,'printView'])->name('customers.print');
     Route::get('/customers-export/{address_id?}',[CustomerController::class,'export'])->name('customers.export');
