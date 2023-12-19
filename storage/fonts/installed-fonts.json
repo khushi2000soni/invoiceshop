@@ -1,8 +1,21 @@
 {
     "tiro devanagari hindi": {
-        "normal": "tiro_devanagari_hindi_normal_f2ca9ef39e11a8dee29034bcb721d7dd"
+        "normal": "tiro_devanagari_hindi_normal_3aee99a8ffab1f31c32d289f3d910262",
+        "italic": "\/home\/hiplstaging3\/invoice-shop.hipl-staging3.com\/storage\/fonts\/tiro_devanagari_hindi_italic_b901fd9ce651b665d81308d5ec6d6ea2"
     },
     "anek devanagari": {
         "100": "anek_devanagari_100_94363b247a16ad9e4dc41c0e10cf9b4a"
+    },
+    "mukta": {
+        "normal": "mukta_normal_96fd5b596ef31bc993909cd0db466663"
+    },
+    "noto sans devanagari": {
+        "normal": "noto_sans_devanagari_normal_a0b8835540ca8e929674047d0bc3a173"
+    },
+    "noto sans": {
+        "normal": "noto_sans_normal_31ed8e8f39b7ffa63603d98c7b8fadef"
+    },
+    "hind": {
+        "normal": "hind_normal_78de7bd2a18ba6ef7e8417fb7aecfc3c"
     }
 }

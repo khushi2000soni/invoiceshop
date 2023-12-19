@@ -1,14 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="utf-8">
+	<meta charset="UTF-8">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="../../../../../storage/hindifont/stylesheet.css">
+    <!-- <link href="https://fonts.googleapis.com/css?family=Mukta&display=swap" rel="stylesheet"> -->
+    <!-- <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari&display=swap"> -->
+    <!-- <link href="https://fonts.googleapis.com/css?family=Noto+Sans&subset=devanagari" rel="stylesheet"> -->
+
+    <!-- <link href="https://fonts.googleapis.com/css2?family=Tiro+Devanagari+Hindi:ital@0;1&display=swap" rel="stylesheet"> -->
+    <link href="https://fonts.googleapis.com/css2?family=Hind&display=swap" rel="stylesheet"> 
+
 	<title>View Invoice</title>
 
 <style>
-
 /* @font-face {
     font-family: 'Mangal';
     src: url('/fonts/Mangal-Bold.woff2') format('woff2'),
@@ -40,6 +46,12 @@
     font-style: normal;
     font-display: swap;
 } */
+
+@font-face {
+        font-family: 'Noto Sans', sans-serif;
+        font-style: normal;
+        font-weight: 400;
+    }
 
 
  footer{
@@ -94,12 +106,26 @@ body{
 }
 
 .headerBill {
-    line-height: 18px;
+    line-height: 16px;
     margin-bottom:2px;
+    /* font-family: 'Mukta', sans-serif; */
+    /* font-family: 'Noto Sans Devanagari', sans-serif !important; */
+}
+
+.headerBill span{
+    font-family: 'Hind', serif;
+    /* font-family: 'Tiro Devanagari Hindi', serif; */
+    /* font-family: 'Mukta', sans-serif; */
+    /* font-family: 'Noto Sans Devanagari', sans-serif !important; */
 }
 
 .headerBill_end{
-    margin-bottom:5px;
+    font-family: 'Hind', serif;
+    margin-bottom:8px;
+}
+
+.Hind_font{
+    font-family: 'Hind', serif;
 }
 
 .headerBill strong, .invoiceHeading{
@@ -183,17 +209,17 @@ table tr th{
 				{{-- <h3 style="margin: 0;padding-bottom: 10px;padding-top: 1px;text-align: center;"><strong>Estimate</strong></h3> --}}
                 {{-- {{ $order->customer->name }} --}}
 				<div style="height: 60px;">
-					<div class="" style="width: 50%;line-height: 22px;padding-top: 1px;padding-bottom: 5px;float: left;">
-						<div class="headerBill" style="font-size: 22px;"><strong>Bill To : </strong>{{ $order->customer->name }}</div>
+					<div class="" style="width: 50%; line-height: 22px;padding-top: 1px;padding-bottom: 1px;float: left;">
+						<div class="headerBill" style="font-size: 22px;"><strong>Bill To : </strong><span lang="hi">{{ $order->customer->name }}</span></div>
                         {{-- <br> --}}
                         <div class="headerBill" style="font-size: 22px;"><strong>Address : </strong> <span class="hindi">{{ $order->customer->address->address }}</span></div>
                         {{-- <br> --}}
                         <div class="headerBill headerBill_end" style="font-size: 22px;"><strong>Phone no :</strong> {{ $order->customer->phone ?? 0 }}</div>
 					</div>
-					<div style="width: 50%;line-height: 22px;padding-top: 1px;padding-bottom: 5px;float: right;text-align: right;">
-                        <div class="headerBill" style="font-size: 20px;"><strong>Invoice no :</strong> #{{ $order->invoice_number }}</div>
-                        <div class="headerBill" style="font-size: 20px;"><strong>Date :</strong> {{$order->created_at->format('d-M-Y')}}</div>
-                        <div class="headerBill headerBill_end" style="font-size: 20px;"><strong>Time :</strong> {{$order->created_at->format('H:i:s')}}</div>
+					<div style="width: 50%; line-height: 20px; padding-top: 1px; padding-bottom: 5px;float: right;text-align: right;">
+                        <div class="headerBill Hind_font" style="font-size: 20px;"><strong>Invoice no :</strong> #{{ $order->invoice_number }}</div>
+                        <div class="headerBill Hind_font" style="font-size: 20px;"><strong>Date :</strong> {{$order->created_at->format('d-M-Y')}}</div>
+                        <div class="headerBill headerBill_end Hind_font" style="font-size: 20px;"><strong>Time :</strong> {{$order->created_at->format('H:i:s')}}</div>
 					</div>
 				</div>
 			</div>

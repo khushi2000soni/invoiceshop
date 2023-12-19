@@ -369,6 +369,7 @@ class CustomerController extends Controller
                 'customer_id'           => $customer->id ?? '',
                 'customer_name'     => $customer->name ?? '',
                 'city_name' => $customer->address? $customer->address->address : '',
+                'guardian_name' => $customer->guardian_name ?? '',
             ];
         }
 
