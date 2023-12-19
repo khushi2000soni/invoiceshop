@@ -10,7 +10,7 @@
     <!-- <link href="https://fonts.googleapis.com/css?family=Noto+Sans&subset=devanagari" rel="stylesheet"> -->
 
     <!-- <link href="https://fonts.googleapis.com/css2?family=Tiro+Devanagari+Hindi:ital@0;1&display=swap" rel="stylesheet"> -->
-    <link href="https://fonts.googleapis.com/css2?family=Hind&display=swap" rel="stylesheet"> 
+    <link href="https://fonts.googleapis.com/css2?family=Hind&display=swap" rel="stylesheet">
 
 	<title>View Invoice</title>
 
@@ -77,9 +77,6 @@ content: counter(page);
 
 @font-face {
     font-family: 'Tiro Devanagari Hindi';
-    /* font-style: normal; */
-    /* font-weight: 400; */
-    /* font-display: swap; */
     src: url('/fonts/TiroDevanagariHindi-Regular.ttf') format('truetype');
 }
 /*
