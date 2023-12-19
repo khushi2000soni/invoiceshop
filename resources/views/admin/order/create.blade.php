@@ -191,15 +191,8 @@
     var rowIndex;
     $(document).ready(function(){
         localStorage.removeItem('order');
-        order = JSON.parse(localStorage.getItem('order')) || {
-        products: [],
-        customer_id: 0,
-        thailaPrice: 0.00,
-        is_round_off: 1,
-        sub_total: 0.00,
-        round_off_amount: 0,
-        grand_total: 0.00
-        };
+        order = JSON.parse(localStorage.getItem('order')) || order;
+
 
         order.sub_total = calculateSubtotal();
         // Update the subtotal in the UI
@@ -233,30 +226,20 @@
 
         // Add New Blank Row
         function addBlankRow() {
-            // Clone the Template Row
             var newRow = $('.template-row').clone().removeClass('template-row');
-            // Assign a unique ID for the new row (you can use a counter or generate a unique ID)
-            var rowIndex = $('.ordertable tbody tr').length + 1;
+            var rowIndex = $('.ordertable tbody tr:not(.template-row)').length;
             newRow.attr('id', 'row_' + rowIndex);
-            // Update IDs of select elements to ensure uniqueness
             newRow.find('.js-product-basic-single').attr('id', 'product_id_' + rowIndex);
-            // Set data attribute for rowIndex
             newRow.data('rowIndex', rowIndex);
-            // Clear input values in the new row
             newRow.find('input').val('');
-            // Remove display: none style from the new row
             newRow.css('display', '');
-            // Append the new row to the table body
-            //$('.js-product-basic-single').off('select2:open');
             var selectBox = newRow.find(".js-product-basic-single");
             var select2Container = selectBox.next('.select2-container');
             if (select2Container.length > 0) {
                 select2Container.remove();
             }
 
-            // Append the new row to the table body
             $('.ordertable tbody').append(newRow);
-            // Show the new row
             newRow.show();
             // Initialize Select2 for the new row's select box
             selectBox.select2({
@@ -271,30 +254,27 @@
             });
 
             newRow.find('.copy-product').attr('data-row-index', rowIndex);
-            // Add data-row-index attribute to delete-product button
             newRow.find('.delete-product').attr('data-row-index', rowIndex);
 
-
             var productRecord = {
-    product_id: parseInt(selectBox.val()) || null,
-    product_name: order.product_name, // Update based on your data structure
-    quantity: parseInt(newRow.find('input[name="quantity"]').val()) || 0,
-    price: parseFloat(newRow.find('input[name="price"]').val()) || 0,
-    total_price: parseFloat(newRow.find('input[name="total_price"]').val()) || 0
-};
+                rowIndex: rowIndex,
+                customer_id: order.customer_id,
+                product_id: parseInt(selectBox.val()) || '',
+                product_name: order.product_name || '', // Adjust this based on your data structure
+                quantity: parseInt(newRow.find('input[name="quantity"]').val()) || 0,
+                price: parseFloat(newRow.find('input[name="price"]').val()) || 0,
+                total_price: parseFloat(newRow.find('input[name="total_price"]').val()) || 0
+            };
 
-// Add the product record to the products array with the rowIndex as the key
-order.products[rowIndex] = productRecord;
-
+            console.log(productRecord);
+            order.products.push(productRecord);
             // Update other properties as needed
-            order.sub_total = calculateSubtotal();
-            $('#sub_total_amount').text(order.sub_total);
-
+           // order.sub_total = calculateSubtotal();
+            //$('#sub_total_amount').text(order.sub_total);
             // Save the updated order object back to localStorage
             updateLocalStorage(order);
-
             // Calculate and update grand total
-            calculateGrandTotal();
+            //calculateGrandTotal();
         }
 
         $('#addNewBlankRow').click(function (e) {
@@ -346,14 +326,39 @@ order.products[rowIndex] = productRecord;
             localStorage.setItem("order", JSON.stringify(order));
         }
 
-        function calculateAmount() {
-            var quantity = parseFloat($("#quantity").val()) || 0;
-            var price = parseFloat($("#price").val()) || 0;
-            var total_price = (quantity * price).toFixed(2);
-            $("#total_price").val(total_price);
-        }
+        // function calculateAmount() {
+        //     var quantity = parseFloat($("#quantity").val()) || 0;
+        //     var price = parseFloat($("#price").val()) || 0;
+        //     var total_price = (quantity * price).toFixed(2);
+        //     $("#total_price").val(total_price);
+        // }
 
-        $("#quantity, #price").on("input", calculateAmount);
+        function calculateAmount(row) {
+        var quantity = parseInt(row.find('#quantity').val()) || 0;
+        var price = parseFloat(row.find('#price').val()) || 0;
+        var total_price = (quantity * price).toFixed(2);
+        console.log('quantity',quantity);
+        console.log('price',price);
+        console.log('total_price',total_price);
+        row.find('#total_price').val(total_price);
+
+        // Update other properties or recalculate as needed
+        //order.sub_total = calculateSubtotal();
+        //$('#sub_total_amount').text(order.sub_total.toFixed(2));
+
+        // Save the updated order object back to localStorage
+        updateLocalStorage(order);
+
+        // Calculate and update grand total
+        //calculateGrandTotal();
+}
+
+       // $("#quantity, #price").on("input", calculateAmount);
+
+        $("#quantity, #price").on("input", function () {
+            var row = $(this).closest('tr');
+            calculateAmount(row);
+        });
 
 
         function updateLocalStorage(order) {
@@ -397,7 +402,7 @@ order.products[rowIndex] = productRecord;
                 $("#round_off_amount").text("0");
                 order.round_off_amount = 0;
             }
-            console.log('thaila',thailaPrice);
+           // console.log('thaila',thailaPrice);
             var grandTotal = thailaPrice + (isRoundOff ? roundedSubtotal : subTotal);
 
             // Update and display Sub Total and Grand Total on the page

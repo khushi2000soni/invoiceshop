@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="hi">
 <head>
 	<meta charset="UTF-8">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -75,6 +75,13 @@ content: counter(page);
     height: 100px;
 }
 
+@font-face {
+    font-family: 'Tiro Devanagari Hindi';
+    /* font-style: normal; */
+    /* font-weight: 400; */
+    /* font-display: swap; */
+    src: url('/fonts/TiroDevanagariHindi-Regular.ttf') format('truetype');
+}
 /*
 @font-face {
     font-family: 'Tiro Devanagari Hindi';
@@ -133,7 +140,7 @@ body{
 }
 
 .headerBill strong{
-    font-size:20px !important; 
+    font-size:20px !important;
 }
 .cancel-watermark {
     position: fixed;
@@ -225,7 +232,7 @@ table tr th{
 			</div>
 		</header>
     </div>
-        
+
     <footer>
         <div class="pagenum-container"><small>Page <span class="pagenum"></span></small></div>
     </footer>

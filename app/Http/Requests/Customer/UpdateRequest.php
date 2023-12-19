@@ -26,7 +26,7 @@ class UpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => ['required','string','max:150', 'regex:/^[^\s]+$/'],
+            'name' => ['required','string','max:25', 'regex:/^[^\s]+$/'],
             'guardian_name' => ['required','string','max:150','regex:/^[^\s]+$/'],
             // 'email' => ['required','email','unique:customers,email,'.$this->customer->id],
             'phone' => ['required','digits:10','numeric','unique:customers,phone,'.$this->customer->id],
