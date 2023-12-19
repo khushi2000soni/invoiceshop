@@ -40,7 +40,7 @@ content: counter(page);
 
 @font-face {
     font-family: 'Tiro Devanagari Hindi';
-    src: url('/fonts/TiroDevanagariHindi-Regular.ttf') format('truetype');
+    src: url('fonts/TiroDevanagariHindi-Regular.ttf') format('truetype');
 }
 
 
@@ -168,7 +168,7 @@ table tr th{
                         {{-- <br> --}}
                         <div class="headerBill" style="font-size: 22px;"><strong>Address : </strong> <span class="hindi">{{ $order->customer->address->address }}</span></div>
                         {{-- <br> --}}
-                        <div class="headerBill headerBill_end" style="font-size: 22px;"><strong>Phone no :</strong> {{ $order->customer->phone ?? 0 }}</div>
+                        <div class="headerBill headerBill_end" style="font-size: 22px;"><strong>Phone no :</strong> {{ $order->customer->phone ?? 'N/A' }}</div>
 					</div>
 					<div style="width: 40%; line-height: 20px; padding-top: 1px; padding-bottom: 5px;float: right;text-align: right;">
                         <div class="headerBill Hind_font" style="font-size: 20px;"><strong>Invoice no :</strong> #{{ $order->invoice_number }}</div>
