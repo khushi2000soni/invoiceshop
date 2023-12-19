@@ -32,11 +32,6 @@ class OrderController extends Controller
         return $dataTable->render('admin.order.index',compact('customers','type'));
     }
 
-    public function getTypeOrder(InvoiceTypeDataTable $dataTable,string $type){
-        $customers = Customer::all();
-        return $dataTable->render('admin.order.index',compact('customers','type'));
-    }
-
     /**
      * Show the form for creating a new resource.
      */

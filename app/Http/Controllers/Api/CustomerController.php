@@ -368,6 +368,7 @@ class CustomerController extends Controller
             $responseData['customerData'][] = [
                 'customer_id'           => $customer->id ?? '',
                 'customer_name'     => $customer->name ?? '',
+                'city_name' => $customer->address? $customer->address->address : '',
             ];
         }
 

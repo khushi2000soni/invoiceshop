@@ -85,7 +85,23 @@
                 <div class="row">
                     @can('order_product_create')
                     <div class="col-md-12">
-                        @include('admin.order.form')
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="custom-select2 fullselect2">
+                                    <div class="form-control-inner">
+                                        <label>@lang('quickadmin.order.fields.customer_name')</label>
+                                        <select class="js-customer-list @error('customer_id') is-invalid @enderror" name="customer_id" id="customer_id" >
+                                            <option value="{{ isset($order) ? $order->customer->id : old('customer_id') }}">
+                                                {{ isset($order) ? $order->customer->name : trans('quickadmin.order.fields.select_customer') }}
+                                            </option>
+                                            @foreach($customers as $customer)
+                                            <option value="{{ $customer->id }}">{{ $customer->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     @endcan
                 </div>
@@ -111,43 +127,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr class="template-row" style="display:none;">
-                                    <td class="text-right">
-                                        <div class="d-flex align-items-center buttonGroup justify-content-end">
-                                            <button class="btn btn-dark btn-sm copy-product"><i class="fas fa-copy"></i></button>
-                                            <button class="btn btn-danger btn-sm delete-product"><i class="fas fa-trash"></i></button>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="form-group m-0">
-                                            <div class="custom-select2 fullselect2">
-                                                <div class="form-control-inner">
-                                                    <select class="js-product-basic-single @error('product_id') is-invalid @enderror" name="product_id" id="product_id">
-                                                        <option value="">{{ trans('quickadmin.order.fields.select_product') }}</option>
-                                                        @foreach($products as $product)
-                                                        <option value="{{ $product->id }}">{{ $product->name }}</option>
-                                                        @endforeach
-                                                    </select>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="form-group m-0">
-                                            <input type="text" class="form-control" min="0" name="quantity" value="{{ isset($order) ? $order->quantity : old('quantity') }}" id="quantity" autocomplete="true" onkeydown="javascript: return ['Backspace','Delete','ArrowLeft','ArrowRight'].includes(event.code) ? true : !isNaN(Number(event.key)) && event.code!=='Space'">
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="form-group m-0">
-                                            <input type="text" class="form-control" min="0" name="price" value="{{ isset($order) ? $order->price : old('price') }}" id="price" autocomplete="true" onkeydown="javascript: return ['Backspace','Delete','ArrowLeft','ArrowRight'].includes(event.code) ? true : !isNaN(Number(event.key)) && event.code!=='Space'">
-                                        </div>
-                                    </td>
-                                    <td colspan="2">
-                                        <div class="form-group m-0">
-                                            <input type="numeric" class="form-control" name="total_price" value="{{ isset($order) ? $order->total_price : old('total_price') }}" id="total_price" autocomplete="true" readonly>
-                                        </div>
-                                    </td>
-                                </tr>
+                                @include('admin.order.form')
                             </tbody>
                         </table>
                     </div>
@@ -224,6 +204,9 @@
         $('#sub_total_amount').text(order.sub_total.toFixed(2));
         calculateGrandTotal();
 
+        /// Row 1
+        addBlankRow();
+
         $("#customer_id").change(function (e) {
             e.preventDefault();
             order.customer_id = parseInt($(this).val());
@@ -243,28 +226,8 @@
             calculateGrandTotal();
         });
 
-
-        // $('#addNewBlankRow').click(function () {
-        //     // Clone the Template Row
-        //     var newRow = $('.template-row').clone().removeClass('template-row');
-        //     // Clear input values in the new row
-        //     newRow.find('input').val('');
-        //     // Append the new row to the table body
-        //     $('.ordertable tbody').append(newRow);
-        //     // Show the new row
-        //     newRow.show();
-        //     $(document).find(".js-product-basic-single").select2({
-        //     }).on('select2:open', function () {
-        //         let a = $(this).data('select2');
-        //         if (!$('.select2-link').length) {
-        //             a.$results.parents('.select2-results')
-        //                 .append('<div class="select2-link2"><button class="btns addNewBtn get-product"><i class="fa fa-plus-circle"></i> Add New</button></div>');
-        //         }
-        //     });
-
-        // });
-
-        $('#addNewBlankRow').click(function () {
+        // Add New Blank Row
+        function addBlankRow() {
             // Clone the Template Row
             var newRow = $('.template-row').clone().removeClass('template-row');
             // Assign a unique ID for the new row (you can use a counter or generate a unique ID)
@@ -280,49 +243,65 @@
             newRow.css('display', '');
             // Append the new row to the table body
             //$('.js-product-basic-single').off('select2:open');
+            var selectBox = newRow.find(".js-product-basic-single");
+            var select2Container = selectBox.next('.select2-container');
+            if (select2Container.length > 0) {
+                select2Container.remove();
+            }
+
+            // Append the new row to the table body
             $('.ordertable tbody').append(newRow);
+            // Show the new row
             newRow.show();
-            newRow.find(".js-product-basic-single").select2().one('select2:open', function () {
+            // Initialize Select2 for the new row's select box
+            selectBox.select2({
+                width: '100%', // Set the desired width
+                dropdownAutoWidth: true // Enable auto-width for the dropdown
+            }).on('select2:open', function () {
                 let a = $(this).data('select2');
                 if (!$('.select2-link').length) {
                     a.$results.parents('.select2-results')
                         .append('<div class="select2-link2"><button class="btns addNewBtn get-product"><i class="fa fa-plus-circle"></i> Add New</button></div>');
                 }
             });
+        }
+
+        $('#addNewBlankRow').click(function (e) {
+            e.preventDefault();
+            addBlankRow();
         });
 
 
-
-        function addBlankRow() {
-            // Append a new row to the table body
-            var tableBody = $(".table.table-striped.table-hover.ordertable").find("tbody");
-            var newRowHtml = '<tr>' +
-                '<td class="text-right">' +
-                '<div class="d-flex align-items-center buttonGroup justify-content-end">' +
-                '<button class="btn btn-dark btn-sm copy-product" title="@lang("quickadmin.qa_copy")"><i class="fas fa-copy"></i></button>' +
-                '<button class="btn btn-danger btn-sm delete-product" title="@lang("quickadmin.qa_delete")"><i class="fas fa-trash"></i></button>' +
-                '</div></td>' +
-                '<td class="text-center d-none product-id"></td>' +
-                '<td class="text-center product-name"></td>' +
-                '<td class="text-center">' +
-                '<div class="form-group m-0">' +
-                '<select class="js-product-basic-single @error('product_id') is-invalid @enderror" name="product_id"></select>' +
-                '</div></td>' +
-                '<td class="text-center">' +
-                '<div class="form-group m-0">' +
-                '<input type="text" class="form-control" min="0" name="quantity" autocomplete="true" oninput="calculateAmount(this);" required>' +
-                '</div></td>' +
-                '<td class="text-center">' +
-                '<div class="form-group m-0">' +
-                '<input type="text" class="form-control" min="0" name="price" autocomplete="true" oninput="calculateAmount(this);" required>' +
-                '</div></td>' +
-                '<td class="text-center">' +
-                '<div class="form-group m-0">' +
-                '<input type="numeric" class="form-control" name="total_price" readonly>' +
-                '</div></td>' +
-                '</tr>';
-            tableBody.append(newRowHtml);
-        }
+        // function addBlankRow() {
+        //     // Append a new row to the table body
+        //     var tableBody = $(".table.table-striped.table-hover.ordertable").find("tbody");
+        //     var newRowHtml = '<tr>' +
+        //         '<td class="text-right">' +
+        //         '<div class="d-flex align-items-center buttonGroup justify-content-end">' +
+        //         '<button class="btn btn-dark btn-sm copy-product" title="@lang("quickadmin.qa_copy")"><i class="fas fa-copy"></i></button>' +
+        //         '<button class="btn btn-danger btn-sm delete-product" title="@lang("quickadmin.qa_delete")"><i class="fas fa-trash"></i></button>' +
+        //         '</div></td>' +
+        //         '<td class="text-center d-none product-id"></td>' +
+        //         '<td class="text-center product-name"></td>' +
+        //         '<td class="text-center">' +
+        //         '<div class="form-group m-0">' +
+        //         '<select class="js-product-basic-single @error('product_id') is-invalid @enderror" name="product_id"></select>' +
+        //         '</div></td>' +
+        //         '<td class="text-center">' +
+        //         '<div class="form-group m-0">' +
+        //         '<input type="text" class="form-control" min="0" name="quantity" autocomplete="true" oninput="calculateAmount(this);" required>' +
+        //         '</div></td>' +
+        //         '<td class="text-center">' +
+        //         '<div class="form-group m-0">' +
+        //         '<input type="text" class="form-control" min="0" name="price" autocomplete="true" oninput="calculateAmount(this);" required>' +
+        //         '</div></td>' +
+        //         '<td class="text-center">' +
+        //         '<div class="form-group m-0">' +
+        //         '<input type="numeric" class="form-control" name="total_price" readonly>' +
+        //         '</div></td>' +
+        //         '</tr>';
+        //     tableBody.append(newRowHtml);
+        // }
 
         // Initialize the thailaPrice from local storage if available
         if (localStorage.getItem("order")) {
@@ -405,14 +384,14 @@
             }
         });
 
-        $(document).find(".js-product-basic-single").select2({
-        }).on('select2:open', function () {
-            let a = $(this).data('select2');
-            if (!$('.select2-link').length) {
-                a.$results.parents('.select2-results')
-                    .append('<div class="select2-link2"><button class="btns addNewBtn get-product"><i class="fa fa-plus-circle"></i> Add New</button></div>');
-            }
-        });
+        // $(document).find(".js-product-basic-single").select2({
+        // }).on('select2:open', function () {
+        //     let a = $(this).data('select2');
+        //     if (!$('.select2-link').length) {
+        //         a.$results.parents('.select2-results')
+        //             .append('<div class="select2-link2"><button class="btns addNewBtn get-product"><i class="fa fa-plus-circle"></i> Add New</button></div>');
+        //     }
+        // });
 
         $(document).on('click', '.select2-container .get-customer', function (e) {
             e.preventDefault();
