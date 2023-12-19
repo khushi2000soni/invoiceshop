@@ -143,6 +143,21 @@ if (!function_exists('convertToWords')) {
     }
 }
 
+if (!function_exists('str_limit_custom')) {
+    /**
+     * Limit the number of characters in a string.
+     *
+     * @param  string  $value
+     * @param  int  $limit
+     * @param  string  $end
+     * @return string
+     */
+    function str_limit_custom($value, $limit = 100, $end = '...')
+    {
+        return \Illuminate\Support\Str::limit($value, $limit, $end);
+    }
+}
+
 
 /// Function for handling Data Type of a number , if 50.00 then return 50 , if 50.64 then return 50.64
 /// It will return 2 digit after point

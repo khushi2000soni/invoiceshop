@@ -205,16 +205,18 @@ table tr th{
     @if ($type=='deleted')
     <div class="cancel-watermark">Cancelled</div>
     @endif
-    <p class="text-center-number" style="margin: 0;text-align: center;">{{ $order->customer->phone ?? 0 }}</p>
+    @if (!is_null(getSetting('invoice_pdf_top_title')))
+    <p class="text-center-number" style="margin: 0;text-align: center;">{{ getSetting('invoice_pdf_top_title') ?? ''}}</p>
+    @endif
     <div class="page-header">
 		<header style="padding: 0 0 10px;">
 			{{-- <h2 class="invoiceHeading" style="margin: 0;color: #2a2a33;font-size: 20px; text-align:center;"><strong>Invoice</strong></h2> --}}
             <div style="max-width: 700px;margin: 0 auto;font-size: 16px;">
 				{{-- <h3 style="margin: 0;padding-bottom: 10px;padding-top: 1px;text-align: center;"><strong>Estimate</strong></h3> --}}
-                {{-- {{ $order->customer->name }} --}}
+                {{-- {{ $order->customer->name }} {{ str_limit_custom($order->customer->name, 20) }}--}}
 				<div style="height: 60px;">
 					<div class="" style="width: 50%; line-height: 22px;padding-top: 1px;padding-bottom: 1px;float: left;">
-						<div class="headerBill" style="font-size: 22px;"><strong>Bill To : </strong><span lang="hi">{{ $order->customer->name }}</span></div>
+						<div class="headerBill" style="font-size: 22px;"><strong>Bill To : </strong><span lang="hi">{{ $order->customer->name ?? '' }}</span></div>
                         {{-- <br> --}}
                         <div class="headerBill" style="font-size: 22px;"><strong>Address : </strong> <span class="hindi">{{ $order->customer->address->address }}</span></div>
                         {{-- <br> --}}
