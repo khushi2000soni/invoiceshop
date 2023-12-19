@@ -206,6 +206,11 @@ class OrderController extends Controller
         }
     }
 
+    public function getTypeOrder(InvoiceTypeDataTable $dataTable,string $type){
+        $customers = Customer::all();
+        return $dataTable->render('admin.order.index',compact('customers','type'));
+    }
+
     public function printView($order,$type=null)
     {
         //dd('test');

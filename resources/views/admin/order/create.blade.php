@@ -181,6 +181,7 @@
 <script>
     var order = {
     products: [],
+    customer_id:0,
     thailaPrice: 0.00,
     is_round_off: 1,
     sub_total: 0.00,
@@ -192,6 +193,7 @@
         localStorage.removeItem('order');
         order = JSON.parse(localStorage.getItem('order')) || {
         products: [],
+        customer_id: 0,
         thailaPrice: 0.00,
         is_round_off: 1,
         sub_total: 0.00,
@@ -206,6 +208,9 @@
 
         /// Row 1
         addBlankRow();
+
+        ///
+        updateLocalStorage(order);
 
         $("#customer_id").change(function (e) {
             e.preventDefault();
@@ -264,6 +269,32 @@
                         .append('<div class="select2-link2"><button class="btns addNewBtn get-product"><i class="fa fa-plus-circle"></i> Add New</button></div>');
                 }
             });
+
+            newRow.find('.copy-product').attr('data-row-index', rowIndex);
+            // Add data-row-index attribute to delete-product button
+            newRow.find('.delete-product').attr('data-row-index', rowIndex);
+
+
+            var productRecord = {
+    product_id: parseInt(selectBox.val()) || null,
+    product_name: order.product_name, // Update based on your data structure
+    quantity: parseInt(newRow.find('input[name="quantity"]').val()) || 0,
+    price: parseFloat(newRow.find('input[name="price"]').val()) || 0,
+    total_price: parseFloat(newRow.find('input[name="total_price"]').val()) || 0
+};
+
+// Add the product record to the products array with the rowIndex as the key
+order.products[rowIndex] = productRecord;
+
+            // Update other properties as needed
+            order.sub_total = calculateSubtotal();
+            $('#sub_total_amount').text(order.sub_total);
+
+            // Save the updated order object back to localStorage
+            updateLocalStorage(order);
+
+            // Calculate and update grand total
+            calculateGrandTotal();
         }
 
         $('#addNewBlankRow').click(function (e) {
@@ -272,36 +303,36 @@
         });
 
 
-        // function addBlankRow() {
-        //     // Append a new row to the table body
-        //     var tableBody = $(".table.table-striped.table-hover.ordertable").find("tbody");
-        //     var newRowHtml = '<tr>' +
-        //         '<td class="text-right">' +
-        //         '<div class="d-flex align-items-center buttonGroup justify-content-end">' +
-        //         '<button class="btn btn-dark btn-sm copy-product" title="@lang("quickadmin.qa_copy")"><i class="fas fa-copy"></i></button>' +
-        //         '<button class="btn btn-danger btn-sm delete-product" title="@lang("quickadmin.qa_delete")"><i class="fas fa-trash"></i></button>' +
-        //         '</div></td>' +
-        //         '<td class="text-center d-none product-id"></td>' +
-        //         '<td class="text-center product-name"></td>' +
-        //         '<td class="text-center">' +
-        //         '<div class="form-group m-0">' +
-        //         '<select class="js-product-basic-single @error('product_id') is-invalid @enderror" name="product_id"></select>' +
-        //         '</div></td>' +
-        //         '<td class="text-center">' +
-        //         '<div class="form-group m-0">' +
-        //         '<input type="text" class="form-control" min="0" name="quantity" autocomplete="true" oninput="calculateAmount(this);" required>' +
-        //         '</div></td>' +
-        //         '<td class="text-center">' +
-        //         '<div class="form-group m-0">' +
-        //         '<input type="text" class="form-control" min="0" name="price" autocomplete="true" oninput="calculateAmount(this);" required>' +
-        //         '</div></td>' +
-        //         '<td class="text-center">' +
-        //         '<div class="form-group m-0">' +
-        //         '<input type="numeric" class="form-control" name="total_price" readonly>' +
-        //         '</div></td>' +
-        //         '</tr>';
-        //     tableBody.append(newRowHtml);
-        // }
+        function addBlankRowold() {
+            // Append a new row to the table body
+            var tableBody = $(".table.table-striped.table-hover.ordertable").find("tbody");
+            var newRowHtml = '<tr>' +
+                '<td class="text-right">' +
+                '<div class="d-flex align-items-center buttonGroup justify-content-end">' +
+                '<button class="btn btn-dark btn-sm copy-product" title="@lang("quickadmin.qa_copy")"><i class="fas fa-copy"></i></button>' +
+                '<button class="btn btn-danger btn-sm delete-product" title="@lang("quickadmin.qa_delete")"><i class="fas fa-trash"></i></button>' +
+                '</div></td>' +
+                '<td class="text-center d-none product-id"></td>' +
+                '<td class="text-center product-name"></td>' +
+                '<td class="text-center">' +
+                '<div class="form-group m-0">' +
+                '<select class="js-product-basic-single @error('product_id') is-invalid @enderror" name="product_id"></select>' +
+                '</div></td>' +
+                '<td class="text-center">' +
+                '<div class="form-group m-0">' +
+                '<input type="text" class="form-control" min="0" name="quantity" autocomplete="true" oninput="calculateAmount(this);" required>' +
+                '</div></td>' +
+                '<td class="text-center">' +
+                '<div class="form-group m-0">' +
+                '<input type="text" class="form-control" min="0" name="price" autocomplete="true" oninput="calculateAmount(this);" required>' +
+                '</div></td>' +
+                '<td class="text-center">' +
+                '<div class="form-group m-0">' +
+                '<input type="numeric" class="form-control" name="total_price" readonly>' +
+                '</div></td>' +
+                '</tr>';
+            tableBody.append(newRowHtml);
+        }
 
         // Initialize the thailaPrice from local storage if available
         if (localStorage.getItem("order")) {
@@ -324,7 +355,14 @@
 
         $("#quantity, #price").on("input", calculateAmount);
 
-        function updateLocalStorage() {
+
+        function updateLocalStorage(order) {
+
+            localStorage.setItem('order', JSON.stringify(order));
+        }
+
+
+        function updateLocalStorageOld() {
             localStorage.setItem("order", JSON.stringify(order));
         }
 
