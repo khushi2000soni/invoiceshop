@@ -5,47 +5,11 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="../../../../../storage/hindifont/stylesheet.css">
-    <!-- <link href="https://fonts.googleapis.com/css?family=Mukta&display=swap" rel="stylesheet"> -->
-    <!-- <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari&display=swap"> -->
-    <!-- <link href="https://fonts.googleapis.com/css?family=Noto+Sans&subset=devanagari" rel="stylesheet"> -->
-
-    <!-- <link href="https://fonts.googleapis.com/css2?family=Tiro+Devanagari+Hindi:ital@0;1&display=swap" rel="stylesheet"> -->
     <link href="https://fonts.googleapis.com/css2?family=Hind&display=swap" rel="stylesheet">
 
 	<title>View Invoice</title>
 
 <style>
-/* @font-face {
-    font-family: 'Mangal';
-    src: url('/fonts/Mangal-Bold.woff2') format('woff2'),
-        url('/fonts/Mangal-Bold.woff') format('woff');
-    font-weight: bold;
-    font-style: normal;
-    font-display: swap;
-}
-
-@font-face {
-    font-family: 'Mangal';
-    src: url('/fonts/Mangal-Regular.woff2') format('woff2'),
-        url('/fonts/Mangal-Regular.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
-    font-display: swap;
-}
-
-
-@font-face {
-    font-family: 'Mangal', sans-serif;
-    src: url('/fonts/Mangal-Bold.eot');
-     src: url('/fonts/Mangal-Bold.eot?#iefix') format('embedded-opentype'),
-        url('/fonts/Mangal-Bold.woff2') format('woff2'),
-        url('/fonts/Mangal-Bold.woff') format('woff'),
-        url('/fonts/Mangal-Bold.ttf') format('truetype')
-        url('/fonts/Mangal-Bold.svg#Mangal-Bold') format('svg');
-    font-weight: bold;
-    font-style: normal;
-    font-display: swap;
-} */
 
 @font-face {
         font-family: 'Noto Sans', sans-serif;
@@ -68,7 +32,6 @@ content: counter(page);
 }
 
 .page-header {
-    /* position: fixed; */
     top: 0px;
     left: 0;
     right: 0px;
@@ -79,20 +42,10 @@ content: counter(page);
     font-family: 'Tiro Devanagari Hindi';
     src: url('/fonts/TiroDevanagariHindi-Regular.ttf') format('truetype');
 }
-/*
-@font-face {
-    font-family: 'Tiro Devanagari Hindi';
-    src: url('{{ asset("fonts/TiroDevanagariHindi-Regular.ttf") }}') format('truetype');
-} */
 
 
 .HI, .hindi{
-    /* font-family: 'Mangal', sans-serif; */
-    /* font-weight: bold; */
     font-family: 'Tiro Devanagari Hindi', serif;
-    /* font-family: 'Mangal'; */
-    /* font-family: 'Anek Devanagari Condensed'; */
-    /* font-family: 'Poppins'; */
 }
 
 .EN{
@@ -112,15 +65,10 @@ body{
 .headerBill {
     line-height: 16px;
     margin-bottom:2px;
-    /* font-family: 'Mukta', sans-serif; */
-    /* font-family: 'Noto Sans Devanagari', sans-serif !important; */
 }
 
 .headerBill span{
     font-family: 'Hind', serif;
-    /* font-family: 'Tiro Devanagari Hindi', serif; */
-    /* font-family: 'Mukta', sans-serif; */
-    /* font-family: 'Noto Sans Devanagari', sans-serif !important; */
 }
 
 .headerBill_end{
@@ -213,16 +161,16 @@ table tr th{
 			{{-- <h2 class="invoiceHeading" style="margin: 0;color: #2a2a33;font-size: 20px; text-align:center;"><strong>Invoice</strong></h2> --}}
             <div style="max-width: 700px;margin: 0 auto;font-size: 16px;">
 				{{-- <h3 style="margin: 0;padding-bottom: 10px;padding-top: 1px;text-align: center;"><strong>Estimate</strong></h3> --}}
-                {{-- {{ $order->customer->name }} {{ str_limit_custom($order->customer->name, 20) }}--}}
+                {{-- {{ $order->customer->name }} --}}
 				<div style="height: 60px;">
 					<div class="" style="width: 50%; line-height: 22px;padding-top: 1px;padding-bottom: 1px;float: left;">
-						<div class="headerBill" style="font-size: 22px;"><strong>Bill To : </strong><span lang="hi">{{ $order->customer->name ?? '' }}</span></div>
+						<div class="headerBill" style="font-size: 22px;"><strong>Bill To : </strong><span lang="hi">{{ str_limit_custom($order->customer->name, 25) }}</span></div>
                         {{-- <br> --}}
                         <div class="headerBill" style="font-size: 22px;"><strong>Address : </strong> <span class="hindi">{{ $order->customer->address->address }}</span></div>
                         {{-- <br> --}}
                         <div class="headerBill headerBill_end" style="font-size: 22px;"><strong>Phone no :</strong> {{ $order->customer->phone ?? 0 }}</div>
 					</div>
-					<div style="width: 50%; line-height: 20px; padding-top: 1px; padding-bottom: 5px;float: right;text-align: right;">
+					<div style="width: 40%; line-height: 20px; padding-top: 1px; padding-bottom: 5px;float: right;text-align: right;">
                         <div class="headerBill Hind_font" style="font-size: 20px;"><strong>Invoice no :</strong> #{{ $order->invoice_number }}</div>
                         <div class="headerBill Hind_font" style="font-size: 20px;"><strong>Date :</strong> {{$order->created_at->format('d-M-Y')}}</div>
                         <div class="headerBill headerBill_end Hind_font" style="font-size: 20px;"><strong>Time :</strong> {{$order->created_at->format('H:i:s')}}</div>
