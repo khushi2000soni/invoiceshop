@@ -29,8 +29,8 @@ class StoreRequest extends FormRequest
             'sub_total'=> 'required|numeric',
             'grand_total' => 'required|numeric',
             'products' => 'required|array',
-            'products.*.product_id' => 'required|exists:products,id',
-            'products.*.quantity' => 'required|integer|min:1',
+            'products.*.product_id' => 'required|integer|exists:products,id',
+            'products.*.quantity' => 'required|numeric',
             'products.*.price' => 'required|numeric',
             'products.*.total_price' => 'required|numeric',
         ];

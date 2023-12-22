@@ -189,10 +189,11 @@
     grand_total: 0.00
     };
     var rowIndex;
+    var newRowindex;
+    var activeSelect2;
     $(document).ready(function(){
         localStorage.removeItem('order');
         order = JSON.parse(localStorage.getItem('order')) || order;
-
 
         order.sub_total = calculateSubtotal();
         // Update the subtotal in the UI
@@ -207,12 +208,13 @@
 
         $("#customer_id").change(function (e) {
             e.preventDefault();
+            $(".error.text-danger").remove();
+            $(".is-invalid").removeClass("is-invalid");
             order.customer_id = parseInt($(this).val());
         });
 
         $("#is_round_off").change(function (e) {
             e.preventDefault();
-            console.log('yes');
             order.is_round_off = this.checked ? 1 : 0;
             calculateGrandTotal();
         });
@@ -226,10 +228,21 @@
 
         // Add New Blank Row
         function addBlankRow() {
+            var lastRow = $('.ordertable tbody tr:not(.template-row):last');
+            var isValid = validateRow(lastRow);
+            if (lastRow.length > 0) {
+                var isValid = validateRow(lastRow);
+                if (!isValid) {
+                    // Display error messages or take appropriate action
+                    return;
+                }
+            }
+            removerror();
+
             var newRow = $('.template-row').clone().removeClass('template-row');
             var rowIndex = $('.ordertable tbody tr:not(.template-row)').length;
             newRow.attr('id', 'row_' + rowIndex);
-            newRow.find('.js-product-basic-single').attr('id', 'product_id_' + rowIndex);
+           // newRow.find('.js-product-basic-single').attr('id', 'product_id_' + rowIndex);
             newRow.data('rowIndex', rowIndex);
             newRow.find('input').val('');
             newRow.css('display', '');
@@ -258,7 +271,6 @@
 
             var productRecord = {
                 rowIndex: rowIndex,
-                customer_id: order.customer_id,
                 product_id: parseInt(selectBox.val()) || '',
                 product_name: order.product_name || '', // Adjust this based on your data structure
                 quantity: parseInt(newRow.find('input[name="quantity"]').val()) || 0,
@@ -266,15 +278,12 @@
                 total_price: parseFloat(newRow.find('input[name="total_price"]').val()) || 0
             };
 
-            console.log(productRecord);
+           // console.log(productRecord);
             order.products.push(productRecord);
-            // Update other properties as needed
-           // order.sub_total = calculateSubtotal();
-            //$('#sub_total_amount').text(order.sub_total);
-            // Save the updated order object back to localStorage
             updateLocalStorage(order);
+            updateSubtotal();
             // Calculate and update grand total
-            //calculateGrandTotal();
+            calculateGrandTotal();
         }
 
         $('#addNewBlankRow').click(function (e) {
@@ -282,36 +291,70 @@
             addBlankRow();
         });
 
+        //// Validated last row of table
 
-        function addBlankRowold() {
-            // Append a new row to the table body
-            var tableBody = $(".table.table-striped.table-hover.ordertable").find("tbody");
-            var newRowHtml = '<tr>' +
-                '<td class="text-right">' +
-                '<div class="d-flex align-items-center buttonGroup justify-content-end">' +
-                '<button class="btn btn-dark btn-sm copy-product" title="@lang("quickadmin.qa_copy")"><i class="fas fa-copy"></i></button>' +
-                '<button class="btn btn-danger btn-sm delete-product" title="@lang("quickadmin.qa_delete")"><i class="fas fa-trash"></i></button>' +
-                '</div></td>' +
-                '<td class="text-center d-none product-id"></td>' +
-                '<td class="text-center product-name"></td>' +
-                '<td class="text-center">' +
-                '<div class="form-group m-0">' +
-                '<select class="js-product-basic-single @error('product_id') is-invalid @enderror" name="product_id"></select>' +
-                '</div></td>' +
-                '<td class="text-center">' +
-                '<div class="form-group m-0">' +
-                '<input type="text" class="form-control" min="0" name="quantity" autocomplete="true" oninput="calculateAmount(this);" required>' +
-                '</div></td>' +
-                '<td class="text-center">' +
-                '<div class="form-group m-0">' +
-                '<input type="text" class="form-control" min="0" name="price" autocomplete="true" oninput="calculateAmount(this);" required>' +
-                '</div></td>' +
-                '<td class="text-center">' +
-                '<div class="form-group m-0">' +
-                '<input type="numeric" class="form-control" name="total_price" readonly>' +
-                '</div></td>' +
-                '</tr>';
-            tableBody.append(newRowHtml);
+        function validateRow(row) {
+            removerror();
+
+            var customer_id = parseInt($('select[name="customer_id"]').val());
+
+
+            var product_id = parseInt(row.find('select[name="product_id"]').val());
+            var quantity = parseFloat(row.find('input[name="quantity"]').val());
+            var price = parseFloat(row.find('input[name="price"]').val());
+
+           // console.log('customer_id',customer_id);
+
+            var errors = {
+                customer_id: "The Customer Name is required.",
+                product_id: "The Product Name is required.",
+                quantity: "The Quantity is required.",
+                price: "The Price is required.",
+                total_price: "Please fill both quantity and price."
+            };
+
+            var hasErrors = false;
+
+            // Check if customer_id is filled
+            if (!customer_id) {
+                $('select[name="customer_id"]').addClass('is-invalid');
+                var errorHtml = '<div><span class="error text-danger">' + errors.customer_id + '</span></div>';
+                $(errorHtml).insertAfter($('select[name="customer_id"]').parent());
+                hasErrors = true;
+            }
+
+            // Check if product_id is filled
+            if (!product_id) {
+                row.find('select[name="product_id"]').addClass('is-invalid');
+                var errorHtml = '<div><span class="error text-danger">' + errors.product_id + '</span></div>';
+                $(errorHtml).insertAfter(row.find('select[name="product_id"]').parent());
+                hasErrors = true;
+            }
+
+            // Check if quantity is filled
+            if (!quantity) {
+                row.find('input[name="quantity"]').addClass('is-invalid');
+                var errorHtml = '<div><span class="error text-danger">' + errors.quantity + '</span></div>';
+                $(errorHtml).insertAfter(row.find('input[name="quantity"]').parent());
+                hasErrors = true;
+            }
+
+            // Check if price is filled
+            if (!price) {
+                row.find('input[name="price"]').addClass('is-invalid');
+                var errorHtml = '<div><span class="error text-danger">' + errors.price + '</span></div>';
+                $(errorHtml).insertAfter(row.find('input[name="price"]').parent());
+                hasErrors = true;
+            }
+
+            // Display total_price error if both quantity and price are not filled
+            if (!quantity && !price) {
+                row.find('input[name="total_price"]').addClass('is-invalid');
+                var errorHtml = '<div><span class="error text-danger">' + errors.total_price + '</span></div>';
+                $(errorHtml).insertAfter(row.find('input[name="total_price"]').parent());
+            }
+
+            return !hasErrors;
         }
 
         // Initialize the thailaPrice from local storage if available
@@ -326,39 +369,77 @@
             localStorage.setItem("order", JSON.stringify(order));
         }
 
-        // function calculateAmount() {
-        //     var quantity = parseFloat($("#quantity").val()) || 0;
-        //     var price = parseFloat($("#price").val()) || 0;
-        //     var total_price = (quantity * price).toFixed(2);
-        //     $("#total_price").val(total_price);
-        // }
-
+        /// Total of qty x price
         function calculateAmount(row) {
-        var quantity = parseInt(row.find('#quantity').val()) || 0;
-        var price = parseFloat(row.find('#price').val()) || 0;
-        var total_price = (quantity * price).toFixed(2);
-        console.log('quantity',quantity);
-        console.log('price',price);
-        console.log('total_price',total_price);
-        row.find('#total_price').val(total_price);
+            var rowIndex = parseInt(row.data('rowIndex'));
+            var quantity = parseFloat(row.find('#quantity').val()) || 0;
+            var price = parseFloat(row.find('#price').val()) || 0;
+            var total_price = (quantity * price).toFixed(2);
+            quantity = parseFloat(quantity.toFixed(3));
+            price = parseFloat(price.toFixed(3));
 
-        // Update other properties or recalculate as needed
-        //order.sub_total = calculateSubtotal();
-        //$('#sub_total_amount').text(order.sub_total.toFixed(2));
+            row.find('#total_price').val(total_price);
+            var productRecord = order.products.find(record => record.rowIndex === rowIndex);
+            if (productRecord) {
+                productRecord.quantity = quantity;
+                productRecord.price = price;
+                productRecord.total_price = parseFloat(total_price);
+            }
 
-        // Save the updated order object back to localStorage
-        updateLocalStorage(order);
+            updateLocalStorage(order);
+            updateSubtotal();
+            calculateGrandTotal();
+        }
 
-        // Calculate and update grand total
-        //calculateGrandTotal();
-}
+        // When qty or price change total price calculated
 
-       // $("#quantity, #price").on("input", calculateAmount);
-
-        $("#quantity, #price").on("input", function () {
+        $('.ordertable tbody').on('input', '#quantity, #price', function () {
+            removerror();
             var row = $(this).closest('tr');
+            //console.log('row', row);
             calculateAmount(row);
         });
+
+        function updateProductDetails(row, selectedProductId, selectedProductName) {
+            var rowIndex = parseInt(row.data('rowIndex'));
+
+            // Update the corresponding product record in order.products
+            var productRecord = order.products.find(record => record.rowIndex === rowIndex);
+            if (productRecord) {
+                productRecord.product_id = selectedProductId;
+                productRecord.product_name = selectedProductName;
+            }
+
+            // Save the updated order object back to localStorage
+            updateLocalStorage(order);
+        }
+
+        // Event listener for product selection change
+        $('.ordertable tbody').on('change', '.js-product-basic-single', function (e) {
+            e.preventDefault();
+            var row = $(this).closest('tr');
+
+            var selectedProductId = $(this).val();
+            selectedProductId = parseInt(selectedProductId);
+            var selectedProductName = $(this).find('option:selected').text();
+            // Update product details in the specific row
+            updateProductDetails(row, selectedProductId, selectedProductName);
+        });
+
+
+        $(document).on('select2:open','.js-product-basic-single', function (e) {
+            e.preventDefault();
+            console.log('active');
+            //$(this).addClass('active');
+            $(this).siblings('.select2-container').addClass('active');
+            activeSelect2 = $(this);
+        });
+
+        // $('.js-product-basic-single').on('select2:close', function (e) {
+        //     e.preventDefault();
+        //     // Remove the 'active' class when the dropdown is closed
+        //     $(this).removeClass('active');
+        // });
 
 
         function updateLocalStorage(order) {
@@ -367,15 +448,16 @@
         }
 
 
-        function updateLocalStorageOld() {
-            localStorage.setItem("order", JSON.stringify(order));
-        }
-
         // Function to clear the form fields
         function clearForm() {
             $("#product_id, #quantity, #price, #total_price").val("");
             $(".is-invalid").removeClass("is-invalid");
             $(".error").remove();
+        }
+
+        function removerror(){
+            $(".error.text-danger").remove();
+            $(".is-invalid").removeClass("is-invalid");
         }
 
         function calculateSubtotal() {
@@ -387,34 +469,154 @@
             return subtotal;
         }
 
+        function updateSubtotal() {
+            var subtotal = calculateSubtotal();
+            $('#sub_total_amount').text(subtotal.toFixed(2));
+            order.sub_total = subtotal;
+            updateLocalStorage(order);
+        }
+
         function calculateGrandTotal() {
             var subTotal = calculateSubtotal();
             var thailaPrice = parseFloat(order.thailaPrice);
             var isRoundOff = parseInt(order.is_round_off);
 
             if (isRoundOff) {
+                // Calculate the Rounded Subtotal
+                var roundedSubtotal = Math.floor(subTotal);
                 // Calculate the Round Off amount
-                var roundedSubtotal = Math.round(subTotal);
-                // Update and display Round Off amount
-                $("#round_off_amount").text(roundedSubtotal);
-                order.round_off_amount = roundedSubtotal;
+               // var roundOffAmount = roundedSubtotal - subTotal;
+               var roundOffAmount = Math.abs(roundedSubtotal - subTotal);  // it will get positive value
+                // Update and display Round Off amount and Rounded Subtotal
+                $("#round_off_amount").text(roundOffAmount.toFixed(2));
+
+                order.round_off_amount = parseFloat(roundOffAmount.toFixed(2));
             } else {
                 $("#round_off_amount").text("0");
                 order.round_off_amount = 0;
             }
-           // console.log('thaila',thailaPrice);
+
+            // Calculate Grand Total including Thaila Price, Rounded Subtotal, and Round Off amount
+            //var grandTotal = thailaPrice + roundedSubtotal;
+
             var grandTotal = thailaPrice + (isRoundOff ? roundedSubtotal : subTotal);
 
-            // Update and display Sub Total and Grand Total on the page
-            $("#sub_total_amount").text(isRoundOff ? subTotal.toFixed(2) : subTotal.toFixed(2));
-            //$("#sub_total_amount").text(isRoundOff ? subTotal : subTotal);
-            $("#grand_total_amount").text(isRoundOff ? grandTotal : grandTotal.toFixed(2));
-            //$("#grand_total_amount").text(isRoundOff ? grandTotal : grandTotal);
+           // console.log('grandTotal',grandTotal);
+
+            // Update and display Sub Total, Grand Total, and Rounded Subtotal on the page with two decimal places
+            $("#sub_total_amount").text(subTotal.toFixed(2));
+            $("#grand_total_amount").text(grandTotal.toFixed(2));
+
             // Update the grand total in the order object
             order.grand_total = grandTotal;
-            updateLocalStorage();
+            updateLocalStorage(order);
         }
-        // new
+
+        // copy row
+
+        $(document).on('click', '.copy-product', function (e) {
+            e.preventDefault();
+            var rowIndex = $(this).data('row-index');
+            var productToCopy = order.products[rowIndex];    // Find the product to copy based on the row index
+            var copiedRow = $('#row_' + rowIndex).clone();  // Clone the row to copy
+            var newRowindex = $('.ordertable tbody tr:not(.template-row)').length;  // Increment the row index for the copied row
+            copiedRow.attr('id', 'row_' + newRowindex);
+            copiedRow.data('rowIndex', newRowindex);
+            var isValid = validateRow($('#row_' + rowIndex));      /// validate blank values
+            if (!isValid) {
+                // Display error messages or take appropriate action
+                return;
+            }
+            // Update IDs and attributes for select and input elements in the copied row
+            copiedRow.find('.js-product-basic-single').attr('id', 'product_id_' + newRowindex);
+            copiedRow.find('.copy-product').attr('data-row-index', newRowindex);
+            copiedRow.find('.delete-product').attr('data-row-index', newRowindex);
+            // Update input values in the copied row
+            copiedRow.find('input').each(function () {
+                var originalValue = $(this).val();
+                $(this).val(originalValue);
+            });
+            // Set the selected product in the copied row's Select2 dropdown
+            var selectedProductId = productToCopy.product_id;
+            var selectBox = copiedRow.find(".js-product-basic-single");
+            selectBox.val(selectedProductId).trigger('change');
+            // Append the copied row to the table body
+            $('.ordertable tbody').append(copiedRow);
+            // Initialize Select2 for the new row's select box
+            var select2Container = selectBox.next('.select2-container');
+            if (select2Container.length > 0) {
+                select2Container.remove();
+            }
+            selectBox.select2({
+                width: '100%', // Set the desired width
+                dropdownAutoWidth: true // Enable auto-width for the dropdown
+            }).on('select2:open', function () {
+                let a = $(this).data('select2');
+                if (!$('.select2-link').length) {
+                    a.$results.parents('.select2-results')
+                        .append('<div class="select2-link2"><button class="btns addNewBtn get-product"><i class="fa fa-plus-circle"></i> Add New</button></div>');
+                }
+            });
+            // Update the data-row-index attribute for the copy button in the new row
+            copiedRow.find('.copy-product').attr('data-row-index', newRowindex);
+            // Add the copied product to the order array
+            var copiedProduct = {
+                rowIndex: newRowindex,
+                product_id: productToCopy.product_id,
+                product_name: productToCopy.product_name,
+                quantity: productToCopy.quantity,
+                price: productToCopy.price,
+                total_price: productToCopy.total_price
+            };
+            order.products.push(copiedProduct);
+            // Update localStorage, UI, or perform any other necessary actions
+            updateLocalStorage(order);
+            updateSubtotal();
+            calculateGrandTotal();
+        });
+
+        // delete order
+
+        $(document).on('click', '.delete-product', function (e) {
+            e.preventDefault();
+            swal({
+                title: "{{ trans('messages.deletetitle') }}",
+                text: "{{ trans('messages.areYouSure') }}",
+                icon: 'warning',
+                buttons: {
+                    confirm: 'Yes, delete it',
+                    cancel: 'No, cancel',
+                },
+                dangerMode: true,
+            }).then((willDelete) => {
+                if (willDelete) {
+                    // Get the row index from the data attribute
+                    var rowIndex = $(this).data('row-index');
+                    console.log('rowIndex',rowIndex);
+                    // Remove the row from the table
+                    var rowToDelete = $(".ordertable tbody tr").eq(rowIndex);
+                    rowToDelete.remove();
+                    // Remove the product from the order.products array
+                    order.products.splice(rowIndex, 1);
+                    // Update row indexes in the remaining rows
+                    $(".ordertable tbody tr:not(.template-row)").each(function (index) {
+                        $(this).find('.copy-product').attr('data-row-index', index);
+                        $(this).find('.delete-product').attr('data-row-index', index);
+                        $(this).data('rowIndex', index);
+                        $(this).attr('id', 'row_' + index);
+                    });
+
+                    order.products.forEach((product, index) => {
+                        product.rowIndex = index;
+                    });
+
+                    updateLocalStorage(order);
+                    updateSubtotal();
+                    calculateGrandTotal();
+                }
+            });
+        });
+
 
         // ***********Code Starts for select box modal of party and item ***********
 
@@ -427,21 +629,13 @@
             }
         });
 
-        // $(document).find(".js-product-basic-single").select2({
-        // }).on('select2:open', function () {
-        //     let a = $(this).data('select2');
-        //     if (!$('.select2-link').length) {
-        //         a.$results.parents('.select2-results')
-        //             .append('<div class="select2-link2"><button class="btns addNewBtn get-product"><i class="fa fa-plus-circle"></i> Add New</button></div>');
-        //     }
-        // });
 
         $(document).on('click', '.select2-container .get-customer', function (e) {
             e.preventDefault();
             var gethis = $(this);
             var hrefUrl = "{{ route('customers.create') }}";
             $('.modal-backdrop').remove();
-            console.log(hrefUrl);
+           // console.log(hrefUrl);
             $.ajax({
                 type: 'get',
                 url: hrefUrl,
@@ -483,7 +677,7 @@
                 dataType: 'json',
                 success: function (response) {
                     if (response.success) {
-                        console.log('success');
+                        //console.log('success');
                         $('.addressmodalbody').remove();
                         $('.popup_render_div #address_id').select2('close');
                         $('.popup_render_div').after('<div class="addressmodalbody" style="display: block;"></div>');
@@ -508,6 +702,9 @@
                     if(response.success) {
 
                         //$("body").addClass("modal-open");
+                        // console.log(gethis.parent());
+
+                        // $('.js-product-basic-single .active')
                         $('.popup_render_div').html(response.htmlView);
                         $('.popup_render_div #centerModal').modal('show');
                         $(".js-example-basic-single").select2({
@@ -523,6 +720,8 @@
                 }
             });
         });
+
+
 
         $(document).on('click', '.select2-container .get-category', function (e) {
             e.preventDefault();
@@ -558,6 +757,13 @@
             $('.categorymodalbody').remove();
         });
 
+
+        $(document).on('hidden.bs.modal','.centerModal .modal', function (e) {
+            e.preventDefault();
+            $('.select2-container').removeClass('active');
+            activeSelect2 = null;
+        });
+
         // Code Add New Customer or Product Both
 
         $(document).on('submit', '#AddForm', function (e) {
@@ -567,6 +773,7 @@
             $(".is-invalid").removeClass('is-invalid');
             var formData = $(this).serialize();
             var formAction = $(this).attr('action');
+
             $.ajax({
                 url: formAction,
                 type: 'POST',
@@ -585,7 +792,13 @@
                         if (response.selectdata.formtype == 'customer') {
                             $('#customer_id').append(newOption).trigger('change');
                         } else if (response.selectdata.formtype == 'product') {
-                            $('#product_id').append(newOption).trigger('change');
+                          //  $('#product_id').append(newOption).trigger('change');
+                         // $('.js-product-basic-single .active').append(newOption).trigger('change');
+                         if (activeSelect2) {
+                            activeSelect2.append(newOption).trigger('change');
+                            $('.select2-container').removeClass('active');
+                            activeSelect2 = null;
+                        }
                         }
 
                         showToaster(title,alertType,message);
@@ -646,7 +859,7 @@
                 },
                 error: function (xhr) {
                     var errors= xhr.responseJSON.errors;
-                    console.log(xhr.responseJSON);
+                    //console.log(xhr.responseJSON);
 
                     for (const elementId in errors) {
                         $("#"+elementId).addClass('is-invalid');
@@ -668,8 +881,8 @@
             var form = $(this);
             var formData = $(this).serialize();
             var formAction = $(this).attr('action');
-            console.log(formAction);
-            console.log(formData);
+            // console.log(formAction);
+            // console.log(formData);
 
             $.ajax({
                 url: formAction,
@@ -699,7 +912,7 @@
                 },
                 error: function (xhr) {
                     var errors= xhr.responseJSON.errors;
-                    console.log(xhr.responseJSON);
+                    //console.log(xhr.responseJSON);
 
                     for (const elementId in errors) {
                         $("#"+elementId).addClass('is-invalid');
@@ -711,11 +924,95 @@
             });
         });
 
+        // Save Invoice into database
+        $(document).on('submit', '#SaveInvoiceForm', function (e) {
+            e.preventDefault();
+            $("#SaveInvoiceForm button[type=submit]").prop('disabled',true);
+            var formAction = $(this).attr('action');
+            var orderData= JSON.stringify(localStorage.getItem('order'));
+                if (typeof (Storage) !== 'undefined') {
+                    // Create the invoiceData object
+                    var invoiceData = {
+                        customer_id: order.customer_id,
+                        thaila_price: order.thailaPrice,
+                        is_round_off: order.is_round_off,
+                        round_off: order.round_off_amount,
+                        sub_total: order.sub_total,
+                        grand_total: order.grand_total,
+                        products: order.products, // The products array as-is
+                    };
+                    if (navigator.onLine) {
+                        // Send data to the server using AJAX
+                        console.log("Sending data to the server");
+                        $.ajax({
+                            url: formAction,
+                            type: 'POST',
+                            data: invoiceData,
+                            headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                            },
+                            success: function (response) {
+                                console.log('Data stored in the database:', response);
+                                // Remove data from localStorage after successful insertion
+                                localStorage.removeItem('order');
+                                var alertType = response['alert-type'];
+                                var message = response['message'];
+                                var title = "{{ trans('quickadmin.order.order') }}";
+                                //showToaster(title,alertType,message);
+                                //swal(title, message, alertType);
+
+                                swal({
+                                title: title,
+                                text: message,
+                                icon: alertType,
+                                buttons: {
+                                confirm: 'OK',
+                                },
+                                }).then((confirm) => {
+                                if (confirm) {
+                                    window.location.href = "{{ route('orders.index') }}";
+                                }
+                                });
+
+                                $('#SaveInvoiceForm')[0].reset();
+                                //location.reload();
+
+                                $("#SaveInvoiceForm button[type=submit]").prop('disabled',false);
+                                console.log('Data removed from localStorage.');
+                            },
+                            error: function (xhr) {
+                                var errors= xhr.responseJSON.errors;
+                                console.log(xhr.responseJSON);
+                                swal("{{ trans('quickadmin.product.product') }}", 'Some mistake is there.', 'error');
+                                // for (const elementId in errors) {
+                                //     $("#"+elementId).addClass('is-invalid');
+                                //     var errorHtml = '<div><span class="error text-danger">'+errors[elementId]+'</span></';
+                                //     $(errorHtml).insertAfter($("#"+elementId).parent());
+                                // }
+                                // $("#AddForm button[type=submit]").prop('disabled',false);
+                                var alertType = errors['alert-type'];
+                                var message = errors['message'];
+                                var title = "{{ trans('quickadmin.order.order') }}";
+                                //showToaster(title,alertType,message);
+                            }
+                        });
+                    }else {
+                        // User is offline
+                        alert("You have lost internet connection, Please connect with the internet to save your Temorary data");
+                        $("#saveInvoicebtn").replaceWith('<button type="submit" class="btn btn-success btn-icon icon-left saveTempInvoiceDatabtn" id="saveTempInvoiceDatabtn"><i class="fas fa-credit-card"></i>@lang("quickadmin.qa_temp_save_invoice")</button>');
+
+                    }
+                } else {
+                    alert('localStorage is not supported in this browser.');
+                }
+
+        });
 
 
 
 
-        // ***********Code End for select box modal of party and item***********
+
+
     });
 </script>
 @endsection

@@ -42,7 +42,7 @@ class OrderController extends Controller
         return view('admin.order.create',compact('customers','products'));
     }
 
-    /**
+    /** StoreRequest
      * Store a newly created resource in storage.
      */
     public function store(StoreRequest $request)
@@ -56,7 +56,7 @@ class OrderController extends Controller
                 'thaila_price' => (float)$request->thaila_price,
                 'is_round_off' => $request->is_round_off,
                 'sub_total' => (float)$request->sub_total,
-                'round_off' => (float)$request->round_off_amount,
+                'round_off' => (float)$request->round_off,
                 'grand_total' => (float)$request->grand_total,
                 'invoice_date' => Carbon::now(),
             ]);
@@ -133,7 +133,6 @@ class OrderController extends Controller
             'round_off_amount' => $order->round_off,
             'grand_total' => $order->grand_total,
         ];
-
 
         $products = Product::all();
         $customers = Customer::all();
