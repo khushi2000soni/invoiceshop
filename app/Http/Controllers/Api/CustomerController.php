@@ -23,51 +23,6 @@ use Illuminate\Validation\Rule;
 class CustomerController extends Controller
 {
     public function todayInvoiceGroupList(){
-        //abort_if(Gate::denies('customer_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
-        try{
-            $today = Carbon::today();
-            $customerOrders = Customer::select('customers.id as customer_id','customers.name as customer_name','customers.address_id as address_id',
-                DB::raw('COUNT(orders.id) as total_orders'),
-                DB::raw('SUM(orders.grand_total) as total_order_amount'),
-                'orders.invoice_date as invoice_date','orders.updated_at as updated_at',
-                'address.address as city_name'
-            )
-            ->leftJoin('orders', 'customers.id', '=', 'orders.customer_id')
-            ->leftJoin('address','customers.address_id','=','address.id')
-            ->where('orders.invoice_date', $today)
-            ->whereNull('orders.deleted_at')
-            ->orderBy('orders.updated_at','desc')
-            ->groupBy('customers.id', 'customers.name')
-            ->get()->toArray();
-
-            foreach ($customerOrders as &$order) {
-                //dd($order);
-                $order['updated_at'] = getWithDateTimezone($order['updated_at']);
-                //$order['created_at'] = Carbon::parse($order['created_at'])->format('d-m-Y H:i:s');
-            }
-
-            return response()->json([
-                'status' => true,
-                'data' => $customerOrders
-            ])->setStatusCode(Response::HTTP_OK);
-
-            // return response()->json($customerOrders, 200);
-
-        }catch (\Exception $e) {
-            dd($e->getMessage().'->'.$e->getLine());
-            //Return Error Response
-            $responseData = [
-                'status'        => false,
-                'error'         => trans('messages.error_message'),
-            ];
-            return response()->json($responseData, 401);
-        }
-
-    }
-
-    public function PartyAllInvoiceList(){
-
         //$user= auth()->user();
         //$guardName = auth()->user()->guard_name;
         //$user = auth()->guard('sanctum')->user();
@@ -80,53 +35,47 @@ class CustomerController extends Controller
         //abort_if(Gate::denies('customer_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
         try{
             $today = Carbon::today();
-            $orders = Order::with('customer.address')->whereDate('created_at', $today)->get();
+            $customerOrders = Customer::select(
+                'customers.id as customer_id',
+                'customers.name as customer_name',
+                'customers.address_id as address_id',
+                'customers.guardian_name as guardian_name',
+                DB::raw('COUNT(orders.id) as total_orders'),
+                DB::raw('SUM(orders.grand_total) as total_order_amount'),
+                'orders.invoice_date as invoice_date','latest_order.updated_at as updated_at',
+                'address.address as city_name'
+            )
+            ->leftJoin('orders', function ($join) use ($today) {
+                $join->on('customers.id', '=', 'orders.customer_id')
+                    ->whereDate('orders.invoice_date', $today)
+                    ->whereNull('orders.deleted_at');
+            })
+            ->leftJoin('address', 'customers.address_id', '=', 'address.id')
+            ->leftJoin('orders as latest_order', function ($join) use ($today) {
+                $join->on('customers.id', '=', 'latest_order.customer_id')
+                    ->whereNull('latest_order.deleted_at')
+                    ->where('latest_order.invoice_date', $today)
+                    ->where('latest_order.updated_at', '=', function ($query) {
+                        $query->select(DB::raw('MAX(updated_at)'))
+                            ->from('orders')
+                            ->whereRaw('customer_id = customers.id');
+                    });
+            })
+            ->groupBy('customers.id', 'customers.name')
+            ->havingRaw('total_orders > 0') // Exclude customers with no orders
+            ->orderBy('latest_order.updated_at', 'desc')
+            ->get()->toArray();
 
-            if($orders->isNotEmpty()){
-                $responseData = [
-                    'status'    => true,
-                    'message'   => trans('messages.success'),
-                    'userData'  => [],
-                ];
-
-                $groupedOrders = $orders->groupBy('customer_id');
-
-                foreach ($groupedOrders as $customerId => $customerOrders) {
-
-                    $customer = $customerOrders->first()->customer;
-                    //dd($customerOrders);
-                    $customerData = [
-                        'customer_id' => $customer->id ?? '',
-                        'no_of_invoice' => $customerOrders->count(),
-                        'invoices_total' => number_format($customerOrders->sum('grand_total'), 2),
-                        'customer_name' => $customer->name ?? '',
-                        'customer_email' => $customer->email ?? '',
-                        'customer_phone1' => $customer->phone ?? '',
-                        'customer_phone2' => $customer->phone2 ?? '',
-                        'customer_address' => $customer->address? $customer->address->address : '',
-                        'invoiceData' => $customerOrders->map(function ($order) {
-                            return [
-                                'order_id' => $order->id,
-                                'invoice_number' => $order->invoice_number,
-                                'grand_total' => number_format($order->grand_total, 2),
-                                'invoice_date' => $order->created_at->toDateString(),
-                            ];
-                        }),
-                    ];
-
-                    $responseData['userData'][] = $customerData;
-                }
-
-
-                return response()->json($responseData, 200);
+            foreach ($customerOrders as &$order) {
+                //dd($order);
+                $order['updated_at'] = getWithDateTimezone($order['updated_at']);
+                //$order['created_at'] = Carbon::parse($order['created_at'])->format('d-m-Y H:i:s');
             }
-
-            $responseData = [
-                'status'            => true,
-                'message'           => 'No Record for Today!',
-            ];
-            return response()->json($responseData, 200);
-
+            return response()->json([
+                'status' => true,
+                'data' => $customerOrders
+            ])->setStatusCode(Response::HTTP_OK);
+            // return response()->json($customerOrders, 200);
         }catch (\Exception $e) {
             dd($e->getMessage().'->'.$e->getLine());
             //Return Error Response
@@ -138,6 +87,7 @@ class CustomerController extends Controller
         }
 
     }
+
 
     public function PartyInvoiceList(){
 
@@ -288,8 +238,8 @@ class CustomerController extends Controller
     public function store(Request $request){
 
         $validator = Validator::make($request->all(),[
-        'name' => ['required','string','max:150'/*, 'regex:/^[^\s]+(?:\s[^\s]+)?$/' */],
-        'guardian_name' => ['required','string','max:150'/*,'regex:/^[^\s]+$/'  */],
+        'name' => ['required','string','max:150','regex:/^[^0-9\p{P}]+$/u'],
+        'guardian_name' => ['nullable','string','max:150','regex:/^[^0-9\p{P}]+$/u'],
         // 'email' => ['required','email','unique:customers,email'],
         'phone' => ['nullable','digits:10','numeric',/*'unique:customers,phone'*/new UniquePhoneNumber($request->phone),],
         'phone2' => ['nullable','digits:10','numeric',/*'unique:customers,phone2'*/new UniquePhoneNumber($request->phone),],

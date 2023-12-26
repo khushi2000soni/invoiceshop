@@ -260,7 +260,7 @@ class OrderController extends Controller
         try {
             $order = Order::with('orderProduct.product')->findOrFail($orderId);
             $pdf = PDF::loadView('admin.order.pdf.invoice-pdf', compact('order', 'type'));
-            $pdf->setPaper('A4', 'portrait');
+            $pdf->getMpdf()->setFooter('Page {PAGENO}');
             //return $pdf->download('order_' . $order->invoice_number . '.pdf');
             //return $pdf->stream('order_' . $order->invoice_number . '.pdf');
             $pdfContent = $pdf->output();
@@ -291,10 +291,10 @@ class OrderController extends Controller
 
             foreach($orders as $order){
                 $pdf = PDF::loadView('admin.order.pdf.invoice-pdf', compact('order', 'type'));
-                $pdf->setPaper('A4', 'portrait');
+               // $pdf->setPaper('A4', 'portrait');
+               $pdf->getMpdf()->setFooter('Page {PAGENO}');
                 $pdfContent = $pdf->output();
                 $base64Pdf = base64_encode($pdfContent);
-
                 $pdfs[] = [
                     'order_id' => $order->id,
                     'pdf'      => $base64Pdf,

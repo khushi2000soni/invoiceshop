@@ -1,74 +1,24 @@
-<!DOCTYPE html>
-<html lang="hi">
-   <head>
-      <meta charset="UTF-8">
-      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1">
-      <link rel="stylesheet" href="../../../../../storage/hindifont/stylesheet.css">
-      <link href="https://fonts.googleapis.com/css2?family=Hind&display=swap" rel="stylesheet">
-      <link href="https://fonts.googleapis.com/css?family=Noto+Sans&subset=devanagari" rel="stylesheet">
-      <title>View Invoice</title>
-      <style>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+        <style>
+            p, td { font-family: freeserif; }
 
-        @import url('https://fonts.googleapis.com/css2?family=Sarala:wght@400;700&display=swap');
-        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@100;200;300;400;500;600;700;800;900&display=swap');
+            /* @page {
+            margin-top: 5cm;
+            margin-header: 0.5cm;
+            margin-footer: 2cm;
+            header: page-header;
+            footer: page-footer;
+            }
+            @page :first {
+                header: page-header;
+            } */
 
-        @font-face {
-            font-family: 'Noto Sans', sans-serif;
-            font-style: normal;
-            font-weight: 400;
+            .header {
+            text-align: center;
+            /* border-bottom: 1px solid #000; */
         }
-
-        @font-face {
-        font-family: 'Noto Sans', sans-serif;
-        font-style: normal;
-        font-weight: 400;
-    }
-
-        @font-face {
-            font-family: 'Tiro Devanagari Hindi';
-            src: url('fonts/TiroDevanagariHindi-Regular.ttf') format('truetype');
-        }
-
-        @font-face {
-            font-family: kruti dev;
-            src: url("{{asset('admintheme/assets/fonts/k010.TTF')}}") format("truetype");
-        }
-
-        .HI, .hindi{
-            font-family: 'Tiro Devanagari Hindi', serif;
-        }
-
-        .EN{
-            font-family: 'timefont', sans-serif;
-        }
-
-        body{
-            font-family: 'Tiro Devanagari Hindi', serif;
-        }
-
-        .tabledata {
-            font-family: 'timefont', sans-serif;
-        }
-
-        .Hind_font
-        ,.headerBill span,
-        .headerBill_end{
-            font-family: 'Hind', serif;
-            /* font-family: 'Sarala', sans-serif; */
-            /* font-family: 'Noto Sans Devanagari', sans-serif; */
-            /* font-family: kruti dev;   */
-            /* font-family: kruti dev; */
-        }
-
-        .headerBill_end{
-            margin-bottom:8px;
-        }
-
-        .headerBill strong, .invoiceHeading{
-            font-family: 'timefont', sans-serif;
-        }
-
         footer{
             position: fixed;
             bottom:-50px;
@@ -78,198 +28,97 @@
             margin-bottom: 0px;
         }
 
-        footer .pagenum:before {
-            content: counter(page);
+        .tablebody * {
+            box-sizing: border-box;
         }
 
-        .page-header {
-            top: 0px;
-            left: 0;
-            right: 0px;
-            height: 100px;
-        }
-
-        .headerBill {
-            line-height: 16px;
-            margin-bottom:2px;
-        }
-
-        .headerBill strong{
-            font-size:20px !important;
-        }
-
-        .cancel-watermark {
-            position: fixed;
-            top: 19%;
-            left: 25%;
-            transform: translate(-50%, -50%);
-            color: rgba(255, 0, 0, 0.2);
-            transform: rotate(-20deg);
-            font-size: 60px;
-        }
-
-         .pdfFooter .amountHeadning {
-            font-size: 15px;
-            font-weight: bold;
-            margin-bottom: 5px
-         }
-
-         .loremtext {
-            font-size: 14px
-         }
-
-         .pdfRHS .valus{
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 4px;
-            font-size: 14px;
-            line-height: normal;
-         }
-
-         .pdfRHS .valus.totalamount{
-            border-top: 1px solid #000;
-            border-bottom: 1px solid #000;
-            font-size: 16px;
-            font-weight: bold;
-            margin-top: 5px;
-         }
-
-         table tr td{
-            font-size:20px;
-         }
-
-         table tr th{
-            font-size:18px;
-         }
-
-         .space-10{
-            height:2px;
-         }
-
-         .hindi{
-            font-weight:400;
-            font-size:20px;
-         }
-
-         .text-center-number{
-            display: block;
-            text-align:center;
-            height:30px;
-            font-size:22px;
-            font-family: 'timefont', sans-serif;
-         }
-      </style>
-   </head>
-   <body style="padding:0px 0 0; margin: 0;" class="">
-      @if ($type=='deleted')
-      <!-- watermark  -->
-      <div class="cancel-watermark">Cancelled</div>
-      <!-- end watermark  -->
-      @endif
-      @if (!is_null(getSetting('invoice_pdf_top_title')))
-      <p class="text-center-number" style="margin: 0;text-align: center;">{{ getSetting('invoice_pdf_top_title') ?? ''}}</p>
-      @endif
-      <!-- header  -->
-      <div class="page-header">
-         <header style="padding: 0 0 10px;">
-            {{-- 
-            <h2 class="invoiceHeading" style="margin: 0;color: #2a2a33;font-size: 20px; text-align:center;"><strong>Invoice</strong></h2>
-            --}}
-            <div style="max-width: 700px;margin: 0 auto;font-size: 16px;">
-               {{-- 
-               <h3 style="margin: 0;padding-bottom: 10px;padding-top: 1px;text-align: center;"><strong>Estimate</strong></h3>
-               --}}
-               {{-- {{ $order->customer->name }} --}}
-               <div style="height: 60px;">
-                  <div class="" style="width: 50%; line-height: 22px;padding-top: 1px;padding-bottom: 1px;float: left;">
-                     <div class="headerBill" style="font-size: 22px;"><strong>Bill To : </strong><span lang="hi">{{ str_limit_custom($order->customer->name, 25) }}</span></div>
-                     {{-- <br> --}}
-                     <div class="headerBill" style="font-size: 22px;"><strong>Address : </strong> <span class="hindi">{{ $order->customer->address->address }}</span></div>
-                     {{-- <br> --}}
-                     <div class="headerBill headerBill_end" style="font-size: 22px;"><strong>Phone no :</strong> {{ $order->customer->phone ?? 'N/A' }}</div>
-                  </div>
-                  <div style="width: 40%; line-height: 20px; padding-top: 1px; padding-bottom: 5px;float: right;text-align: right;">
-                     <div class="headerBill Hind_font" style="font-size: 20px;"><strong>Invoice no :</strong> #{{ $order->invoice_number }}</div>
-                     <div class="headerBill Hind_font" style="font-size: 20px;"><strong>Date :</strong> {{$order->created_at->format('d-M-Y')}}</div>
-                     <div class="headerBill headerBill_end Hind_font" style="font-size: 20px;"><strong>Time :</strong> {{$order->created_at->format('H:i:s')}}</div>
-                  </div>
-               </div>
-            </div>
-         </header>
-      </div>
-      <!-- end header  -->
-      <!-- main content  -->
-      <main class="main tabledata" style="max-width: 700px;margin: 0px auto 0px; padding: 40px 0px 0px;padding-top: 0;">
-         <!-- product listing  -->
-         <table cellpadding="0" cellspacing="0" border="1" width="100%" style="color: #000;font-size: 16px;">
-            <thead>
-               <tr>
-                  <th style="padding: 7px 10px; font-weight: bold; width: 30px;" align="left">Sn.</th>
-                  <th style="padding: 7px 10px; font-weight: bold;" align="left">Item Name</th>
-                  <th style="padding: 7px 10px; font-weight: bold; width: 80px;" align="right">Quantity</th>
-                  <th style="padding: 7px 10px; font-weight: bold; width: 80px;" align="right">Price</th>
-                  <th style="padding: 7px 10px; font-weight: bold; width: 150px;" align="right">Amount</th>
-               </tr>
-            </thead>
+        </style>
+    </head>
+<body  class="@if($type=='deleted') table_wrapper @endif tablebody" >
+    <header name="page-header" class="header">
+        <table  style="max-width: 768px; width: 100%; margin: 0px auto; padding-bottom: 10px;">
             <tbody>
-               @foreach ($order->orderProduct as $index => $product)
-               <tr>
-                  <td style="padding: 7px 10px;" align="left">{{ $index + 1 }}</td>
-                  <td style="padding: 7px 10px;" align="left">{{ $product->product->name ?? ''}}</td>
-                  <td style="padding: 7px 10px;" align="right">{{ handleDataTypeThreeDigit($product->quantity) ?? ''}}</td>
-                  <td style="padding: 7px 10px;" align="right">{{ handleDataTypeTwoDigit($product->price) ?? ''}}</td>
-                  <td style="padding: 7px 10px;" align="right">{{ handleDataTypeTwoDigit($product->total_price) ?? '0'}}</td>
-               </tr>
-               @endforeach
+                @if (!is_null(getSetting('invoice_pdf_top_title')))
+                <tr>
+                    <th colspan="2" style="text-align: center; font-size: 22px; padding-bottom: 20px; font-weight: 400;">{{ getSetting('invoice_pdf_top_title') ?? ''}}</th>
+                </tr>
+                @endif
+                <tr>
+                    <td style="font-size: 22px;"><strong>Bill To: {{ str_limit_custom($order->customer->name, 25) }}</strong> </td>
+                    <td style="font-size: 22px; text-align: right;"><strong>Invoice no : #{{ $order->invoice_number }}</strong>  </td>
+                </tr>
+                <tr>
+                    <td style="font-size: 22px;"><strong>Address : {{ $order->customer->address->address }}</strong> </td>
+                    <td style="font-size: 22px; text-align: right;"><strong>Date : {{$order->created_at->format('d-m-Y')}}</strong> </td>
+                </tr>
+                <tr>
+                    <td style="font-size: 22px;"><strong>Phone no: {{ $order->customer->phone ?? 'N/A' }}</strong>  </td>
+                    <td style="font-size: 22px; text-align: right;"><strong>Time : {{$order->created_at->format('h:i:s A')}}</strong>  </td>
+                </tr>
             </tbody>
-         </table>
-         <!--end product listing  -->
-         <!-- Amounts  -->
-         <table class="pdfFooter" cellpadding="0" cellspacing="0" style="width: 100%; margin-top: 10px">
+        </table>
+    </header>
+
+    <table style="max-width: 768px; width: 98.8%; margin: 0px auto; border-collapse: collapse;">
+        <thead>
             <tr>
-               <td  style="padding-bottom: 10px" class="amountHeadning">{{--Invoice Amount In Words--}}</td>
-               <td  style="padding-bottom: 5px;font-size: 20px;" class="amountHeadning">Amounts</td>
+                <th style="padding: 5px 10px; border: 1px solid #000; text-align: start; font-size: 18px; width: 10%"><strong>Sn.</strong></th>
+                <th style="padding: 5px 10px; border: 1px solid #000; text-align: start; font-size: 18px; width: 40%"><strong>Item Name</strong> </th>
+                <th style="padding: 5px 10px; border: 1px solid #000; text-align: right; font-size: 18px; width: 15%"><strong>Quantity</strong></th>
+                <th style="padding: 5px 10px; border: 1px solid #000; text-align: right; font-size: 18px; width: 15%"><strong>Price</strong></th>
+                <th style="padding: 5px 10px; border: 1px solid #000; text-align: right; font-size: 18px; width: 20%"><strong>Amount</strong></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach ($order->orderProduct as $index => $product)
+
+            <tr>
+                <td style="padding: 5px 10px; border: 1px solid #000; text-align: start; font-size: 18px;">{{ $index + 1 }}</td>
+                <td style="padding: 5px 10px; border: 1px solid #000; text-align: start; font-size: 18px;">{{ $product->product->name ?? ''}}</td>
+                <td style="padding: 5px 10px; border: 1px solid #000; text-align: right; font-size: 18px;">{{ handleDataTypeThreeDigit($product->quantity) ?? ''}}</td>
+                <td style="padding: 5px 10px; border: 1px solid #000; text-align: right; font-size: 18px;">{{ handleDataTypeTwoDigit($product->price) ?? ''}}</td>
+                <td style="padding: 5px 10px; border: 1px solid #000; text-align: right; font-size: 18px;">{{ handleDataTypeTwoDigit($product->total_price) ?? '0'}}</td>
+            </tr>
+
+            {{-- @if (($index + 1) % 16 === 0)
+                <pagebreak />
+            @endif --}}
+            @endforeach
+        </tbody>
+    </table>
+    <table style="max-width: 768px; width: 60%; border-collapse: collapse; margin-left: auto;margin-top:20px">
+        <tbody>
+            <tr>
+                <td colspan="2" style="padding: 5px 10px;  text-align: start; font-size: 25px;"><strong>Amounts</strong></td>
             </tr>
             <tr>
-               <td class="loremtext" style="font-size: 14px; padding: 4px 4px 4px 4px;">{{--{{ convertToWords($order->grand_total ?? 0) }} --}}</td>
-               <td style="width: 100px; padding: 1px; font-size: 20px;">
-                  <div class="valus">Sub Total </div>
-               </td>
-               <td style="width: 200px;font-size: 20px; padding: 1px;" align="right"><span class="amounnt">{{ handleDataTypeTwoDigit($order->sub_total) ?? 0  }}</span></td>
+                <td style="padding: 5px 10px; text-align: start; font-size: 18px;">Sub Total </td>
+                <td style="padding: 5px 10px; text-align: right; font-size: 18px;">{{ handleDataTypeTwoDigit($order->sub_total) ?? 0  }}</td>
             </tr>
             <tr>
-               <td></td>
-               <td style="width: 100px; padding: 1px; font-size: 20px;">
-                  <div class="valus hindi">@lang('quickadmin.thaila') </div>
-               </td>
-               <td style="width: 200px;font-size: 20px; padding: 1px;" align="right"><span class="amounnt">{{ handleDataTypeTwoDigit($order->thaila_price) ?? 0  }}</span></td>
+                <td style="padding: 5px 10px; text-align: start; font-size: 18px;">@lang('quickadmin.thaila')</td>
+                <td style="padding: 5px 10px; text-align: right; font-size: 18px;">{{ handleDataTypeTwoDigit($order->thaila_price) ?? 0  }}</td>
             </tr>
             <tr>
-               <td></td>
-               <td style="width: 100px; padding: 4px; font-size: 20px;">
-                  <div class="valus">Round Off</div>
-               </td>
-               <td style="width: 200px;font-size: 20px; padding: 4px;" align="right"><span class="amounnt">{{ handleDataTypeTwoDigit($order->round_off) ?? 0  }}</span></td>
-            </tr>
-            <tr >
-               <td></td>
-               <td style="width: 200px; padding: 4px; font-size: 20px;  border-top: 1px solid #000; border-bottom: 1px solid #000;">
-                  <div class="valus totalamount"><strong>Grand Total</strong></div>
-               </td>
-               <td style="width: 200px;font-size: 20px; padding: 4px; border-top: 1px solid #000; border-bottom: 1px solid #000;" align="right"><strong class="amounnt">{{ handleDataTypeTwoDigit($order->grand_total) ?? 0  }}</strong></td>
+                <td style="padding: 5px 10px; text-align: start; font-size: 18px;">Round Off</td>
+                <td style="padding: 5px 10px; text-align: right; font-size: 18px;">{{ handleDataTypeTwoDigit($order->round_off) ?? 0  }}</td>
             </tr>
             <tr>
-               <td colspan="3" class="loremtext" style="font-size: 14px; padding: 40px 20px 4px 4px;"><i><span style="color: red;">Remark: </span>  {{ getSetting('custom_invoice_print_message') ?? ''}}</i></td>
+                <td style="padding: 5px 10px; text-align: start; font-size: 25px; border-bottom: 1px solid #000; border-top: 1px solid #000;"><strong>Grand Total</strong></td>
+                <td style="padding: 5px 10px; text-align: right; font-size: 25px; border-bottom: 1px solid #000; border-top: 1px solid #000;"><strong>{{ handleDataTypeTwoDigit($order->grand_total) ?? 0  }} </strong></td>
             </tr>
-         </table>
-         <!-- End Amounts  -->
-      </main>
-      <!-- End main content  -->
-      <!-- footer  -->
-      <footer>
-         <div class="pagenum-container"><small>Page <span class="pagenum"></span></small></div>
-      </footer>
-      <!-- end footer  -->
-   </body>
+        </tbody>
+    </table>
+
+    <table style="max-width: 768px; width: 100%; margin: 0px auto; border-collapse: collapse;">
+        <tbody>
+            <tr>
+                <td colspan="2" style="padding: 50px 5px 0px; text-align: start; font-size: 14px; font-weight: bold; font-style: italic;"><span style="color: red;">Remark:</span> {{ getSetting('custom_invoice_print_message') ?? ''}}</td>
+            </tr>
+        </tbody>
+    </table>
+    <footer name="page-footer">
+
+    </footer>
+</body>
 </html>

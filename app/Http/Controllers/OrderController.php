@@ -17,6 +17,9 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 use Exception;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\View;
+use Intervention\Image\ImageManager;
+use Intervention\Image\Drivers\Imagick\Driver;
 use PDF;
 
 class OrderController extends Controller
@@ -212,27 +215,26 @@ class OrderController extends Controller
 
     public function printView($order,$type=null)
     {
-        //dd('test');
         abort_if(Gate::denies('invoice_print'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
         try {
+            $pdfConfig = config('pdf');
             if($type=='deleted'){
                 $order = Order::withTrashed()
                 ->with(['orderProduct' => function ($query) {
                     $query->withTrashed()->with('product');
+                    $pdfConfig['show_watermark_image'] = true;
+                    $pdfConfig['watermark_image_path'] = public_path('admintheme/assets/img/cancelled.png');
                 }])
                 ->findOrFail($order);
             }else{
                 $order = Order::withTrashed()->with('orderProduct.product')->findOrFail($order);
+                $pdfConfig['show_watermark_image'] = false;
             }
-
+            config(['pdf' => $pdfConfig]);
             $pdf = PDF::loadView('admin.order.pdf.invoice-pdf', compact('order', 'type'));
-            $pdf->setPaper('A4', 'portrait');
-            //return $pdf->download('order_' . $order->invoice_number . '.pdf');
-            //return $pdf->stream('order_' . $order->invoice_number . '.pdf');
+            $pdf->getMpdf()->setFooter('Page {PAGENO}');
             $pdfContent = $pdf->output();
             $base64Pdf = base64_encode($pdfContent);
-
             return response()->json([
                 'status'        => true,
                 'pdf' => $base64Pdf,
@@ -240,15 +242,6 @@ class OrderController extends Controller
         } catch (\Exception $e) {
             //dd($e->getMessage());
             return response()->json(['error' => 'Error generating PDF'], 500);
-        }
-        if($type=='deleted'){
-            $order = Order::withTrashed()
-            ->with(['orderProduct' => function ($query) {
-                $query->withTrashed()->with('product');
-            }])
-            ->findOrFail($order);
-        }else{
-            $order = Order::withTrashed()->with('orderProduct.product')->findOrFail($order);
         }
     }
 
@@ -258,29 +251,33 @@ class OrderController extends Controller
         //dd($orderId);
         $order = Order::with('orderProduct.product')->findOrFail($orderId);
         $pdf = PDF::loadView('admin.order.pdf.invoice-pdf', compact('order','type'));
-        $pdf->setPaper('A4', 'portrait');
+       // $pdf->setPaper('A4', 'portrait');
         return $pdf->download('order_' . $order->invoice_number . '.pdf');
     }
 
-
     public function printPDF(Request $request, $order,$type=null)
     {
+        $pdfConfig = config('pdf');
         if($type=='deleted'){
             $order = Order::withTrashed()
             ->with(['orderProduct' => function ($query) {
                 $query->withTrashed()->with('product');
             }])
             ->findOrFail($order);
+
+            $pdfConfig['show_watermark_image'] = true;
+            $pdfConfig['watermark_image_path'] = public_path('admintheme/assets/img/cancelled.png');
         }else{
             $order = Order::withTrashed()->with('orderProduct.product')->findOrFail($order);
-        }
 
+            $pdfConfig['show_watermark_image'] = false;
+        }
+        config(['pdf' => $pdfConfig]);
         $pdfFileName = 'invoice_' . $order->invoice_number . '.pdf';
         $pdf = PDF::loadView('admin.order.pdf.invoice-pdf', compact('order','type'));
-        $pdf->setPaper('A4', 'portrait');
-        $pdf->setOption('charset', 'UTF-8');
+        $pdf->getMpdf()->setFooter('Page {PAGENO}');
         return $pdf->stream($pdfFileName, ['Attachment' => false]);
-        // return view('admin.order.pdf.invoice-pdf', compact('order','type'));
+      //  return view('admin.order.pdf.invoice-pdf', compact('order','type'));
     }
 
     public function shareEmail(Request $request, $order)
