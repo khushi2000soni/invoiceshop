@@ -2,7 +2,11 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
         <style>
-            p, td { font-family: freeserif; }
+
+            p, td {
+                 font-family: freeserif;
+                 /* font-family: 'Mangal', sans-serif; */
+            }
 
             /* @page {
             margin-top: 5cm;
@@ -44,7 +48,7 @@
                 </tr>
                 @endif
                 <tr>
-                    <td style="font-size: 22px;"><strong>Bill To: {{ str_limit_custom($order->customer->name, 25) }}</strong> </td>
+                    <td style="font-size: 22px;"><strong>Bill To: {{ str_limit_custom($order->customer->name, 25) }} </strong></td>
                     <td style="font-size: 22px; text-align: right;"><strong>Invoice no : #{{ $order->invoice_number }}</strong>  </td>
                 </tr>
                 <tr>
@@ -101,7 +105,7 @@
                 <td style="padding: 5px 10px; text-align: right; font-size: 20px;">{{ handleDataTypeTwoDigit($order->thaila_price) ?? 0  }}</td>
             </tr>
             <tr>
-                <td style="padding: 5px 10px; text-align: start; font-size: 20px;">Round Off</td>
+                <td style="padding: 5px 10px; text-align: start; font-size: 20px;">Round Off </td>
                 <td style="padding: 5px 10px; text-align: right; font-size: 20px;">{{ handleDataTypeTwoDigit($order->round_off) ?? 0  }}</td>
             </tr>
             <tr>
@@ -114,8 +118,7 @@
     <table style="max-width: 768px; width: 100%; margin: 0px auto; border-collapse: collapse;">
         <tbody>
             <tr>
-                <td colspan="2" style="padding: 50px 5px 0px; text-align: start; font-size: 14px; font-weight: bold; font-style: italic;"><span style="color: red;">Remark:</span> {{ getSetting('custom_invoice_print_message') ?? ''}}</td>
-
+                <td colspan="2" style="padding: 50px 5px 0px; text-align: start; font-size: 20px;"><strong><span style="color: red;">Remark :</span> {{ getSetting('custom_invoice_print_message') ?? ''}} </strong></td>
             </tr>
         </tbody>
     </table>

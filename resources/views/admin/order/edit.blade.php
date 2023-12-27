@@ -178,6 +178,7 @@
         </form>
     </div>
   </section>
+
   <div class="popup_render_div"></div>
 @endsection
 
@@ -212,19 +213,22 @@
             product.total_price = parseFloat(product.total_price);
         });
         order.deleted_products=[];
-        localStorage.setItem('order', JSON.stringify(order));
-        // Calculate the subtotal
-        order.sub_total = calculateSubtotal();
-        order.grand_total = calculateGrandTotal();
-        // Load and display the order from localStorage (if any)
+        // order.sub_total = calculateSubtotal();
+        // order.grand_total = calculateGrandTotal();
         var storedOrder = JSON.parse(localStorage.getItem("order"));
         if (storedOrder && storedOrder.products) {
             order = storedOrder;
+            order.products.forEach(function (product, index) {
+                product.rowIndex = index;
+            });
             loadExistingProducts();
         }
-
+        updateLocalStorage(order);
         // Update the subtotal in the UI
         $('#sub_total_amount').text(order.sub_total);
+        $('#round_off_amount').text(order.round_off_amount);
+        $('#grand_total_amount').text(order.grand_total);
+
         //$('#sub_total_amount').text(order.sub_total);
 
         $("#customer_id").change(function (e) {
@@ -495,6 +499,7 @@
         // Event listener for product selection change
         $('.ordertable tbody').on('change', '.js-product-basic-single', function (e) {
             e.preventDefault();
+            removerror();
             var row = $(this).closest('tr');
 
             var selectedProductId = $(this).val();
@@ -561,11 +566,13 @@
                 // Calculate the Rounded Subtotal
                 var roundedSubtotal = Math.floor(subTotal);
                 // Calculate the Round Off amount
-               // var roundOffAmount = roundedSubtotal - subTotal;
-               var roundOffAmount = Math.abs(roundedSubtotal - subTotal);  // it will get positive value
+                // var roundOffAmount = roundedSubtotal - subTotal;
+                var roundOffAmount = Math.abs(roundedSubtotal - subTotal);  // it will get positive value
+                console.log('subTotal',subTotal);
+                console.log('roundedSubtotal',roundedSubtotal);
+                console.log('roundOffAmount',roundOffAmount);
                 // Update and display Round Off amount and Rounded Subtotal
                 $("#round_off_amount").text(roundOffAmount.toFixed(2));
-
                 order.round_off_amount = parseFloat(roundOffAmount.toFixed(2));
             } else {
                 $("#round_off_amount").text("0");
@@ -1080,9 +1087,6 @@
 
         });
 
-        // Calculate the initial amount
-        calculateAmount();
-        calculateGrandTotal();
 
 
 

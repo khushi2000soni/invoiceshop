@@ -28,8 +28,9 @@ return [
     'watermark_image_position' => 'C',
     'custom_font_dir'          => storage_path('fonts/'),
     'custom_font_data'         => [
-        'Noto Sans Devanagari' => [ // must be lowercase and snake_case
-            'R'  => 'NotoSansDevanagari-Regular.ttf',    // regular font
+        'Mangal' => [ // must be lowercase and snake_case
+            'B'  => 'Mangal-Bold.ttf',    // regular font
+                  // optional: bold font
         ]
     ],
     'auto_language_detection'  => false,

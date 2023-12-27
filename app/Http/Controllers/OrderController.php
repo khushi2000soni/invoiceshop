@@ -116,7 +116,7 @@ class OrderController extends Controller
         $associatedProduct = Product::find($product->product_id);
             return [
                 'order_product_id'=>$product->id,
-                'customer_id' => $customer_id,
+                // 'customer_id' => $customer_id,
                 'product_id' => $product->product_id,
                 'product_name' => $associatedProduct->name,
                 'quantity' => $product->quantity,
@@ -136,6 +136,8 @@ class OrderController extends Controller
             'round_off_amount' => $order->round_off,
             'grand_total' => $order->grand_total,
         ];
+
+        //dd($orderData);
 
         $products = Product::all();
         $customers = Customer::all();
@@ -276,8 +278,9 @@ class OrderController extends Controller
         $pdfFileName = 'invoice_' . $order->invoice_number . '.pdf';
         $pdf = PDF::loadView('admin.order.pdf.invoice-pdf', compact('order','type'));
         $pdf->getMpdf()->setFooter('Page {PAGENO}');
+        $pdf->getMpdf()->SetFont('Mangal', 'B');
         return $pdf->stream($pdfFileName, ['Attachment' => false]);
-      //  return view('admin.order.pdf.invoice-pdf', compact('order','type'));
+      // return view('admin.order.pdf.invoice-pdf', compact('order','type'));
     }
 
     public function shareEmail(Request $request, $order)
