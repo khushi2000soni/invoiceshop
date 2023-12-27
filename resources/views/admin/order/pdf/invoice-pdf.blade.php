@@ -48,7 +48,8 @@
                 </tr>
                 @endif
                 <tr>
-                    <td style="font-size: 22px;"><strong>Bill To: {{ str_limit_custom($order->customer->name, 25) }} </strong></td>
+                    <td style="font-size: 22px;"><strong>Bill To: {{ str_limit_custom($order->customer->name, 25) }}
+                    </strong></td>
                     <td style="font-size: 22px; text-align: right;"><strong>Invoice no : #{{ $order->invoice_number }}</strong>  </td>
                 </tr>
                 <tr>

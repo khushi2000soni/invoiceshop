@@ -150,7 +150,7 @@ class OrderController extends Controller
      */
     public function update(UpdateRequest $request, Order $order)
     {
-       // dd($request->all());
+       //dd($request->all());
         try {
             DB::beginTransaction();
             $order->update([
@@ -158,12 +158,11 @@ class OrderController extends Controller
                 'thaila_price' => $request->thaila_price,
                 'is_round_off' => $request->is_round_off,
                 'sub_total' => $request->sub_total,
-                'round_off' => $request->round_off_amount,
+                'round_off' => $request->round_off,
                 'grand_total' => $request->grand_total,
             ]);
 
             $productsToDelete = $request->deleted_products ?? [];
-
             foreach ($request->products as $productData) {
                 if (isset($productData['order_product_id']) && !empty($productData['order_product_id'])) {
                     // Update existing product with order_product_id

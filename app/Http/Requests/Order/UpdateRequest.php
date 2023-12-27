@@ -31,7 +31,7 @@ class UpdateRequest extends FormRequest
             'grand_total' => 'required|numeric',
             'products' => 'required|array',
             'products.*.product_id' => 'required|exists:products,id',
-            'products.*.quantity' => 'required|integer|min:1',
+            'products.*.quantity' => 'required|numeric',
             'products.*.price' => 'required|numeric',
             'products.*.total_price' => 'required|numeric',
         ];

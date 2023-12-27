@@ -594,7 +594,7 @@
                     var rowIndex = $(this).data('row-index');
                     console.log('rowIndex',rowIndex);
                     // Remove the row from the table
-                    var rowToDelete = $(".ordertable tbody tr").eq(rowIndex);
+                    var rowToDelete = $(".ordertable tbody tr:not(.template-row)").eq(rowIndex);
                     rowToDelete.remove();
                     // Remove the product from the order.products array
                     order.products.splice(rowIndex, 1);

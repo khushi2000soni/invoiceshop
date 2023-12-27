@@ -200,6 +200,7 @@
     var rowIndex;
 
     $(document).ready(function() {
+        localStorage.removeItem('order');
         order = @json($orderData);
         order.customer_id = parseInt(order.customer_id);
         order.sub_total = parseFloat(order.sub_total);
@@ -213,9 +214,11 @@
             product.total_price = parseFloat(product.total_price);
         });
         order.deleted_products=[];
+        updateLocalStorage(order);
         // order.sub_total = calculateSubtotal();
         // order.grand_total = calculateGrandTotal();
         var storedOrder = JSON.parse(localStorage.getItem("order"));
+        console.log(storedOrder);
         if (storedOrder && storedOrder.products) {
             order = storedOrder;
             order.products.forEach(function (product, index) {
@@ -548,11 +551,12 @@
                 totalPrice=parseFloat(product.total_price);
                 subtotal += totalPrice || 0;
             }
-            return subtotal;
+            return parseFloat(subtotal.toFixed(2));
         }
 
         function updateSubtotal() {
             var subtotal = calculateSubtotal();
+            console.log('subtotal',subtotal);
             $('#sub_total_amount').text(subtotal.toFixed(2));
             order.sub_total = subtotal;
             updateLocalStorage(order);
@@ -568,9 +572,6 @@
                 // Calculate the Round Off amount
                 // var roundOffAmount = roundedSubtotal - subTotal;
                 var roundOffAmount = Math.abs(roundedSubtotal - subTotal);  // it will get positive value
-                console.log('subTotal',subTotal);
-                console.log('roundedSubtotal',roundedSubtotal);
-                console.log('roundOffAmount',roundOffAmount);
                 // Update and display Round Off amount and Rounded Subtotal
                 $("#round_off_amount").text(roundOffAmount.toFixed(2));
                 order.round_off_amount = parseFloat(roundOffAmount.toFixed(2));
@@ -668,8 +669,14 @@
                     // Get the row index from the data attribute
                     var rowIndex = $(this).data('row-index');
                     console.log('rowIndex',rowIndex);
+                    var productToDelete = order.products[rowIndex];
+                    if ('order_product_id' in productToDelete) {
+                        // The record has an order_product_id, so it's marked for deletion
+                        // Push the order_product_id to the deleted_products array
+                        order.deleted_products.push(productToDelete.order_product_id);
+                    }
                     // Remove the row from the table
-                    var rowToDelete = $(".ordertable tbody tr").eq(rowIndex);
+                    var rowToDelete = $(".ordertable tbody tr:not(.template-row)").eq(rowIndex);
                     rowToDelete.remove();
                     // Remove the product from the order.products array
                     order.products.splice(rowIndex, 1);
@@ -1007,7 +1014,6 @@
             e.preventDefault();
             $("#SaveEditInvoiceForm button[type=submit]").prop('disabled',true);
             var formAction = $(this).attr('action');
-            var orderData= JSON.stringify(localStorage.getItem('order'));
                 if (typeof (Storage) !== 'undefined') {
                     // Create the invoiceData object
                     var invoiceData = {
@@ -1033,7 +1039,6 @@
                             success: function (response) {
                                 console.log('Data stored in the database:', response);
                                 // Remove data from localStorage after successful insertion
-                                localStorage.removeItem('order');
                                 var alertType = response['alert-type'];
                                 var message = response['message'];
                                 var title = "{{ trans('quickadmin.order.order') }}";
@@ -1049,13 +1054,13 @@
                                 },
                                 }).then((confirm) => {
                                 if (confirm) {
+                                    localStorage.removeItem('order');
                                     window.location.href = "{{ route('orders.index') }}";
                                 }
                                 });
 
                                 $('#SaveEditInvoiceForm')[0].reset();
-                                location.reload();
-                                //DataaTable.ajax.reload();
+                                //location.reload();
                                 $("#SaveEditInvoiceForm button[type=submit]").prop('disabled',false);
                                 console.log('Data removed from localStorage.');
                             },
