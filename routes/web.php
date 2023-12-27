@@ -78,6 +78,7 @@ Route::middleware(['auth','PreventBackHistory'])->group(function () {
 
     Route::get('/products/index/{category_id?}', [ProductController::class,'index'])->name('products.index');
     Route::resource('/products',ProductController::class);
+    Route::post('/products/merge',[ProductController::class,'mergeProduct'])->name('products.merge');
     Route::get('/products-printView/{category_id?}/{product_id?}',[ProductController::class,'printView'])->name('products.print');
     Route::get('/products-export/{category_id?}/{product_id?}',[ProductController::class,'export'])->name('products.export');
 

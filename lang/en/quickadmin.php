@@ -244,6 +244,7 @@ return [
 	'product' => [
 		'title' => 'Items',
         'product' => 'Item',
+        'select_item'  => 'Select Item',
         'select_category'  => 'Select Category',
 		'fields' => [
 			'name' 				=> 'Item Name',
@@ -254,8 +255,11 @@ return [
 			'images' 			=> 'Item Images',
 			'product-category' 	=> 'Item Category',
             'category_name' 	=> 'Category Name',
+            'from_product' 	=> 'From Item',
+            'to_product' 	=> 'To Item',
             'created_at'=>'Created At',
             'add' 	=> 'Add New Item',
+            'merge' 	=> 'Merge Item',
             'edit' => 'Edit Category',
             'list' 	=> 'Item List',
 		],
@@ -625,6 +629,7 @@ return [
     'qa_share' => 'Share',
 	'qa_excel' => 'Excel',
 	'qa_copy' => 'Copy',
+    'qa_merge' => 'Merge',
 	'qa_colvis' => 'Column visibility',
 	'qa_pdf' => 'PDF',
 	'qa_reset_password' => 'Reset password',

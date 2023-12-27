@@ -7,6 +7,7 @@ use App\Exports\ProductExport;
 use App\Http\Requests\Product\StoreRequest;
 use App\Http\Requests\Product\UpdateRequest;
 use App\Models\Category;
+use App\Models\OrderProduct;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -84,9 +85,29 @@ class ProductController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function mergeProduct(Request $request)
     {
         //
+       // dd($request->all());
+        abort_if(Gate::denies('product_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        $request->validate([
+            'from_product_id' => 'required|exists:products,id',
+            'to_product_id' => 'required|exists:products,id',
+        ]);
+
+        // Find and update records in order_products table (including trashed records)
+        OrderProduct::withTrashed()
+            ->where('product_id', $request->from_product_id)
+            ->update(['product_id' => $request->to_product_id]);
+
+        // Delete the product from the products table
+        Product::find($request->from_product_id)->delete();
+
+        return response()->json(['success' => true,
+        'message' => trans('messages.crud.merge_record'),
+        'alert-type'=> trans('quickadmin.alert-type.success'),
+        'title' => trans('quickadmin.product.product'),
+        ], 200);
     }
 
     /**

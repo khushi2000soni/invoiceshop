@@ -192,14 +192,13 @@ class OrderController extends Controller
             }
 
             DB::commit();
-
             return response()->json([
                 'success' => true,
                 'message' => trans('messages.crud.update_record'),
                 'alert-type' => trans('quickadmin.alert-type.success')
             ], 200);
         } catch (\Exception $e) {
-            dd($e->getMessage());
+            //dd($e->getMessage());
             DB::rollBack();
             return response()->json([
                 'success' => false,

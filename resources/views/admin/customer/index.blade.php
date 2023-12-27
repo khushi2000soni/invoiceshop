@@ -188,7 +188,6 @@ $(document).ready(function () {
 
     $(document).on('click','.addNewAddressBtn',function(e){
         e.preventDefault();
-
         var hrefUrl = '{{ route('address.create') }}';
         console.log(hrefUrl);
         $.ajax({
