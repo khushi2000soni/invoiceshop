@@ -8,12 +8,12 @@
 @endcan
 
 @can('invoice_share')
-<a role="button" class="btn btn-icon share-order-btn p-1 px-2 mx-1" data-toggle="modal" data-target="#centerModal" title="@lang('quickadmin.qa_share')"><i class="fas fa-share"></i> </a>
-<div class="modal fade px-3" id="centerModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+<a role="button" class="btn btn-icon share-order-btn p-1 px-2 mx-1" data-toggle="modal" data-target="#ShareInvoiceModal" title="@lang('quickadmin.qa_share')"><i class="fas fa-share"></i> </a>
+<div class="modal fade px-3" id="ShareInvoiceModal" tabindex="-1" role="dialog" aria-labelledby="ShareInvoiceModaltitlte" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalCenterTitle">@lang('quickadmin.order.share_invoice')</h5>
+                <h5 class="modal-title" id="ShareInvoiceModaltitlte">@lang('quickadmin.order.share_invoice')</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
                 </button>
