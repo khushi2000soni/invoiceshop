@@ -60,6 +60,9 @@
         @can('invoice_edit')
         <a class="dropdown-item has-icon" href="{{route('orders.edit', $order->id)}}" title="@lang('quickadmin.qa_edit')"><i class="fas fa-edit"></i> @lang('quickadmin.qa_edit')</a>
         @endcan
+        @can('invoice_show')
+        <a class="dropdown-item has-icon" href="{{route('orders.print-pdf', $order->id)}}" title="@lang('quickadmin.qa_view')" target="_blank"><i class="fas fa-eye"></i> @lang('quickadmin.qa_view')</a>
+        @endcan
         @can('invoice_delete')
         <form action="{{route('orders.destroy', $order->id)}}" method="POST" class="deleteForm m-1" id="deleteForm">
             <button class="dropdown-item has-icon record_delete_btn deleteBtn  d-inline-flex align-items-center" type="submit" href="#"><i class="fas fa-trash"></i> @lang('quickadmin.qa_delete')</button>
