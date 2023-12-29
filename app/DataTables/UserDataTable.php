@@ -104,12 +104,12 @@ class UserDataTable extends DataTable
         ->setTableId('users-table')
         ->parameters([
             'responsive' => true,
-            'pageLength' => 70,
-            'lengthMenu' => [[10, 25, 50, 70, 100, -1], [10, 25, 50, 70, 100, 'All']],
+            // 'pageLength' => 70,
+            // 'lengthMenu' => [[10, 25, 50, 70, 100, -1], [10, 25, 50, 70, 100, 'All']],
         ])
         ->columns($this->getColumns())
         ->minifiedAjax()
-        ->dom('lfrtip')
+        ->dom('rtip')
         ->orderBy(1)
         ->selectStyleSingle();
         // ->buttons([

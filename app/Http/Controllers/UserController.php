@@ -130,7 +130,7 @@ class UserController extends Controller
     }
 
     public function export($address_id = null){
-        return Excel::download(new UserExport($address_id), 'staff.xlsx');
+        return Excel::download(new UserExport($address_id), 'staff-list.xlsx');
     }
 
     /**

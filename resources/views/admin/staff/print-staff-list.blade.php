@@ -18,13 +18,11 @@
         <table cellpadding="0" cellspacing="0"  width="100%" style="color: #000;font-size: 16px;padding-right: 20px;">
             <thead>
                 <tr>
-                    <th style="padding: 10px;border: 1px solid #000;border-right: none;" align="left">@lang('quickadmin.qa_sn')</th>
                     <th style="padding: 10px;border: 1px solid #000;border-right: none;" align="center">@lang('quickadmin.users.fields.name')</th>
                     <th style="padding: 10px;border: 1px solid #000;border-right: none;" align="center">@lang('quickadmin.users.fields.role')</th>
                     <th style="padding: 10px;border: 1px solid #000;border-right: none;" align="center">@lang('quickadmin.users.fields.usernameid')</th>
                     <th style="padding: 10px;border: 1px solid #000;border-right: none;" align="center">@lang('quickadmin.users.fields.email')</th>
-                    <th style="padding: 10px;border: 1px solid #000;border-right: none;" align="center">@lang('quickadmin.users.fields.phone')</th>
-                    <th style="padding: 10px;border: 1px solid #000;" align="center">@lang('quickadmin.category.fields.created_at')</th>
+                    <th style="padding: 10px;border: 1px solid #000;" align="center">@lang('quickadmin.users.fields.phone')</th>
                 </tr>
             </thead>
             <tbody>
@@ -33,13 +31,12 @@
                         $role = $staff->roles->first();
                     @endphp
                 <tr>
-                    <td style="padding: 10px;border: 1px solid #000;border-right: none;border-top: none;" align="left">{{ $key + 1 }}</td>
                     <td style="padding: 10px;border: 1px solid #000;border-right: none;border-top: none;" align="center">{{ $staff->name ?? '' }}</td>
                     <td style="padding: 10px;border: 1px solid #000;border-right: none;border-top: none;" align="center">{{ $role ? $role->name : '' }}</td>
                     <td style="padding: 10px;border: 1px solid #000;border-right: none;border-top: none;" align="center">{{ $staff->username ?? '' }}</td>
                     <td style="padding: 10px;border: 1px solid #000;border-right: none;border-top: none;" align="center">{{ $staff->email ?? '' }}</td>
-                    <td style="padding: 10px;border: 1px solid #000;border-right: none;border-top: none;" align="center">{{ $staff->phone ?? '' }}</td>
-                    <td style="padding: 10px;border: 1px solid #000;border-top: none;" align="center">{{ $staff->created_at->format('d-m-Y') }}</td>
+                    <td style="padding: 10px;border: 1px solid #000;border-top: none;" align="center">{{ $staff->phone ?? '' }}</td>
+
                 </tr>
                 @empty
                 <tr>
