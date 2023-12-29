@@ -179,6 +179,28 @@
   <!-- Page Specific JS File -->
   <script src="{{ asset('admintheme/assets/js/page/datatables.js') }}"></script>
   <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+  <script src="https://js.pusher.com/8.2.0/pusher.min.js"></script>
+  <script>
+
+    // Enable pusher logging - don't include this in production
+    Pusher.logToConsole = true;
+
+    var pusher = new Pusher('bc4355cd6e86d99ee3e5', {
+      cluster: 'ap2'
+    });
+
+    var channel = pusher.subscribe('invoices');
+    channel.bind('invoice-updated', function(data) {
+      //alert(JSON.stringify(data));
+      $('#dataaTable').DataTable().ajax.reload();
+        var alertType = 'success';
+        var message = 'New invoice added or updated!'
+        var title = "{{ trans('quickadmin.order.invoice') }}";
+        // Show a notification
+        showToaster(title,alertType,message);
+    });
+  </script>
+
 <script>
 
 $(document).ready(function () {
@@ -646,6 +668,9 @@ $(document).ready(function () {
             }
         });
     });
+
+
+
 
 });
 

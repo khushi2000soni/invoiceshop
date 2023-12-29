@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Events\InvoiceUpdated;
 use App\Http\Controllers\Controller;
 use App\Models\Customer;
 use App\Models\Order;
@@ -31,7 +32,6 @@ class OrderController extends Controller
             'products.*.price'          => ['required','numeric'],
             'products.*.total_price'    => ['required','numeric'],
         ]);
-
         if($validator->fails()){
             $responseData = [
                 'status'        => false,
@@ -39,31 +39,27 @@ class OrderController extends Controller
             ];
             return response()->json($responseData, 401);
         }
-
         try {
             DB::beginTransaction();
                 // Create a new order
                 $orderRequest = $request->except('products');
                 $orderRequest['invoice_date'] = Carbon::now();
                 $order = Order::create($orderRequest);
-
                 // Generate the invoice number
                 $invoiceNumber = generateInvoiceNumber($order->id);
                 $order->update(['invoice_number' => $invoiceNumber]);
-
                 // Create order products
                 $productItem = $request->products;
                 $order->orderProduct()->createMany($productItem);
             DB::commit();
-
+            // Fire the InvoiceUpdated event after successful creation
+            event(new InvoiceUpdated($order));
             $responseData = [
                 'status'        => true,
                 'message' => trans('messages.success'),
             ];
             return response()->json($responseData, 200);
-
         } catch (\Exception $e) {
-
             DB::rollBack();
             $responseData = [
                 'status'        => false,
@@ -204,7 +200,8 @@ class OrderController extends Controller
             }
 
             DB::commit();
-
+            // Fire the InvoiceUpdated event after successful creation
+            event(new InvoiceUpdated($order));
             $responseData = [
                 'status'        => true,
                 'message' => trans('messages.success'),
