@@ -29,7 +29,7 @@ class InvoiceTypeDataTable extends DataTable
             ->editColumn('invoice_number',function($order){
                 return $order->invoice_number ?? "";
             })
-            ->editColumn('customer_name',function($order){
+            ->editColumn('customer.name',function($order){
                 $customer = $order->customer;
                 return $customer ? $customer->name : '';
             })
@@ -40,7 +40,7 @@ class InvoiceTypeDataTable extends DataTable
                 return $order->created_at->format('d-M-Y');
             })
             ->editColumn('deleted_at', function ($order) {
-                $deleted_at = $order->deleted_at ? $order->deleted_at->format('d-M-Y'): '';
+                $deleted_at = $order->deleted_at ? $order->deleted_at->format('d-m-Y'): '';
                 return $deleted_at ? $deleted_at : '';
 
             })
@@ -55,11 +55,11 @@ class InvoiceTypeDataTable extends DataTable
             ->filterColumn('created_at', function ($query, $keyword) {
                 $query->whereRaw("DATE_FORMAT(orders.created_at,'%d-%M-%Y') like ?", ["%$keyword%"]); //date_format when searching using date
             })
-            ->filterColumn('customer_name', function ($query, $keyword) {
-                $query->whereHas('customer', function ($q) use ($keyword) {
-                    $q->where('customers.name', 'like', "%$keyword%");
-                });
-            })
+            // ->filterColumn('customer_name', function ($query, $keyword) {
+            //     $query->whereHas('customer', function ($q) use ($keyword) {
+            //         $q->where('customers.name', 'like', "%$keyword%");
+            //     });
+            // })
             ->rawColumns(['action']);
 
             return $dataTable;
@@ -124,7 +124,7 @@ class InvoiceTypeDataTable extends DataTable
             $columns = [
                 Column::make('DT_RowIndex')->title(trans('quickadmin.qa_sn'))->orderable(false)->searchable(false),
                 Column::make('invoice_number')->title(trans('quickadmin.order.fields.invoice_number')),
-                Column::make('customer_name')->title(trans('quickadmin.order.fields.customer_name')),
+                Column::make('customer.name')->title(trans('quickadmin.order.fields.customer_name')),
                 Column::make('grand_total')->title(trans('quickadmin.order.fields.total_price')),
                 Column::make('created_at')->title(trans('quickadmin.order.fields.created_at')),
                 Column::make('deleted_at')->title(trans('quickadmin.order.fields.deleted_at')),

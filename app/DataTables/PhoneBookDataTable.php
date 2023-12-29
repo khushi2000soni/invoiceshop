@@ -38,12 +38,10 @@ class PhoneBookDataTable extends DataTable
                 return $phone;
             })
 
-            ->editColumn('address',function($customer){
-
+            ->editColumn('address.address',function($customer){
                 $address = $customer->address;
                 return $address ? $address->address : '';
             })
-
             ->filterColumn('address', function ($query, $keyword) {
                 $query->whereHas('address', function ($q) use ($keyword) {
                     $q->where('address.address', 'like', "%$keyword%");
@@ -100,7 +98,7 @@ class PhoneBookDataTable extends DataTable
             Column::make('name')->title(trans('quickadmin.customers.fields.name')),
             Column::make('guardian_name')->title(trans('quickadmin.customers.fields.guardian_name')),
             Column::make('phone')->title(trans('quickadmin.customers.fields.ph_num')),
-            Column::make('address')->title(trans('quickadmin.customers.fields.address')),
+            Column::make('address.address')->title(trans('quickadmin.customers.fields.address')),
         ];
     }
 
