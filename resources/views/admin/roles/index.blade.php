@@ -15,9 +15,9 @@
               <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
                   <h4>@lang('quickadmin.roles.fields.list-title')</h4>
-                  @can('role_create')
+                  {{-- @can('role_create')
                   <a href="{{route('roles.create')}}" class="btn btn-outline-primary" ><i class="fas fa-plus"></i> @lang('quickadmin.roles.fields.add')</a>
-                  @endcan
+                  @endcan --}}
                 </div>
                 <div class="card-body">
                   <div class="table-responsive fixed_Search">

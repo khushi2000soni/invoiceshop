@@ -16,7 +16,7 @@
             </a>
         </li>
 
-        {{-- @can('role_access')
+        @can('role_access')
         <li class="{{ Request::is('roles*') ? 'active' : '' }}">
             <a href="{{route('roles.index')}}" class="nav-link"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <g clip-path="url(#clip0_212_3741)">
@@ -31,7 +31,7 @@
                 </svg>
             <span>@lang('quickadmin.roles.title')</span></a>
         </li>
-        @endcan --}}
+        @endcan
 
         @can('staff_access')
         <li class="{{ Request::is('staff*') ? 'active' : '' }}">
