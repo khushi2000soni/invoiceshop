@@ -35,7 +35,7 @@
                     @endphp
 
                     @if (!(auth()->user()->hasRole(1)))
-                        @if ($module == 'roles')
+                        @if ($moduleName == 'roles')
                             @continue
                         @endif
                     @endif
