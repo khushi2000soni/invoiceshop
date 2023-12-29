@@ -28,7 +28,7 @@ class DeviceDataTable extends DataTable
             ->editColumn('name',function($device){
                 return $device->name ?? "";
             })
-            ->editColumn('staff_name',function($device){
+            ->editColumn('staff.name',function($device){
                 $staff = $device->staff;
                 return $staff ? $staff->name : '';
             })
@@ -42,7 +42,7 @@ class DeviceDataTable extends DataTable
                 return $device->pin ?? "";
             })
             ->editColumn('created_at', function ($device) {
-                return $device->created_at->format('d-M-Y H:i A');
+                return $device->created_at->format('d-m-Y h:i A');
             })
             ->addColumn('action',function($device){
                 $action='';
@@ -52,20 +52,21 @@ class DeviceDataTable extends DataTable
                 }
                 if (Gate::check('device_delete')) {
                 $deleteIcon = view('components.svg-icon', ['icon' => 'delete'])->render();
-                $action .= '<form action="'.route('device.destroy', $device->id).'" method="POST" class="deleteForm m-1" id="deleteForm">
+                $action .= '<form action="'.route('device.destroy', $device->id).'" method="POST" class="deleteForm m-1">
                 <button title="'.trans('quickadmin.qa_delete').'" class="btn btn-icon btn-danger record_delete_btn btn-sm">'.$deleteIcon.'</button>
                 </form>';
                 }
                 return $action;
             })
             ->filterColumn('created_at', function ($query, $keyword) {
-                $query->whereRaw("DATE_FORMAT(device.created_at,'%d-%M-%Y') like ?", ["%$keyword%"]); //date_format when searching using date
+                $query->whereRaw("DATE_FORMAT(devices.created_at,'%d-%M-%Y') like ?", ["%$keyword%"]); //date_format when searching using date
             })
-            ->filterColumn('staff_name', function ($query, $keyword) {
-                $query->whereHas('staff', function ($q) use ($keyword) {
-                    $q->where('users.name', 'like', "%$keyword%");
-                });
-            })
+
+            // ->filterColumn('staff_name', function ($query, $keyword) {
+            //     $query->whereHas('staff', function ($q) use ($keyword) {
+            //         $q->where('users.name', 'like', "%$keyword%");
+            //     });
+            // })
             ->rawColumns(['action']);
     }
 
@@ -113,7 +114,7 @@ class DeviceDataTable extends DataTable
         return [
             Column::make('DT_RowIndex')->title(trans('quickadmin.qa_sn'))->orderable(false)->searchable(false),
             Column::make('name')->title(trans('quickadmin.device.fields.name')),
-            Column::make('staff_name')->title(trans('quickadmin.device.fields.staff_name')),
+            Column::make('staff.name')->title(trans('quickadmin.device.fields.staff_name')),
             Column::make('device_id')->title(trans('quickadmin.device.fields.device_id')),
             Column::make('device_ip')->title(trans('quickadmin.device.fields.device_ip')),
             Column::make('pin')->title(trans('quickadmin.device.fields.pin')),

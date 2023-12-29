@@ -20,8 +20,6 @@ class CustomerDataTable extends DataTable
      *
      * @param QueryBuilder $query Results from query() method.
      */
-
-
      public function dataTable(QueryBuilder $query): EloquentDataTable
      {
          return (new EloquentDataTable($query))
@@ -38,9 +36,7 @@ class CustomerDataTable extends DataTable
                 $phone= $ph1.$ph2;
                 return $phone;
             })
-
-            ->editColumn('address',function($customer){
-
+            ->editColumn('address.address',function($customer){
                 $address = $customer->address;
                 return $address ? $address->address : '';
             })
@@ -61,11 +57,11 @@ class CustomerDataTable extends DataTable
                 }
                 return $action;
             })
-            ->filterColumn('address', function ($query, $keyword) {
-                $query->whereHas('address', function ($q) use ($keyword) {
-                    $q->where('address.address', 'like', "%$keyword%");
-                });
-            })
+            // ->filterColumn('address', function ($query, $keyword) {
+            //     $query->whereHas('address', function ($q) use ($keyword) {
+            //         $q->where('address.address', 'like', "%$keyword%");
+            //     });
+            // })
             ->filterColumn('created_at', function ($query, $keyword) {
                 $query->whereRaw("DATE_FORMAT(customers.created_at,'%d-%M-%Y') like ?", ["%$keyword%"]); //date_format when searching using date
             })
@@ -137,7 +133,7 @@ class CustomerDataTable extends DataTable
             Column::make('name')->title(trans('quickadmin.customers.fields.name')),
             Column::make('guardian_name')->title(trans('quickadmin.customers.fields.guardian_name')),
             Column::make('phone')->title(trans('quickadmin.customers.fields.ph_num')),
-            Column::make('address')->title(trans('quickadmin.customers.fields.address')),
+            Column::make('address.address')->title(trans('quickadmin.customers.fields.address')),
             Column::make('created_at')->title(trans('quickadmin.customers.fields.created_at')),
             Column::computed('action')
             ->exportable(false)
