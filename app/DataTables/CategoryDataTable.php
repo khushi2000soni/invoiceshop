@@ -22,7 +22,6 @@ class CategoryDataTable extends DataTable
      */
     public function dataTable(QueryBuilder $query)
     {
-        $query->orderBy('id','desc')->get();
         return datatables()
         ->eloquent($query)
             ->addIndexColumn()
@@ -40,7 +39,7 @@ class CategoryDataTable extends DataTable
                 return $category->products->count();
             })
             ->editColumn('created_at', function ($category) {
-                return $category->created_at->format('d-M-Y H:i A');
+                return $category->created_at->format('d-m-Y h:i A');
             })
             ->addColumn('action',function($category){
                 $action='';

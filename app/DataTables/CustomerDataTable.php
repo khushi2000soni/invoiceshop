@@ -24,7 +24,6 @@ class CustomerDataTable extends DataTable
 
      public function dataTable(QueryBuilder $query): EloquentDataTable
      {
-        $query->orderBy('id','desc')->get();
          return (new EloquentDataTable($query))
             ->addIndexColumn()
             ->editColumn('name',function($customer){
@@ -46,7 +45,7 @@ class CustomerDataTable extends DataTable
                 return $address ? $address->address : '';
             })
             ->editColumn('created_at', function ($customer) {
-                return $customer->created_at->format('d-M-Y H:i A');
+                return $customer->created_at->format('d-m-Y h:i A');
             })
             ->addColumn('action',function($customer){
                 $action='';

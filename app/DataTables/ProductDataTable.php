@@ -23,19 +23,18 @@ class ProductDataTable extends DataTable
 
     public function dataTable(QueryBuilder $query)
     {
-        $query->orderBy('id','desc')->get();
         return datatables()
         ->eloquent($query)
             ->addIndexColumn()
             ->editColumn('name',function($product){
                 return $product->name ?? "";
             })
-            ->editColumn('category_name',function($product){
+            ->editColumn('category.name',function($product){
                 $category = $product->category;
                 return $category ? $category->name : '';
             })
             ->editColumn('created_at', function ($product) {
-                return $product->created_at->format('d-M-Y H:i A');
+                return $product->created_at->format('d-m-Y h:i A');
             })
             ->addColumn('action',function($product){
                 $action='';
@@ -45,7 +44,7 @@ class ProductDataTable extends DataTable
                 }
                 if (Gate::check('product_delete')) {
                 $deleteIcon = view('components.svg-icon', ['icon' => 'delete'])->render();
-                $action .= '<form action="'.route('products.destroy', $product->id).'" method="POST" class="deleteForm m-1" id="deleteForm">
+                $action .= '<form action="'.route('products.destroy', $product->id).'" method="POST" class="deleteForm m-1">
                 <button title="'.trans('quickadmin.qa_delete').'" class="btn btn-icon btn-danger record_delete_btn btn-sm">'.$deleteIcon.'</button>
                 </form>';
                 }
@@ -53,11 +52,6 @@ class ProductDataTable extends DataTable
             })
             ->filterColumn('created_at', function ($query, $keyword) {
                 $query->whereRaw("DATE_FORMAT(products.created_at,'%d-%M-%Y') like ?", ["%$keyword%"]); //date_format when searching using date
-            })
-            ->filterColumn('category_name', function ($query, $keyword) {
-                $query->whereHas('category', function ($q) use ($keyword) {
-                    $q->where('categories.name', 'like', "%$keyword%");
-                });
             })
             ->rawColumns(['action']);
     }
@@ -112,7 +106,7 @@ class ProductDataTable extends DataTable
         return [
             Column::make('DT_RowIndex')->title(trans('quickadmin.qa_sn'))->orderable(false)->searchable(false),
             Column::make('name')->title(trans('quickadmin.product.fields.name')),
-            Column::make('category_name')->title(trans('quickadmin.product.fields.category_name')),
+            Column::make('category.name')->title(trans('quickadmin.product.fields.category_name')),
             Column::make('created_at')->title(trans('quickadmin.product.fields.created_at')),
             Column::computed('action')
             ->exportable(false)
