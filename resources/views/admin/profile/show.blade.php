@@ -16,7 +16,6 @@
                 <div class="col-md8 col-12 col-lg8 boxcenter">
                     <form id="EditProfileImageForm" method="post" enctype="multipart/form-data" action="{{route('profile-image.update')}}">
                     <input type="file" id="profile_image" name="profile_image" hidden>
-
                     <label for="profile_image" class="row author-box align-items-center gap-4 " id="profile_error">
                         <div class="col-auto px-1">
                             <div class="rounded-circle author-box-picture box-center shadow-none">
@@ -30,7 +29,6 @@
                             </div>
                         </div>
                     </label>
-
                     </form>
                 </div>
             </div>
@@ -124,7 +122,7 @@
                           </div>
                       </div>
                     </div>
-                    <div class="col-lg-6">
+                    {{-- <div class="col-lg-6">
                       <div class="form-group">
                           <label for="email">@lang('quickadmin.profile.fields.email')</label>
                           <div class="input-group">
@@ -141,48 +139,48 @@
                             @enderror
                           </div>
                       </div>
-                    </div>
+                    </div> --}}
                     <div class="col-lg-6">
-                      <div class="form-group">
-                        <label for="phone">@lang('quickadmin.profile.fields.phone')</label>
-                        <div class="input-group">
-                          <div class="input-group-prepend">
-                            <div class="input-group-text">
-                              <i class="fas fa-phone"></i>
+                        <div class="form-group">
+                            <label for="phone">@lang('quickadmin.profile.fields.phone')</label>
+                            <div class="input-group">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text">
+                                <i class="fas fa-phone"></i>
+                                </div>
                             </div>
-                          </div>
-                          <input type="text" value="{{ old('phone',$user->phone) }}" id="phone" class="form-control @error('phone') is-invalid @enderror" name="phone" tabindex="1"   autofocus>
-                          @error('phone')
-                          <div class="invalid-feedback">
-                            {{ $message }}
-                          </div>
-                          @enderror
+                            <input type="text" value="{{ old('phone',$user->phone) }}" id="phone" class="form-control @error('phone') is-invalid @enderror" name="phone" tabindex="1"   autofocus>
+                            @error('phone')
+                            <div class="invalid-feedback">
+                                {{ $message }}
+                            </div>
+                            @enderror
+                            </div>
                         </div>
                     </div>
-                  </div>
-                  <div class="col-lg-12">
-                      <div class="form-group">
-                        <label>@lang('quickadmin.profile.fields.address')</label>
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                <div class="input-group-text">
-                                    <i class="fas fa-map-marker-alt"></i>
-                                </div>
-                                </div>
-                                <select class="form-control select2 @error('address_id') is-invalid @enderror" name="address_id" id="address_id" value={{ old('address_id')}}>
-                                    @foreach($addresses as $address)
-                                    <option value="{{ $address->id }}" {{ old('address_id', $user->address_id) == $address->id ? 'selected' : '' }}>
-                                        {{ $address->address }}
-                                    </option>
-                                    @endforeach
-                                </select>
-                                @error('address_id')
-                                <div class="invalid-feedback">
-                                {{ $message }}
-                                </div>
-                                @enderror
-                          </div>
-                      </div>
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label>@lang('quickadmin.profile.fields.address')</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                    <div class="input-group-text">
+                                        <i class="fas fa-map-marker-alt"></i>
+                                    </div>
+                                    </div>
+                                    <select class="form-control select2 @error('address_id') is-invalid @enderror" name="address_id" id="address_id" value={{ old('address_id')}}>
+                                        @foreach($addresses as $address)
+                                        <option value="{{ $address->id }}" {{ old('address_id', $user->address_id) == $address->id ? 'selected' : '' }}>
+                                            {{ $address->address }}
+                                        </option>
+                                        @endforeach
+                                    </select>
+                                    @error('address_id')
+                                    <div class="invalid-feedback">
+                                    {{ $message }}
+                                    </div>
+                                    @enderror
+                            </div>
+                        </div>
                     </div>
                     <div class="col-lg-12">
                       <div class="form-group">
