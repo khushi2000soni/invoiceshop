@@ -132,14 +132,14 @@
                             <div class="row align-items-center">
                                 <div class="col-auto px-md-1 pr-1">
                                     @can('customer_create')
-                                    <button type="button" class="btn btn-outline-dark addRecordBtn sm_btn"  data-href="{{ route('customers.create')}}"><i class="fas fa-plus"></i> @lang('quickadmin.customers.fields.add')</button>
+                                    <button type="button" class="btn addnew-btn addRecordBtn sm_btn"  data-href="{{ route('customers.create')}}"><x-svg-icon icon="add" /></button>
                                     @endcan
                                 </div>
                                 <div class="col-auto px-1">
-                                    <a href="{{ route('customers.print') }}" class="btn h-10 btn-success mr-1 col"  id="print-button"> <i class="fas fa-print"></i> @lang('quickadmin.qa_print')</a>
+                                    <a href="{{ route('customers.print') }}" class="btn printbtn h-10 col"  id="print-button"> <x-svg-icon icon="print" /></a>
                                 </div>
                                 <div class="col-auto pl-1">
-                                    <a href="{{ route('customers.export') }}" class="btn h-10 btn-warning mr-1 col"  id="excel-button"><i class="fas fa-file-excel"></i> @lang('quickadmin.qa_excel')</a>
+                                    <a href="{{ route('customers.export') }}" class="btn excelbtn h-10 col"  id="excel-button"><x-svg-icon icon="excel" /></a>
                                 </div>
                             </div>
                         </div>

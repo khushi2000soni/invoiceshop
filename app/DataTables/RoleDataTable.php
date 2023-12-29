@@ -34,8 +34,9 @@ class RoleDataTable extends DataTable
                     $editIcon = view('components.svg-icon', ['icon' => 'edit'])->render();
                     $action .= '<a href="'.route('roles.edit', $role->id).'" class="btn btn-icon btn-info m-1">'.$editIcon.'</a>';
                 }
-                if (Gate::check('role_delete')) {
-                    $action .= '<a href="'.route('roles.show',$role->id).'" class="btn btn-icon btn-danger m-1"><i class="fas fa-eye"></i></a>';
+                if (Gate::check('role_show')) {
+                    $viewIcon = view('components.svg-icon', ['icon' => 'view'])->render();
+                    $action .= '<a href="'.route('roles.show',$role->id).'" class="btn btn-icon btn-danger m-1">'.$viewIcon.'</a>';
                 }
                 return $action;
             })->rawColumns(['action']);
