@@ -41,7 +41,7 @@ class AddressDataTable extends DataTable
                 return $address->customers->count() ?? 0;
             })
             ->editColumn('created_at', function ($address) {
-                return $address->created_at->format('d-M-Y H:i A');
+                return $address->created_at->format('d-m-Y h:i A');
             })
             ->addColumn('action',function($address){
                 $action='';
