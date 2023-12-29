@@ -46,12 +46,14 @@ class AddressDataTable extends DataTable
             ->addColumn('action',function($address){
                 $action='';
                 if (Gate::check('address_edit')) {
-                $action .= '<button type="button" class="btn edit-address-btn"  data-id="'.encrypt($address->id).'" data-address="'. $address->address .'" data-href="'.route('address.edit', $address->id).'"><i class="fas fa-edit"></i></button>';
+                $editIcon = view('components.svg-icon', ['icon' => 'edit'])->render();
+                $action .= '<button type="button" class="btn edit-address-btn"  data-id="'.encrypt($address->id).'" data-address="'. $address->address .'" data-href="'.route('address.edit', $address->id).'">'.$editIcon.'</button>';
             }
                 if (Gate::check('address_delete')) {
+                $deleteIcon = view('components.svg-icon', ['icon' => 'delete'])->render();
                 $action .= '<form action="'.route('address.destroy', $address->id).'" method="POST" class="deleteAddressForm m-1" id="deleteAddressForm">
 
-                <button title="'.trans('quickadmin.qa_delete').'" class="btn  record_delete_btn btn-sm"><i class="fas fa-trash"></i></button>
+                <button title="'.trans('quickadmin.qa_delete').'" class="btn  record_delete_btn btn-sm">'.$deleteIcon.'</button>
             </form>';
                 }
                 return $action;

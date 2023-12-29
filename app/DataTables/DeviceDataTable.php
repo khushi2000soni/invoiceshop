@@ -47,11 +47,13 @@ class DeviceDataTable extends DataTable
             ->addColumn('action',function($device){
                 $action='';
                 if (Gate::check('device_edit')) {
-                $action .= '<button type="button" class="btn btn-icon btn-info edit-device-btn p-1 mx-1" data-toggle="modal" data-target="#editModal" data-id="'.encrypt($device->id).'" data-href="'.route('device.edit', $device->id).'"><i class="fas fa-edit"></i></button>';
+                $editIcon = view('components.svg-icon', ['icon' => 'edit'])->render();
+                $action .= '<button type="button" class="btn btn-icon btn-info edit-device-btn p-1 mx-1" data-toggle="modal" data-target="#editModal" data-id="'.encrypt($device->id).'" data-href="'.route('device.edit', $device->id).'">'.$editIcon.'</button>';
                 }
                 if (Gate::check('device_delete')) {
+                $deleteIcon = view('components.svg-icon', ['icon' => 'delete'])->render();
                 $action .= '<form action="'.route('device.destroy', $device->id).'" method="POST" class="deleteForm m-1" id="deleteForm">
-                <button title="'.trans('quickadmin.qa_delete').'" class="btn btn-icon btn-danger record_delete_btn btn-sm"><i class="fas fa-trash"></i></button>
+                <button title="'.trans('quickadmin.qa_delete').'" class="btn btn-icon btn-danger record_delete_btn btn-sm">'.$deleteIcon.'</button>
                 </form>';
                 }
                 return $action;

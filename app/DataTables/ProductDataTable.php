@@ -40,11 +40,13 @@ class ProductDataTable extends DataTable
             ->addColumn('action',function($product){
                 $action='';
                 if (Gate::check('product_edit')) {
-                $action .= '<button type="button" class="btn btn-icon btn-info edit-products-btn p-1 mx-1"  data-id="'.encrypt($product->id).'" data-href="'.route('products.edit', $product->id).'"><i class="fas fa-edit"></i></button>';
+                $editIcon = view('components.svg-icon', ['icon' => 'edit'])->render();
+                $action .= '<button type="button" class="btn btn-icon btn-info edit-products-btn p-1 mx-1"  data-id="'.encrypt($product->id).'" data-href="'.route('products.edit', $product->id).'">'.$editIcon.'</button>';
                 }
                 if (Gate::check('product_delete')) {
+                $deleteIcon = view('components.svg-icon', ['icon' => 'delete'])->render();
                 $action .= '<form action="'.route('products.destroy', $product->id).'" method="POST" class="deleteForm m-1" id="deleteForm">
-                <button title="'.trans('quickadmin.qa_delete').'" class="btn btn-icon btn-danger record_delete_btn btn-sm"><i class="fas fa-trash"></i></button>
+                <button title="'.trans('quickadmin.qa_delete').'" class="btn btn-icon btn-danger record_delete_btn btn-sm">'.$deleteIcon.'</button>
                 </form>';
                 }
                 return $action;

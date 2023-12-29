@@ -132,7 +132,7 @@
                             <div class="row align-items-center">
                                 <div class="col-auto px-md-1 pr-1">
                                     @can('customer_create')
-                                    <button type="button" class="btn addnew-btn addRecordBtn sm_btn"  data-href="{{ route('customers.create')}}"><x-svg-icon icon="add" /></button>
+                                    <button type="button" class="addnew-btn addRecordBtn sm_btn"  data-href="{{ route('customers.create')}}"><x-svg-icon icon="add" /></button>
                                     @endcan
                                 </div>
                                 <div class="col-auto px-1">

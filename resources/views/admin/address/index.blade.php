@@ -124,10 +124,10 @@
                                     @endcan
                                 </div>
                                 <div class="col-auto px-1">
-                                    <a href="{{ route('address.print') }}" class="btn h-10 btn-success mr-1 col"  id="print-button"><i class="fas fa-print"></i> @lang('quickadmin.qa_print')</a>
+                                    <a href="{{ route('address.print') }}" class="btn h-10 printbtn col"  id="print-button"><x-svg-icon icon="print" /></a>
                                 </div>
                                 <div class="col-auto pl-1">
-                                    <a href="{{ route('address.export') }}" class="btn h-10 btn-warning mr-1 col"  id="excel-button"><i class="fas fa-file-excel"></i> @lang('quickadmin.qa_excel')</a>
+                                    <a href="{{ route('address.export') }}" class="btn h-10 excelbtn col"  id="excel-button"><x-svg-icon icon="excel" /></a>
                                 </div>
                             </div>
                         </div>
