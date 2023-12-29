@@ -135,7 +135,7 @@ class CustomerDataTable extends DataTable
             Column::make('DT_RowIndex')->title(trans('quickadmin.qa_sn'))->orderable(false)->searchable(false),
             Column::make('name')->title(trans('quickadmin.customers.fields.name')),
             Column::make('guardian_name')->title(trans('quickadmin.customers.fields.guardian_name')),
-            Column::make('phone')->addClass('text-center')->title(trans('quickadmin.customers.fields.ph_num')),
+            Column::make('phone')->title(trans('quickadmin.customers.fields.ph_num')),
             Column::make('address')->title(trans('quickadmin.customers.fields.address')),
             Column::make('created_at')->title(trans('quickadmin.customers.fields.created_at')),
             Column::computed('action')
