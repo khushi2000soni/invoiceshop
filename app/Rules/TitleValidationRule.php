@@ -8,10 +8,6 @@ class TitleValidationRule implements Rule
 {
     public function passes($attribute, $value)
     {
-        // No multiple spaces or all spaces are allowed
-        // if (preg_match('/\s\s+/', $value)) {
-        //     return false;
-        // }
         if (preg_match('/\s{2,}/', $value)) {
             return false;
         }
@@ -21,16 +17,16 @@ class TitleValidationRule implements Rule
             return false;
         }
 
-        // // Only allow alphabetic characters (no numbers)
-        // if (!preg_match('/^[A-Za-z\s]+$/', $value)) {
-        //     return false;
-        // }
+        // Only allow alphabetic characters (no numbers or special characters)
+        if (!preg_match('/^[A-Za-z\s]+$/', $value)) {
+            return false;
+        }
 
         return true;
     }
 
     public function message()
     {
-        return 'This field should not contain multiple consecutive spaces or consist of only spaces.';
+        return 'This name foramt is wrong.';
     }
 }

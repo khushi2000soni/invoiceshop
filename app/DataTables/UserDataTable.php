@@ -29,8 +29,9 @@ class UserDataTable extends DataTable
                 return $staff->name ?? "";
             })
             ->editColumn('role',function($staff){
-                $role = $staff->roles->first();
-                return $role ? $role->name : '';
+                // $role = $staff->roles->first();
+                // return $role ? $role->name : '';
+                return $staff->roles->isNotEmpty() ? $staff->roles->first()->name : '';
             })
             ->editColumn('username',function($staff){
                 return $staff->username  ?? "";
@@ -42,7 +43,7 @@ class UserDataTable extends DataTable
                 return $staff->phone  ?? "";
             })
             ->editColumn('created_at', function ($staff) {
-                return $staff->created_at->format('d-M-Y H:i A');
+                return $staff->created_at->format('d-m-Y h:i A');
             })
             ->addColumn('action',function($staff){
                 $action='';
@@ -57,7 +58,7 @@ class UserDataTable extends DataTable
                 if (Gate::check('staff_delete')) {
                     $deleteIcon = view('components.svg-icon', ['icon' => 'delete'])->render();
                     if (!($staff->hasRole(1))) {
-                    $action .= '<form action="'.route('staff.destroy', $staff->id).'" method="POST" class="deleteForm m-1" id="deleteForm">
+                    $action .= '<form action="'.route('staff.destroy', $staff->id).'" method="POST" class="deleteForm m-1">
                     <button title="'.trans('quickadmin.qa_delete').'" class="btn btn-icon btn-danger record_delete_btn btn-sm">'.$deleteIcon.'</button>
                     </form>';
                     }
@@ -70,6 +71,11 @@ class UserDataTable extends DataTable
             ->filterColumn('role', function ($query, $keyword) {
                 $query->whereHas('roles', function ($q) use ($keyword) {
                     $q->where('roles.name', 'like', "%$keyword%");
+                });
+            })
+            ->orderColumn('role', function ($query, $keyword) {
+                $query->whereHas('roles', function ($q) use ($keyword) {
+                    $q->orderBy('roles.name', 'asc');
                 });
             })
             ->rawColumns(['action']);
