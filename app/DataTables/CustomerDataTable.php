@@ -62,7 +62,10 @@ class CustomerDataTable extends DataTable
             //         $q->where('address.address', 'like', "%$keyword%");
             //     });
             // })
-            ->filterColumn('created_at', function ($query, $keyword) {
+            ->orderColumn('address.address', function ($query, $keyword) {
+                $query->orderBy('address.address', 'asc');
+            })
+            ->filterColumn('created_at.address', function ($query, $keyword) {
                 $query->whereRaw("DATE_FORMAT(customers.created_at,'%d-%M-%Y') like ?", ["%$keyword%"]); //date_format when searching using date
             })
             ->rawColumns(['action']);
@@ -80,28 +83,6 @@ class CustomerDataTable extends DataTable
         return $model->newQuery()->with('address');
     }
 
-    /**
-     * Optional method if you want to use the html builder.
-     */
-    // public function html(): HtmlBuilder
-    // {
-    //     return $this->builder()
-    //     ->setTableId('customers-table')
-    //     ->parameters([
-    //         'responsive' => true,
-    //         'pageLength' => 70,
-    //         'lengthMenu' => [[10, 25, 50, 70, 100, -1], [10, 25, 50, 70, 100, 'All']],
-    //     ])
-    //     ->columns($this->getColumns())
-    //     ->minifiedAjax()
-    //     ->dom('lBfrtip')
-    //     ->orderBy(1)
-    //     ->selectStyleSingle()
-    //     ->buttons([
-    //         Button::make('excel')->exportOptions(['columns' => [0, 1, 2, 3, 4, 5]]),
-    //         Button::make('print')->exportOptions(['columns' => [0, 1, 2, 3, 4, 5]]),
-    //     ]);
-    // }
 
     public function html(): HtmlBuilder
     {

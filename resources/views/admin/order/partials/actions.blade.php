@@ -65,7 +65,7 @@
         @endcan
         @can('invoice_delete')
         <form action="{{route('orders.destroy', $order->id)}}" method="POST" class="deleteForm m-1" id="deleteForm">
-            <button class="dropdown-item has-icon record_delete_btn deleteBtn  d-inline-flex align-items-center" type="submit" href="#"><i class="fas fa-trash"></i> @lang('quickadmin.qa_delete')</button>
+            <button class="dropdown-item has-icon record_delete_btn deleteBtn  d-inline-flex align-items-center" type="submit"><i class="fas fa-trash"></i> @lang('quickadmin.qa_delete')</button>
         </form>
         @endcan
     </div>
