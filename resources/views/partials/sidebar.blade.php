@@ -111,7 +111,7 @@
         <li class="{{ Request::is('logout*') ? 'active' : '' }}">
             <a class="nav-link" href="{{ route('logout') }}">
                 <x-side-bar-svg-icon icon="logout" />
-                <span>Logout</span>
+                <span>@lang('quickadmin.qa_logout')</span>
             </a>
         </li>
     </ul>
