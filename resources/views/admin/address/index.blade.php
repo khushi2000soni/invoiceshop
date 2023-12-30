@@ -120,7 +120,7 @@
                             <div class="row align-items-center">
                                 <div class="col-auto px-md-1 pr-1">
                                     @can('address_create')
-                                    <button type="button" class="btn h-10 btn-outline-dark addRecordBtn sm_btn" data-toggle="modal" data-target="#centerModal" data-href="{{ route('address.create')}}"><i class="fas fa-plus"></i> @lang('quickadmin.roles.fields.add')</button>
+                                    <button type="button" class="addnew-btn addRecordBtn sm_btn" data-toggle="modal" data-target="#centerModal" data-href="{{ route('address.create')}}"><x-svg-icon icon="add-address" /></button>
                                     @endcan
                                 </div>
                                 <div class="col-auto px-1">

@@ -67,6 +67,9 @@
         @case('add-customer')
         <svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" width="512" height="512" x="0" y="0" viewBox="0 0 24 24" style="enable-background:new 0 0 512 512" xml:space="preserve" class=""><g><path fill="#fff" fill-rule="evenodd" d="M17 6A5 5 0 1 1 7 6a5 5 0 0 1 10 0zm-7 7a7 7 0 0 0-7 7 3 3 0 0 0 3 3h7.41c.431 0 .677-.528.453-.898A5.972 5.972 0 0 1 13 19a5.993 5.993 0 0 1 2.56-4.917c.364-.255.333-.839-.101-.93-.47-.1-.959-.153-1.459-.153zm9 2a1 1 0 0 1 1 1v2h2a1 1 0 1 1 0 2h-2v2a1 1 0 0 1-2 0v-2h-2a1 1 0 1 1 0-2h2v-2a1 1 0 0 1 1-1z" clip-rule="evenodd" opacity="1" data-original="#fff" class=""></path></g></svg>
         @break
+        @case('add-address')
+        <svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" width="18" height="18" x="0" y="0" viewBox="0 0 100 100" style="enable-background:new 0 0 512 512" xml:space="preserve" class=""><g><path d="M90 73.333H80v-10h-6.667v10h-10V80h10v10H80V80h10zM33.333 46.667h10v10h-10zM46.667 30h6.667v6.667h-6.667zM50 46.667h16.667v10H50z" fill="#000000" opacity="1" data-original="#000000" class=""></path><path d="M90 43.333 50 10 10 43.333l4.268 5.123L20 43.678V90h36.667v-6.667H43.333V66.667h-10v16.666h-6.666V38.124L50 18.678l23.333 19.446v18.543H80V43.678l5.732 4.778z" fill="#000000" opacity="1" data-original="#000000" class=""></path></g></svg>
+        @break
     <!-- Add more cases for additional icons -->
     @default
         <!-- Default case if no matching icon is provided -->
