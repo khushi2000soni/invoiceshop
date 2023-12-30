@@ -121,7 +121,7 @@
                                     <div class="row align-items-center">
                                         <div class="col-auto px-1">
                                             @can('category_create')
-                                            <button type="button" class="btn btn-outline-dark addRecordBtn sm_btn"  data-href="{{ route('categories.create')}}"><i class="fas fa-plus"></i> @lang('quickadmin.roles.fields.add')</button>
+                                            <button type="button" class="addnew-btn addRecordBtn sm_btn"  data-href="{{ route('categories.create')}}"><x-svg-icon icon="add-category" /></button>
                                         @endcan
                                         </div>
                                         <div class="col-auto px-1">

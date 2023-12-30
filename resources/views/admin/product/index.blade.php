@@ -144,10 +144,10 @@
                                     <div class="row align-items-center">
                                         <div class="col-auto px-1">
                                             @can('product_create')
-                                            <button type="button" class="btn btn-outline-dark addRecordBtn sm_btn"  data-href="{{ route('products.create')}}"><i class="fas fa-plus"></i> @lang('quickadmin.roles.fields.add')</button>
+                                            <button type="button" class="addnew-btn addRecordBtn sm_btn"  data-href="{{ route('products.create')}}"><x-svg-icon icon="add-product" /></button>
                                             @endcan
                                         </div>
-                                        <div class="col-auto px-1">
+                                        {{-- <div class="col-auto px-1">
                                             <a role="button" class="btn h-10 btn-light mr-1 col" id="merge-button"> <i class="fas fa-object-ungroup"></i> @lang('quickadmin.qa_merge')</a>
                                             <div class="modal fade px-3" id="MergeProductModal" tabindex="-1" role="dialog" aria-labelledby="MergeProductModalTitle" aria-hidden="true">
                                                 <div class="modal-dialog" role="document">
@@ -194,7 +194,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
+                                        </div> --}}
                                         <div class="col-auto px-1">
                                             @can('product_print')
                                             <a href="{{ route('products.print') }}" class="btn h-10 printbtn col"  id="print-button"><x-svg-icon icon="print" /></a>

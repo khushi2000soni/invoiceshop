@@ -45,6 +45,10 @@ class ProductDataTable extends DataTable
                 $editIcon = view('components.svg-icon', ['icon' => 'edit'])->render();
                 $action .= '<button class="btn btn-icon btn-info edit-products-btn p-1 mx-1"  data-id="'.encrypt($product->id).'" data-href="'.route('products.edit', $product->id).'">'.$editIcon.'</button>';
                 }
+                if (Gate::check('product_merge')) {
+                    $mergeIcon = view('components.svg-icon', ['icon' => 'merge'])->render();
+                    $action .= '<button class="btn btn-icon btn-info merge-button p-1 mx-1">'.$mergeIcon.'</button>';
+                    }
                 if (Gate::check('product_delete')) {
                     if($product->order_count == 0){
                     $deleteIcon = view('components.svg-icon', ['icon' => 'delete'])->render();
