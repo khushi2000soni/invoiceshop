@@ -199,12 +199,10 @@ class ReportController extends Controller
     {
         // Fetch the last 7 records of the last 30 days
         $last30Days = now()->subDays(30)->startOfDay(); // Calculate the start of the day 30 days ago
-
         $data = Order::with('customer.address')
             ->where('created_at', '>=', $last30Days)
             ->orderBy('created_at', 'desc')
             ->get(['invoice_number', 'grand_total', 'customer_id']);
-
         return $data;
     }
 

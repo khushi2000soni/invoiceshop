@@ -176,13 +176,12 @@ $(document).ready(function() {
             data: data,
             success: function(response) {
                 var newData = response.data;
-                console.log('newData', newData);
-
+                //console.log('newData', newData);
                 // Update the table content
                 var tableBody = $('#order-table-body tbody');
                 tableBody.empty();
                 newData.forEach(function(order) {
-                    var row = '<tr><td><div class="media-body"><div class="media-tab-title">' + order.customer.name + '-'+ order.customer.guardian_name + '-' + order.customer.address.address +'</div>' +
+                    var row = '<tr><td><div class="media-body"><div class="media-tab-title">' + order.customer.full_name +'</div>' +
                               '<div class="text-job text-muted">#' + order.invoice_number + '</div></div></td><td class="">' + order.grand_total  + '</td></tr>';
                     tableBody.append(row);
                 });

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -28,6 +29,10 @@ class Customer extends Model
         'updated_at',
         'deleted_at',
         'is_active',
+    ];
+
+    protected $appends = [
+        'full_name'
     ];
 
     protected static function boot()
@@ -65,5 +70,11 @@ class Customer extends Model
     {
         $this->attributes['guardian_name'] = $value ?? 'NA';
     }
+
+    public function getFullNameAttribute()
+    {
+        return $this->name . '-' . $this->guardian_name . '-' .$this->address->address;
+    }
+
 
 }
