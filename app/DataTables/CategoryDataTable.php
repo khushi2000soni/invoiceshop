@@ -48,18 +48,19 @@ class CategoryDataTable extends DataTable
                 $action .= '<button  class="btn edit-category-btn"  data-id="'.encrypt($category->id).'" data-name="'. $category->name .'" data-href="'.route('categories.edit', $category->id).'">'.$editIcon.'</button>';
             }
                 if (Gate::check('category_delete')) {
-                $deleteIcon = view('components.svg-icon', ['icon' => 'delete'])->render();
-                $action .= '<form action="'.route('categories.destroy', $category->id).'" method="POST" class="deleteCategoryForm m-1" >
-
-                <button title="'.trans('quickadmin.qa_delete').'" class="btn record_delete_btn btn-sm">'.$deleteIcon.'</button>
-            </form>';
+                    $productCount = $category->products->count();
+                    if ($productCount == 0) {
+                    $deleteIcon = view('components.svg-icon', ['icon' => 'delete'])->render();
+                    $action .= '<form action="'.route('categories.destroy', $category->id).'" method="POST" class="deleteCategoryForm m-1" >
+                    <button title="'.trans('quickadmin.qa_delete').'" class="btn record_delete_btn btn-sm">'.$deleteIcon.'</button>
+                    </form>';
+                    }
                 }
                 return $action;
             })
             ->filterColumn('created_at', function ($query, $keyword) {
                 $query->whereRaw("DATE_FORMAT(categories.created_at,'%d-%M-%Y') like ?", ["%$keyword%"]); //date_format when searching using date
             })
-
             ->rawColumns(['action','name']);
     }
 

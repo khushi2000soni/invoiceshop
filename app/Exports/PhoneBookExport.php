@@ -22,16 +22,13 @@ class PhoneBookExport implements FromCollection, WithHeadings
     {
 
         $query = Customer::query();
-
         if ($this->address_id !== null) {
             $query->where('address_id', $this->address_id);
         }
 
         $customers = $query->orderBy('name','asc')->get();
-
         return $customers->map(function ($customer, $key) {
             return [
-                trans('quickadmin.qa_sn') => $key + 1,
                 trans('quickadmin.customers.fields.name') => $customer->name ?? '',
                 trans('quickadmin.customers.fields.guardian_name') => $customer->guardian_name ?? '',
                 trans('quickadmin.customers.fields.ph_num') => $customer->phone ?? '',
@@ -39,12 +36,11 @@ class PhoneBookExport implements FromCollection, WithHeadings
                 trans('quickadmin.customers.fields.address') => $customer->address->address ?? '',
             ];
         });
-
     }
 
     public function headings(): array
     {
-        return [trans('quickadmin.qa_sn'), trans('quickadmin.customers.fields.name') , trans('quickadmin.customers.fields.guardian_name') , trans('quickadmin.customers.fields.ph_num'), trans('quickadmin.customers.fields.phone2'), trans('quickadmin.customers.fields.address')];
+        return [trans('quickadmin.customers.fields.name') , trans('quickadmin.customers.fields.guardian_name') , trans('quickadmin.customers.fields.ph_num'), trans('quickadmin.customers.fields.phone2'), trans('quickadmin.customers.fields.address')];
     }
 
 

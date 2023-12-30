@@ -66,8 +66,6 @@ Route::middleware(['auth','PreventBackHistory'])->group(function () {
     Route::get('staff-export/',[UserController::class,'export'])->name('staff.export');
 
     Route::resource('/customers',CustomerController::class);
-    Route::get('/customers/edit-phone/{customerid}',[CustomerController::class,'EditPhone'])->name('customers.editPhone');
-    Route::put('/custmers/phone-update/{customer}',[CustomerController::class,'upatePhone'])->name('customers.phoneUpdate');
     Route::get('/customers/index/{address_id?}',[CustomerController::class,'index'])->name('customer.index');
     Route::get('/customers-printView/{address_id?}',[CustomerController::class,'printView'])->name('customers.print');
     Route::get('/customers-export/{address_id?}',[CustomerController::class,'export'])->name('customers.export');
@@ -91,7 +89,8 @@ Route::middleware(['auth','PreventBackHistory'])->group(function () {
     Route::get('/print-pdf/{order}/{type?}',[OrderController::class,'printPDF'])->name('orders.print-pdf');
     Route::get('/share-email/{order}',[OrderController::class,'shareEmail'])->name('orders.share-email');
     Route::get('/share-whatsapp/{order}',[OrderController::class,'shareWhatsApp'])->name('orders.share-whatsapp');
-    Route::get('/reports',[ReportController::class,'index'])->name('reports');
+    Route::get('/reports/invoice',[ReportController::class,'reportInvoice'])->name('reports.invoice');
+    Route::get('/reports/category',[ReportController::class,'reportCategory'])->name('reports.category');
     Route::get('/fetch-report-data', [ReportController::class,'fetchReportData'])->name('fetchReportData');
     Route::get('/getSoldProducts', [ReportController::class,'getSoldProducts'])->name('getSoldProducts');
     Route::get('/settings/{tab?}',[SettingController::class,'index'])->name('settings');

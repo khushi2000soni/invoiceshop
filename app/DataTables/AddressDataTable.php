@@ -30,11 +30,9 @@ class AddressDataTable extends DataTable
             ->editColumn('address', function ($address) {
                 $customerCount = $address->customers->count();
                 if ($customerCount > 0) {
-                    // If customers exist, use accordion functionality
                     return '<a class="city-name" href="'.route('customers.index',['address_id'=>$address->id]).'" title="' . $customerCount . ' '. trans('quickadmin.qa_record_found').'">' . $address->address . '</a>';
                 } else {
-                    // If no customers, display a simple button with title
-                    return '<a class="city-name">' . $address->address . '</a>';
+                    return  $address->address;
                 }
             })
             ->editColumn('no_of_customer', function ($address) {
@@ -50,11 +48,13 @@ class AddressDataTable extends DataTable
                 $action .= '<button  class="btn edit-address-btn"  data-id="'.encrypt($address->id).'" data-address="'. $address->address .'" data-href="'.route('address.edit', $address->id).'">'.$editIcon.'</button>';
             }
                 if (Gate::check('address_delete')) {
-                $deleteIcon = view('components.svg-icon', ['icon' => 'delete'])->render();
-                $action .= '<form action="'.route('address.destroy', $address->id).'" method="POST" class="deleteAddressForm m-1" >
-
-                <button title="'.trans('quickadmin.qa_delete').'" class="btn  record_delete_btn btn-sm">'.$deleteIcon.'</button>
-            </form>';
+                $customerCount = $address->customers->count();
+                    if ($customerCount == 0) {
+                    $deleteIcon = view('components.svg-icon', ['icon' => 'delete'])->render();
+                    $action .= '<form action="'.route('address.destroy', $address->id).'" method="POST" class="deleteAddressForm m-1" >
+                    <button title="'.trans('quickadmin.qa_delete').'" class="btn  record_delete_btn btn-sm">'.$deleteIcon.'</button>
+                    </form>';
+                    }
                 }
                 return $action;
             })

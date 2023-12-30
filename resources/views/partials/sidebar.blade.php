@@ -2,7 +2,7 @@
     <aside id="sidebar-wrapper">
       <div class="sidebar-brand">
         <a href="#">
-          <div class="circleimg"><img alt="image" src="{{ getSetting('site_logo') ? getSetting('site_logo') : asset('admintheme/assets/img/shopping-bag.png') }}" class="header-logo" /></div>
+          <div class="circleimg"><img alt="image" src="{{asset('admintheme/assets/img/shopping-bag.png') }}" class="header-logo" /></div>
           <span>@lang('quickadmin.qa_company_name')</span>
         </a>
       </div>
@@ -60,11 +60,28 @@
         @endcan
 
         @can('report_access')
-        <li class="{{ Request::is('reports*') ? 'active' : '' }}">
+        {{-- <li class="{{ Request::is('reports*') ? 'active' : '' }}">
             <a href="{{ route('reports') }}" class="nav-link">
                 <x-side-bar-svg-icon icon="report" />
                 <span>@lang('quickadmin.report-management.title')</span>
             </a>
+        </li> --}}
+        <li class="dropdown {{ Request::is('reports*') ? 'active' : '' }}">
+            <a href="#" class="nav-link has-dropdown">
+                <x-side-bar-svg-icon icon="report" />
+                <span>@lang('quickadmin.report-management.title')</a>
+            <ul class="dropdown-menu">
+                @can('get_sales_report_access')
+                <li class="{{ Request::is('reports*') ? 'active' : '' }}">
+                    <a class="nav-link" href="{{ route('reports.category') }}">@lang('quickadmin.report-management.fields.category_report')</a>
+                </li>
+                @endcan
+                @can('get_sales_report_access')
+                <li class="{{ Request::is('reports*') ? 'active' : '' }}">
+                    <a class="nav-link" href="{{ route('reports.invoice') }}">@lang('quickadmin.report-management.fields.order_report')</a>
+                </li>
+                @endcan
+            </ul>
         </li>
         @endcan
         @can('customer_access')

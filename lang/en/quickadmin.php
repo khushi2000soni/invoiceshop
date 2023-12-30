@@ -350,6 +350,8 @@ return [
 		'title' 	=> 'Report Management',
 		'fields' 	=> [
 			'customer_report' => 'Party Report',
+            'category_report' => 'Category Report',
+            'order_report' => 'Invoice Report',
 			'list' 			  => 'List All Reports',
 		],
 	],

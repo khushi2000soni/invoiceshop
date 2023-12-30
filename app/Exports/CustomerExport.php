@@ -26,25 +26,20 @@ class CustomerExport implements FromCollection , WithHeadings
         if ($this->address_id !== null) {
             $query->where('address_id', $this->address_id);
         }
-
         $customers = $query->orderBy('id','desc')->get();
-
         return $customers->map(function ($customer, $key) {
             return [
-                'Sn.' => $key + 1,
-                'Name' => $customer->name ?? '',
-                'Husband/Guardian Name' => $customer->guardian_name ?? '',
-                'Phone no.' => $customer->phone ?? '',
-                'Alternate Ph no.' => $customer->phone2 ?? '',
-                'City' => $customer->address->address ?? '',
-                'Created At' => $customer->created_at->format('d-m-Y'),
+                trans('quickadmin.customers.fields.name') => $customer->name ?? '',
+                trans('quickadmin.customers.fields.guardian_name') => $customer->guardian_name ?? '',
+                trans('quickadmin.customers.fields.ph_num') => $customer->phone ?? '',
+                trans('quickadmin.customers.fields.phone2') => $customer->phone2 ?? '',
+                trans('quickadmin.customers.fields.address') => $customer->address->address ?? '',
             ];
         });
-
     }
 
     public function headings(): array
     {
-        return ["Sn.", "Name" , "Husband/Guardian Name" , "Phone no.", "Alternate Ph no.", "City","Created At"];
+        return [trans('quickadmin.customers.fields.name') , trans('quickadmin.customers.fields.guardian_name') , trans('quickadmin.customers.fields.ph_num'), trans('quickadmin.customers.fields.phone2'), trans('quickadmin.customers.fields.address')];
     }
 }

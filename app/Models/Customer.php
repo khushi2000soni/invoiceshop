@@ -61,4 +61,9 @@ class Customer extends Model
         return $this->hasMany(Order::class);
     }
 
+    public function setGuardianNameAttribute($value)
+    {
+        $this->attributes['guardian_name'] = $value ?? 'NA';
+    }
+
 }

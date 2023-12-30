@@ -302,7 +302,7 @@ $(document).ready(function () {
                         $('#editModal').modal('show');
                          // Initialize select2 for the first modal
                         $(".js-example-basic-single").select2({
-                        dropdownParent: $('.popup_render_div #editModal') // Set the dropdown parent to the modal
+                            dropdownParent: $('.popup_render_div #editModal') // Set the dropdown parent to the modal
                         });
                         setTimeout(() => {
                             $('.modal-backdrop').not(':first').remove();

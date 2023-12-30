@@ -38,6 +38,53 @@ class ReportController extends Controller
         ));
     }
 
+    public function reportInvoice(Request $request)
+    {
+        abort_if(Gate::denies('report_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        $timeFrame = $request->input('time_frame', 'monthly');
+        $data = null;
+        // Fetch the default data based on the default time frame
+        $data = $this->getDataForTimeFrame($timeFrame);
+
+        $totalOrderCount = Order::count();
+        $totalProductCount = Product::count();
+        $totalCustomerCount = Customer::count();
+        $deviceCount = Device::count();
+
+        return view('admin.report.report-invoice', compact(
+            'data',
+            'timeFrame',
+            'totalOrderCount',
+            'totalCustomerCount',
+            'totalProductCount',
+            'deviceCount'
+        ));
+    }
+
+    public function reportCategory(Request $request)
+    {
+        abort_if(Gate::denies('report_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        $timeFrame = $request->input('time_frame', 'monthly');
+        $data = null;
+        // Fetch the default data based on the default time frame
+        $data = $this->getDataForTimeFrame($timeFrame);
+
+        $totalOrderCount = Order::count();
+        $totalProductCount = Product::count();
+        $totalCustomerCount = Customer::count();
+        $deviceCount = Device::count();
+
+        return view('admin.report.report-category', compact(
+            'data',
+            'timeFrame',
+            'totalOrderCount',
+            'totalCustomerCount',
+            'totalProductCount',
+            'deviceCount'
+        ));
+    }
+
+
     public function fetchReportData(Request $request)
     {
         $timeFrame = $request->input('timeFrame');

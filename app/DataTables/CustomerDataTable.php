@@ -47,7 +47,7 @@ class CustomerDataTable extends DataTable
                 $action='';
                 if (Gate::check('customer_edit')) {
                 $editIcon = view('components.svg-icon', ['icon' => 'edit'])->render();
-                $action .= '<button class="btn btn-icon btn-info edit-customers-btn p-1 mx-1"  data-id="'.encrypt($customer->id).'" data-href="'.route('customers.edit', $customer->id).'">'.$editIcon.'</button>';
+                $action .= '<button class="btn btn-icon btn-info edit-customers-btn p-1 mx-1" data-href="'.route('customers.edit', $customer->id).'">'.$editIcon.'</button>';
                 }
                 if (Gate::check('customer_delete')) {
                 $deleteIcon = view('components.svg-icon', ['icon' => 'delete'])->render();

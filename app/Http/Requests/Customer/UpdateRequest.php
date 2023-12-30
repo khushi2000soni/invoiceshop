@@ -26,8 +26,8 @@ class UpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => ['required','string','max:150', 'regex:/^[^\s]+$/'],
-            'guardian_name' => ['required','string','max:150','regex:/^[^\s]+$/'],
+            'name' => ['required','string','max:150',new TitleValidationRule],
+            'guardian_name' => ['nullable','string','max:150',new TitleValidationRule],
             // 'email' => ['required','email','unique:customers,email,'.$this->customer->id],
             'phone' => ['required','digits:10','numeric','unique:customers,phone,'.$this->customer->id],
             'phone2' => ['nullable','digits:10','numeric','unique:customers,phone2,'.$this->customer->id],
@@ -51,7 +51,7 @@ class UpdateRequest extends FormRequest
             'phone.digits' => 'The Phone number must be 10 digits.',
             'phone.numeric' => 'The Phone number must be a number.',
             'phone.unique' => 'The Phone number has already been taken.',
-            'address_id.required'=> 'The Address is required.',
+            'address_id.required'=> 'The City is required.',
         ];
     }
 }

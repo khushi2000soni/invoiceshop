@@ -48,7 +48,7 @@ class DeviceDataTable extends DataTable
                 $action='';
                 if (Gate::check('device_edit')) {
                 $editIcon = view('components.svg-icon', ['icon' => 'edit'])->render();
-                $action .= '<button type="button" class="btn btn-icon btn-info edit-device-btn p-1 mx-1" data-toggle="modal" data-target="#editModal" data-id="'.encrypt($device->id).'" data-href="'.route('device.edit', $device->id).'">'.$editIcon.'</button>';
+                $action .= '<button class="btn btn-icon btn-info edit-device-btn p-1 mx-1" data-toggle="modal" data-target="#editModal" data-id="'.encrypt($device->id).'" data-href="'.route('device.edit', $device->id).'">'.$editIcon.'</button>';
                 }
                 if (Gate::check('device_delete')) {
                 $deleteIcon = view('components.svg-icon', ['icon' => 'delete'])->render();
@@ -89,11 +89,11 @@ class DeviceDataTable extends DataTable
                     ->parameters([
                         'responsive' => true,
                         'pageLength' => 70,
-                        'lengthMenu' => [[10, 25, 50, 70, 100, -1], [10, 25, 50, 70, 100, 'All']],
+                        // 'lengthMenu' => [[10, 25, 50, 70, 100, -1], [10, 25, 50, 70, 100, 'All']],
                     ])
                     ->columns($this->getColumns())
                     ->minifiedAjax()
-                    ->dom('lfrtip')
+                    ->dom('rtip')
                     ->orderBy(1)
                     ->selectStyleSingle();
                     // ->buttons([

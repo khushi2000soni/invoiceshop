@@ -25,7 +25,6 @@ class CustomerController extends Controller
      */
     public function index(CustomerDataTable $dataTable)
     {
-        //
         abort_if(Gate::denies('customer_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
         $addresses = Address::orderByRaw('CAST(address AS SIGNED), address')->get();
         return $dataTable->render('admin.customer.index',compact('addresses'));
@@ -35,7 +34,6 @@ class CustomerController extends Controller
     {
         //dd('test');
         abort_if(Gate::denies('customer_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
         $query = Customer::query();
         if ($address_id !== null) {
             $query->where('address_id', $address_id);
@@ -46,7 +44,9 @@ class CustomerController extends Controller
     }
 
     public function export($address_id = null){
-        return Excel::download(new CustomerExport($address_id), 'parties.xlsx');
+
+        $filename = $address_id ? 'Parties-' . Address::find($address_id)->address : 'Parties-all';
+        return Excel::download(new CustomerExport($address_id), $filename.'.xlsx');
     }
 
     /**
@@ -66,7 +66,6 @@ class CustomerController extends Controller
     {
         $input = $request->all();
         $input['name']=ucwords($request->name);
-        $input['guardian_name']=ucwords($request->guardian_name);
         $customer=Customer::create($input);
         return response()->json(['success' => true,
         'message' => trans('messages.crud.add_record'),
@@ -76,7 +75,7 @@ class CustomerController extends Controller
             'id' => $customer->id,
             'name' => $customer->name,
             'formtype' => 'customer',
-        ],
+            ],
         ], 200);
     }
 
@@ -91,44 +90,12 @@ class CustomerController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit($id)
     {
         $customer = Customer::with('address')->findOrFail($id);
-        // $addresses = Address::all();
         $addresses =   Address::orderByRaw('CAST(address AS SIGNED), address')->get();
         $htmlView = view('admin.customer.edit', compact('addresses','customer'))->render();
         return response()->json(['success' => true, 'htmlView' => $htmlView]);
-    }
-
-    public function EditPhone($id)
-    {
-        $customer = Customer::findOrFail($id);
-        $htmlView = view('admin.customer.edit-phone', compact('customer'))->render();
-        return response()->json(['success' => true, 'htmlView' => $htmlView]);
-    }
-
-
-
-    public function upatePhone(Request $request, Customer $customer)
-    {
-        //dd($customer);
-        $validator = Validator::make($request->all(),[
-        'phone' => ['nullable','digits:10','numeric',/*'unique:customers,phone'*/new UniquePhoneNumber($request->phone),],
-        'phone2' => ['nullable','digits:10','numeric',/*'unique:customers,phone2'*/new UniquePhoneNumber($request->phone),],
-        ]);
-
-        if($validator->fails()){
-            $responseData = [
-                'status'        => false,
-                'validation_errors' => $validator->errors(),
-            ];
-            return response()->json($responseData, 401);
-        }
-
-        $customer->update($request->all());
-        return response()->json(['success' => true,
-        'message' => trans('messages.crud.update_record'),
-        'alert-type'=> trans('quickadmin.alert-type.success')], 200);
     }
 
     /**
@@ -136,7 +103,9 @@ class CustomerController extends Controller
      */
     public function update(UpdateRequest $request, Customer $customer)
     {
-        $customer->update($request->all());
+        $input = $request->all();
+        $input['name']=ucwords($request->name);
+        $customer->update($input);
         return response()->json(['success' => true,
         'message' => trans('messages.crud.update_record'),
         'alert-type'=> trans('quickadmin.alert-type.success')], 200);
@@ -145,15 +114,33 @@ class CustomerController extends Controller
     /**
      * Remove the specified resource from storage.
      */
+    // public function destroy(string $id)
+    // {
+    //     abort_if(Gate::denies('customer_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+    //     $customer = Customer::findOrFail($id);
+    //     $customer->delete();
+    //     return response()->json(['success' => true,
+    //      'message' => trans('messages.crud.delete_record'),
+    //      'alert-type'=> trans('quickadmin.alert-type.success'),
+    //      'title' => trans('quickadmin.customers.customer')
+    //     ], 200);
+    // }
     public function destroy(string $id)
     {
         abort_if(Gate::denies('customer_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-        $customer = Customer::findOrFail($id);
-        $customer->delete();
-        return response()->json(['success' => true,
-         'message' => trans('messages.crud.delete_record'),
-         'alert-type'=> trans('quickadmin.alert-type.success'),
-         'title' => trans('quickadmin.customers.customer')
+
+        $customer = Customer::with('orders.orderProduct')->findOrFail($id);
+        $customer->orders->each(function ($order) {
+            $order->orderProduct->each->forceDelete();
+            $order->forceDelete();
+        });
+
+        $customer->forceDelete();
+        return response()->json([
+            'success' => true,
+            'message' => trans('messages.crud.delete_record'),
+            'alert-type' => trans('quickadmin.alert-type.success'),
+            'title' => trans('quickadmin.customers.customer'),
         ], 200);
     }
 
