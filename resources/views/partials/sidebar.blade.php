@@ -59,6 +59,15 @@
         </li>
         @endcan
 
+        @can('customer_access')
+        <li class="{{ Request::is('phone-book*') ? 'active' : '' }}">
+            <a href="{{ route('showPhoneBook') }}" class="nav-link">
+                <x-side-bar-svg-icon icon="customer" />
+                <span>@lang('quickadmin.phone-book.title')</span>
+            </a>
+        </li>
+        @endcan
+
         @can('report_access')
         {{-- <li class="{{ Request::is('reports*') ? 'active' : '' }}">
             <a href="{{ route('reports') }}" class="nav-link">
@@ -84,14 +93,7 @@
             </ul>
         </li>
         @endcan
-        @can('customer_access')
-        <li class="{{ Request::is('phone-book*') ? 'active' : '' }}">
-            <a href="{{ route('showPhoneBook') }}" class="nav-link">
-                <x-side-bar-svg-icon icon="customer" />
-                <span>@lang('quickadmin.phone-book.title')</span>
-            </a>
-        </li>
-        @endcan
+
         @can('master_access')
         <li class="dropdown {{ Request::is('address*', 'categories*', 'products*') ? 'active' : '' }}">
             <a href="#" class="nav-link has-dropdown">
