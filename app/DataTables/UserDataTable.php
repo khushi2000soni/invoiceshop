@@ -49,11 +49,11 @@ class UserDataTable extends DataTable
                 $action='';
                 if (Gate::check('staff_edit')) {
                 $editIcon = view('components.svg-icon', ['icon' => 'edit'])->render();
-                $action .= '<button type="button" class="btn btn-icon btn-info edit-users-btn p-1 mx-1" data-toggle="modal" data-target="#editModal" data-id="'.encrypt($staff->id).'" data-href="'.route('staff.edit', $staff->id).'">'.$editIcon.'</button>';
+                $action .= '<button class="btn btn-icon btn-info edit-users-btn p-1 mx-1" data-toggle="modal" data-target="#editModal" data-id="'.encrypt($staff->id).'" data-href="'.route('staff.edit', $staff->id).'">'.$editIcon.'</button>';
                 }
                 if (Gate::check('staff_edit')) {
                 $lockIcon = view('components.svg-icon', ['icon' => 'lock'])->render();
-                $action .= '<button type="button" class="btn btn-icon btn-dark edit-password-btn p-1 " data-toggle="modal" data-target="#passwordModal" data-id="'.encrypt($staff->id).'" data-href="'.route('staff.password', $staff->id).'">'.$lockIcon.'</button>';
+                $action .= '<button class="btn btn-icon btn-dark edit-password-btn p-1 " data-toggle="modal" data-target="#passwordModal" data-id="'.encrypt($staff->id).'" data-href="'.route('staff.password', $staff->id).'">'.$lockIcon.'</button>';
                 }
                 if (Gate::check('staff_delete')) {
                     $deleteIcon = view('components.svg-icon', ['icon' => 'delete'])->render();

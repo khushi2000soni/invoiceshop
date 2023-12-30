@@ -36,7 +36,6 @@
                     <td style="padding: 10px;border: 1px solid #000;border-right: none;border-top: none;" align="center">{{ $staff->username ?? '' }}</td>
                     <td style="padding: 10px;border: 1px solid #000;border-right: none;border-top: none;" align="center">{{ $staff->email ?? '' }}</td>
                     <td style="padding: 10px;border: 1px solid #000;border-top: none;" align="center">{{ $staff->phone ?? '' }}</td>
-
                 </tr>
                 @empty
                 <tr>

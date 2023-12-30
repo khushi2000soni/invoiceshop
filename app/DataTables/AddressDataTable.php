@@ -47,11 +47,11 @@ class AddressDataTable extends DataTable
                 $action='';
                 if (Gate::check('address_edit')) {
                 $editIcon = view('components.svg-icon', ['icon' => 'edit'])->render();
-                $action .= '<button type="button" class="btn edit-address-btn"  data-id="'.encrypt($address->id).'" data-address="'. $address->address .'" data-href="'.route('address.edit', $address->id).'">'.$editIcon.'</button>';
+                $action .= '<button  class="btn edit-address-btn"  data-id="'.encrypt($address->id).'" data-address="'. $address->address .'" data-href="'.route('address.edit', $address->id).'">'.$editIcon.'</button>';
             }
                 if (Gate::check('address_delete')) {
                 $deleteIcon = view('components.svg-icon', ['icon' => 'delete'])->render();
-                $action .= '<form action="'.route('address.destroy', $address->id).'" method="POST" class="deleteAddressForm m-1" id="deleteAddressForm">
+                $action .= '<form action="'.route('address.destroy', $address->id).'" method="POST" class="deleteAddressForm m-1" >
 
                 <button title="'.trans('quickadmin.qa_delete').'" class="btn  record_delete_btn btn-sm">'.$deleteIcon.'</button>
             </form>';

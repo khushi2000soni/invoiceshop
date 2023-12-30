@@ -31,7 +31,7 @@ class CategoryDataTable extends DataTable
                 if ($productCount > 0) {
                     $name = '<a class="btn btn-link toggle-accordion" title="' . $productCount . ' '. trans('quickadmin.qa_record_found').'" href="'.route('products.index',['category_id'=>$category->id]).'">' . ucwords($category->name). '</a>';
                 } else {
-                    $name = '<a class="btn" type="button" title="'.trans('quickadmin.qa_no_record').'">' . ucwords($category->name). '</a>';
+                    $name = '<a class="btn" title="'.trans('quickadmin.qa_no_record').'">' . ucwords($category->name). '</a>';
                 }
                 return $name;
             })
@@ -45,11 +45,11 @@ class CategoryDataTable extends DataTable
                 $action='';
                 if (Gate::check('category_edit')) {
                 $editIcon = view('components.svg-icon', ['icon' => 'edit'])->render();
-                $action .= '<button type="button" class="btn edit-category-btn"  data-id="'.encrypt($category->id).'" data-name="'. $category->name .'" data-href="'.route('categories.edit', $category->id).'">'.$editIcon.'</button>';
+                $action .= '<button  class="btn edit-category-btn"  data-id="'.encrypt($category->id).'" data-name="'. $category->name .'" data-href="'.route('categories.edit', $category->id).'">'.$editIcon.'</button>';
             }
                 if (Gate::check('category_delete')) {
                 $deleteIcon = view('components.svg-icon', ['icon' => 'delete'])->render();
-                $action .= '<form action="'.route('categories.destroy', $category->id).'" method="POST" class="deleteCategoryForm m-1" id="deleteCategoryForm">
+                $action .= '<form action="'.route('categories.destroy', $category->id).'" method="POST" class="deleteCategoryForm m-1" >
 
                 <button title="'.trans('quickadmin.qa_delete').'" class="btn record_delete_btn btn-sm">'.$deleteIcon.'</button>
             </form>';

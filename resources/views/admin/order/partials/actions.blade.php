@@ -1,10 +1,5 @@
-{{-- @can('customer_edit')
-<button type="button" class="btn btn-icon btn-info edit-invoice-customer-btn p-1 mx-1"  data-href="{{route('customers.editPhone', $order->customer->id)}}" title="Edit Phone Number"><i class="fas fa-edit"></i></button>
-@endcan --}}
-
 @can('invoice_print')
 <button class="btn btn-icon btn-info print-order-btn p-1 px-2 print-button" data-href="{{route('orders.print', $order->id)}}" title="@lang('quickadmin.qa_print')" ><i class="fas fa-print"></i> </button>
-{{-- <a type="button" class="btn btn-icon btn-info print-order-btn p-1 px-2" href="{{route('orders.print-pdf', $order->id)}}" title="@lang('quickadmin.qa_print')"><i class="fas fa-print"></i> </a> --}}
 @endcan
 
 @can('invoice_share')
@@ -14,7 +9,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="ShareInvoiceModaltitlte">@lang('quickadmin.order.share_invoice')</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
                 </button>
             </div>
@@ -46,7 +41,7 @@
 
 @can('invoice_access')
 <div class="dropdown d-inline">
-    <button class="btn dropdown-toggle px-2" type="button"
+    <button class="btn dropdown-toggle px-2"
         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" title="@lang('quickadmin.qa_view')">
         <i class="fas fa-align-justify"></i>
     </button>
@@ -64,7 +59,7 @@
         <a class="dropdown-item has-icon" href="{{route('orders.print-pdf', $order->id)}}" title="@lang('quickadmin.qa_view')" target="_blank"><i class="fas fa-eye"></i> @lang('quickadmin.qa_view')</a>
         @endcan
         @can('invoice_delete')
-        <form action="{{route('orders.destroy', $order->id)}}" method="POST" class="deleteForm m-1" id="deleteForm">
+        <form action="{{route('orders.destroy', $order->id)}}" method="POST" class="deleteForm m-1">
             <button class="dropdown-item has-icon record_delete_btn deleteBtn  d-inline-flex align-items-center" type="submit"><i class="fas fa-trash"></i> @lang('quickadmin.qa_delete')</button>
         </form>
         @endcan

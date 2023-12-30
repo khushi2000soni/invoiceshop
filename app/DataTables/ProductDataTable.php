@@ -40,7 +40,7 @@ class ProductDataTable extends DataTable
                 $action='';
                 if (Gate::check('product_edit')) {
                 $editIcon = view('components.svg-icon', ['icon' => 'edit'])->render();
-                $action .= '<button type="button" class="btn btn-icon btn-info edit-products-btn p-1 mx-1"  data-id="'.encrypt($product->id).'" data-href="'.route('products.edit', $product->id).'">'.$editIcon.'</button>';
+                $action .= '<button class="btn btn-icon btn-info edit-products-btn p-1 mx-1"  data-id="'.encrypt($product->id).'" data-href="'.route('products.edit', $product->id).'">'.$editIcon.'</button>';
                 }
                 if (Gate::check('product_delete')) {
                 $deleteIcon = view('components.svg-icon', ['icon' => 'delete'])->render();
