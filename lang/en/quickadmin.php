@@ -255,6 +255,7 @@ return [
 			'images' 			=> 'Item Images',
 			'product-category' 	=> 'Item Category',
             'category_name' 	=> 'Category Name',
+            'order_count' 	=> 'No. Of Invoice',
             'from_product' 	=> 'From Item',
             'to_product' 	=> 'To Item',
             'created_at'=>'Created At',

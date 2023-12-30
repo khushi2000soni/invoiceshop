@@ -121,15 +121,14 @@ class UserController extends Controller
 
     public function printView($address_id = null)
     {
-        //dd('test');
-        abort_if(Gate::denies('staff_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
+        abort_if(Gate::denies('staff_print'), Response::HTTP_FORBIDDEN, '403 Forbidden');
         $query = User::query();
         $allstaff = $query->orderBy('name','asc')->get();
         return view('admin.staff.print-staff-list',compact('allstaff'))->render();
     }
 
     public function export($address_id = null){
+        abort_if(Gate::denies('staff_export'), Response::HTTP_FORBIDDEN, '403 Forbidden');
         return Excel::download(new UserExport($address_id), 'staff-list.xlsx');
     }
 

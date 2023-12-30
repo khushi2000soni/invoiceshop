@@ -33,6 +33,9 @@ class ProductDataTable extends DataTable
                 $category = $product->category;
                 return $category ? $category->name : '';
             })
+            ->editColumn('order_count', function ($product) {
+                return  $product->order_count;
+            })
             ->editColumn('created_at', function ($product) {
                 return $product->created_at->format('d-m-Y h:i A');
             })
@@ -43,10 +46,12 @@ class ProductDataTable extends DataTable
                 $action .= '<button class="btn btn-icon btn-info edit-products-btn p-1 mx-1"  data-id="'.encrypt($product->id).'" data-href="'.route('products.edit', $product->id).'">'.$editIcon.'</button>';
                 }
                 if (Gate::check('product_delete')) {
-                $deleteIcon = view('components.svg-icon', ['icon' => 'delete'])->render();
-                $action .= '<form action="'.route('products.destroy', $product->id).'" method="POST" class="deleteForm m-1">
-                <button title="'.trans('quickadmin.qa_delete').'" class="btn btn-icon btn-danger record_delete_btn btn-sm">'.$deleteIcon.'</button>
-                </form>';
+                    if($product->order_count == 0){
+                    $deleteIcon = view('components.svg-icon', ['icon' => 'delete'])->render();
+                    $action .= '<form action="'.route('products.destroy', $product->id).'" method="POST" class="deleteForm m-1">
+                    <button title="'.trans('quickadmin.qa_delete').'" class="btn btn-icon btn-danger record_delete_btn btn-sm">'.$deleteIcon.'</button>
+                    </form>';
+                    }
                 }
                 return $action;
             })
@@ -107,6 +112,7 @@ class ProductDataTable extends DataTable
             Column::make('DT_RowIndex')->title(trans('quickadmin.qa_sn'))->orderable(false)->searchable(false),
             Column::make('name')->title(trans('quickadmin.product.fields.name')),
             Column::make('category.name')->title(trans('quickadmin.product.fields.category_name')),
+            Column::make('order_count')->title(trans('quickadmin.product.fields.order_count'))->orderable(false)->searchable(false),
             Column::make('created_at')->title(trans('quickadmin.product.fields.created_at')),
             Column::computed('action')
             ->exportable(false)

@@ -21,6 +21,10 @@ class Product extends Model
         'is_active',
     ];
 
+    protected $appends = [
+        'order_count'
+    ];
+
     protected static function boot()
     {
         parent::boot();
@@ -33,5 +37,23 @@ class Product extends Model
     public function category()
     {
         return $this->belongsTo(Category::class);
+    }
+
+    public function orderProduct()
+    {
+        return $this->hasMany(OrderProduct::class);
+    }
+
+    /**
+     * Accessor to get the count of orders for this product.
+     *
+     * @return int
+     */
+
+    public function getOrderCountAttribute()
+    {
+        return Order::whereHas('orderProduct', function ($query) {
+            $query->where('product_id', $this->id);
+        })->count();
     }
 }

@@ -29,10 +29,7 @@ class ProductController extends Controller
 
     public function printView($category_id = null, $product_id = null)
     {
-        //dd('test');
-        abort_if(Gate::denies('product_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-        //$products = Product::orderBy('id','desc')->get();
-
+        abort_if(Gate::denies('product_print'), Response::HTTP_FORBIDDEN, '403 Forbidden');
         $query = Product::query();
         if ($category_id !== null && $category_id != 'null') {
             $query->where('category_id', $category_id);
@@ -41,11 +38,11 @@ class ProductController extends Controller
             $query->where('id', $product_id);
         }
         $products = $query->orderBy('id','desc')->get();
-
-       return view('admin.product.print-product-list',compact('products'))->render();
+        return view('admin.product.print-product-list',compact('products'))->render();
     }
 
     public function export($category_id = null, $product_id = null){
+        abort_if(Gate::denies('product_export'), Response::HTTP_FORBIDDEN, '403 Forbidden');
         return Excel::download(new ProductExport($category_id,$product_id), 'items.xlsx');
     }
 

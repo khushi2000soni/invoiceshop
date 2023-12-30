@@ -28,23 +28,17 @@ class AddressController extends Controller
 
     public function printView($address_id = null)
     {
-        //dd('test');
-        abort_if(Gate::denies('address_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
+        abort_if(Gate::denies('address_print'), Response::HTTP_FORBIDDEN, '403 Forbidden');
         $query = Address::query();
         if ($address_id !== null) {
             $query->where('id', $address_id);
         }
-
         $addresses = $query->orderByRaw('CAST(address AS SIGNED), address')->get();
-        
-       // $addresses = Address::orderBy('id','desc')->get();
-        //dd($addresses);
-
-       return view('admin.address.print-address-list',compact('addresses'))->render();
+        return view('admin.address.print-address-list',compact('addresses'))->render();
     }
 
     public function export($address_id = null){
+        abort_if(Gate::denies('address_export'), Response::HTTP_FORBIDDEN, '403 Forbidden');
         return Excel::download(new AddressExport($address_id), 'cities.xlsx');
     }
 

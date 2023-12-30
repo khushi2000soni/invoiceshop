@@ -124,10 +124,14 @@
                                     @endcan
                                 </div>
                                 <div class="col-auto px-1">
+                                    @can('address_print')
                                     <a href="{{ route('address.print') }}" class="btn h-10 printbtn col"  id="print-button"><x-svg-icon icon="print" /></a>
+                                    @endcan
                                 </div>
                                 <div class="col-auto pl-1">
+                                    @can('address_export')
                                     <a href="{{ route('address.export') }}" class="btn h-10 excelbtn col"  id="excel-button"><x-svg-icon icon="excel" /></a>
+                                    @endcan
                                 </div>
                             </div>
                         </div>

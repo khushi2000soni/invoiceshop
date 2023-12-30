@@ -59,7 +59,7 @@
         </li>
         @endcan
 
-        @can('customer_access')
+        @can('phone_book_access')
         <li class="{{ Request::is('phone-book*') ? 'active' : '' }}">
             <a href="{{ route('showPhoneBook') }}" class="nav-link">
                 <x-side-bar-svg-icon icon="customer" />
@@ -80,12 +80,12 @@
                 <x-side-bar-svg-icon icon="report" />
                 <span>@lang('quickadmin.report-management.title')</a>
             <ul class="dropdown-menu">
-                @can('get_sales_report_access')
+                @can('report_category_access')
                 <li class="{{ Request::is('reports*') ? 'active' : '' }}">
                     <a class="nav-link" href="{{ route('reports.category') }}">@lang('quickadmin.report-management.fields.category_report')</a>
                 </li>
                 @endcan
-                @can('get_sales_report_access')
+                @can('report_invoice_access')
                 <li class="{{ Request::is('reports*') ? 'active' : '' }}">
                     <a class="nav-link" href="{{ route('reports.invoice') }}">@lang('quickadmin.report-management.fields.order_report')</a>
                 </li>

@@ -92,8 +92,6 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-body pt-4">
-
-
                         <form id="invoice-filter-form">
                             <div class="row align-items-end mb-3">
                                 <div class="col-md-3">
@@ -103,7 +101,7 @@
                                             <select class="form-control filter-customer-select @error('customer_id') is-invalid @enderror" name="customer_id" id="customer_id" tabindex="0">
                                                 <option value="">@lang('quickadmin.order.fields.select_customer')</option>
                                                 @foreach($customers as $customer)
-                                                <option value="{{ $customer->id }}">{{ $customer->name }}</option>
+                                                <option value="{{ $customer->id }}">{{ $customer->full_name }}</option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -150,7 +148,9 @@
                                         <button type="submit" class="btn btn-primary mr-1 col" id="apply-filter">@lang('quickadmin.qa_submit')</button>
                                         <button type="reset" class="btn btn-primary mr-1 col" id="reset-filter">@lang('quickadmin.qa_reset')</button>
                                         @if ($type != 'deleted')
+                                        @can('invoice_recycle_access')
                                         <a class="btn btn-outline-primary col" href="{{ route('orders.getTypeOrder',['type'=>'deleted'])}}" id="trashed-data"><i class="fa fa-trash"></i> @lang('quickadmin.order.recycle')</a>
+                                        @endcan
                                         @endif
 
                                     </div>

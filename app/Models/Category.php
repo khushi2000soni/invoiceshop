@@ -11,10 +11,17 @@ class Category extends Model
     public $table = 'categories';
     protected $fillable = ['name'];
     public $timestamps = true;
-
+    protected $appends = [
+        'total_product'
+    ];
 
     public function products()
     {
         return $this->hasMany(Product::class);
+    }
+
+    public function getTotalProductAttribute()
+    {
+        return $this->products()->count();
     }
 }

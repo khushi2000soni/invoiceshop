@@ -119,10 +119,14 @@
                         <div class="col-md-auto col-12 mt-md-0 mt-3">
                             <div class="row align-items-center">
                                 <div class="col-auto px-1">
+                                    @can('phone_book_print')
                                     <a href="{{ route('PhoneBook.print') }}" class="btn h-10 printbtn col"  id="print-button"><x-svg-icon icon="print" /></a>
+                                    @endcan
                                 </div>
                                 <div class="col-auto pl-1">
+                                    @can('phone_book_export')
                                     <a href="{{ route('PhoneBook.export') }}" class="btn h-10 excelbtn col"  id="excel-button"><x-svg-icon icon="excel" /></a>
+                                    @endcan
                                 </div>
                             </div>
                         </div>

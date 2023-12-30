@@ -26,10 +26,14 @@
                                             @endcan
                                         </div>
                                         <div class="col-auto px-1">
+                                            @can('staff_print')
                                             <a href="{{ route('staff.print') }}" class="printbtn btn h-10 col"  id="print-button"><x-svg-icon icon="print" /></a>
+                                            @endcan
                                         </div>
                                         <div class="col-auto pl-1">
+                                            @can('staff_export')
                                             <a href="{{ route('staff.export')}}" class="excelbtn btn h-10 col"  id="excel-button"><x-svg-icon icon="excel" /></a>
+                                            @endcan
                                         </div>
                                     </div>
                                 </div>

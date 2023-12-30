@@ -209,6 +209,7 @@ class OrderController extends Controller
     }
 
     public function getTypeOrder(InvoiceTypeDataTable $dataTable,string $type){
+        abort_if(Gate::denies('invoice_recycle_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
         $customers = Customer::all();
         return $dataTable->render('admin.order.index',compact('customers','type'));
     }

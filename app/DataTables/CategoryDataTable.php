@@ -27,7 +27,7 @@ class CategoryDataTable extends DataTable
             ->addIndexColumn()
             ->editColumn('name', function ($category) {
                 $name='';
-                $productCount = $category->products->count();
+                $productCount = $category->total_product;
                 if ($productCount > 0) {
                     $name = '<a class="btn btn-link toggle-accordion" title="' . $productCount . ' '. trans('quickadmin.qa_record_found').'" href="'.route('products.index',['category_id'=>$category->id]).'">' . ucwords($category->name). '</a>';
                 } else {
@@ -36,7 +36,7 @@ class CategoryDataTable extends DataTable
                 return $name;
             })
             ->editColumn('total_product', function ($category) {
-                return $category->products->count();
+                return $category->total_product;
             })
             ->editColumn('created_at', function ($category) {
                 return $category->created_at->format('d-m-Y h:i A');
@@ -48,7 +48,7 @@ class CategoryDataTable extends DataTable
                 $action .= '<button  class="btn edit-category-btn"  data-id="'.encrypt($category->id).'" data-name="'. $category->name .'" data-href="'.route('categories.edit', $category->id).'">'.$editIcon.'</button>';
             }
                 if (Gate::check('category_delete')) {
-                    $productCount = $category->products->count();
+                    $productCount = $category->total_product;
                     if ($productCount == 0) {
                     $deleteIcon = view('components.svg-icon', ['icon' => 'delete'])->render();
                     $action .= '<form action="'.route('categories.destroy', $category->id).'" method="POST" class="deleteCategoryForm m-1" >

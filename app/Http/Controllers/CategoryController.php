@@ -25,20 +25,17 @@ class CategoryController extends Controller
 
     public function printView($category_id = null)
     {
-        //dd('test');
-        abort_if(Gate::denies('category_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
+        abort_if(Gate::denies('category_print'), Response::HTTP_FORBIDDEN, '403 Forbidden');
         $query = Category::query();
         if ($category_id !== null) {
             $query->where('id', $category_id);
         }
         $categories = $query->orderBy('id','desc')->get();
-
-       // $categories = Category::orderBy('id','desc')->get();
-       return view('admin.category.print-category-list',compact('categories'))->render();
+        return view('admin.category.print-category-list',compact('categories'))->render();
     }
 
     public function export($category_id = null){
+        abort_if(Gate::denies('category_export'), Response::HTTP_FORBIDDEN, '403 Forbidden');
         return Excel::download(new CategoryExport($category_id), 'categories.xlsx');
     }
 

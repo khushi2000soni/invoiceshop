@@ -1,4 +1,4 @@
-<form>
+
     <div class="row">
         <div class="col-md-12">
             <div class="form-group">
@@ -21,7 +21,7 @@
                                 <option value="{{ $category->id }}">{{ $category->name }}</option>
                                 @endif
                             @endforeach
-                        </select>   
+                        </select>
                 </div>
             </div>
         </div>
@@ -32,4 +32,4 @@
             <button type="submit" class="btn btn-primary">@lang('quickadmin.qa_submit')</button>
         </div>
     </div>
-</form>
+

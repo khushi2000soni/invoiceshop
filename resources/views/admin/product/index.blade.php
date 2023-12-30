@@ -99,7 +99,6 @@
                                 <!-- <div class="col pl-0">
                                     <h4>@lang('quickadmin.product-management.fields.list')</h4>
                                 </div> -->
-
                                 <div class="col">
                                     <form id="custom-filter-form">
                                         <div class="row align-items-center">
@@ -195,13 +194,16 @@
                                                     </div>
                                                 </div>
                                             </div>
-
                                         </div>
                                         <div class="col-auto px-1">
+                                            @can('product_print')
                                             <a href="{{ route('products.print') }}" class="btn h-10 printbtn col"  id="print-button"><x-svg-icon icon="print" /></a>
+                                            @endcan
                                         </div>
                                         <div class="col-auto pl-1">
+                                            @can('product_export')
                                             <a href="{{ route('products.export')}}" class="btn h-10 excelbtn col"  id="excel-button"><x-svg-icon icon="excel" /></a>
+                                            @endcan
                                         </div>
                                     </div>
                                 </div>

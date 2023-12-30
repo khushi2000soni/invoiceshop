@@ -32,19 +32,17 @@ class CustomerController extends Controller
 
     public function printView($address_id = null)
     {
-        //dd('test');
-        abort_if(Gate::denies('customer_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        abort_if(Gate::denies('customer_print'), Response::HTTP_FORBIDDEN, '403 Forbidden');
         $query = Customer::query();
         if ($address_id !== null) {
             $query->where('address_id', $address_id);
         }
-
         $customers = $query->orderBy('id','desc')->get();
         return view('admin.customer.print-customer-list',compact('customers'))->render();
     }
 
     public function export($address_id = null){
-
+        abort_if(Gate::denies('customer_export'), Response::HTTP_FORBIDDEN, '403 Forbidden');
         $filename = $address_id ? 'Parties-' . Address::find($address_id)->address : 'Parties-all';
         return Excel::download(new CustomerExport($address_id), $filename.'.xlsx');
     }
@@ -73,18 +71,10 @@ class CustomerController extends Controller
         'title' => trans('quickadmin.customers.customer'),
         'selectdata' => [
             'id' => $customer->id,
-            'name' => $customer->name,
+            'name' => $customer->full_name,
             'formtype' => 'customer',
             ],
         ], 200);
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
     }
 
     /**
@@ -111,20 +101,6 @@ class CustomerController extends Controller
         'alert-type'=> trans('quickadmin.alert-type.success')], 200);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    // public function destroy(string $id)
-    // {
-    //     abort_if(Gate::denies('customer_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-    //     $customer = Customer::findOrFail($id);
-    //     $customer->delete();
-    //     return response()->json(['success' => true,
-    //      'message' => trans('messages.crud.delete_record'),
-    //      'alert-type'=> trans('quickadmin.alert-type.success'),
-    //      'title' => trans('quickadmin.customers.customer')
-    //     ], 200);
-    // }
     public function destroy(string $id)
     {
         abort_if(Gate::denies('customer_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
@@ -152,19 +128,17 @@ class CustomerController extends Controller
     }
     public function PhoneBookprintView($address_id = null)
     {
-        //dd('test');
-        abort_if(Gate::denies('customer_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
+        abort_if(Gate::denies('phone_book_print'), Response::HTTP_FORBIDDEN, '403 Forbidden');
         $query = Customer::query();
         if ($address_id !== null) {
             $query->where('address_id', $address_id);
         }
-
         $customers = $query->orderBy('name','asc')->get();
         return view('admin.customer.print-phone-book',compact('customers'))->render();
     }
 
     public function PhoneBookexport($address_id = null){
+        abort_if(Gate::denies('phone_book_export'), Response::HTTP_FORBIDDEN, '403 Forbidden');
         return Excel::download(new PhoneBookExport($address_id), 'phone-book.xlsx');
     }
 }
