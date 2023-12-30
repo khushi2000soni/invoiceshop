@@ -128,9 +128,7 @@ class ReportController extends Controller
         // Fetch the last 7 orders of today
         $today = now()->startOfDay(); // Get the start of the current day
 
-        $data = Order::with(['customer' => function($query) {
-            $query->select('id', 'name');
-        }])
+        $data = Order::with('customer.address')
             ->where('created_at', '>=', $today)
             ->orderBy('created_at', 'desc')
             ->get(['invoice_number', 'grand_total', 'customer_id']);
@@ -142,10 +140,7 @@ class ReportController extends Controller
     {
         // Fetch the last 7 records of the last 7 days
         $last7Days = now()->subDays(7)->startOfDay(); // Calculate the start of the day 7 days ago
-
-        $data = Order::with(['customer' => function($query) {
-            $query->select('id', 'name');
-        }])
+        $data = Order::with('customer.address')
             ->where('created_at', '>=', $last7Days)
             ->orderBy('created_at', 'desc')
             ->get(['invoice_number', 'grand_total', 'customer_id']);
@@ -158,9 +153,7 @@ class ReportController extends Controller
         // Fetch the last 7 records of the last 30 days
         $last30Days = now()->subDays(30)->startOfDay(); // Calculate the start of the day 30 days ago
 
-        $data = Order::with(['customer' => function($query) {
-            $query->select('id', 'name');
-        }])
+        $data = Order::with('customer.address')
             ->where('created_at', '>=', $last30Days)
             ->orderBy('created_at', 'desc')
             ->get(['invoice_number', 'grand_total', 'customer_id']);
