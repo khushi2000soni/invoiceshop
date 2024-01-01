@@ -43,7 +43,7 @@ class ProductController extends Controller
 
     public function export($category_id = null, $product_id = null){
         abort_if(Gate::denies('product_export'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-        return Excel::download(new ProductExport($category_id,$product_id), 'items.xlsx');
+        return Excel::download(new ProductExport($category_id,$product_id), 'Items-List.xlsx');
     }
 
     /**
@@ -69,14 +69,21 @@ class ProductController extends Controller
         'title' => trans('quickadmin.product.product'),
         'product' => [
             'id' => $product->id,
-            'name' => $product->name,
+            'name' => $product->full_name,
             ],
         'selectdata' => [
             'id' => $product->id,
-            'name' => $product->name,
+            'name' => $product->full_name,
             'formtype' => 'product',
         ],
         ], 200);
+    }
+
+    public function mergeForm($id){
+        $product = Product::findOrFail($id);
+        $allproducts = Product::orderBy('id','desc')->get();
+        $htmlView = view('admin.product.merge-form', compact('product','allproducts'))->render();
+        return response()->json(['success' => true, 'htmlView' => $htmlView]);
     }
 
     /**
@@ -110,10 +117,10 @@ class ProductController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit($id)
     {
         $product = Product::with('category')->findOrFail($id);
-        $categories = Category::orderBy('id','desc')->get();;
+        $categories = Category::orderBy('id','desc')->get();
         $htmlView = view('admin.product.edit', compact('categories','product'))->render();
         return response()->json(['success' => true, 'htmlView' => $htmlView]);
     }

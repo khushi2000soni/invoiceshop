@@ -5,6 +5,7 @@ use App\Rules\TitleValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Validation\Rule;
 
 class UpdateRequest extends FormRequest
 {
@@ -22,7 +23,9 @@ class UpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => ['required','string','max:150','unique:products,name,'.$this->product->id,'regex:/^[^\s]+$/'],
+            'name' => ['required','string','max:150',/*'unique:products,name,'.$this->product->id,*/ Rule::unique('products')->ignore($this->product->id)->where(function ($query) {
+                return $query->where('category_id', $this->category_id);
+            }),'regex:/^[^\s]+$/'],
             'category_id'=>['required','numeric'],
         ];
     }

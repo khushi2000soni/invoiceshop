@@ -123,7 +123,7 @@
                                                         <select class="form-control filter-product-select @error('product_id') is-invalid @enderror" name="product_id" id="product_id" value="">
                                                             <option value="">Select Item</option>
                                                             @foreach($products as $product)
-                                                                <option value="{{ $product->id }}">{{ $product->name }}</option>
+                                                                <option value="{{ $product->id }}">{{ $product->full_name }}</option>
                                                             @endforeach
                                                         </select>
                                                     </div>
@@ -147,54 +147,7 @@
                                             <button type="button" class="addnew-btn addRecordBtn sm_btn"  data-href="{{ route('products.create')}}"><x-svg-icon icon="add-product" /></button>
                                             @endcan
                                         </div>
-                                        {{-- <div class="col-auto px-1">
-                                            <a role="button" class="btn h-10 btn-light mr-1 col" id="merge-button"> <i class="fas fa-object-ungroup"></i> @lang('quickadmin.qa_merge')</a>
-                                            <div class="modal fade px-3" id="MergeProductModal" tabindex="-1" role="dialog" aria-labelledby="MergeProductModalTitle" aria-hidden="true">
-                                                <div class="modal-dialog" role="document">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <h5 class="modal-title" id="MergeProductModalTitle">@lang('quickadmin.product.fields.merge')</h5>
-                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                            <span aria-hidden="true">&times;</span>
-                                                            </button>
-                                                        </div>
-                                                        <div class="modal-body">
-                                                            <form method="post" id="submitMergeForm" action="{{route('products.merge')}}">
-                                                                    <div class="row">
-                                                                        <div class="col-md-12 mb-4">
-                                                                            <div class="form-group mb-1 fullselect2 label-position">
-                                                                                <label for="from_product_id" >@lang('quickadmin.product.fields.from_product')</label>
-                                                                                <select id="timeFrameOrderChartSelect" class="form-select @error('from_product_id') is-invalid @enderror" name="from_product_id" id="from_product_id">
-                                                                                    <option value="">@lang('quickadmin.product.select_item')</option>
-                                                                                        @foreach($products as $product)
-                                                                                            <option value="{{ $product->id }}">{{ $product->name }}</option>
-                                                                                        @endforeach
-                                                                                </select>
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="col-md-12 mb-4">
-                                                                            <div class="form-group mb-1 fullselect2 label-position">
-                                                                                <label for="to_product_id" >@lang('quickadmin.product.fields.to_product')</label>
-                                                                                <select id="timeFrameOrderChartSelect" class="form-select @error('to_product_id') is-invalid @enderror" name="to_product_id" id="to_product_id">
-                                                                                    <option value="">@lang('quickadmin.product.select_item')</option>
-                                                                                        @foreach($products as $product)
-                                                                                            <option value="{{ $product->id }}">{{ $product->name }}</option>
-                                                                                        @endforeach
-                                                                                </select>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="row">
-                                                                        <div class="col-md-6">
-                                                                            <button type="submit" class="btn btn-primary">@lang('quickadmin.qa_submit')</button>
-                                                                        </div>
-                                                                    </div>
-                                                            </form>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div> --}}
+
                                         <div class="col-auto px-1">
                                             @can('product_print')
                                             <a href="{{ route('products.print') }}" class="btn h-10 printbtn col"  id="print-button"><x-svg-icon icon="print" /></a>
@@ -355,7 +308,8 @@ $(document).ready(function () {
         $('.categorymodalbody').remove();
     });
 
-    $("body").on("click", ".edit-products-btn", function () {
+    $("body").on("click", ".edit-products-btn", function (e) {
+        e.preventDefault();
             var hrefUrl = $(this).attr('data-href');
             console.log(hrefUrl);
             $.ajax({
@@ -370,6 +324,29 @@ $(document).ready(function () {
                         $('#editModal').modal('show');
                         $(".js-example-basic-single").select2({
                              dropdownParent: $('.popup_render_div #editModal') // Set the dropdown parent to the modal
+                        });
+                    }
+                }
+            });
+    });
+
+    $("body").on("click", ".merge-button", function (e) {
+            e.preventDefault();
+            var hrefUrl = $(this).attr('data-href');
+            console.log(hrefUrl);
+            $.ajax({
+                type: 'get',
+                url: hrefUrl,
+                dataType: 'json',
+                success: function (response) {
+                    //$('#preloader').css('display', 'none');
+                    if(response.success) {
+                        console.log('success');
+                        $('.popup_render_div').html(response.htmlView);
+                        $('.popup_render_div #MergeProductModal').modal('show');
+                        $('.popup_render_div #MergeProductModal').css('z-index', '99999');
+                        $(document).find('.popup_render_div #MergeProductModal select').select2({
+                            dropdownParent: $('.popup_render_div #MergeProductModal')
                         });
                     }
                 }
@@ -615,18 +592,6 @@ $(document).ready(function () {
     });
 
     //// Merge Items Functionality
-
-    $(document).on('click', '#merge-button', function (e) {
-        e.preventDefault();
-        $('#MergeProductModal').modal('show');
-        $('#MergeProductModal').css('z-index', '99999'); // Set z-index here
-    });
-
-    $('#MergeProductModal').on('show.bs.modal', function () {
-        $(document).find('#MergeProductModal select').select2({
-            dropdownParent: $('#MergeProductModal')
-        });
-    });
 
     $(document).on('submit', '#submitMergeForm', function (e) {
         e.preventDefault();

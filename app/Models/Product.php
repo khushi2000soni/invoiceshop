@@ -22,7 +22,7 @@ class Product extends Model
     ];
 
     protected $appends = [
-        'order_count'
+        'order_count','full_name'
     ];
 
     protected static function boot()
@@ -55,5 +55,10 @@ class Product extends Model
         return Order::whereHas('orderProduct', function ($query) {
             $query->where('product_id', $this->id);
         })->count();
+    }
+
+    public function getFullNameAttribute()
+    {
+        return $this->name . ' - ' .$this->category->name;
     }
 }

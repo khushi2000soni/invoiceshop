@@ -25,27 +25,27 @@ class ProductExport implements FromCollection , WithHeadings
     public function collection()
     {
         //return Product::all()->map(function ($product, $key) {
-            
+
             $query = Product::query();
             if ($this->category_id !== null && $this->category_id != 'null') {
                 $query->where('category_id', $this->category_id);
             }
             if ($this->product_id !== null) {
                 $query->where('id', $this->product_id);
-            }    
-            $products = $query->orderBy('id','desc')->get();    
+            }
+            $products = $query->orderBy('id','desc')->get();
             return $products->map(function ($product, $key) {
             return [
-                'Sn.' => $key + 1,
-                'Item Name' => $product->name,
-                'Category Name' => $product->category->name ?? '',
-                'Created At' => $product->created_at->format('d-m-Y'),
+                trans('quickadmin.qa_sn') => $key + 1,
+                trans('quickadmin.product.fields.name') => $product->name,
+                trans('quickadmin.product.fields.category_name') => $product->category->name ?? '',
+                trans('quickadmin.product.fields.order_count') => $product->order_count,
             ];
         });
     }
 
     public function headings(): array
     {
-        return ["Sn.", "Item Name" , "Category Name" , "Created At"];
+        return [trans('quickadmin.qa_sn') , trans('quickadmin.product.fields.name') , trans('quickadmin.product.fields.category_name'), trans('quickadmin.product.fields.order_count')];
     }
 }
