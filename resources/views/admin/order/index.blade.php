@@ -3,7 +3,7 @@
 @section('title')@lang('quickadmin.order-management.title')@endsection
 @section('customCss')
 <meta name="csrf-token" content="{{ csrf_token() }}" >
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.css" />
 <link rel="stylesheet" href="{{ asset('admintheme/assets/css/printView-datatable.css')}}">
 <style>
     .dropdown-toggle::after {
@@ -109,7 +109,7 @@
                                 </div>
                                 <div class="col-md-3">
                                     <div class="row mx-0 datapikergroup">
-                                        <div class="col-6 px-0 lhs">
+                                        {{-- <div class="col-6 px-0 lhs">
                                             <div class="form-group mb-0 label-position">
                                                 <label for="from_date">@lang('quickadmin.order.fields.from_date')</label>
                                                 <div class="input-group">
@@ -124,6 +124,10 @@
                                                     <input type="text" class="form-control datepicker" name="to_date" value="" id="to_date" autocomplete="true">
                                                 </div>
                                             </div>
+                                        </div> --}}
+                                        <div id="reportrange" class="pull-right" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; width: 100%">
+                                            <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>&nbsp;
+                                            <span></span> <b class="caret"></b>
                                         </div>
                                     </div>
                                 </div>
@@ -177,7 +181,8 @@
   <script src="{{ asset('admintheme/assets/bundles/jquery-ui/jquery-ui.min.js') }}"></script>
   <!-- Page Specific JS File -->
   <script src="{{ asset('admintheme/assets/js/page/datatables.js') }}"></script>
-  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+  <script type="text/javascript" src="//cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+  <script type="text/javascript" src="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.js"></script>
   <script src="https://js.pusher.com/8.2.0/pusher.min.js"></script>
   <script>
 
@@ -199,28 +204,38 @@
         showToaster(title,alertType,message);
     });
   </script>
+<script type="text/javascript">
+    $(function() {
 
+        var start = moment().subtract(29, 'days');
+        var end = moment();
+
+        function cb(start, end) {
+            $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+        }
+
+        $('#reportrange').daterangepicker({
+            startDate: start,
+            endDate: end,
+            ranges: {
+               'Today': [moment(), moment()],
+               'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+               'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+               'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+               'This Month': [moment().startOf('month'), moment().endOf('month')],
+               'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+            }
+        }, cb);
+
+        cb(start, end);
+
+    });
+    </script>
 <script>
 
 $(document).ready(function () {
-
     var dataTable = $('#dataaTable').DataTable();
     $('#invoice-print').printPage();
-   // $('#print-button-2').printPage();
-
-    flatpickr('.datepicker', {
-        dateFormat: 'Y-m-d', // Set the desired date format
-        allowInput: true,    // Allow manual input
-        defaultDate: null    // Set the default date to null (no default date)
-    });
-    document.querySelectorAll('.datepicker').forEach(function (element) {
-        element.addEventListener('focus', function () {
-            this.type = 'date';
-        });
-        element.addEventListener('blur', function () {
-            this.type = 'text';
-        });
-    });
 
     $(document).on('shown.bs.modal','.share-modal', function (e) {
             e.preventDefault();
@@ -626,23 +641,30 @@ $(document).ready(function () {
     });
 
     $('#invoice-filter-form').on('submit', function(e) {
+
         e.preventDefault();
+        // Get the date range picker instance
+        var picker = $('#reportrange').data('daterangepicker');
+
+        // Retrieve the selected start and end dates
+        var from_date = picker.startDate.format('YYYY-MM-DD');
+        var to_date = picker.endDate.format('YYYY-MM-DD');
 
         var type = "{{$type}}";
-        console.log("{{$type}}");
+
         // Collect filter values (customer, from_date, to_date) from the form
         var customer_id = $('#customer_id').val();
         if(customer_id == undefined){
             customer_id = '';
         }
-        var from_date = $('#from_date').val();
-        if(from_date == undefined){
-            from_date = '';
-        }
-        var to_date = $('#to_date').val();
-        if(to_date == undefined){
-            to_date = '';
-        }
+        // var from_date = $('#from_date').val();
+        // if(from_date == undefined){
+        //     from_date = '';
+        // }
+        // var to_date = $('#to_date').val();
+        // if(to_date == undefined){
+        //     to_date = '';
+        // }
 
         exportUrl = "{{ route('orders.allexport') }}" + '/' + customer_id+ '/' + from_date + '/' + to_date;
         printUrl = "{{ route('orders.allprint') }}" + '/' + customer_id+ '/' + from_date + '/' + to_date;
