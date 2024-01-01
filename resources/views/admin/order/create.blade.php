@@ -92,10 +92,10 @@
                                         <label>@lang('quickadmin.order.fields.customer_name')</label>
                                         <select class="js-customer-list @error('customer_id') is-invalid @enderror" name="customer_id" id="customer_id" >
                                             <option value="{{ isset($order) ? $order->customer->id : old('customer_id') }}">
-                                                {{ isset($order) ? $order->customer->name : trans('quickadmin.order.fields.select_customer') }}
+                                                {{ isset($order) ? $order->customer->full_name : trans('quickadmin.order.fields.select_customer') }}
                                             </option>
                                             @foreach($customers as $customer)
-                                            <option value="{{ $customer->id }}">{{ $customer->name }}</option>
+                                            <option value="{{ $customer->id }}">{{ $customer->full_name }}</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -108,22 +108,18 @@
                 <div class="row mt-4">
                     <div class="col-md-12">
                     <div class="table-responsive">
-                        <table class="table tablestriped tablehover ordertable">
+                        <table class="table dt-responsive tablestriped tablehover ordertable">
                             <thead>
                                 <tr>
-                                    <th data-width="40">@lang('quickadmin.qa_action')</th>
                                     <th class="text-center d-none">@lang('quickadmin.order.fields.product_id')</th>
                                     <th class="text-center">@lang('quickadmin.order.fields.product_name')</th>
                                     <th class="text-center">@lang('quickadmin.order.fields.quantity')</th>
                                     <th class="text-center">@lang('quickadmin.order.fields.price')</th>
                                     <th class="text-center">@lang('quickadmin.order.fields.sub_total')</th>
-                                    <th class="text-center">
-                                        <div class="form-group m-0">
-                                        <div class="input-group">
-                                            <button type="button" class="btn btn-success" id="addNewBlankRow"><i class="fas fa-plus"></i></button>
-                                        </div>
-                                    </div>
-                                </th>
+                                    <th  class="text-right" >@lang('quickadmin.qa_action')</th>
+                                    {{-- <th class="text-center">
+                                        <button class="btn btn-success" id="addNewBlankRow"><i class="fas fa-plus"></i></button>
+                                    </th> --}}
                                 </tr>
                             </thead>
                             <tbody>
@@ -278,15 +274,17 @@
                 total_price: parseFloat(newRow.find('input[name="total_price"]').val()) || 0
             };
 
+            lastRow.find('.addNewBlankRow').hide();
            // console.log(productRecord);
             order.products.push(productRecord);
             updateLocalStorage(order);
             updateSubtotal();
             // Calculate and update grand total
             calculateGrandTotal();
+
         }
 
-        $('#addNewBlankRow').click(function (e) {
+        $(document).on('click','.addNewBlankRow', function (e) {
             e.preventDefault();
             addBlankRow();
         });
@@ -297,8 +295,6 @@
             removerror();
 
             var customer_id = parseInt($('select[name="customer_id"]').val());
-
-
             var product_id = parseInt(row.find('select[name="product_id"]').val());
             var quantity = parseFloat(row.find('input[name="quantity"]').val());
             var price = parseFloat(row.find('input[name="price"]').val());
@@ -310,7 +306,7 @@
                 product_id: "The Product Name is required.",
                 quantity: "The Quantity is required.",
                 price: "The Price is required.",
-                total_price: "Please fill both quantity and price."
+                total_price: "Please fill quantity & price."
             };
 
             var hasErrors = false;
@@ -497,16 +493,10 @@
             }
 
             // Calculate Grand Total including Thaila Price, Rounded Subtotal, and Round Off amount
-            //var grandTotal = thailaPrice + roundedSubtotal;
-
             var grandTotal = thailaPrice + (isRoundOff ? roundedSubtotal : subTotal);
-
-           // console.log('grandTotal',grandTotal);
-
             // Update and display Sub Total, Grand Total, and Rounded Subtotal on the page with two decimal places
             $("#sub_total_amount").text(subTotal.toFixed(2));
             $("#grand_total_amount").text(grandTotal.toFixed(2));
-
             // Update the grand total in the order object
             order.grand_total = grandTotal;
             updateLocalStorage(order);
@@ -517,6 +507,7 @@
         $(document).on('click', '.copy-product', function (e) {
             e.preventDefault();
             var rowIndex = $(this).data('row-index');
+            var lastRow = $('.ordertable tbody tr:not(.template-row):last');
             var productToCopy = order.products[rowIndex];    // Find the product to copy based on the row index
             var copiedRow = $('#row_' + rowIndex).clone();  // Clone the row to copy
             var newRowindex = $('.ordertable tbody tr:not(.template-row)').length;  // Increment the row index for the copied row
@@ -527,15 +518,15 @@
                 // Display error messages or take appropriate action
                 return;
             }
+            // check current row has addblankblank btn or not
+            var hasAddNewButton = $(".ordertable tbody tr:not(.template-row)").eq(rowIndex).find('.addNewBlankRow:visible').length > 0;
             // Update IDs and attributes for select and input elements in the copied row
             copiedRow.find('.js-product-basic-single').attr('id', 'product_id_' + newRowindex);
             copiedRow.find('.copy-product').attr('data-row-index', newRowindex);
             copiedRow.find('.delete-product').attr('data-row-index', newRowindex);
-            // Update input values in the copied row
-            copiedRow.find('input').each(function () {
-                var originalValue = $(this).val();
-                $(this).val(originalValue);
-            });
+            copiedRow.find('input[name="quantity"]').val('');
+            copiedRow.find('input[name="price"]').val('');
+            copiedRow.find('input[name="total_price"]').val('');
             // Set the selected product in the copied row's Select2 dropdown
             var selectedProductId = productToCopy.product_id;
             var selectBox = copiedRow.find(".js-product-basic-single");
@@ -564,12 +555,20 @@
                 rowIndex: newRowindex,
                 product_id: productToCopy.product_id,
                 product_name: productToCopy.product_name,
-                quantity: productToCopy.quantity,
-                price: productToCopy.price,
-                total_price: productToCopy.total_price
+                quantity: 0,
+                price: 0,
+                total_price: 0
             };
             order.products.push(copiedProduct);
             // Update localStorage, UI, or perform any other necessary actions
+
+            if (hasAddNewButton) {
+                lastRow.find('.addNewBlankRow').hide();
+            }
+            else{
+                lastRow.find('.addNewBlankRow').hide();
+                copiedRow.find('.addNewBlankRow').show();
+            }
             updateLocalStorage(order);
             updateSubtotal();
             calculateGrandTotal();
@@ -592,7 +591,8 @@
                 if (willDelete) {
                     // Get the row index from the data attribute
                     var rowIndex = $(this).data('row-index');
-                    console.log('rowIndex',rowIndex);
+                    // Check if the row to delete contains the addNewBlankRow button
+                    var hasAddNewButton = $(".ordertable tbody tr:not(.template-row)").eq(rowIndex).find('.addNewBlankRow').length > 0;
                     // Remove the row from the table
                     var rowToDelete = $(".ordertable tbody tr:not(.template-row)").eq(rowIndex);
                     rowToDelete.remove();
@@ -606,10 +606,12 @@
                         $(this).attr('id', 'row_' + index);
                     });
 
-                    order.products.forEach((product, index) => {
-                        product.rowIndex = index;
-                    });
-
+                    // If the deleted row had the addNewBlankRow button, add it to the previous row
+                    if (hasAddNewButton) {
+                        console.log('res');
+                        var lastRow = $('.ordertable tbody tr:not(.template-row):last');
+                        lastRow.find('.addNewBlankRow').show();
+                    }
                     updateLocalStorage(order);
                     updateSubtotal();
                     calculateGrandTotal();

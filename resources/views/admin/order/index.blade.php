@@ -152,7 +152,6 @@
                                         <a class="btn btn-outline-primary col" href="{{ route('orders.getTypeOrder',['type'=>'deleted'])}}" id="trashed-data"><i class="fa fa-trash"></i> @lang('quickadmin.order.recycle')</a>
                                         @endcan
                                         @endif
-
                                     </div>
                                 </div>
                             </div>

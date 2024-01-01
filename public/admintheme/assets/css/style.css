@@ -8502,7 +8502,7 @@ body:not(.sidebar-mini) .sidebar-style-2 .sidebar-menu li.active ul.dropdown-men
 .theme-orange .show>.btn-outline-primary.dropdown-toggle {
     color: #000;
     background-color: #d30000 ;
-    border-color: #d30000 
+    border-color: #d30000
 }
 
 .theme-white.sidebar-mini .main-sidebar .sidebar-menu>li.active>a {
@@ -8510,7 +8510,7 @@ body:not(.sidebar-mini) .sidebar-style-2 .sidebar-menu li.active ul.dropdown-men
 }
 
 .theme-white.sidebar-mini .main-sidebar .sidebar-menu>li ul.dropdown-menu li.active>a:hover {
-    color: #d30000 
+    color: #d30000
 }
 
 .theme-white .bg-primary {
@@ -8522,7 +8522,7 @@ body:not(.sidebar-mini) .sidebar-style-2 .sidebar-menu li.active ul.dropdown-men
 }
 
 .theme-white a:hover {
-    color: #d30000 
+    color: #d30000
 }
 
 .theme-white .btn-primary {
@@ -8550,12 +8550,12 @@ body:not(.sidebar-mini) .sidebar-style-2 .sidebar-menu li.active ul.dropdown-men
 
 .theme-white .btn-primary.disabled {
     background-color: #d30000 ;
-    border-color: #d30000 
+    border-color: #d30000
 }
 
 .theme-white .btn-primary:disabled {
     background-color: #d30000 ;
-    border-color: #d30000 
+    border-color: #d30000
 }
 
 .theme-white .btn-outline-primary {
@@ -8568,19 +8568,19 @@ body:not(.sidebar-mini) .sidebar-style-2 .sidebar-menu li.active ul.dropdown-men
 .theme-white .btn-outline-primary:focus {
     color: #fff;
     background-color: #d30000  !important;
-    border-color: #d30000 
+    border-color: #d30000
 }
 
 .theme-white .btn-outline-primary:focus:active {
     color: #fff;
     background-color: #d30000  !important;
-    border-color: #d30000 
+    border-color: #d30000
 }
 
 .theme-white .btn-outline-primary:active {
     color: #fff;
     background-color: #d30000  !important;
-    border-color: #d30000 
+    border-color: #d30000
 }
 
 .theme-white .btn-outline-primary:hover {
@@ -8606,17 +8606,17 @@ body:not(.sidebar-mini) .sidebar-style-2 .sidebar-menu li.active ul.dropdown-men
 }
 
 .theme-white .btn-link:hover {
-    color: #d30000 
+    color: #d30000
 }
 
 .theme-white .dropdown-item.active {
     color: #fff;
-    background-color: #d30000 
+    background-color: #d30000
 }
 
 .theme-white .dropdown-item:active {
     color: #fff;
-    background-color: #d30000 
+    background-color: #d30000
 }
 
 .theme-white .nav-pills .nav-link.active {
@@ -8627,7 +8627,7 @@ body:not(.sidebar-mini) .sidebar-style-2 .sidebar-menu li.active ul.dropdown-men
 
 .theme-white .nav-pills .show>.nav-link {
     color: #fff;
-    background-color: #d30000 
+    background-color: #d30000
 }
 .theme-white .page-link {
     color: #d30000;
@@ -8636,7 +8636,7 @@ body:not(.sidebar-mini) .sidebar-style-2 .sidebar-menu li.active ul.dropdown-men
 }
 
 .theme-white .page-link:focus {
-    color: #d30000 
+    color: #d30000
 }
 
 .theme-white .page-link:hover {
@@ -8645,22 +8645,22 @@ body:not(.sidebar-mini) .sidebar-style-2 .sidebar-menu li.active ul.dropdown-men
 }
 
 .theme-white .page-item .page-link {
-    color: #d30000 
+    color: #d30000
 }
 
 .theme-white .page-item.active .page-link {
     color: #fff;
     background-color: #d30000 ;
-    border-color: #d30000 
+    border-color: #d30000
 }
 
 .theme-white .page-item.disabled .page-link {
-    color: #d30000 
+    color: #d30000
 }
 
 .theme-white .progress-bar {
     color: #fff;
-    background-color: #d30000 
+    background-color: #d30000
 }
 
 .theme-white .border-primary {
@@ -8678,42 +8678,42 @@ body:not(.sidebar-mini) .sidebar-style-2 .sidebar-menu li.active ul.dropdown-men
 }
 
 .theme-white .dropzone {
-    border: 2px dashed #d30000 
+    border: 2px dashed #d30000
 }
 
 .theme-white .custom-control-input:checked~.custom-control-label::before {
     color: #fff;
-    background-color: #d30000 
+    background-color: #d30000
 }
 
 .theme-white .custom-checkbox .custom-control-input:checked~.custom-control-label::before {
-    background-color: #d30000 
+    background-color: #d30000
 }
 
 .theme-white .custom-checkbox .custom-control-input:indeterminate~.custom-control-label::before {
-    background-color: #d30000 
+    background-color: #d30000
 }
 
 .theme-white .custom-radio .custom-control-input:checked~.custom-control-label::before {
-    background-color: #d30000 
+    background-color: #d30000
 }
 
 .theme-white .list-group-item.active {
     color: #fff;
     background-color: #d30000 ;
-    border-color: #d30000 
+    border-color: #d30000
 }
 
 .theme-white .navbar.active {
-    background-color: #d30000 
+    background-color: #d30000
 }
 
 .theme-white .form-control:focus {
-    border-color: #d30000 
+    border-color: #d30000
 }
 
 .theme-white .card.card-primary {
-    border-top: 2px solid #d30000 
+    border-top: 2px solid #d30000
 }
 
 .theme-white .fc button.fc-state-active {
@@ -8723,7 +8723,7 @@ body:not(.sidebar-mini) .sidebar-style-2 .sidebar-menu li.active ul.dropdown-men
 
 .theme-white .weather ul li {
     border: 2px solid #d30000 ;
-    color: #d30000 
+    color: #d30000
 }
 
 .theme-white .card-chat .chat-content .chat-item.chat-right .chat-details .chat-text {
@@ -8732,11 +8732,11 @@ body:not(.sidebar-mini) .sidebar-style-2 .sidebar-menu li.active ul.dropdown-men
 }
 
 .theme-white .nav-tabs .nav-item .nav-link {
-    color: #d30000 
+    color: #d30000
 }
 
 .theme-white .swal-button.swal-button--confirm {
-    background-color: #d30000 
+    background-color: #d30000
 }
 
 .theme-white .btn-group .btn.active {
@@ -8745,7 +8745,7 @@ body:not(.sidebar-mini) .sidebar-style-2 .sidebar-menu li.active ul.dropdown-men
 }
 
 .theme-white .media .media-right {
-    color: #d30000 
+    color: #d30000
 }
 
 .theme-white .selectric-items li.selected {
@@ -8764,11 +8764,11 @@ body:not(.sidebar-mini) .sidebar-style-2 .sidebar-menu li.active ul.dropdown-men
 }
 
 .theme-white .bootstrap-tagsinput .tag {
-    background-color: #d30000 
+    background-color: #d30000
 }
 
 .theme-white body:not(.sidebar-mini) .sidebar-style-2 .sidebar-menu>li.active>a:before {
-    background-color: #d30000 
+    background-color: #d30000
 }
 
 .theme-white body.sidebar-mini .main-sidebar .sidebar-menu>li.active>a {
@@ -8778,11 +8778,11 @@ body:not(.sidebar-mini) .sidebar-style-2 .sidebar-menu li.active ul.dropdown-men
 }
 
 .theme-white body.sidebar-mini .main-sidebar .sidebar-menu>li ul.dropdown-menu li.active>a {
-    color: #d30000 
+    color: #d30000
 }
 
 .theme-white .settingSidebar .settingPanelToggle {
-    background: #d30000 
+    background: #d30000
 }
 
 .theme-white .settingSidebar .settingPanelToggle i {
@@ -8794,7 +8794,7 @@ body:not(.sidebar-mini) .sidebar-style-2 .sidebar-menu li.active ul.dropdown-men
 }
 
 .theme-white .sidebar-color .selectgroup-input:checked+.selectgroup-button {
-    background-color: #d30000 
+    background-color: #d30000
 }
 
 .theme-white .navbar .nav-link {
@@ -8814,7 +8814,7 @@ body:not(.sidebar-mini) .sidebar-style-2 .sidebar-menu li.active ul.dropdown-men
 }
 
 .theme-white .custom-switch-input:checked~.custom-switch-indicator {
-    background: #d30000 
+    background: #d30000
 }
 
 .theme-white .show>.btn-outline-primary.dropdown-toggle,
@@ -12606,7 +12606,7 @@ table.dataTable.dtr-inline.collapsed>tbody>tr[role="row"]>td:first-child:before,
 .ordertable tbody tr td:last-child{
     display: table-cell;
 }
-.ordertable tbody tr td:nth-child(2){
+.ordertable tbody tr td:nth-child(1){
     width: 40%;
 }
 
@@ -13247,8 +13247,8 @@ button#addProductBtn {
 .ordertble-block {
     background: #f0e6fd;
 }
-.edit-users-btn svg, 
-.edit-password-btn svg, 
+.edit-users-btn svg,
+.edit-password-btn svg,
 .record_delete_btn  svg {
     width: 18px;
     height: 18px;

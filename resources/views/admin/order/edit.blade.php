@@ -85,26 +85,27 @@
                 <div class="invoice-print">
                     <div class="row">
                         <div class="col-lg-12">
-                            <h6>#{{ $order->invoice_number}}</h6>
-                            <hr>
                             <div class="row">
                                 @can('order_product_create')
                                 <div class="col-md-12">
-                                    <div class="row">
-                                        <div class="col-md-4">
+                                    <div class="row align-items-center">
+                                        <div class="col-xl-4 col-md-5 col-sm-6 col-12 order-sm-1 order-2">
                                             <div class="custom-select2 fullselect2">
                                                 <div class="form-control-inner">
                                                     <label>@lang('quickadmin.order.fields.customer_name')</label>
                                                     <select class="js-customer-list @error('customer_id') is-invalid @enderror" name="customer_id" id="customer_id" >
                                                         <option value="{{ isset($order) ? $order->customer->id : old('customer_id') }}">
-                                                            {{ isset($order) ? $order->customer->name : trans('quickadmin.order.fields.select_customer') }}
+                                                            {{ isset($order) ? $order->customer->full_name : trans('quickadmin.order.fields.select_customer') }}
                                                         </option>
                                                         @foreach($customers as $customer)
-                                                        <option value="{{ $customer->id }}">{{ $customer->name }}</option>
+                                                        <option value="{{ $customer->id }}">{{ $customer->full_name }}</option>
                                                         @endforeach
                                                     </select>
                                                 </div>
                                             </div>
+                                        </div>
+                                        <div class="col-xl-8 col-md-7 col-sm-6 order-sm-2 order-1 mb-sm-0 mb-4">
+                                            <h6 class="text-sm-right text-left m-0">#{{ $order->invoice_number}}</h6>
                                         </div>
                                     </div>
                                 </div>
@@ -115,22 +116,22 @@
                     <div class="row mt-4">
                         <div class="col-md-12">
                         <div class="table-responsive">
-                            <table class="table tablestriped tablehover ordertable">
+                            <table class="table dt-responsive tablestriped tablehover ordertable">
                                 <thead>
                                     <tr>
-                                        <th data-width="40">@lang('quickadmin.qa_action')</th>
                                         <th class="text-center d-none">@lang('quickadmin.order.fields.product_id')</th>
                                         <th class="text-center">@lang('quickadmin.order.fields.product_name')</th>
                                         <th class="text-center">@lang('quickadmin.order.fields.quantity')</th>
                                         <th class="text-center">@lang('quickadmin.order.fields.price')</th>
                                         <th class="text-center">@lang('quickadmin.order.fields.sub_total')</th>
-                                        <th class="text-center">
+                                        <th class="text-right">@lang('quickadmin.qa_action')</th>
+                                        {{-- <th class="text-center">
                                             <div class="form-group m-0">
                                             <div class="input-group">
                                                 <button type="button" class="btn btn-success" id="addNewBlankRow"><i class="fas fa-plus"></i></button>
                                             </div>
                                         </div>
-                                    </th>
+                                    </th> --}}
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -284,6 +285,11 @@
                     newRow.find('input[name="price"]').val(product.price);
                     newRow.find('input[name="total_price"]').val(product.total_price);
                     newRow.css('display', '');
+                    $('.addNewBlankRow').hide();
+                    if (rowIndex === storedOrder.products.length - 1) {
+                        // Show the "Add New Blank Row" button only for the last row
+                        newRow.find('.addNewBlankRow').show();
+                    }
                     $('.ordertable tbody').append(newRow);
                     newRow.show();
                     var selectBox = newRow.find(".js-product-basic-single");
@@ -368,6 +374,8 @@
                 total_price: parseFloat(newRow.find('input[name="total_price"]').val()) || 0
             };
 
+            lastRow.find('.addNewBlankRow').hide();
+            newRow.find('.addNewBlankRow').show();
            // console.log(productRecord);
             order.products.push(productRecord);
             updateLocalStorage(order);
@@ -376,7 +384,7 @@
             calculateGrandTotal();
         }
 
-        $('#addNewBlankRow').click(function (e) {
+        $(document).on('click','.addNewBlankRow', function (e) {
             e.preventDefault();
             addBlankRow();
         });
@@ -395,7 +403,7 @@
                 product_id: "The Product Name is required.",
                 quantity: "The Quantity is required.",
                 price: "The Price is required.",
-                total_price: "Please fill both quantity and price."
+                total_price: "Please fill quantity & price."
             };
 
             var hasErrors = false;
@@ -593,6 +601,7 @@
         $(document).on('click', '.copy-product', function (e) {
             e.preventDefault();
             var rowIndex = $(this).data('row-index');
+            var lastRow = $('.ordertable tbody tr:not(.template-row):last');
             var productToCopy = order.products[rowIndex];    // Find the product to copy based on the row index
             var copiedRow = $('#row_' + rowIndex).clone();  // Clone the row to copy
             var newRowindex = $('.ordertable tbody tr:not(.template-row)').length;  // Increment the row index for the copied row
@@ -603,15 +612,20 @@
                 // Display error messages or take appropriate action
                 return;
             }
+            // check current row has addblankblank btn or not
+            var hasAddNewButton = $(".ordertable tbody tr:not(.template-row)").eq(rowIndex).find('.addNewBlankRow:visible').length > 0;
             // Update IDs and attributes for select and input elements in the copied row
             copiedRow.find('.js-product-basic-single').attr('id', 'product_id_' + newRowindex);
             copiedRow.find('.copy-product').attr('data-row-index', newRowindex);
             copiedRow.find('.delete-product').attr('data-row-index', newRowindex);
             // Update input values in the copied row
-            copiedRow.find('input').each(function () {
-                var originalValue = $(this).val();
-                $(this).val(originalValue);
-            });
+            // copiedRow.find('input').each(function () {
+            //     var originalValue = $(this).val();
+            //     $(this).val(originalValue);
+            // });
+            copiedRow.find('input[name="quantity"]').val('');
+            copiedRow.find('input[name="price"]').val('');
+            copiedRow.find('input[name="total_price"]').val('');
             // Set the selected product in the copied row's Select2 dropdown
             var selectedProductId = productToCopy.product_id;
             var selectBox = copiedRow.find(".js-product-basic-single");
@@ -640,11 +654,18 @@
                 rowIndex: newRowindex,
                 product_id: productToCopy.product_id,
                 product_name: productToCopy.product_name,
-                quantity: productToCopy.quantity,
-                price: productToCopy.price,
-                total_price: productToCopy.total_price
+                quantity: 0,
+                price: 0,
+                total_price: 0
             };
             order.products.push(copiedProduct);
+            if (hasAddNewButton) {
+                lastRow.find('.addNewBlankRow').hide();
+            }
+            else{
+                lastRow.find('.addNewBlankRow').hide();
+                copiedRow.find('.addNewBlankRow').show();
+            }
             // Update localStorage, UI, or perform any other necessary actions
             updateLocalStorage(order);
             updateSubtotal();
@@ -668,7 +689,8 @@
                 if (willDelete) {
                     // Get the row index from the data attribute
                     var rowIndex = $(this).data('row-index');
-                    console.log('rowIndex',rowIndex);
+                    // Check if the row to delete contains the addNewBlankRow button
+                    var hasAddNewButton = $(".ordertable tbody tr:not(.template-row)").eq(rowIndex).find('.addNewBlankRow').length > 0;
                     var productToDelete = order.products[rowIndex];
                     if ('order_product_id' in productToDelete) {
                         // The record has an order_product_id, so it's marked for deletion
@@ -691,6 +713,13 @@
                     order.products.forEach((product, index) => {
                         product.rowIndex = index;
                     });
+
+                    // If the deleted row had the addNewBlankRow button, add it to the previous row
+                    if (hasAddNewButton) {
+                        console.log('res');
+                        var lastRow = $('.ordertable tbody tr:not(.template-row):last');
+                        lastRow.find('.addNewBlankRow').show();
+                    }
 
                     updateLocalStorage(order);
                     updateSubtotal();
