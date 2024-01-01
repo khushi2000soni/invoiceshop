@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\DataTables\InvoiceDataTable;
 use App\DataTables\InvoiceTypeDataTable;
+use App\Exports\InvoiceExport;
 use App\Http\Requests\Order\StoreRequest;
 use App\Http\Requests\Order\UpdateRequest;
 use App\Models\Customer;
@@ -20,6 +21,7 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\View;
 use Intervention\Image\ImageManager;
 use Intervention\Image\Drivers\Imagick\Driver;
+use Maatwebsite\Excel\Facades\Excel;
 use PDF;
 
 class OrderController extends Controller
@@ -303,6 +305,30 @@ class OrderController extends Controller
         // Example code for generating a WhatsApp web link:
         $url = 'https://web.whatsapp.com/send?text=' . urlencode('Check out this invoice: ' . route('orders.generate-pdf', $order->id));
         return redirect($url);
+    }
+
+    public function allinvoicePrintView($customer_id = null, $from_date = null, $to_date = null)
+    {
+        abort_if(Gate::denies('product_print'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
+        $query = Order::query();
+        if ($customer_id !== null && $customer_id != 'null') {
+            $query->where('customer_id', request()->customer_id);
+        }
+        if ($from_date !== null && $from_date != 'null') {
+            $query->whereDate('invoice_date','>=', request()->from_date);
+        }
+        if ($to_date !== null && $to_date != 'null') {
+            $query->whereDate('invoice_date','<=', request()->to_date);
+        }
+        $allorders = $query->orderBy('id','desc')->get();
+        $sumGrandTotal = $allorders->sum('grand_total');
+        return view('admin.order.print-orders-list',compact('allorders','sumGrandTotal'))->render();
+    }
+
+    public function allinvoiceExport($customer_id = null, $from_date = null, $to_date = null){
+        abort_if(Gate::denies('product_export'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        return Excel::download(new InvoiceExport($customer_id,$from_date,$to_date), 'Invoice-List.xlsx');
     }
 
     /**

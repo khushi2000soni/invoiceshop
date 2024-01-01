@@ -107,7 +107,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-3">
                                     <div class="row mx-0 datapikergroup">
                                         <div class="col-6 px-0 lhs">
                                             <div class="form-group mb-0 label-position">
@@ -127,30 +127,30 @@
                                         </div>
                                     </div>
                                 </div>
-                                {{-- <div class="col-md-3">
-                                    <div class="form-group mb-0 label-position">
-                                        <label for="from_date">@lang('quickadmin.order.fields.from_date')</label>
-                                        <div class="input-group">
-                                            <input type="text" class="form-control datepicker" name="from_date" value="" id="from_date" autocomplete="true">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="form-group mb-0 label-position">
-                                        <label for="to_date">@lang('quickadmin.order.fields.to_date')</label>
-                                        <div class="input-group">
-                                            <input type="text" class="form-control datepicker" name="to_date" value="" id="to_date" autocomplete="true">
-                                        </div>
-                                    </div>
-                                </div> --}}
-                                <div class="col-md-3 text-end">
+                                <div class="col-md-2">
                                     <div class="form-group mb-0 d-flex justify-content-end">
                                         <button type="submit" class="btn btn-primary mr-1 col" id="apply-filter">@lang('quickadmin.qa_submit')</button>
                                         <button type="reset" class="btn btn-primary mr-1 col" id="reset-filter">@lang('quickadmin.qa_reset')</button>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 text-end">
+                                    <div class="form-group mb-0 d-flex justify-content-end">
                                         @if ($type != 'deleted')
-                                        @can('invoice_recycle_access')
-                                        <a class="btn btn-outline-primary col" href="{{ route('orders.getTypeOrder',['type'=>'deleted'])}}" id="trashed-data"><i class="fa fa-trash"></i> @lang('quickadmin.order.recycle')</a>
-                                        @endcan
+                                            @can('invoice_create')
+                                            <a href="{{ route('orders.create')}}" class="btn btn-outline-dark invoiceicon add_invoice_btn"><x-svg-icon icon="add-invoice" /> </a>
+                                            @endcan
+
+                                            @can('invoice_print')
+                                            <a href="{{ route('orders.allprint') }}" class="btn printbtn h-10 col"  id="invoice-print"> <x-svg-icon icon="print" /></a>
+                                            @endcan
+
+                                            @can('invoice_print')
+                                            <a href="{{ route('orders.allexport') }}" class="btn excelbtn h-10 col"  id="invoice-excel"><x-svg-icon icon="excel" /></a>
+                                            @endcan
+
+                                            @can('invoice_recycle_access')
+                                            <a class="btn btn-outline-danger recycleicon col" href="{{ route('orders.getTypeOrder',['type'=>'deleted'])}}" id="trashed-data"><x-svg-icon icon="recycle" /></a>
+                                            @endcan
                                         @endif
                                     </div>
                                 </div>
@@ -205,6 +205,7 @@
 $(document).ready(function () {
 
     var dataTable = $('#dataaTable').DataTable();
+    $('#invoice-print').printPage();
    // $('#print-button-2').printPage();
 
     flatpickr('.datepicker', {
@@ -220,6 +221,12 @@ $(document).ready(function () {
             this.type = 'text';
         });
     });
+
+    $(document).on('shown.bs.modal','.share-modal', function (e) {
+            e.preventDefault();
+            // Remove the modal backdrop
+            $('.modal-backdrop').remove();
+        });
 
     $(".filter-customer-select").select2({
     }).on('select2:open', function () {
@@ -610,6 +617,11 @@ $(document).ready(function () {
             dataTable.ajax.url("{{ route('orders.index') }}").load();
         }
 
+        originalExportUrl = "{{ route('orders.allexport') }}";
+        originalPrintUrl = "{{ route('orders.allprint') }}";
+        $('#invoice-excel').attr('href', originalExportUrl);
+        $('#invoice-print').attr('href', originalPrintUrl);
+
 
     });
 
@@ -618,7 +630,6 @@ $(document).ready(function () {
 
         var type = "{{$type}}";
         console.log("{{$type}}");
-
         // Collect filter values (customer, from_date, to_date) from the form
         var customer_id = $('#customer_id').val();
         if(customer_id == undefined){
@@ -633,6 +644,9 @@ $(document).ready(function () {
             to_date = '';
         }
 
+        exportUrl = "{{ route('orders.allexport') }}" + '/' + customer_id+ '/' + from_date + '/' + to_date;
+        printUrl = "{{ route('orders.allprint') }}" + '/' + customer_id+ '/' + from_date + '/' + to_date;
+
         var params = {
                 customer_id      : customer_id,
                 from_date        : from_date,
@@ -645,6 +659,9 @@ $(document).ready(function () {
 
             dataTable.ajax.url("{{ route('orders.index') }}?"+$.param(params)).load();
         }
+
+        $('#invoice-excel').attr('href', exportUrl);
+        $('#invoice-print').attr('href', printUrl);
 
 
     });

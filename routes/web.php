@@ -83,6 +83,8 @@ Route::middleware(['auth','PreventBackHistory'])->group(function () {
 
     Route::resource('/device',DeviceController::class);
     Route::resource('/orders',OrderController::class);
+    Route::get('/orders-printView/{customer_id?}/{from_date?}/{to_date?}',[OrderController::class,'allinvoicePrintView'])->name('orders.allprint');
+    Route::get('/orders-export/{category_id?}/{from_date?}/{to_date?}',[OrderController::class,'allinvoiceExport'])->name('orders.allexport');
     Route::get('/orders/print/{order}/{type?}',[OrderController::class,'printView'])->name('orders.print');
     Route::patch('/orders/{order}/restore',[OrderController::class,'restore'])->name('orders.restore');
     Route::get('/get-orders/{type?}', [OrderController::class,'getTypeOrder'])->name('orders.getTypeOrder');

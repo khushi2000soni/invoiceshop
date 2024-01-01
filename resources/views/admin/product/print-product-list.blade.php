@@ -11,9 +11,6 @@
             <h2 style="margin: 0;color: #2a2a33;font-size: 20px;font-weight: bold; text-align:center;"><strong>@lang('quickadmin.product-management.fields.list')</strong></h2>
         </header>
     </div>
-    {{-- <footer>
-        <div class="pagenum-container"><small>Page <span class="pagenum"></span></small></div>
-    </footer> --}}
     <main class="main" style="max-width: 620px;margin: 0 auto;padding: 40px;padding-top: 0;">
         <table cellpadding="0" cellspacing="0" width="100%" style="color: #000;font-size: 16px;padding-right: 20px;">
             <thead>

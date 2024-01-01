@@ -1,10 +1,10 @@
 @can('invoice_print')
-<button class="btn btn-icon btn-info print-order-btn p-1 px-2 print-button" data-href="{{route('orders.print', $order->id)}}" title="@lang('quickadmin.qa_print')" ><i class="fas fa-print"></i> </button>
+<button class="btn btn-icon btn-info print-order-btn p-1 px-2 print-button" data-href="{{route('orders.print', $order->id)}}" title="@lang('quickadmin.qa_print')" ><x-svg-icon icon="print" /></button>
 @endcan
 
 @can('invoice_share')
-<a role="button" class="btn btn-icon share-order-btn p-1 px-2 mx-1" data-toggle="modal" data-target="#ShareInvoiceModal" title="@lang('quickadmin.qa_share')"><i class="fas fa-share"></i> </a>
-<div class="modal fade px-3" id="ShareInvoiceModal" tabindex="-1" role="dialog" aria-labelledby="ShareInvoiceModaltitlte" aria-hidden="true">
+<a role="button" class="btn btn-icon share-order-btn p-1 px-2 mx-1" data-toggle="modal" data-target="#ShareInvoiceModal{{$order->id}}" title="@lang('quickadmin.qa_share')"><x-svg-icon icon="share" /> </a>
+<div class="modal fade px-3 share-modal" id="ShareInvoiceModal{{$order->id}}" tabindex="-1" role="dialog" aria-labelledby="ShareInvoiceModaltitlte" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -50,17 +50,17 @@
         <a class="dropdown-item has-icon" href="{{route('orders.edit', $order->id)}}" title="@lang('quickadmin.qa_view')"><i class="far fa-eye"></i> @lang('quickadmin.qa_view')</a>
         @endcan --}}
         @can('invoice_download')
-        <a class="dropdown-item has-icon" href="{{route('orders.generate-pdf', $order->id)}}" title="@lang('quickadmin.qa_download')"><i class="fas fa-cloud-download-alt"></i>@lang('quickadmin.qa_download')</a>
+        <a class="dropdown-item has-icon" href="{{route('orders.generate-pdf', $order->id)}}" title="@lang('quickadmin.qa_download')"><x-svg-icon icon="download" /> @lang('quickadmin.qa_download')</a>
         @endcan
         @can('invoice_edit')
-        <a class="dropdown-item has-icon" href="{{route('orders.edit', $order->id)}}" title="@lang('quickadmin.qa_edit')"><i class="fas fa-edit"></i> @lang('quickadmin.qa_edit')</a>
+        <a class="dropdown-item has-icon" href="{{route('orders.edit', $order->id)}}" title="@lang('quickadmin.qa_edit')"><x-svg-icon icon="edit" />  @lang('quickadmin.qa_edit')</a>
         @endcan
         @can('invoice_show')
-        <a class="dropdown-item has-icon" href="{{route('orders.print-pdf', $order->id)}}" title="@lang('quickadmin.qa_view')" target="_blank"><i class="fas fa-eye"></i> @lang('quickadmin.qa_view')</a>
+        <a class="dropdown-item has-icon" href="{{route('orders.print-pdf', $order->id)}}" title="@lang('quickadmin.qa_view')" target="_blank"><x-svg-icon icon="view" /> @lang('quickadmin.qa_view')</a>
         @endcan
         @can('invoice_delete')
         <form action="{{route('orders.destroy', $order->id)}}" method="POST" class="deleteForm m-1">
-            <button class="dropdown-item has-icon record_delete_btn deleteBtn  d-inline-flex align-items-center" type="submit"><i class="fas fa-trash"></i> @lang('quickadmin.qa_delete')</button>
+            <button class="dropdown-item has-icon record_delete_btn deleteBtn  d-inline-flex align-items-center" type="submit"><x-svg-icon icon="delete" /> @lang('quickadmin.qa_delete')</button>
         </form>
         @endcan
     </div>
