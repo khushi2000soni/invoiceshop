@@ -111,30 +111,11 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-3 pr-0">
-                                    <div class="datapikergroup custom-select2 datepickerbox">
-                                        {{-- <div class="col-6 px-0 lhs">
-                                            <div class="form-group mb-0 label-position">
-                                                <label for="from_date">@lang('quickadmin.order.fields.from_date')</label>
-                                                <div class="input-group">
-                                                    <input type="text" class="form-control datepicker border-right-0" name="from_date" value="" id="from_date" autocomplete="true">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-6 px-0 rhs">
-                                            <div class="form-group mb-0 label-position ">
-                                                <label for="to_date">@lang('quickadmin.order.fields.to_date')</label>
-                                                <div class="input-group">
-                                                    <input type="text" class="form-control datepicker" name="to_date" value="" id="to_date" autocomplete="true">
-                                                </div>
-                                            </div>
-                                        </div> --}}
-                                        <div class="form-control-inner">
-                                            <label for="select_date">Select Date</label>
-                                            <div id="reportrange" class="pull-right" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; width: 100%">
-                                                <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>&nbsp;
-                                                <span></span> <b class="caret"></b>
-                                            </div>
+                                <div class="col-md-3">
+                                    <div class="row mx-0 datapikergroup">
+                                        <div id="reportrange" class="pull-right" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; width: 100%">
+                                            <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>&nbsp;
+                                            <span></span> <b class="caret"></b>
                                         </div>
                                     </div>
                                 </div>
@@ -246,6 +227,7 @@
 
     });
     </script>
+
 <script>
 
 $(document).ready(function () {
@@ -665,6 +647,8 @@ $(document).ready(function () {
         var from_date = picker.startDate.format('YYYY-MM-DD');
         var to_date = picker.endDate.format('YYYY-MM-DD');
 
+        console.log('from_date',from_date);
+        console.log('to_date',to_date);
         var type = "{{$type}}";
 
         // Collect filter values (customer, from_date, to_date) from the form
@@ -672,17 +656,26 @@ $(document).ready(function () {
         if(customer_id == undefined){
             customer_id = '';
         }
-        // var from_date = $('#from_date').val();
-        // if(from_date == undefined){
-        //     from_date = '';
-        // }
-        // var to_date = $('#to_date').val();
-        // if(to_date == undefined){
-        //     to_date = '';
-        // }
+
+        if(from_date == undefined || from_date == 'Invalid date'){
+            from_date = '';
+        }
+
+        if(to_date == undefined || to_date == 'Invalid date'){
+            to_date = '';
+        }
 
         exportUrl = "{{ route('orders.allexport') }}" + '/' + customer_id+ '/' + from_date + '/' + to_date;
-        printUrl = "{{ route('orders.allprint') }}" + '/' + customer_id+ '/' + from_date + '/' + to_date;
+        //printUrl = "{{ route('orders.allprint') }}" + '/' + customer_id+ '/' + from_date + '/' + to_date;
+        var exportUrl = "{{ route('orders.allexport') }}"
+        + '?customer_id=' + encodeURIComponent(customer_id)
+        + '&from_date=' + encodeURIComponent(from_date)
+        + '&to_date=' + encodeURIComponent(to_date);
+
+        var printUrl = "{{ route('orders.allprint') }}"
+        + '?customer_id=' + encodeURIComponent(customer_id)
+        + '&from_date=' + encodeURIComponent(from_date)
+        + '&to_date=' + encodeURIComponent(to_date);
 
         var params = {
                 customer_id      : customer_id,

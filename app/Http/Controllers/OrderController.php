@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\DataTables\InvoiceDataTable;
 use App\DataTables\InvoiceTypeDataTable;
+use App\Events\InvoiceUpdated;
 use App\Exports\InvoiceExport;
 use App\Http\Requests\Order\StoreRequest;
 use App\Http\Requests\Order\UpdateRequest;
@@ -82,7 +83,7 @@ class OrderController extends Controller
             }
 
             DB::commit();
-
+            event(new InvoiceUpdated($order));
             return response()->json(['success' => true,
             'message' => trans('messages.crud.add_record'),
             'alert-type'=> trans('quickadmin.alert-type.success')], 200);
@@ -194,6 +195,7 @@ class OrderController extends Controller
             }
 
             DB::commit();
+            event(new InvoiceUpdated($order));
             return response()->json([
                 'success' => true,
                 'message' => trans('messages.crud.update_record'),
@@ -307,26 +309,40 @@ class OrderController extends Controller
         return redirect($url);
     }
 
-    public function allinvoicePrintView($customer_id = null, $from_date = null, $to_date = null)
+    public function allinvoicePrintView(Request $request)
     {
         abort_if(Gate::denies('product_print'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        $customer_id = $request->input('customer_id');
+        $from_date = $request->input('from_date');
+        $to_date = $request->input('to_date');
 
         $query = Order::query();
         if ($customer_id !== null && $customer_id != 'null') {
-            $query->where('customer_id', request()->customer_id);
+            $customer = Customer::find($customer_id);
+            $customer_name = $customer ? $customer->name : 'Unknown Party';
+        } else {
+            $customer_name = 'All Parties';
         }
+
         if ($from_date !== null && $from_date != 'null') {
-            $query->whereDate('invoice_date','>=', request()->from_date);
+            $query->whereDate('invoice_date','>=', $from_date);
         }
         if ($to_date !== null && $to_date != 'null') {
-            $query->whereDate('invoice_date','<=', request()->to_date);
+            $query->whereDate('invoice_date','<=',  $to_date);
         }
+
+        $from_date = $from_date ? Carbon::parse($from_date)->format('d-m-Y') : null;
+        $to_date = $to_date ? Carbon::parse($to_date)->format('d-m-Y') : null;
+        $duration = ($from_date && $to_date) ? $from_date . ' - ' . $to_date : 'All Time';
         $allorders = $query->orderBy('id','desc')->get();
         $sumGrandTotal = $allorders->sum('grand_total');
-        return view('admin.order.print-orders-list',compact('allorders','sumGrandTotal'))->render();
+        return view('admin.order.print-orders-list',compact('allorders','sumGrandTotal','duration','customer_name'))->render();
     }
 
-    public function allinvoiceExport($customer_id = null, $from_date = null, $to_date = null){
+    public function allinvoiceExport(Request $request){
+        $customer_id = $request->input('customer_id');
+        $from_date = $request->input('from_date');
+        $to_date = $request->input('to_date');
         abort_if(Gate::denies('product_export'), Response::HTTP_FORBIDDEN, '403 Forbidden');
         return Excel::download(new InvoiceExport($customer_id,$from_date,$to_date), 'Invoice-List.xlsx');
     }

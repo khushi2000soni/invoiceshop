@@ -34,7 +34,7 @@ class InvoiceDataTable extends DataTable
             })
             ->editColumn('customer.name',function($order){
                 $customer = $order->customer;
-                return $customer ? $customer->name : '';
+                return $customer ? $customer->full_name : '';
             })
             ->editColumn('created_at', function ($order) {
                 return $order->created_at->format('d-m-Y');

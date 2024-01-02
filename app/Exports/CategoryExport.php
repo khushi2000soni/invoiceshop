@@ -34,17 +34,16 @@ class CategoryExport implements FromCollection , WithHeadings
         // return Category::all()->map(function ($category, $key) {
             return $categories->map(function ($category, $key) {
             return [
-                'Sn.' => $key + 1,
+                // 'Sn.' => $key + 1,
                 'Name' => $category->name,
                 'Total Item' => $category->products->count() ?? 0,
-                'Created At' => $category->created_at->format('d-m-Y'),
             ];
         });
     }
 
     public function headings(): array
     {
-        return ["Sn.", "Name" , "Total Item" , "Created At"];
+        return ["Name" , "Total Item"];
     }
 
 }

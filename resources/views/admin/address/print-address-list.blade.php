@@ -19,21 +19,15 @@
 			<table cellpadding="0" cellspacing="0" width="100%" style="color: #000;font-size: 16px;">
 				<thead>
 					<tr>
-						<th style="padding: 10px;border: 1px solid #000;border-right: none;" align="left">@lang('quickadmin.qa_sn')</th>
 						<th style="padding: 10px;border: 1px solid #000;border-right: none;" align="center">@lang('quickadmin.address.fields.list.address')</th>
-						<th style="padding: 10px;border: 1px solid #000;border-right: none;" align="center">@lang('quickadmin.address.fields.list.no_of_customer')</th>
-						<th style="padding: 10px;border: 1px solid #000;" align="center">@lang('quickadmin.address.fields.list.created_at')</th>
-
+						<th style="padding: 10px;border: 1px solid #000;" align="center">@lang('quickadmin.address.fields.list.no_of_customer')</th>
 					</tr>
 				</thead>
 				<tbody>
-
 					@forelse ($addresses as $key => $address)
 				    <tr>
-				        <td style="padding: 10px;border: 1px solid #000;border-right: none;border-top: none;" align="left">{{ $key + 1 }}</td>
 						<td style="padding: 10px;border: 1px solid #000;border-right: none;border-top: none;" align="center">{{ $address->address }}</td>
-						<td style="padding: 10px;border: 1px solid #000;border-right: none;border-top: none;" align="center">{{ $address->customers->count() ?? 0 }}</td>
-						<td style="padding: 10px;border: 1px solid #000;border-top: none;" align="center">{{ $address->created_at->format('d-M-Y') }}</td>
+						<td style="padding: 10px;border: 1px solid #000;border-top: none;" align="center">{{ $address->customers->count() ?? 0 }}</td>
 					</tr>
                     @empty
                     <tr>

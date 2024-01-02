@@ -108,7 +108,8 @@
                                             </div>
                                         </div>
                                         <div class="col-xl-8 col-md-7 col-sm-6 order-sm-2 order-1 mb-sm-0 mb-4">
-                                            <h6 class="text-sm-right text-left m-0">#{{ $order->invoice_number}}</h6>
+                                            <h6 class="text-sm-right text-left m-0">@lang('quickadmin.order.fields.invoice_number') : #{{ $order->invoice_number}}</h6>
+                                            <h6 class="text-sm-right text-left m-0">@lang('quickadmin.order.fields.invoice_date') : {{ $order->invoice_date}}</h6>
                                         </div>
                                     </div>
                                 </div>

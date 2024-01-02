@@ -316,6 +316,7 @@ return [
 			'email_address' => 'Email Address',
 			'order_note'  	=> 'Notes',
 			'date' => 'Date',
+            'duration' => 'Duration',
 			'sno'=>'SNo.',
 			'number_of_item'=>'Number of item',
             'created_at'=>'Created At',

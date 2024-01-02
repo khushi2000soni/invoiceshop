@@ -31,7 +31,7 @@ class InvoiceTypeDataTable extends DataTable
             })
             ->editColumn('customer.name',function($order){
                 $customer = $order->customer;
-                return $customer ? $customer->name : '';
+                return $customer ? $customer->full_name : '';
             })
             ->editColumn('grand_total',function($order){
                 return $order->grand_total ?? "";

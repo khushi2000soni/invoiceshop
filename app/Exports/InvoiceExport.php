@@ -40,14 +40,15 @@ class InvoiceExport implements FromCollection , WithHeadings
             return $allorders->map(function ($order, $key) {
             return [
                 trans('quickadmin.order.fields.invoice_number') => $order->invoice_number ?? '' ,
-                trans('quickadmin.order.fields.customer_name') => $order->customer ? $order->customer->name : '',
+                trans('quickadmin.order.fields.customer_name') => $order->customer ? $order->customer->full_name : '',
                 trans('quickadmin.order.fields.total_price') => $order->grand_total ?? '',
+                trans('quickadmin.order.fields.invoice_date') =>$order->created_at->format('d-m-Y') ?? '',
             ];
         });
     }
 
     public function headings(): array
     {
-        return [trans('quickadmin.order.fields.invoice_number') , trans('quickadmin.order.fields.customer_name'), trans('quickadmin.order.fields.total_price')];
+        return [trans('quickadmin.order.fields.invoice_number') , trans('quickadmin.order.fields.customer_name'), trans('quickadmin.order.fields.total_price'), trans('quickadmin.order.fields.invoice_date')];
     }
 }

@@ -31,9 +31,9 @@
     </td>
     <td class="text-right">
         <div class="d-flex align-items-center buttonGroup justify-content-end">
+            <button  class="btn btn-success addNewBlankRow"><i class="fas fa-plus"></i></button>
             <button class="btn btn-dark btn-sm copy-product"><x-svg-icon icon="copy" /></button>
             <button class="btn btn-danger btn-sm delete-product"><x-svg-icon icon="delete" /></button>
-            <button  class="btn btn-success addNewBlankRow"><i class="fas fa-plus"></i></button>
         </div>
     </td>
 </tr>
