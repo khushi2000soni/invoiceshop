@@ -109,7 +109,7 @@ class InvoiceDataTable extends DataTable
     public function getColumns()
     {
         return [
-                Column::make('DT_RowIndex')->title(trans('quickadmin.qa_sn'))->orderable(false)->searchable(false),
+                Column::make('DT_RowIndex')->title(trans('quickadmin.qa_sn'))->orderable(false)->searchable(false)->visible(false),
                 Column::make('invoice_number')->title(trans('quickadmin.order.fields.invoice_number')),
                 Column::make('customer.name')->title(trans('quickadmin.order.fields.customer_name')),
                 Column::make('created_at')->title(trans('quickadmin.order.fields.created_at')),

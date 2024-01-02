@@ -71,6 +71,9 @@
         display: block !important;
         z-index: 9999;
     }
+     .cart_filter_box{
+            border-bottom: 1px solid #e5e9f2;
+        }
 </style>
 
 
@@ -81,9 +84,9 @@
 <section class="section">
     <div class="section-body">
         <form method="post" id="SaveEditInvoiceForm" action="{{route('orders.update', $order->id)}}">
-            <div class="invoice">
-                <div class="invoice-print">
-                    <div class="row">
+            <div class="card pt-2">
+                <div class="invoice-print card-body">
+                   <div class="row align-items-center pb-3 mb-4 cart_filter_box">
                         <div class="col-lg-12">
                             <div class="row">
                                 @can('order_product_create')
@@ -113,17 +116,17 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row mt-4">
+                    <div class="row">
                         <div class="col-md-12">
                         <div class="table-responsive">
                             <table class="table dt-responsive tablestriped tablehover ordertable">
                                 <thead>
                                     <tr>
-                                        <th class="text-center d-none">@lang('quickadmin.order.fields.product_id')</th>
-                                        <th class="text-center">@lang('quickadmin.order.fields.product_name')</th>
-                                        <th class="text-center">@lang('quickadmin.order.fields.quantity')</th>
-                                        <th class="text-center">@lang('quickadmin.order.fields.price')</th>
-                                        <th class="text-center">@lang('quickadmin.order.fields.sub_total')</th>
+                                        <th class="text-left d-none">@lang('quickadmin.order.fields.product_id')</th>
+                                        <th class="text-left">@lang('quickadmin.order.fields.product_name')</th>
+                                        <th class="text-left">@lang('quickadmin.order.fields.quantity')</th>
+                                        <th class="text-left">@lang('quickadmin.order.fields.price')</th>
+                                        <th class="text-left">@lang('quickadmin.order.fields.sub_total')</th>
                                         <th class="text-right">@lang('quickadmin.qa_action')</th>
                                         {{-- <th class="text-center">
                                             <div class="form-group m-0">
@@ -166,11 +169,13 @@
                         </div>
                         </div>
                     </div><hr>
-                    <div class="row mt-4">
-                        <div class="text-md-right">
-                            <div class="float-lg-left">
-                                <button type="submit" class="btn btn-success btn-icon icon-left saveInvoicebtn" id="saveInvoicebtn"><i class="fas fa-credit-card"></i>@lang('quickadmin.qa_save_invoice')</button>
-                                {{-- <button class="btn btn-light btn-icon icon-left"><i class="fas fa-print"></i>@lang('quickadmin.qa_print_invoice')</button> --}}
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="text-md-right">
+                                <div class="float-lg-left">
+                                    <button type="submit" class="btn btn-success btn-icon icon-left saveInvoicebtn" id="saveInvoicebtn"><i class="fas fa-credit-card"></i>@lang('quickadmin.qa_save_invoice')</button>
+                                    {{-- <button class="btn btn-light btn-icon icon-left"><i class="fas fa-print"></i>@lang('quickadmin.qa_print_invoice')</button> --}}
+                                </div>
                             </div>
                         </div>
                     </div>

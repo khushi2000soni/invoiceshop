@@ -57,7 +57,7 @@
                 </div>
             </div> --}}
 
-            <div class="custom-select2 fullselect2">
+            <div class="fullselect2">
                 <div class="form-control-inner">
                     <label>@lang('quickadmin.customers.fields.address')</label>
                     <select class="js-example-basic-single @error('address_id') is-invalid @enderror" name="address_id" id="address_id" >

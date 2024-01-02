@@ -2682,14 +2682,10 @@ ol {
 .text-muted {
     color: #98a6ad !important
 }
-
-.form-control,
-.input-group-text,
-.custom-select,
-.custom-file-label {
+.form-control, .input-group-text, .custom-select, .custom-file-label {
     border-radius: 0 !important;
-/*    background-color: #fdfdff;*/
-    border-color: #dee2e6
+    /* background-color: #fdfdff; */
+    border-color: #e5e9f2 ;
 }
 
 .form-control:focus,
@@ -4182,18 +4178,16 @@ table.dataTable tbody tr.selected a, table.dataTable tbody th.selected a, table.
 div.dataTables_wrapper div.dataTables_paginate{
     margin-left: auto;
 }
-.addnew-btn svg path,
-.addnew-btn svg circle {
+.circlebtn svg,
+.circlebtn svg path,
+.circlebtn svg circle {
     fill: #fff;
 }
-
-.addnew-btn svg,
-.printbtn svg,
-.excelbtn svg {
+.circlebtn svg {
     width: 25px;
     height: 25px;
 }
-.addnew-btn, .printbtn, .excelbtn {
+.circlebtn {
     padding: 0 !important;
     border: 0 !important;
     width: 45px;
@@ -4202,6 +4196,13 @@ div.dataTables_wrapper div.dataTables_paginate{
     align-items: center;
     justify-content: center;
     border-radius: 100%;
+    transition: all 0.4s ease-in-out
+}
+.circlebtn:hover{
+	opacity: 0.8;
+}
+.add_invoice_btn {
+    background: #2159d7;
 }
 .addnew-btn{
     background: #2159d7;
@@ -4209,14 +4210,14 @@ div.dataTables_wrapper div.dataTables_paginate{
 .printbtn {
     background: #007fbf !important;
 }
-.printbtn svg path{
-    fill: #fff;
-}
 .excelbtn {
     background: #1D6F42 !important;
 }
-.excelbtn svg path{
-    fill: #fff;
+.recycleicon {
+    background: #ff9b00 !important;
+}
+.add_address {
+	background: #0d8195;
 }
 .tooltip {
     font-size: 12px
@@ -4225,7 +4226,15 @@ div.dataTables_wrapper div.dataTables_paginate{
 .tooltip-inner {
     padding: 7px 13px
 }
-
+div#reportrange {
+    height: 42px;
+    padding: 10px 15px !important;
+    border-color: #e5e9f2 !important;
+}
+.select2-container--default .select2-selection--single {
+    border: 1px solid #e5e9f2 !important;
+    border-radius: 0 !important;
+}
  .modal-body, .modal-footer {
     padding: 35px;
 }
@@ -4234,7 +4243,7 @@ div.dataTables_wrapper div.dataTables_paginate{
     padding-top: 15px
 }
 .modal-header {
-    padding: 20px 35px;
+    padding: 20px 25px;
     align-items: center;
 }
 .modal-footer {
@@ -4789,14 +4798,8 @@ form button {
     border-color: #ff396f;
     color: #fff
 }
-
-.btn-danger:hover,
-.btn-danger:focus,
-.btn-danger:active,
-.btn-danger.disabled:hover,
-.btn-danger.disabled:focus,
-.btn-danger.disabled:active {
-    background-color: #f60043 !important
+.btn-danger:hover, .btn-danger:focus, .btn-danger:active, .btn-danger.disabled:hover, .btn-danger.disabled:focus, .btn-danger.disabled:active {
+    background-color: #d30000 !important;
 }
 
 .btn-outline-danger:hover,
@@ -4911,7 +4914,7 @@ form button {
 .btn-info.disabled:hover,
 .btn-info.disabled:focus,
 .btn-info.disabled:active {
-    background-color: #0a64a3 !important
+    background-color: #0a64a3
 }
 
 .btn-outline-info:hover,
@@ -4920,7 +4923,7 @@ form button {
 .btn-outline-info.disabled:hover,
 .btn-outline-info.disabled:focus,
 .btn-outline-info.disabled:active {
-    background-color: #d30000  !important;
+    background-color: #d30000 ;
     color: #fff !important
 }
 
@@ -5759,7 +5762,7 @@ form button {
 
 a.dropdown-item {
     padding: 7px 12px;
-    font-weight: 500;
+    font-weight: 400;
     line-height: 1.2;
     align-items: center;
     display: flex;
@@ -8530,7 +8533,10 @@ body:not(.sidebar-mini) .sidebar-style-2 .sidebar-menu li.active ul.dropdown-men
     border-color: transparent !important;
     color: #fff
 }
-
+.btn-primary {
+    height: 42px;
+    border-radius: 0;
+}
 .theme-white .btn-primary:focus {
     background-color: #02cfcb !important
 }
@@ -8687,9 +8693,9 @@ body:not(.sidebar-mini) .sidebar-style-2 .sidebar-menu li.active ul.dropdown-men
 }
 
 .theme-white .custom-checkbox .custom-control-input:checked~.custom-control-label::before {
-    background-color: #d30000
+    background-color: #d30000;
+    border-color: #d30000;
 }
-
 .theme-white .custom-checkbox .custom-control-input:indeterminate~.custom-control-label::before {
     background-color: #d30000
 }
@@ -8798,9 +8804,15 @@ body:not(.sidebar-mini) .sidebar-style-2 .sidebar-menu li.active ul.dropdown-men
 }
 
 .theme-white .navbar .nav-link {
-    color: #000
+    color: #000;
+    border-radius: 0;
 }
-
+.edit-category-btn:hover{
+	background-color: #2453a5 !important;
+}
+.record_delete_btn:hover{
+	background-color: #d30000 !important;
+}
 .theme-white .navbar .form-inline .form-control {
     background-color: #e9ecef
 }
@@ -12541,8 +12553,13 @@ table.dataTable.dtr-inline.collapsed>tbody>tr[role="row"]>td:first-child:before,
     box-shadow: none !important;
 }
 /* *************** */
+.custom-select2 .form-control-inner label {
+    top: -12px !important;
+    font-size: 14px !important;
+    font-weight: 600 !important;
+}
 .dt-responsive tbody tr td:last-child {
-    display: -webkit-box;
+    display: flex;
     align-items: center;
     justify-content: center;
     border-right: 0 !important;
@@ -12559,6 +12576,25 @@ table.dataTable.dtr-inline.collapsed>tbody>tr[role="row"]>td:first-child:before,
     align-items: center;
     justify-content: center;
     padding: 0 !important;
+    border-radius: 0;
+}
+.dt-responsive tbody tr td:last-child .btn:hover {
+	background-color: transparent !important;
+}
+.dt-responsive tbody tr td:last-child .btn.btn-info:hover svg path {
+    fill: #2159d7;
+}
+.dt-responsive tbody tr td:last-child .btn.btn-danger:hover svg path {
+    fill: #d30000;
+}
+.dt-responsive tbody tr td:last-child .btn.edit-password-btn:hover svg path {
+    fill: #1d6f42;
+}
+.dt-responsive tbody tr td:last-child .btn.copy-product:hover svg path {
+    fill: #2159d7;
+}
+.dt-responsive tbody tr td:last-child .btn.delete-product:hover svg path {
+    fill: #d30000;
 }
 .dt-responsive tbody tr td:last-child .m-1{
     margin: 0px !important;
@@ -12789,6 +12825,21 @@ button.btn.btn-outline-dark.addRecordBtn i {
 .custom-file, .custom-file-label, .custom-select, .custom-file-label:after, .form-control[type="color"], select.form-control:not([size]):not([multiple]) {
     height: calc(1.8rem + 6px) !important;
 }*/
+.droplist .dropdown-item, .droplist form button {
+    padding: 10px 15px !important;
+}
+.droplist form button{
+	transition: all 0.4s ease-in-out;
+}
+.droplist form button:hover{
+	color: #d30000 !important;
+	background-color: #f8f9fa !important;
+}
+.droplist svg {
+    margin-right: 12px;
+    width: 18px;
+    min-width: 18px;
+}
 
 div.dataTables_wrapper div.dataTables_filter input {
     height: 34px;
@@ -12851,9 +12902,9 @@ ul.sidebar-menu li a svg {
     color: #284561;
 }
 
-.table-responsive tbody tr td:last-child {
+/*.table-responsive tbody tr td:last-child {
     justify-content: start !important;
-}
+}*/
 
 .purple-sidebar .sidebar-style-2 .sidebar-menu>li ul.dropdown-menu li a {
     background-color: #121212 !important;
@@ -12948,7 +12999,7 @@ div.dataTables_wrapper div.dataTables_info {
     padding-top: 32px !important;
 }
 .select2-link2 .btns {
-    color: #3584a5;
+        color: #d30000 !important;
     background-color: transparent;
     border: 0 !important;
     font-size: 12px;
@@ -12960,13 +13011,16 @@ div.dataTables_wrapper div.dataTables_info {
     padding: 1px 7px !important;
     font-size: 13px !important;
 }
+.select2-container--default .select2-results__option[aria-selected=true] {
+    background-color: #6e7476 !important;
+}
 .select2-container--default .select2-search--dropdown .select2-search__field {
     border: 1px solid #d30000  !important;
 }
 .select2-search--dropdown .select2-search__field {
     padding: 10px;
     font-size: 15px;
-    height: 35px !important;
+    height: 42px !important;
 }
 .select2-container--default .select2-selection--single .select2-selection__rendered {
     font-size: 13px;
@@ -13193,10 +13247,10 @@ button#addProductBtn {
         font-size: 11px;
     }
 }
-
 .dropdownBtnTable tbody tr td:last-child {
     display: flex;
     align-items: center;
+    gap: 5px;
 }
 
 .dangerBtn {
@@ -13256,6 +13310,48 @@ button#addProductBtn {
 .dt-responsive tbody tr td:last-child .btn:hover svg path{
     fill: #fff;
 }
+table.dataTable tbody>tr.selected, table.dataTable tbody>tr>.selected {
+    background-color: #d30000 !important;
+}
+table.dataTable tbody>tr.selected td, table.dataTable tbody>tr>.selected td {
+    color: #fff;
+}
+table.dataTable tbody>tr.selected td svg path, table.dataTable tbody>tr>.selected td svg path{
+    fill: #fff;
+}
+.shareblock .btn {
+    width: 50px !important;
+    height: 50px !important;
+    border-radius: 100% !important;
+}
+.shareblock {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+}
+.shareblock .btn svg path {
+    fill: #fff;
+}
+.shareblock .btn svg {
+    width: 25px;
+    height: 25px;
+}
+.table thead th{
+    border-bottom: 1px solid #dee2e6 !important;
+}
+.dt-responsive tbody tr td:last-child .addNewBlankRow:hover {
+    background: #2159d7 !important;
+}
+button#saveInvoicebtn {
+    max-width: fit-content;
+    height: 42px;
+    border-radius: 0;
+    padding: 7px 16px !important;
+}
+#saveInvoicebtn i{
+    margin-right: 12px;
+}
 .wrap-login {
     width: 500px;
     border-radius: 10px;
@@ -13266,4 +13362,17 @@ button#addProductBtn {
     background: -o-linear-gradient(top,#7579ff,#b224ef);
     background: -moz-linear-gradient(top,#7579ff,#b224ef);
     background: linear-gradient(top,#7579ff,#b224ef);
+}
+
+.cart_filter_box .btn-primary {
+    max-width: fit-content;
+}
+.ranges li{
+    color: #d30000 !important;
+}
+.ranges li.active,
+.ranges li:hover {
+    background-color: #d30000 !important;
+    border: #d30000 !important;
+    color: #fff !important;
 }

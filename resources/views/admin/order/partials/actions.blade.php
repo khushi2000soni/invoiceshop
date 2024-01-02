@@ -1,5 +1,5 @@
 @can('invoice_print')
-<button class="btn btn-icon btn-info print-order-btn p-1 px-2 print-button" data-href="{{route('orders.print', $order->id)}}" title="@lang('quickadmin.qa_print')" ><x-svg-icon icon="print" /></button>
+<button class="btn btn-icon btn-info print-order-btn p-1 px-2 print-button" data-href="{{route('orders.print', $order->id)}}" title="@lang('quickadmin.qa_print')" ><x-svg-icon icon="invoice-print" /></button>
 @endcan
 
 @can('invoice_share')
@@ -13,22 +13,22 @@
                 <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body">
-                    <div class="row">
-                        <div class="col-6">
+            <div class="modal-body ">
+                    <div class="shareblock">
+                        <div class="btnbk">
                             @php
                                 $recipientMail = $order->customer->email ?? "";
                             @endphp
-                            <a href="javascript:void(0);" data-order-id="{{ $order->id }}" data-recipient-email="{{ $recipientMail }}" data-href="{{route('orders.generate-pdf', $order->id)}}" class="btn btn-danger dangerBtn text-white btn-block m-2 share-email-btn">
-                                <i class="fas fa-envelope py-1 px-1"></i>
+                            <a href="javascript:void(0);" data-order-id="{{ $order->id }}" data-recipient-email="{{ $recipientMail }}" data-href="{{route('orders.generate-pdf', $order->id)}}" class="btn btn-danger dangerBtn text-white btn-block share-email-btn">
+                                <x-svg-icon icon="mail" />
                             </a>
                         </div>
-                        <div class="col-6">
+                        <div class="btnbk">
                             @php
                                 $recipientNumber = $order->customer->phone ?? ""; // Replace with the actual recipient's phone number
                             @endphp
-                            <a href="javascript:void(0);" class="btn btn-success btn-block m-2 share-whatsapp-btn" data-order-id="{{ $order->id }}" data-recipient-number="{{ $recipientNumber }}" data-href="{{route('orders.generate-pdf', $order->id)}}">
-                                <i class="fab fa-whatsapp py-1 px-1"></i>
+                            <a href="javascript:void(0);" class="btn btn-success btn-block share-whatsapp-btn" data-order-id="{{ $order->id }}" data-recipient-number="{{ $recipientNumber }}" data-href="{{route('orders.generate-pdf', $order->id)}}">
+                                <x-svg-icon icon="whatsapp" />
                             </a>
                         </div>
                     </div>
@@ -45,7 +45,7 @@
         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" title="@lang('quickadmin.qa_view')">
         <i class="fas fa-align-justify"></i>
     </button>
-    <div class="dropdown-menu">
+    <div class="dropdown-menu droplist">
         {{-- @can('invoice_show')
         <a class="dropdown-item has-icon" href="{{route('orders.edit', $order->id)}}" title="@lang('quickadmin.qa_view')"><i class="far fa-eye"></i> @lang('quickadmin.qa_view')</a>
         @endcan --}}

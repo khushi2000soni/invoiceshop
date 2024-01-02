@@ -29,9 +29,9 @@ class CategoryDataTable extends DataTable
                 $name='';
                 $productCount = $category->total_product;
                 if ($productCount > 0) {
-                    $name = '<a class="btn btn-link toggle-accordion" title="' . $productCount . ' '. trans('quickadmin.qa_record_found').'" href="'.route('products.index',['category_id'=>$category->id]).'">' . ucwords($category->name). '</a>';
+                    $name = '<a class="" title="' . $productCount . ' '. trans('quickadmin.qa_record_found').'" href="'.route('products.index',['category_id'=>$category->id]).'">' . ucwords($category->name). '</a>';
                 } else {
-                    $name = '<a class="btn" title="'.trans('quickadmin.qa_no_record').'">' . ucwords($category->name). '</a>';
+                    $name = ucwords($category->name);
                 }
                 return $name;
             })
@@ -111,7 +111,7 @@ class CategoryDataTable extends DataTable
     {
         return [
 
-            Column::make('DT_RowIndex')->title(trans('quickadmin.qa_sn'))->orderable(false)->searchable(false),
+            Column::make('DT_RowIndex')->title(trans('quickadmin.qa_sn'))->orderable(false)->searchable(false)->visible(false),
             Column::make('name')->title(trans('quickadmin.category.fields.name')),
             Column::make('total_product')->title(trans('quickadmin.category.fields.total_product'))->orderable(false)->searchable(false),
             Column::make('created_at')->title(trans('quickadmin.category.fields.created_at')),

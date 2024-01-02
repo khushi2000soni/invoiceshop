@@ -7,14 +7,19 @@
 @endsection
 
 @section('main-content')
-
+<style type="text/css">
+    .cart_filter_box {
+        border-bottom: 1px solid #e5e9f2;
+        padding-bottom: 4px;
+    }
+</style>
 <section class="section roles" style="z-index: unset">
     <div class="section-body">
         <div class="row">
             <div class="col-12">
                 <div class="card">
                         <div class="card-body">
-                            <div class="row align-items-center mb-4 cart_filter_box">
+                            <div class="row align-items-center pb-3 mb-3 cart_filter_box">
                                 <div class="col">
                                     <h4>@lang('quickadmin.user-management.title')</h4>
                                 </div>
@@ -22,17 +27,17 @@
                                     <div class="row align-items-center">
                                         <div class="col-auto px-1">
                                             @can('staff_create')
-                                            <button type="button" class="addnew-btn addRecordBtn sm_btn" data-toggle="modal" data-target="#centerModal" data-href="{{ route('staff.create')}}"><x-svg-icon icon="add" /></button>
+                                            <button type="button" class="addnew-btn addRecordBtn sm_btn circlebtn" data-toggle="modal" data-target="#centerModal" data-href="{{ route('staff.create')}}"><x-svg-icon icon="add" /></button>
                                             @endcan
                                         </div>
                                         <div class="col-auto px-1">
                                             @can('staff_print')
-                                            <a href="{{ route('staff.print') }}" class="printbtn btn h-10 col"  id="print-button"><x-svg-icon icon="print" /></a>
+                                            <a href="{{ route('staff.print') }}" class="printbtn btn h-10 col circlebtn"  id="print-button"><x-svg-icon icon="print" /></a>
                                             @endcan
                                         </div>
                                         <div class="col-auto pl-1">
                                             @can('staff_export')
-                                            <a href="{{ route('staff.export')}}" class="excelbtn btn h-10 col"  id="excel-button"><x-svg-icon icon="excel" /></a>
+                                            <a href="{{ route('staff.export')}}" class="excelbtn btn h-10 col circlebtn"  id="excel-button"><x-svg-icon icon="excel" /></a>
                                             @endcan
                                         </div>
                                     </div>

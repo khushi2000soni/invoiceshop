@@ -93,16 +93,16 @@
     <div class="section-body">
           <div class="row">
             <div class="col-12">
-                <div class="card">
+                <div class="card pt-2">
                         <div class="card-body">
-                            <div class="row align-items-center mb-4 cart_filter_box">
+                            <div class="row align-items-center pb-3 mb-4 cart_filter_box">
                                 <!-- <div class="col pl-0">
                                     <h4>@lang('quickadmin.product-management.fields.list')</h4>
                                 </div> -->
                                 <div class="col">
                                     <form id="custom-filter-form">
                                         <div class="row align-items-center">
-                                            <div class="col-xl-3 col-lg-4 col-md-5 col-sm-6 pr-sm-1 mb-sm-0 mb-3">
+                                            <div class="col-xl-3 col-lg-4 col-md-5 col-sm-6 pr-0">
                                                 <div class="custom-select2 fullselect2">
                                                     <div class="form-control-inner">
                                                         <label for="category_id">@lang('quickadmin.product.select_category')</label>
@@ -116,7 +116,7 @@
                                                 </div>
                                             </div>
 
-                                            <div class="col-xl-3 col-lg-4 col-md-5 col-sm-6 pr-sm-1 mb-sm-0 mb-3">
+                                            <div class="col-xl-3 col-lg-4 col-sm-6 text-end">
                                                 <div class="custom-select2 fullselect2">
                                                     <div class="form-control-inner">
                                                         <label for="product_id">Select Item</label>
@@ -130,8 +130,8 @@
                                                 </div>
                                             </div>
 
-                                            <div class="col-xl-3 col-lg-4 col-sm-6 text-end pl-sm-1">
-                                                <div class="form-group d-flex justify-content-end m-0">
+                                            <div class="col-xl-3 col-lg-4 col-sm-6 text-end">
+                                                <div class="form-group d-flex m-0">
                                                     <button type="submit" class="btn btn-primary mr-1 col" id="apply-filter">@lang('quickadmin.qa_submit')</button>
                                                     <button type="reset" class="btn btn-primary mr-1 col" id="reset-filter">@lang('quickadmin.qa_reset')</button>
                                                 </div>
@@ -144,18 +144,18 @@
                                     <div class="row align-items-center">
                                         <div class="col-auto px-1">
                                             @can('product_create')
-                                            <button type="button" class="addnew-btn addRecordBtn sm_btn"  data-href="{{ route('products.create')}}"><x-svg-icon icon="add-product" /></button>
+                                            <button type="button" class="addnew-btn addRecordBtn sm_btn circlebtn"  data-href="{{ route('products.create')}}"><x-svg-icon icon="add-item" /></button>
                                             @endcan
                                         </div>
 
                                         <div class="col-auto px-1">
                                             @can('product_print')
-                                            <a href="{{ route('products.print') }}" class="btn h-10 printbtn col"  id="print-button"><x-svg-icon icon="print" /></a>
+                                            <a href="{{ route('products.print') }}" class="btn h-10 printbtn col circlebtn"  id="print-button"><x-svg-icon icon="print" /></a>
                                             @endcan
                                         </div>
                                         <div class="col-auto pl-1">
                                             @can('product_export')
-                                            <a href="{{ route('products.export')}}" class="btn h-10 excelbtn col"  id="excel-button"><x-svg-icon icon="excel" /></a>
+                                            <a href="{{ route('products.export')}}" class="btn h-10 excelbtn col circlebtn"  id="excel-button"><x-svg-icon icon="excel" /></a>
                                             @endcan
                                         </div>
                                     </div>

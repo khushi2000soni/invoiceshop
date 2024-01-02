@@ -91,7 +91,7 @@
     <div class="section-body">
           <div class="row">
             <div class="col-12">
-              <div class="card">
+              <div class="card pt-2">
                 {{-- <div class="card-header d-flex justify-content-between align-items-center">
                   <h4>@lang('quickadmin.customer-management.fields.list')</h4>
                   @can('customer_create')
@@ -100,11 +100,11 @@
                 </div> --}}
 
                 <div class="card-body">
-                    <div class="row align-items-center mb-4 cart_filter_box">
+                    <div class="row align-items-center mb-4 cart_filter_box pb-3">
                         <div class="col">
                             <form id="citiwise-filter-form">
                                 <div class="row">
-                                    <div class="col-md-3">
+                                    <div class="col-md-3 pr-0">
                                         <div class="custom-select2 fullselect2">
                                             <div class="form-control-inner">
                                                 <label>@lang('quickadmin.customers.fields.address')</label>
@@ -118,7 +118,7 @@
                                         </div>
                                     </div>
                                     <div class="col-md-3 text-end">
-                                        <div class="form-group d-flex justify-content-end">
+                                        <div class="form-group d-flex mb-0">
                                             <button type="submit" class="btn btn-primary mr-1 col" id="apply-filter">@lang('quickadmin.qa_submit')</button>
                                             <button type="reset" class="btn btn-primary mr-1 col" id="reset-filter">@lang('quickadmin.qa_reset')</button>
                                             {{-- <button class="btn btn-primary mr-1 col"  id="print-button">Print</button> --}}
@@ -132,17 +132,17 @@
                             <div class="row align-items-center">
                                 <div class="col-auto px-md-1 pr-1">
                                     @can('customer_create')
-                                    <button type="button" class="addnew-btn addRecordBtn sm_btn"  data-href="{{ route('customers.create')}}"><x-svg-icon icon="add" /></button>
+                                    <button type="button" class="addnew-btn addRecordBtn sm_btn circlebtn"  data-href="{{ route('customers.create')}}"><x-svg-icon icon="add" /></button>
                                     @endcan
                                 </div>
                                 <div class="col-auto px-1">
                                     @can('customer_print')
-                                    <a href="{{ route('customers.print') }}" class="btn printbtn h-10 col"  id="print-button"> <x-svg-icon icon="print" /></a>
+                                    <a href="{{ route('customers.print') }}" class="btn printbtn h-10 col circlebtn"  id="print-button"> <x-svg-icon icon="print" /></a>
                                     @endcan
                                 </div>
                                 <div class="col-auto pl-1">
                                     @can('customer_export')
-                                    <a href="{{ route('customers.export') }}" class="btn excelbtn h-10 col"  id="excel-button"><x-svg-icon icon="excel" /></a>
+                                    <a href="{{ route('customers.export') }}" class="btn excelbtn h-10 col circlebtn"  id="excel-button"><x-svg-icon icon="excel" /></a>
                                     @endcan
                                 </div>
                             </div>

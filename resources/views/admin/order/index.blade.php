@@ -81,6 +81,10 @@
         border-top-left-radius: 0px;
         border-bottom-left-radius: 0px;
     }
+     .cart_filter_box {
+        border-bottom: 1px solid #e5e9f2;
+        padding-bottom: 4px;
+    }
 </style>
 @endsection
 
@@ -90,11 +94,11 @@
     <div class="section-body">
         <div class="row">
             <div class="col-12">
-                <div class="card">
-                    <div class="card-body pt-4">
+                <div class="card pt-2">
+                    <div class="card-body">
                         <form id="invoice-filter-form">
-                            <div class="row align-items-end mb-3">
-                                <div class="col-md-3">
+                            <div class="row align-items-center pb-3 mb-4 cart_filter_box">
+                                <div class="col-md-3 pr-0">
                                     <div class="custom-select2 fullselect2">
                                         <div class="form-control-inner">
                                             <label for="customer_id">@lang('quickadmin.order.fields.customer_name')</label>
@@ -107,8 +111,8 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-3">
-                                    <div class="row mx-0 datapikergroup">
+                                <div class="col-md-3 pr-0">
+                                    <div class="datapikergroup custom-select2 datepickerbox">
                                         {{-- <div class="col-6 px-0 lhs">
                                             <div class="form-group mb-0 label-position">
                                                 <label for="from_date">@lang('quickadmin.order.fields.from_date')</label>
@@ -125,35 +129,46 @@
                                                 </div>
                                             </div>
                                         </div> --}}
-                                        <div id="reportrange" class="pull-right" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; width: 100%">
-                                            <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>&nbsp;
-                                            <span></span> <b class="caret"></b>
+                                        <div class="form-control-inner">
+                                            <label for="select_date">Select Date</label>
+                                            <div id="reportrange" class="pull-right" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; width: 100%">
+                                                <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>&nbsp;
+                                                <span></span> <b class="caret"></b>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-md-2">
-                                    <div class="form-group mb-0 d-flex justify-content-end">
+                                    <div class="form-group mb-0 d-flex">
                                         <button type="submit" class="btn btn-primary mr-1 col" id="apply-filter">@lang('quickadmin.qa_submit')</button>
                                         <button type="reset" class="btn btn-primary mr-1 col" id="reset-filter">@lang('quickadmin.qa_reset')</button>
                                     </div>
                                 </div>
-                                <div class="col-md-3 text-end">
+                                <div class="col-md-4 text-end">
                                     <div class="form-group mb-0 d-flex justify-content-end">
                                         @if ($type != 'deleted')
                                             @can('invoice_create')
-                                            <a href="{{ route('orders.create')}}" class="btn btn-outline-dark invoiceicon add_invoice_btn"><x-svg-icon icon="add-invoice" /> </a>
+                                            <div class="col-auto px-md-1 pr-1">
+                                                <a href="{{ route('orders.create')}}" class="btn btn-outline-dark invoiceicon add_invoice_btn circlebtn"><x-svg-icon icon="add-order" /> </a>
+                                            </div>
                                             @endcan
 
                                             @can('invoice_print')
-                                            <a href="{{ route('orders.allprint') }}" class="btn printbtn h-10 col"  id="invoice-print"> <x-svg-icon icon="print" /></a>
+                                            <div class="col-auto px-md-1 pr-1">
+                                                <a href="{{ route('orders.allprint') }}" class="btn printbtn h-10 col circlebtn"  id="invoice-print"> <x-svg-icon icon="print" /></a>
+                                            </div>
                                             @endcan
 
                                             @can('invoice_print')
-                                            <a href="{{ route('orders.allexport') }}" class="btn excelbtn h-10 col"  id="invoice-excel"><x-svg-icon icon="excel" /></a>
+                                            <div class="col-auto px-md-1 pr-1">
+                                                <a href="{{ route('orders.allexport') }}" class="btn excelbtn h-10 col circlebtn"  id="invoice-excel"><x-svg-icon icon="excel" /></a>
+                                            </div>
                                             @endcan
 
                                             @can('invoice_recycle_access')
-                                            <a class="btn btn-outline-danger recycleicon col" href="{{ route('orders.getTypeOrder',['type'=>'deleted'])}}" id="trashed-data"><x-svg-icon icon="recycle" /></a>
+                                            <div class="col-auto px-md-1 pr-1">
+                                                <a class="btn btn-outline-danger recycleicon col circlebtn" href="{{ route('orders.getTypeOrder',['type'=>'deleted'])}}" id="trashed-data"><x-svg-icon icon="recycle" /></a>
+                                            </div>
                                             @endcan
                                         @endif
                                     </div>

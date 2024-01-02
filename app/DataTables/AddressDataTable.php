@@ -45,14 +45,14 @@ class AddressDataTable extends DataTable
                 $action='';
                 if (Gate::check('address_edit')) {
                 $editIcon = view('components.svg-icon', ['icon' => 'edit'])->render();
-                $action .= '<button  class="btn edit-address-btn"  data-id="'.encrypt($address->id).'" data-address="'. $address->address .'" data-href="'.route('address.edit', $address->id).'">'.$editIcon.'</button>';
+                $action .= '<button  class="btn btn-info edit-address-btn"  data-id="'.encrypt($address->id).'" data-address="'. $address->address .'" data-href="'.route('address.edit', $address->id).'">'.$editIcon.'</button>';
             }
                 if (Gate::check('address_delete')) {
                 $customerCount = $address->customers->count();
                     if ($customerCount == 0) {
                     $deleteIcon = view('components.svg-icon', ['icon' => 'delete'])->render();
                     $action .= '<form action="'.route('address.destroy', $address->id).'" method="POST" class="deleteAddressForm m-1" >
-                    <button title="'.trans('quickadmin.qa_delete').'" class="btn  record_delete_btn btn-sm">'.$deleteIcon.'</button>
+                    <button title="'.trans('quickadmin.qa_delete').'" class="btn btn-danger record_delete_btn btn-sm">'.$deleteIcon.'</button>
                     </form>';
                     }
                 }
@@ -113,7 +113,7 @@ class AddressDataTable extends DataTable
     {
         return [
 
-            Column::make('DT_RowIndex')->title(trans('quickadmin.qa_sn'))->orderable(false)->searchable(false),
+            Column::make('DT_RowIndex')->title(trans('quickadmin.qa_sn'))->orderable(false)->searchable(false)->visible(false),
             Column::make('address')->title(trans('quickadmin.address.fields.list.address')),
             Column::make('no_of_customer')->title(trans('quickadmin.address.fields.list.no_of_customer'))->orderable(false)->searchable(false),
             Column::make('created_at')->title(trans('quickadmin.address.fields.list.created_at')),

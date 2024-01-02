@@ -7,6 +7,7 @@ use App\Models\Device;
 use App\Models\Order;
 use App\Models\OrderProduct;
 use App\Models\Product;
+use App\Models\Address;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
@@ -18,6 +19,7 @@ class ReportController extends Controller
     public function index(Request $request)
     {
         abort_if(Gate::denies('report_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+       
         $timeFrame = $request->input('time_frame', 'monthly');
         $data = null;
         // Fetch the default data based on the default time frame
@@ -64,24 +66,8 @@ class ReportController extends Controller
     public function reportCategory(Request $request)
     {
         abort_if(Gate::denies('report_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-        $timeFrame = $request->input('time_frame', 'monthly');
-        $data = null;
-        // Fetch the default data based on the default time frame
-        $data = $this->getDataForTimeFrame($timeFrame);
-
-        $totalOrderCount = Order::count();
-        $totalProductCount = Product::count();
-        $totalCustomerCount = Customer::count();
-        $deviceCount = Device::count();
-
-        return view('admin.report.report-category', compact(
-            'data',
-            'timeFrame',
-            'totalOrderCount',
-            'totalCustomerCount',
-            'totalProductCount',
-            'deviceCount'
-        ));
+        $addresses = Address::orderByRaw('CAST(address AS SIGNED), address')->get();
+        return view('admin.report.report-category', compact('addresses'));
     }
 
 
