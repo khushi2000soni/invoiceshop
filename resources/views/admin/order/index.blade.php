@@ -111,11 +111,14 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-3">
-                                    <div class="row mx-0 datapikergroup">
-                                        <div id="reportrange" class="pull-right" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; width: 100%">
-                                            <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>&nbsp;
-                                            <span></span> <b class="caret"></b>
+                                <div class="col-md-3 pr-0">
+                                    <div class="mx-0 datapikergroup custom-select2">
+                                        <div class="form-control-inner">
+                                            <label for="customer_id">Select Date</label>
+                                            <div id="reportrange" class="pull-right" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; width: 100%">
+                                                <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>&nbsp;
+                                                <span></span> <b class="caret"></b>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
