@@ -48,6 +48,8 @@ class ReportController extends Controller
         return view('admin.report.report-category', compact('addresses'));
     }
 
+
+
     ///// old report code
 
     public function index(Request $request)

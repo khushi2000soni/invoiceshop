@@ -72,7 +72,7 @@ class InvoiceDataTable extends DataTable
             $model = $model->whereDate('invoice_date','<=', request()->to_date);
         }
 
-        return $model->newQuery()->with('customer');
+        return $model->newQuery()->with('customer')->orderBy('updated_at','desc');
     }
 
     /**
