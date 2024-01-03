@@ -13370,9 +13370,20 @@ button#saveInvoicebtn {
 .ranges li{
     color: #d30000 !important;
 }
-.ranges li.active,
-.ranges li:hover {
+.ranges li.active, .ranges li:hover {
     background-color: #d30000 !important;
-    border: #d30000 !important;
+    border: 1px solid #d30000 !important;
     color: #fff !important;
+}
+.daterangepicker td.active, .daterangepicker td.active:hover {
+    background-color: #d30000 !important;
+}
+.daterangepicker td.in-range{
+    background-color: #fff0f0 !important; 
+}
+.daterangepicker .calendar th, .daterangepicker .calendar td{
+    font-weight: 500;
+}
+.daterangepicker .daterangepicker_input i{
+    top: 12px !important;
 }

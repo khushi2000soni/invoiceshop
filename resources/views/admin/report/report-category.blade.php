@@ -98,6 +98,7 @@
 <script src="{{ asset('admintheme/assets/bundles/jquery-ui/jquery-ui.min.js') }}"></script>
 <script type="text/javascript" src="//cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
   <script type="text/javascript" src="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script type="text/javascript">
     $(function() {
 
@@ -124,6 +125,12 @@
         cb(start, end);
 
     });
+    </script>
+    <script>
+    const config = {
+  type: 'pie',
+  data: data,
+};
     </script>
 
 @endsection
