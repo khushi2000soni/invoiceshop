@@ -80,7 +80,6 @@ class InvoiceDataTable extends DataTable
      */
     public function html(): HtmlBuilder
     {
-
         return $this->builder()
         ->setTableId('orders-table')
         ->parameters([
@@ -96,10 +95,6 @@ class InvoiceDataTable extends DataTable
         ->buttons([
             Button::make('excel')->exportOptions(['columns' => [0, 1, 2, 3, 4]]),
             Button::make('print')->exportOptions(['columns' => [0, 1, 2, 3, 4]]),
-            // Button::make('excel'),
-            // Button::make('csv'),
-            // Button::make('pdf'),
-            // Button::make('print'),
         ]);
     }
 
