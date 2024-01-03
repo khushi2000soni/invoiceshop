@@ -43,7 +43,6 @@
                 </tr>
                 @endforelse
             </tbody>
-
         </table>
 
     </main>

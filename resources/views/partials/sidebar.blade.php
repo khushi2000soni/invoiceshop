@@ -62,7 +62,7 @@
         @can('phone_book_access')
         <li class="{{ Request::is('phone-book*') ? 'active' : '' }}">
             <a href="{{ route('showPhoneBook') }}" class="nav-link">
-                <x-side-bar-svg-icon icon="customer" />
+                <x-side-bar-svg-icon icon="phone-book" />
                 <span>@lang('quickadmin.phone-book.title')</span>
             </a>
         </li>
