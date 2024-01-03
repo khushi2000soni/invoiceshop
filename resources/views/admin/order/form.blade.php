@@ -1,5 +1,6 @@
 
 <tr class="template-row" style="display:none;">
+    <td><div class="sr_no"></div></td>
     <td>
         <div class="form-group m-0">
             <div class="custom-select2 fullselect2">

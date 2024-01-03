@@ -104,6 +104,9 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="col-md-9 col-sm-6 order-sm-2 order-1 mb-sm-0 mb-4">
+                                <h6 class="text-sm-right text-right m-0">@lang('quickadmin.order.fields.invoice_date') : {{$invoice_date}}</h6>
+                            </div>
                         </div>
                     </div>
                     @endcan
@@ -114,6 +117,7 @@
                         <table class="table dt-responsive tablestriped tablehover ordertable">
                             <thead>
                                 <tr>
+                                    <th class="text-left">@lang('quickadmin.qa_sn')</th>
                                     <th class="text-left d-none">@lang('quickadmin.order.fields.product_id')</th>
                                     <th class="text-left">@lang('quickadmin.order.fields.product_name')</th>
                                     <th class="text-left">@lang('quickadmin.order.fields.quantity')</th>
@@ -266,7 +270,7 @@
                         .append('<div class="select2-link2"><button class="btns addNewBtn get-product"><i class="fa fa-plus-circle"></i> Add New</button></div>');
                 }
             });
-
+            newRow.find('.sr_no').html(rowIndex+1);
             newRow.find('.copy-product').attr('data-row-index', rowIndex);
             newRow.find('.delete-product').attr('data-row-index', rowIndex);
 
@@ -532,6 +536,7 @@
             copiedRow.find('input[name="quantity"]').val('');
             copiedRow.find('input[name="price"]').val('');
             copiedRow.find('input[name="total_price"]').val('');
+            copiedRow.find('.sr_no').html(newRowindex+1);
             // Set the selected product in the copied row's Select2 dropdown
             var selectedProductId = productToCopy.product_id;
             var selectBox = copiedRow.find(".js-product-basic-single");
@@ -609,6 +614,7 @@
                         $(this).find('.delete-product').attr('data-row-index', index);
                         $(this).data('rowIndex', index);
                         $(this).attr('id', 'row_' + index);
+                        $(this).find('.sr_no').html(index + 1);
                     });
 
                     // If the deleted row had the addNewBlankRow button, add it to the previous row

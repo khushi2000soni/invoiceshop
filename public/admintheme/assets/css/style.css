@@ -12642,7 +12642,7 @@ table.dataTable.dtr-inline.collapsed>tbody>tr[role="row"]>td:first-child:before,
 .ordertable tbody tr td:last-child{
     display: table-cell;
 }
-.ordertable tbody tr td:nth-child(1){
+.ordertable tbody tr td:nth-child(2){
     width: 40%;
 }
 
@@ -13379,7 +13379,7 @@ button#saveInvoicebtn {
     background-color: #d30000 !important;
 }
 .daterangepicker td.in-range{
-    background-color: #fff0f0 !important; 
+    background-color: #fff0f0 !important;
 }
 .daterangepicker .calendar th, .daterangepicker .calendar td{
     font-weight: 500;

@@ -45,7 +45,8 @@ class OrderController extends Controller
     {
         $customers = Customer::all();
         $products = Product::all();
-        return view('admin.order.create',compact('customers','products'));
+        $invoice_date = Carbon::now()->format('d-m-Y');
+        return view('admin.order.create',compact('customers','products','invoice_date'));
     }
 
     /** StoreRequest
@@ -55,7 +56,6 @@ class OrderController extends Controller
     {  //dd($request->all());
         try {
             DB::beginTransaction();
-
             // Create a new order
             $order = Order::create([
                 'customer_id' => (int)$request->customer_id,
@@ -140,12 +140,14 @@ class OrderController extends Controller
             'grand_total' => $order->grand_total,
         ];
 
+        $invoice_date = $order->invoice_date ? Carbon::parse($order->invoice_date)->format('d-m-Y') : null;
+
         //dd($orderData);
 
         $products = Product::all();
         $customers = Customer::all();
         //dd($customers);
-        return view('admin.order.edit',compact('order','customers','products','orderData'));
+        return view('admin.order.edit',compact('order','invoice_date','customers','products','orderData'));
     }
 
     /**
