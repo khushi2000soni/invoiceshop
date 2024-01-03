@@ -50,7 +50,9 @@
     }
 
     $(document).ready(function(){
-        $('select').select2();
+        $('select').select2({
+            selectOnClose: true
+        });
         @if(Session::has('message'))
             var alertType = "{{ Session::get('alert-type') }}";
             var message = "{{ Session::get('message') }}";
@@ -61,9 +63,8 @@
 	});
 
     $(document).on('focus', '.select2-selection.select2-selection--single', function (e) {
-        console.log('test');
+       // console.log($(this));
         $(this).closest(".select2-container").siblings('select:enabled').select2('open');
     });
-
 
 </script>

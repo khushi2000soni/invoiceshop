@@ -182,7 +182,9 @@
 
 @section('customJS')
   @include('admin.order.partials.script')
-
+<script>
+   // document.querySelector('[tabindex="1"]').focus();
+</script>
 <script>
     var order = {
     products: [],
@@ -262,7 +264,8 @@
             // Initialize Select2 for the new row's select box
             selectBox.select2({
                 width: '100%', // Set the desired width
-                dropdownAutoWidth: true // Enable auto-width for the dropdown
+                dropdownAutoWidth: true, // Enable auto-width for the dropdown
+                selectOnClose: true,
             }).on('select2:open', function () {
                 let a = $(this).data('select2');
                 if (!$('.select2-link').length) {
@@ -423,7 +426,6 @@
         $('.ordertable tbody').on('change', '.js-product-basic-single', function (e) {
             e.preventDefault();
             var row = $(this).closest('tr');
-
             var selectedProductId = $(this).val();
             selectedProductId = parseInt(selectedProductId);
             var selectedProductName = $(this).find('option:selected').text();
@@ -634,6 +636,7 @@
         // ***********Code Starts for select box modal of party and item ***********
 
         $(".js-customer-list").select2({
+            selectOnClose: true
         }).on('select2:open', function () {
             let a = $(this).data('select2');
             if (!$('.select2-link').length) {
@@ -1020,9 +1023,6 @@
                 }
 
         });
-
-
-
 
 
 
