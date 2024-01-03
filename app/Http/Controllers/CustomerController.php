@@ -122,10 +122,16 @@ class CustomerController extends Controller
 
     //***************************Phone-Book Methods************************************** */
 
-    public function showPhoneBook(PhoneBookDataTable $dataTable){
+    public function showPhoneBook(CustomerDataTable $dataTable){
         $addresses = Address::orderBy('id','desc')->get();
-        return $dataTable->render('admin.customer.phone-book',compact('addresses'));
+        return $dataTable->render('admin.customer.index',compact('addresses'));
     }
+
+    // public function showPhoneBook(PhoneBookDataTable $dataTable){
+    //     $addresses = Address::orderBy('id','desc')->get();
+    //     return $dataTable->render('admin.customer.phone-book',compact('addresses'));
+    // }
+
     public function PhoneBookprintView($address_id = null)
     {
         abort_if(Gate::denies('phone_book_print'), Response::HTTP_FORBIDDEN, '403 Forbidden');

@@ -40,7 +40,7 @@ class InvoiceTypeDataTable extends DataTable
                 return $order->created_at->format('d-M-Y');
             })
             ->editColumn('deleted_at', function ($order) {
-                $deleted_at = $order->deleted_at ? $order->deleted_at->format('d-m-Y'): '';
+                $deleted_at = $order->deleted_at ? $order->deleted_at->format('d-m-Y h:i A'): '';
                 return $deleted_at ? $deleted_at : '';
 
             })

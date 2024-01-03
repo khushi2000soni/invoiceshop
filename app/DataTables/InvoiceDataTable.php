@@ -37,7 +37,7 @@ class InvoiceDataTable extends DataTable
                 return $customer ? $customer->full_name : '';
             })
             ->editColumn('created_at', function ($order) {
-                return $order->created_at->format('d-m-Y');
+                return $order->created_at->format('d-m-Y h:s A');
             })
             ->editColumn('grand_total',function($order){
                 return $order->grand_total ?? "";
