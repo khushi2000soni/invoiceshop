@@ -112,7 +112,7 @@ class DeviceDataTable extends DataTable
     public function getColumns(): array
     {
         return [
-            Column::make('DT_RowIndex')->title(trans('quickadmin.qa_sn'))->orderable(false)->searchable(false)->visible(false),
+            Column::make('DT_RowIndex')->title(trans('quickadmin.qa_sn'))->orderable(false)->searchable(false),
             Column::make('name')->title(trans('quickadmin.device.fields.name')),
             Column::make('staff.name')->title(trans('quickadmin.device.fields.staff_name')),
             Column::make('device_id')->title(trans('quickadmin.device.fields.device_id')),

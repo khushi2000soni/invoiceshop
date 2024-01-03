@@ -113,7 +113,7 @@ class ProductDataTable extends DataTable
     public function getColumns(): array
     {
         return [
-            Column::make('DT_RowIndex')->title(trans('quickadmin.qa_sn'))->orderable(false)->searchable(false)->visible(false),
+            Column::make('DT_RowIndex')->title(trans('quickadmin.qa_sn'))->orderable(false)->searchable(false),
             Column::make('name')->title(trans('quickadmin.product.fields.name')),
             Column::make('category.name')->title(trans('quickadmin.product.fields.category_name')),
             Column::make('order_count')->title(trans('quickadmin.product.fields.order_count'))->orderable(false)->searchable(false),

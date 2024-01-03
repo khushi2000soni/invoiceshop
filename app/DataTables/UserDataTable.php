@@ -126,7 +126,7 @@ class UserDataTable extends DataTable
     public function getColumns(): array
     {
         return [
-            Column::make('DT_RowIndex')->title(trans('quickadmin.qa_sn'))->orderable(false)->searchable(false)->visible(false),
+            Column::make('DT_RowIndex')->title(trans('quickadmin.qa_sn'))->orderable(false)->searchable(false),
             Column::make('name')->title(trans('quickadmin.users.fields.name')),
             Column::make('role')->title(trans('quickadmin.users.fields.role')),
             Column::make('username')->title(trans('quickadmin.users.fields.usernameid')),

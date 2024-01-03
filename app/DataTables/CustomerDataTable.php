@@ -110,7 +110,7 @@ class CustomerDataTable extends DataTable
     public function getColumns(): array
     {
         return [
-            Column::make('DT_RowIndex')->title(trans('quickadmin.qa_sn'))->orderable(false)->searchable(false)->visible(false),
+            Column::make('DT_RowIndex')->title(trans('quickadmin.qa_sn'))->orderable(false)->searchable(false),
             Column::make('name')->title(trans('quickadmin.customers.fields.name')),
             Column::make('guardian_name')->title(trans('quickadmin.customers.fields.guardian_name')),
             Column::make('phone')->title(trans('quickadmin.customers.fields.ph_num')),

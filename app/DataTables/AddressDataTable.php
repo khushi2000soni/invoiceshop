@@ -113,7 +113,7 @@ class AddressDataTable extends DataTable
     {
         return [
 
-            Column::make('DT_RowIndex')->title(trans('quickadmin.qa_sn'))->orderable(false)->searchable(false)->visible(false),
+            Column::make('DT_RowIndex')->title(trans('quickadmin.qa_sn'))->orderable(false)->searchable(false),
             Column::make('address')->title(trans('quickadmin.address.fields.list.address')),
             Column::make('no_of_customer')->title(trans('quickadmin.address.fields.list.no_of_customer'))->orderable(false)->searchable(false),
             Column::make('created_at')->title(trans('quickadmin.address.fields.list.created_at')),

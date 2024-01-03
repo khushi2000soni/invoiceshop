@@ -122,7 +122,7 @@ class InvoiceTypeDataTable extends DataTable
         // dump($this->paramValue);
         // die();
             $columns = [
-                Column::make('DT_RowIndex')->title(trans('quickadmin.qa_sn'))->orderable(false)->searchable(false)->visible(false),
+                Column::make('DT_RowIndex')->title(trans('quickadmin.qa_sn'))->orderable(false)->searchable(false),
                 Column::make('invoice_number')->title(trans('quickadmin.order.fields.invoice_number')),
                 Column::make('customer.name')->title(trans('quickadmin.order.fields.customer_name')),
                 Column::make('grand_total')->title(trans('quickadmin.order.fields.total_price')),
