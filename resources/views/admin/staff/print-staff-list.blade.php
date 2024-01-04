@@ -2,7 +2,35 @@
 @section('title')@lang('quickadmin.user-management.fields.list-title')@endsection
 
 @section('custom_css')
+<style>
+    @media print {
+    @page {
+        size: A5;
+        margin:0 auto;
+    }
 
+    html, body {
+        margin: 0;
+        padding: 0;
+    }
+
+    body{
+        display: flex;
+        align-items: center;
+        justify-content: start;
+        flex-direction:column;
+    }
+    
+    html
+    {
+        zoom:75%;
+    }
+
+    table{
+        width: 100%;
+    }
+}
+</style>
 @endsection
 
 @section('content')
@@ -14,8 +42,8 @@
     {{-- <footer>
         <div class="pagenum-container"><small>Page <span class="pagenum"></span></small></div>
     </footer> --}}
-    <main class="main" style="max-width: 840px;margin: 0 auto;padding: 30px;padding-top: 0;">
-        <table cellpadding="0" cellspacing="0"  width="100%" style="color: #000;font-size: 16px;padding-right: 20px;">
+    <main class="main" style="max-width: 100%;margin: 0 auto;padding:30px 0;padding-top: 20px;">
+        <table cellpadding="0" cellspacing="0"  width="100%" style="color: #000;font-size: 16px;">
             <thead>
                 <tr>
                     <th style="padding: 10px;border: 1px solid #000;border-right: none;" align="center">@lang('quickadmin.users.fields.name')</th>

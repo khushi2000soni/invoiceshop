@@ -2,7 +2,30 @@
 @section('title')@lang('quickadmin.customer-management.fields.list')@endsection
 
 @section('custom_css')
+<style>
+    @media print {
+    @page {
+        size: A5;
+        margin:0 auto;
+    }
 
+    body{
+        display: flex;
+        align-items: center;
+        justify-content: start;
+        flex-direction:column;
+    }
+    
+    html
+    {
+        zoom:75%;
+    }
+
+    table{
+        width: 100%;
+    }
+}
+</style>
 @endsection
 
 @section('content')
@@ -14,8 +37,8 @@
     {{-- <footer>
         <div class="pagenum-container"><small>Page <span class="pagenum"></span></small></div>
     </footer> --}}
-    <main class="main" style="max-width: 600px;margin: 0 auto;padding: 40px;padding-top: 0;">
-        <table cellpadding="0" cellspacing="0" width="100%" style="color: #000;font-size: 16px;padding-right: 20px;">
+    <main class="main" style="width:100%; max-width: 100%;margin: 0 auto;padding: 40px 0;padding-top: 20px;">
+        <table cellpadding="0" cellspacing="0" width="100%" style="color: #000;font-size: 16px;">
             <thead>
                 <tr>
                     <th style="padding: 10px;border: 1px solid #000;border-right: none;" align="center">@lang('quickadmin.customers.fields.name')</th>
