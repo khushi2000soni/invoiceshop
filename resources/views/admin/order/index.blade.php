@@ -668,7 +668,7 @@ $(document).ready(function () {
             to_date = '';
         }
 
-        exportUrl = "{{ route('orders.allexport') }}" + '/' + customer_id+ '/' + from_date + '/' + to_date;
+        //exportUrl = "{{ route('orders.allexport') }}" + '/' + customer_id+ '/' + from_date + '/' + to_date;
         //printUrl = "{{ route('orders.allprint') }}" + '/' + customer_id+ '/' + from_date + '/' + to_date;
         var exportUrl = "{{ route('orders.allexport') }}"
         + '?customer_id=' + encodeURIComponent(customer_id)

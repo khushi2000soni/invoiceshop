@@ -22,6 +22,11 @@
 .select2-container--default .select2-selection--single .select2-selection__rendered {
     line-height: 41px !important;
 }
+
+#chartdiv {
+  width: 100%;
+  height: 500px;
+}
 </style>
 
 @section('main-content')
@@ -90,7 +95,7 @@
             </div>
             <div class="col-md-12">
                 <div class="row">
-                    <div>
+                    <div id="chartdiv">
 
                     </div>
                 </div>
@@ -104,9 +109,9 @@
 @section('customJS')
 <script src="{{ asset('admintheme/assets/bundles/jquery-ui/jquery-ui.min.js') }}"></script>
 <script type="text/javascript" src="//cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
-  <script type="text/javascript" src="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script type="text/javascript">
+<script type="text/javascript" src="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.js"></script>
+
+<script type="text/javascript">
     $(function() {
 
         var start = moment().subtract(29, 'days');
@@ -132,12 +137,46 @@
         cb(start, end);
 
     });
-    </script>
-    <script>
-    const config = {
-  type: 'pie',
-  data: data,
-};
+</script>
+<script src="https://cdn.amcharts.com/lib/4/core.js"></script>
+<script src="https://cdn.amcharts.com/lib/4/charts.js"></script>
+<script src="https://cdn.amcharts.com/lib/4/themes/animated.js"></script>
+
+<script>
+    am4core.ready(function() {
+    // Themes begin
+    am4core.useTheme(am4themes_animated);
+    // Themes end
+    var chart = am4core.create("chartdiv", am4charts.PieChart3D);
+    chart.hiddenState.properties.opacity = 0; // this creates initial fade-in
+
+    chart.legend = new am4charts.Legend();
+    chart.data = [
+      {
+        category: "Electronics",
+        amount: 501.9,
+      },
+      {
+        category: "Footwear",
+        amount: 301.9,
+      },
+      {
+        category: "Metal",
+        amount: 201.1,
+      },
+      {
+        category: "Cosmetic",
+        amount: 165.8,
+      },
+    ];
+
+    var series = chart.series.push(new am4charts.PieSeries3D());
+    series.alignLabels = false;
+    //series.labels.template.visible = false;
+    series.labels.template.disabled = true;
+    series.dataFields.value = "amount";
+    series.dataFields.category = "category";
+    });
     </script>
 
 @endsection

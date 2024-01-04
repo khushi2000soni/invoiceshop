@@ -314,14 +314,15 @@ class OrderController extends Controller
     public function allinvoicePrintView(Request $request)
     {
         abort_if(Gate::denies('product_print'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-        $customer_id = $request->input('customer_id');
-        $from_date = $request->input('from_date');
-        $to_date = $request->input('to_date');
+        $customer_id = $request->customer_id;
+        $from_date = $request->from_date;
+        $to_date = $request->to_date;
 
         $query = Order::query();
         if ($customer_id !== null && $customer_id != 'null') {
             $customer = Customer::find($customer_id);
             $customer_name = $customer ? $customer->name : 'Unknown Party';
+            $query->where('customer_id','=', $customer_id);
         } else {
             $customer_name = 'All Parties';
         }
@@ -337,6 +338,7 @@ class OrderController extends Controller
         $to_date = $to_date ? Carbon::parse($to_date)->format('d-m-Y') : null;
         $duration = ($from_date && $to_date) ? $from_date . ' - ' . $to_date : 'All Time';
         $allorders = $query->orderBy('id','desc')->get();
+
         $sumGrandTotal = $allorders->sum('grand_total');
         return view('admin.order.print-orders-list',compact('allorders','sumGrandTotal','duration','customer_name'))->render();
     }
