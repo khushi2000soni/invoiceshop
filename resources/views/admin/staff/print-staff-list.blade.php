@@ -2,7 +2,7 @@
 @section('title')@lang('quickadmin.user-management.fields.list-title')@endsection
 
 @section('custom_css')
-<style>
+<!-- <style>
     @media print {
     @page {
         size: A5;
@@ -30,7 +30,7 @@
         width: 100%;
     }
 }
-</style>
+</style> -->
 @endsection
 
 @section('content')
@@ -42,7 +42,7 @@
     {{-- <footer>
         <div class="pagenum-container"><small>Page <span class="pagenum"></span></small></div>
     </footer> --}}
-    <main class="main" style="max-width: 100%;margin: 0 auto;padding:30px 0;padding-top: 20px;">
+    <main class="main" style="width:100%; max-width: 100%;margin: 0 auto;padding:30px 0;padding-top: 20px;">
         <table cellpadding="0" cellspacing="0"  width="100%" style="color: #000;font-size: 16px;">
             <thead>
                 <tr>

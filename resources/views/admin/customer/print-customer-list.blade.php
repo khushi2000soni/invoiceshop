@@ -2,30 +2,7 @@
 @section('title')@lang('quickadmin.customer-management.fields.list')@endsection
 
 @section('custom_css')
-<style>
-    @media print {
-    @page {
-        size: A5;
-        margin:0 auto;
-    }
 
-    body{
-        display: flex;
-        align-items: center;
-        justify-content: start;
-        flex-direction:column;
-    }
-    
-    html
-    {
-        zoom:75%;
-    }
-
-    table{
-        width: 100%;
-    }
-}
-</style>
 @endsection
 
 @section('content')

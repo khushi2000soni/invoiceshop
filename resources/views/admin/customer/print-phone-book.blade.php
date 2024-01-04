@@ -2,35 +2,12 @@
 @section('title')@lang('quickadmin.phone-book.title')@endsection
 
 @section('custom_css')
-<style>
-    @media print {
-    @page {
-        size: A5;
-        margin:0 auto;
-    }
 
-    body{
-        display: flex;
-        align-items: center;
-        justify-content: start;
-        flex-direction:column;
-    }
-    
-    html
-    {
-        zoom:75%;
-    }
-
-    table{
-        width: 100%;
-    }
-}
-</style>
 @endsection
 
 @section('content')
     <div class="page-header">
-        <header style="padding: 1px 0;">
+        <header style="padding:1px 0;">
             <h2 style="margin: 0;color: #2a2a33;font-size: 20px;font-weight: bold; text-align:center;"><strong>@lang('quickadmin.phone-book.title')</strong></h2>
         </header>
     </div>
@@ -64,9 +41,7 @@
                 </tr>
                 @endforelse
             </tbody>
-
         </table>
-
     </main>
 
 @endsection

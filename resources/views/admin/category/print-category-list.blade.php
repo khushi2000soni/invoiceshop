@@ -2,7 +2,7 @@
 @section('title')@lang('quickadmin.category.list-title')@endsection
 
 @section('custom_css')
-<style>
+<!-- <style>
     @media print {
     @page {
         size: A5;
@@ -25,7 +25,7 @@
         width: 100%;
     }
 }
-</style>
+</style> -->
 @endsection
 
 @section('content')
