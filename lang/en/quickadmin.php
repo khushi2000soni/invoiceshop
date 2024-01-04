@@ -342,7 +342,10 @@ return [
         '7days' => '7 Days',
         '30days' => '30 Days',
         'customer' => 'Party',
-        'amount' => 'Amount',
+        'total_amount'	=> 'Total Amount',
+        'total_amount'	=> 'Total Amount',
+        'sale_amount'	=> 'Sale Amount',
+        'sale_percent'	=> 'Sale Percentage',
         'products' => 'Items',
         'title' => 'Report',
 
