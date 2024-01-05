@@ -250,7 +250,7 @@ $(document).ready(function(){
         var select2Element = $('#address_id');
         select2Element.val(null).trigger('change');
         dataTable.ajax.url("{{ route('reports.category') }}").load();
-
+        updatepieChart();
         originalExportUrl = "{{ route('reports.category.export') }}";
         originalPrintUrl = "{{ route('reports.category.print') }}";
         $('#report-excel').attr('href', originalExportUrl);
