@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\DataTables\ReportCategoryDataTable;
+use App\DataTables\ReportCategoryProductDataTable;
 use App\Exports\CatgoryReportExport;
 use App\Models\Customer;
 use App\Models\Device;
@@ -27,6 +28,29 @@ class ReportController extends Controller
         $addresses = Address::orderByRaw('CAST(address AS SIGNED), address')->get();
         // Pass the calculated data to the DataTable
         return $dataTable->render('admin.report.report-category',compact('addresses'));
+
+    }
+
+    public function CategoryProductReport(ReportCategoryProductDataTable $dataTable)
+    {
+        abort_if(Gate::denies('report_category_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        //return $dataTable->render('admin.report.report-category-product');
+        // Get the category ID and other filter parameters from the request
+        $category_id = request('category_id');
+        $address_id = request('address_id');
+        $from_date = request('from_date');
+        $to_date = request('to_date');
+
+        //dd($category_id);
+        // Assuming you have a method to get the category name based on the category ID
+        $category_name = Category::find($category_id)->name;
+        // Assuming you have a method to get the address name based on the address ID
+        $address_name = $address_id ? Address::find($address_id)->address : null;
+        // Prepare the duration string
+        $duration = $from_date && $to_date ? Carbon::parse($from_date)->format('Y-m-d') . ' to ' . Carbon::parse($to_date)->format('Y-m-d') : null;
+
+        // Pass the variables to the view
+        return $dataTable->render('admin.report.report-category-product',compact('category_name','address_name','duration'));
 
     }
 

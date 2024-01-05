@@ -38,6 +38,7 @@ class Category extends Model
             'categories.id as category_id',
             'categories.name as name',
             DB::raw('SUM(order_products.total_price) as amount'),
+            DB::raw('SUM(order_products.quantity) as totalsoldproduct'),
         ])
         ->leftJoin('products', 'categories.id', '=', 'products.category_id')
         ->leftJoin('order_products', 'products.id', '=', 'order_products.product_id')

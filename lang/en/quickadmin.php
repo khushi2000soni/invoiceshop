@@ -336,6 +336,7 @@ return [
         'weekly' => 'Weekly',
         'total_order' => 'Total Order',
         'total_product' => 'Total Item',
+        'total_quantity'=> 'Total Quantity',
         'total_customer' => 'Total Party',
         'no_of_devices' => 'No. of Devices',
         'today' => 'Today',

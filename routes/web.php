@@ -98,6 +98,7 @@ Route::middleware(['auth','PreventBackHistory'])->group(function () {
     Route::get('/reports/invoice',[ReportController::class,'reportInvoice'])->name('reports.invoice');
 
     Route::get('/reports/category',[ReportController::class,'reportCategory'])->name('reports.category');
+    Route::get('/reports/category/products', [ReportController::class,'CategoryProductReport'])->name('reports.category.products');
     Route::get('/reports/category/piechart',[ReportController::class,'getCategoryChartData'])->name('reports.category.piechart');
     Route::get('/reports/category-printView',[ReportController::class,'CatgoryReportPrintView'])->where('customer_id', '.*')->name('reports.category.print');
     Route::get('/reports/category-export',[ReportController::class,'CatgoryReportExport'])->where('customer_id', '.*')->name('reports.category.export');

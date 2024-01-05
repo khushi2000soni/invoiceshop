@@ -175,234 +175,528 @@
 
 @section('customJS')
 {!! $dataTable->scripts() !!}
-  <script src="{{ asset('admintheme/assets/bundles/datatables/datatables.min.js') }}"></script>
-  <script src="{{ asset('admintheme/assets/bundles/datatables/DataTables-1.10.16/js/dataTables.bootstrap4.min.js') }}"></script>
-  <script src="{{ asset('admintheme/assets/bundles/jquery-ui/jquery-ui.min.js') }}"></script>
-  <!-- Page Specific JS File -->
-  <script src="{{ asset('admintheme/assets/js/page/datatables.js') }}"></script>
-  <script type="text/javascript" src="//cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
-  <script type="text/javascript" src="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.js"></script>
-  <script src="https://js.pusher.com/8.2.0/pusher.min.js"></script>
-  <script>
-
-    // Enable pusher logging - don't include this in production
-    Pusher.logToConsole = true;
-
-    var pusher = new Pusher('bc4355cd6e86d99ee3e5', {
-      cluster: 'ap2'
-    });
-
-    var channel = pusher.subscribe('invoices');
-    channel.bind('invoice-updated', function(data) {
-      //alert(JSON.stringify(data));
-      $('#dataaTable').DataTable().ajax.reload();
-        var alertType = 'success';
-        var message = 'New invoice added or updated!'
-        var title = "{{ trans('quickadmin.order.invoice') }}";
-        // Show a notification
-        showToaster(title,alertType,message);
-    });
-  </script>
-<script type="text/javascript">
-    $(function() {
-
-        var start = moment().subtract(29, 'days');
-        var end = moment();
-
-        function cb(start, end) {
-            $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
-        }
-
-        $('#reportrange').daterangepicker({
-            startDate: start,
-            endDate: end,
-            ranges: {
-               'Today': [moment(), moment()],
-               'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
-               'Last 7 Days': [moment().subtract(6, 'days'), moment()],
-               'Last 30 Days': [moment().subtract(29, 'days'), moment()],
-               'This Month': [moment().startOf('month'), moment().endOf('month')],
-               'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+    <script src="{{ asset('admintheme/assets/bundles/datatables/datatables.min.js') }}"></script>
+    <script src="{{ asset('admintheme/assets/bundles/datatables/DataTables-1.10.16/js/dataTables.bootstrap4.min.js') }}"></script>
+    <script src="{{ asset('admintheme/assets/bundles/jquery-ui/jquery-ui.min.js') }}"></script>
+    <!-- Page Specific JS File -->
+    <script src="{{ asset('admintheme/assets/js/page/datatables.js') }}"></script>
+    <script type="text/javascript" src="//cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script type="text/javascript" src="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.js"></script>
+    <script src="https://js.pusher.com/8.2.0/pusher.min.js"></script>
+    <script>
+        // Enable pusher logging - don't include this in production
+        Pusher.logToConsole = true;
+        var pusher = new Pusher('bc4355cd6e86d99ee3e5', {
+        cluster: 'ap2'
+        });
+        var channel = pusher.subscribe('invoices');
+        channel.bind('invoice-updated', function(data) {
+        //alert(JSON.stringify(data));
+        $('#dataaTable').DataTable().ajax.reload();
+            var alertType = 'success';
+            var message = 'New invoice added or updated!'
+            var title = "{{ trans('quickadmin.order.invoice') }}";
+            // Show a notification
+            showToaster(title,alertType,message);
+        });
+    </script>
+    <script type="text/javascript">
+        $(function() {
+            var date = '{{ config("app.start_date")}}';
+            var start = moment(date, 'YYYY-MM-DD'); /*.moment().startOf('month')*/
+            var end = moment();
+            function cb(start, end) {
+                $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
             }
-        }, cb);
 
-        cb(start, end);
+            $('#reportrange').daterangepicker({
+                startDate: start,
+                endDate: end,
+                ranges: {
+                'Today': [moment(), moment()],
+                'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+                'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+                'This Month': [moment().startOf('month'), moment().endOf('month')],
+                'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+                }
+            }, cb);
 
-    });
+            cb(start, end);
+
+        });
     </script>
 
 <script>
+    $(document).ready(function () {
+        var dataTable = $('#dataaTable').DataTable();
+        $('#invoice-print').printPage();
 
-$(document).ready(function () {
-    var dataTable = $('#dataaTable').DataTable();
-    $('#invoice-print').printPage();
-
-    $(document).on('shown.bs.modal','.share-modal', function (e) {
+        $(document).on('shown.bs.modal','.share-modal', function (e) {
             e.preventDefault();
             // Remove the modal backdrop
             $('.modal-backdrop').remove();
         });
 
-    $(".filter-customer-select").select2({
-    }).on('select2:open', function () {
-        let a = $(this).data('select2');
-        if (!$('.select2-link').length) {
-            a.$results.parents('.select2-results')
-                .append('<div class="select2-link2"><button class="btns addNewCustomerBtn get-customer"><i class="fa fa-plus-circle"></i> Add New</button></div>');
-        }
-    });
-
-    $(document).on('click', '.select2-container .get-customer', function (e) {
-        e.preventDefault();
-        var gethis = $(this);
-        var hrefUrl = "{{ route('customers.create') }}";
-        $('.modal-backdrop').remove();
-        // console.log(hrefUrl);
-        $.ajax({
-            type: 'get',
-            url: hrefUrl,
-            dataType: 'json',
-            success: function (response) {
-                if(response.success) {
-                    console.log('success');
-
-                    //$("body").addClass("modal-open");
-                    $('.popup_render_div').html(response.htmlView);
-                    // Show the first modal
-                    $('.popup_render_div #centerModal').modal('show');
-                    // Initialize select2 for the first modal
-                    $(".js-example-basic-single").select2({
-                    dropdownParent: $('.popup_render_div #centerModal') // Set the dropdown parent to the modal
-                    }).on('select2:open', function () {
-                        let a = $(this).data('select2');
-                        if (!$('.select2-link').length) {
-                            a.$results.parents('.select2-results')
-                            .append('<div class="select2-link2"><button class="btns get-city close-select2"><i class="fa fa-plus-circle"></i> Add New</button></div>');
-                        }
-                    });
-                }
+        $(".filter-customer-select").select2({
+        }).on('select2:open', function () {
+            let a = $(this).data('select2');
+            if (!$('.select2-link').length) {
+                a.$results.parents('.select2-results')
+                    .append('<div class="select2-link2"><button class="btns addNewCustomerBtn get-customer"><i class="fa fa-plus-circle"></i> Add New</button></div>');
             }
         });
 
-        $('#invoice-filter-form #customer_id').select2('close');
-    });
-
-    $(document).on('click', '.select2-container .get-city', function (e) {
-        e.preventDefault();
-        var gethis = $(this);
-        var hrefUrl = "{{ route('address.create') }}";
-        $('.modal-backdrop').remove();
-        // Fetch data and populate the second modal
-        $.ajax({
-            type: 'get',
-            url: hrefUrl,
-            dataType: 'json',
-            success: function (response) {
-                if (response.success) {
-                    //console.log('success');
-                    $('.addressmodalbody').remove();
-                    $('.popup_render_div #address_id').select2('close');
-                    $('.popup_render_div').after('<div class="addressmodalbody" style="display: block;"></div>');
-                    $('.addressmodalbody').html(response.htmlView);
-                    $('.addressmodalbody #centerModal').modal('show');
-                    $('.addressmodalbody #centerModal').attr('style', 'z-index: 100000');
-                }
-            }
-        });
-    });
-
-    // Code Add New Customer
-
-    $(document).on('submit', '#AddForm', function (e) {
-        e.preventDefault();
-        $("#AddForm button[type=submit]").prop('disabled',true);
-        $(".error").remove();
-        $(".is-invalid").removeClass('is-invalid');
-        var formData = $(this).serialize();
-        var formAction = $(this).attr('action');
-        $.ajax({
-            url: formAction,
-            type: 'POST',
-            headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            },
-            data: formData,
-            success: function (response) {
-                    $('#centerModal').modal('hide');
-                    var alertType = response['alert-type'];
-                    var message = response['message'];
-                    var title = response['title'];
-
-                    var newOption = new Option(response.selectdata.name, response.selectdata.id, true, true);
-                    //console.log(newOption);
-                        $('#customer_id').append(newOption).trigger('change');
-                    showToaster(title,alertType,message);
-                    $('#AddForm')[0].reset();
-                    //location.reload();
-                $("#AddForm button[type=submit]").prop('disabled',false);
-            },
-            error: function (xhr) {
-                var errors= xhr.responseJSON.errors;
-                //console.log(xhr.responseJSON);
-
-                for (const elementId in errors) {
-                    $("#"+elementId).addClass('is-invalid');
-                    var errorHtml = '<div><span class="error text-danger">'+errors[elementId]+'</span></div>';
-                    $(errorHtml).insertAfter($("#"+elementId).parent());
-                }
-                $("#AddForm button[type=submit]").prop('disabled',false);
-            }
-        });
-    });
-
-// Add Address Instatntly
-
-    $(document).on('submit', '#AddaddressForm', function (e) {
-        e.preventDefault();
-        $("#AddaddressForm button[type=submit]").prop('disabled',true);
-        $(".error").remove();
-        $(".is-invalid").removeClass('is-invalid');
-        var form = $(this);
-        var formData = $(this).serialize();
-        var formAction = $(this).attr('action');
-        $.ajax({
-            url: formAction,
-            type: 'POST',
-            headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        },
-            data: formData,
-            success: function (response) {
-
-                    form.closest('#centerModal').modal('hide');
-                    var newOption = new Option(response.address.address, response.address.id, true, true);
-                    $('.popup_render_div #centerModal #address_id').append(newOption).trigger('change');
-                    var alertType = response['alert-type'];
-                    var message = response['message'];
-                    var title = "{{ trans('quickadmin.address.address') }}";
-                    showToaster(title,alertType,message);
-                    $('#AddaddressForm')[0].reset();
-                    //location.reload();
-                    //DataaTable.ajax.reload();
-                    $("#AddaddressForm button[type=submit]").prop('disabled',false);
-            },
-            error: function (xhr) {
-                var errors= xhr.responseJSON.errors;
-                //console.log(xhr.responseJSON);
-                for (const elementId in errors) {
-                    $("#"+elementId).addClass('is-invalid');
-                    var errorHtml = '<div><span class="error text-danger">'+errors[elementId]+'</span></';
-                    $(errorHtml).insertAfter($("#"+elementId).parent());
-                }
-                $("#AddaddressForm button[type=submit]").prop('disabled',false);
-            }
-        });
-    });
-
-
-    $("body").on("click", ".edit-invoice-customer-btn", function () {
-            var hrefUrl = $(this).attr('data-href');
+        $(document).on('click', '.select2-container .get-customer', function (e) {
+            e.preventDefault();
+            var gethis = $(this);
+            var hrefUrl = "{{ route('customers.create') }}";
             $('.modal-backdrop').remove();
+            // console.log(hrefUrl);
+            $.ajax({
+                type: 'get',
+                url: hrefUrl,
+                dataType: 'json',
+                success: function (response) {
+                    if(response.success) {
+                        console.log('success');
+
+                        //$("body").addClass("modal-open");
+                        $('.popup_render_div').html(response.htmlView);
+                        // Show the first modal
+                        $('.popup_render_div #centerModal').modal('show');
+                        // Initialize select2 for the first modal
+                        $(".js-example-basic-single").select2({
+                        dropdownParent: $('.popup_render_div #centerModal') // Set the dropdown parent to the modal
+                        }).on('select2:open', function () {
+                            let a = $(this).data('select2');
+                            if (!$('.select2-link').length) {
+                                a.$results.parents('.select2-results')
+                                .append('<div class="select2-link2"><button class="btns get-city close-select2"><i class="fa fa-plus-circle"></i> Add New</button></div>');
+                            }
+                        });
+                    }
+                }
+            });
+
+            $('#invoice-filter-form #customer_id').select2('close');
+        });
+
+        $(document).on('click', '.select2-container .get-city', function (e) {
+            e.preventDefault();
+            var gethis = $(this);
+            var hrefUrl = "{{ route('address.create') }}";
+            $('.modal-backdrop').remove();
+            // Fetch data and populate the second modal
+            $.ajax({
+                type: 'get',
+                url: hrefUrl,
+                dataType: 'json',
+                success: function (response) {
+                    if (response.success) {
+                        //console.log('success');
+                        $('.addressmodalbody').remove();
+                        $('.popup_render_div #address_id').select2('close');
+                        $('.popup_render_div').after('<div class="addressmodalbody" style="display: block;"></div>');
+                        $('.addressmodalbody').html(response.htmlView);
+                        $('.addressmodalbody #centerModal').modal('show');
+                        $('.addressmodalbody #centerModal').attr('style', 'z-index: 100000');
+                    }
+                }
+            });
+        });
+
+        // Code Add New Customer
+
+        $(document).on('submit', '#AddForm', function (e) {
+            e.preventDefault();
+            $("#AddForm button[type=submit]").prop('disabled',true);
+            $(".error").remove();
+            $(".is-invalid").removeClass('is-invalid');
+            var formData = $(this).serialize();
+            var formAction = $(this).attr('action');
+            $.ajax({
+                url: formAction,
+                type: 'POST',
+                headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                data: formData,
+                success: function (response) {
+                        $('#centerModal').modal('hide');
+                        var alertType = response['alert-type'];
+                        var message = response['message'];
+                        var title = response['title'];
+
+                        var newOption = new Option(response.selectdata.name, response.selectdata.id, true, true);
+                        //console.log(newOption);
+                            $('#customer_id').append(newOption).trigger('change');
+                        showToaster(title,alertType,message);
+                        $('#AddForm')[0].reset();
+                        //location.reload();
+                    $("#AddForm button[type=submit]").prop('disabled',false);
+                },
+                error: function (xhr) {
+                    var errors= xhr.responseJSON.errors;
+                    //console.log(xhr.responseJSON);
+
+                    for (const elementId in errors) {
+                        $("#"+elementId).addClass('is-invalid');
+                        var errorHtml = '<div><span class="error text-danger">'+errors[elementId]+'</span></div>';
+                        $(errorHtml).insertAfter($("#"+elementId).parent());
+                    }
+                    $("#AddForm button[type=submit]").prop('disabled',false);
+                }
+            });
+        });
+
+        // Add Address Instatntly
+
+        $(document).on('submit', '#AddaddressForm', function (e) {
+            e.preventDefault();
+            $("#AddaddressForm button[type=submit]").prop('disabled',true);
+            $(".error").remove();
+            $(".is-invalid").removeClass('is-invalid');
+            var form = $(this);
+            var formData = $(this).serialize();
+            var formAction = $(this).attr('action');
+            $.ajax({
+                url: formAction,
+                type: 'POST',
+                headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+                data: formData,
+                success: function (response) {
+
+                        form.closest('#centerModal').modal('hide');
+                        var newOption = new Option(response.address.address, response.address.id, true, true);
+                        $('.popup_render_div #centerModal #address_id').append(newOption).trigger('change');
+                        var alertType = response['alert-type'];
+                        var message = response['message'];
+                        var title = "{{ trans('quickadmin.address.address') }}";
+                        showToaster(title,alertType,message);
+                        $('#AddaddressForm')[0].reset();
+                        //location.reload();
+                        //DataaTable.ajax.reload();
+                        $("#AddaddressForm button[type=submit]").prop('disabled',false);
+                },
+                error: function (xhr) {
+                    var errors= xhr.responseJSON.errors;
+                    //console.log(xhr.responseJSON);
+                    for (const elementId in errors) {
+                        $("#"+elementId).addClass('is-invalid');
+                        var errorHtml = '<div><span class="error text-danger">'+errors[elementId]+'</span></';
+                        $(errorHtml).insertAfter($("#"+elementId).parent());
+                    }
+                    $("#AddaddressForm button[type=submit]").prop('disabled',false);
+                }
+            });
+        });
+
+
+        $("body").on("click", ".edit-invoice-customer-btn", function () {
+                var hrefUrl = $(this).attr('data-href');
+                $('.modal-backdrop').remove();
+                console.log(hrefUrl);
+                $.ajax({
+                    type: 'get',
+                    url: hrefUrl,
+                    dataType: 'json',
+                    success: function (response) {
+                        //$('#preloader').css('display', 'none');
+                        if(response.success) {
+                            console.log('success');
+                            $('.popup_render_div').html(response.htmlView);
+                            $('#editPhoneModal').modal('show');
+
+                            setTimeout(() => {
+                                $('.modal-backdrop').not(':first').remove();
+                            }, 300);
+                        }
+                    }
+                });
+        });
+
+        $(document).on('submit', '#EditCustomerPhone', function (e) {
+            e.preventDefault();
+            $("#EditCustomerPhone button[type=submit]").prop('disabled',true);
+            $(".error").remove();
+            $(".is-invalid").removeClass('is-invalid');
+            var formData = $(this).serialize();
+            var formAction = $(this).attr('action');
+            console.log(formAction);
+
+            $.ajax({
+                url: formAction,
+                type: 'PUT',
+                headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+                data: formData,
+                success: function (response) {
+                        $('#editPhoneModal').modal('hide');
+                        var alertType = response['alert-type'];
+                        var message = response['message'];
+                        var title = "{{ trans('quickadmin.customers.customer') }}";
+                        showToaster(title,alertType,message);
+                        $('#EditCustomerPhone')[0].reset();
+                        //location.reload();
+                        DataaTable.ajax.reload();
+                        $("#EditCustomerPhone button[type=submit]").prop('disabled',false);
+                },
+                error: function (xhr) {
+                    var errors= xhr.responseJSON.errors;
+                    console.log(xhr.responseJSON);
+
+                    for (const elementId in errors) {
+                        $("#EditCustomerPhone #"+elementId).addClass('is-invalid');
+                        var errorHtml = '<div><span class="error text-danger">'+errors[elementId]+'</span></';
+                        $(errorHtml).insertAfter($("#EditForm #"+elementId).parent());
+                    }
+                    $("#EditForm button[type=submit]").prop('disabled',false);
+                }
+            });
+        });
+
+
+        $(document).on('click', '.print-button', function(e) {
+            e.preventDefault();
+            var actionurl = $(this).data('href');
+            console.log(actionurl);
+
+            $.ajax({
+                url: actionurl,
+                method: 'GET',
+                success: function(response) {
+                    var basestringpdf = response.pdf;
+                    var objbuilder= '';
+                    objbuilder += ('<object width = "100%" height="100%" data="data:application/pdf;base64,');
+                    objbuilder += (basestringpdf);
+                    objbuilder += ('" type="application/pdf" class="internal">');
+                    objbuilder += ('<embed type="application/pdf" src="data:application/pdf;base64,' + basestringpdf + '" />');
+                    objbuilder += ('</object>');
+
+                    var mywindow = window.open('', 'PRINT', 'height=600,width=800');
+                    mywindow.document.write('<html><head><title>PRINT PREVIEW</title>');
+                    mywindow.document.write('</head><body >');
+                    // mywindow.document.write('<embed type="application/pdf" width="100%" height="100%" src="data:application/pdf;base64,' + decodedPdfContent + '" />');
+                    mywindow.document.write(objbuilder);
+                    mywindow.document.write('</body></html>');
+                    layer = $(mywindow.document);
+                    // mywindow.print();
+                    // mywindow.close();
+                    },
+                    error: function(error) {
+                        console.error('Error fetching invoice:', error);
+                    }
+            });
+        });
+
+
+        $(document).on('click', '.share-email-btn', function(e) {
+            e.preventDefault();
+            var recipientMail = $(this).data('recipient-email');
+            var orderId = $(this).data('order-id');
+            var pdfDownloadUrl = $(this).data('href');
+            var pdfLink = document.createElement('a');
+            var mssg="{{ getSetting('share_invoice_mail_message')}}";
+            pdfLink.href = pdfDownloadUrl;
+            pdfLink.download = 'invoice.pdf';
+            pdfLink.style.display = 'none';
+            document.body.appendChild(pdfLink);
+            pdfLink.click();
+            document.body.removeChild(pdfLink);
+            var mailtoUrl = 'mailto:' + recipientMail + '?subject=Invoice Detail&body='+mssg;
+            window.location.href = mailtoUrl;
+        });
+
+        $(document).on('click','.share-whatsapp-btn',function(e){
+            e.preventDefault();
+            var recipientNumber = $(this).data('recipient-number');
+            var orderId = $(this).data('order-id');
+            var pdfDownloadUrl = $(this).data('href');
+            var pdfLink = document.createElement('a');
+            var mssg="{{ getSetting('share_invoice_whatsapp_message')}}";
+            pdfLink.href = pdfDownloadUrl;
+            pdfLink.download = 'invoice.pdf';
+            pdfLink.style.display = 'none';
+            document.body.appendChild(pdfLink);
+            pdfLink.click();
+            document.body.removeChild(pdfLink);
+            var whatsappUrl = 'https://api.whatsapp.com/send?phone=' + recipientNumber + '&text='+mssg;
+            window.open(whatsappUrl, '_blank');
+        });
+
+        $(document).on('submit', '.deleteForm', function(e) {
+            e.preventDefault();
+            console.log(2);
+            var formAction = $(this).attr('action');
+            swal({
+            title: "{{ trans('messages.deletetitle') }}",
+            text: "{{ trans('messages.areYouSure') }}",
+            icon: 'warning',
+            buttons: {
+            confirm: 'Yes, delete it',
+            cancel: 'No, cancel',
+            },
+            dangerMode: true,
+            }).then((willDelete) => {
+            if (willDelete) {
+                $.ajax({
+                url: formAction,
+                type: 'DELETE',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                success: function (response) {
+                    var alertType = response['alert-type'];
+                        var message = response['message'];
+                        var title = "{{ trans('quickadmin.order.invoice') }}";
+                        showToaster(title,alertType,message);
+                        dataTable.ajax.reload();
+                        // location.reload();
+
+                },
+                error: function (xhr) {
+                    // Handle error response
+                    swal("{{ trans('quickadmin.order.invoice') }}", 'Some mistake is there.', 'error');
+                }
+                });
+            }
+            });
+        });
+
+
+        $(document).on('submit', '.restoreForm', function(e) {
+            e.preventDefault();
+            console.log(2);
+            var formAction = $(this).attr('action');
+            swal({
+            title: "{{ trans('messages.restoretitle') }}",
+            text: "{{ trans('messages.areYouSureRestore') }}",
+            icon: 'warning',
+            buttons: {
+            confirm: 'Yes, Restore it',
+            cancel: 'No, cancel',
+            },
+            dangerMode: true,
+            }).then((willDelete) => {
+            if (willDelete) {
+                $.ajax({
+                url: formAction,
+                type: 'PATCH',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                success: function (response) {
+                    var alertType = response['alert-type'];
+                        var message = response['message'];
+                        var title = "{{ trans('quickadmin.order.invoice') }}";
+                        showToaster(title,alertType,message);
+                        dataTable.ajax.reload();
+                        // location.reload();
+
+                },
+                error: function (xhr) {
+                    // Handle error response
+                    swal("{{ trans('quickadmin.order.invoice') }}", 'Some mistake is there.', 'error');
+                }
+                });
+            }
+            });
+        });
+
+        $('#reset-filter').on('click', function(e) {
+            e.preventDefault();
+            $('#invoice-filter-form')[0].reset();
+
+            var select2Element = $('#customer_id');
+            select2Element.val(null).trigger('change');
+            var select2Elementfrom_date = $('#from_date');
+            select2Elementfrom_date.val(null).trigger('change');
+            var select2Elementto_date = $('#to_date');
+            select2Elementto_date.val(null).trigger('change');
+
+            var type = "{{$type}}";
+
+            if(type == 'deleted'){
+                var url = "{{ route('orders.getTypeOrder') }}/" + type;
+                dataTable.ajax.url(url).load();
+            }else{
+                dataTable.ajax.url("{{ route('orders.index') }}").load();
+            }
+
+            originalExportUrl = "{{ route('orders.allexport') }}";
+            originalPrintUrl = "{{ route('orders.allprint') }}";
+            $('#invoice-excel').attr('href', originalExportUrl);
+            $('#invoice-print').attr('href', originalPrintUrl);
+
+
+        });
+
+        $('#invoice-filter-form').on('submit', function(e) {
+
+            e.preventDefault();
+            // Get the date range picker instance
+            var picker = $('#reportrange').data('daterangepicker');
+
+            // Retrieve the selected start and end dates
+            var from_date = picker.startDate.format('YYYY-MM-DD');
+            var to_date = picker.endDate.format('YYYY-MM-DD');
+
+            console.log('from_date',from_date);
+            console.log('to_date',to_date);
+            var type = "{{$type}}";
+
+            // Collect filter values (customer, from_date, to_date) from the form
+            var customer_id = $('#customer_id').val();
+            if(customer_id == undefined){
+                customer_id = '';
+            }
+
+            if(from_date == undefined || from_date == 'Invalid date'){
+                from_date = '';
+            }
+
+            if(to_date == undefined || to_date == 'Invalid date'){
+                to_date = '';
+            }
+
+            //exportUrl = "{{ route('orders.allexport') }}" + '/' + customer_id+ '/' + from_date + '/' + to_date;
+            //printUrl = "{{ route('orders.allprint') }}" + '/' + customer_id+ '/' + from_date + '/' + to_date;
+            var exportUrl = "{{ route('orders.allexport') }}"
+            + '?customer_id=' + encodeURIComponent(customer_id)
+            + '&from_date=' + encodeURIComponent(from_date)
+            + '&to_date=' + encodeURIComponent(to_date);
+
+            var printUrl = "{{ route('orders.allprint') }}"
+            + '?customer_id=' + encodeURIComponent(customer_id)
+            + '&from_date=' + encodeURIComponent(from_date)
+            + '&to_date=' + encodeURIComponent(to_date);
+
+            var params = {
+                    customer_id      : customer_id,
+                    from_date        : from_date,
+                    to_date          : to_date,
+            };
+            // Apply filters to the DataTable
+            if(type == 'deleted'){
+                dataTable.ajax.url("{{ route('orders.getTypeOrder') }}/" + type + "?" +$.param(params)).load();
+            }else{
+
+                dataTable.ajax.url("{{ route('orders.index') }}?"+$.param(params)).load();
+            }
+
+            $('#invoice-excel').attr('href', exportUrl);
+            $('#invoice-print').attr('href', printUrl);
+
+
+        });
+
+        $(document).on('click','.view-delete-orders', function(){
+        // $('#preloader').css('display', 'flex');
+            var hrefUrl = $(this).attr('data-href');
             console.log(hrefUrl);
             $.ajax({
                 type: 'get',
@@ -413,317 +707,16 @@ $(document).ready(function () {
                     if(response.success) {
                         console.log('success');
                         $('.popup_render_div').html(response.htmlView);
-                        $('#editPhoneModal').modal('show');
-
-                        setTimeout(() => {
-                            $('.modal-backdrop').not(':first').remove();
-                        }, 300);
+                        $('#OrderModal').modal('show');
                     }
                 }
             });
-    });
-
-    $(document).on('submit', '#EditCustomerPhone', function (e) {
-        e.preventDefault();
-        $("#EditCustomerPhone button[type=submit]").prop('disabled',true);
-        $(".error").remove();
-        $(".is-invalid").removeClass('is-invalid');
-        var formData = $(this).serialize();
-        var formAction = $(this).attr('action');
-        console.log(formAction);
-
-        $.ajax({
-            url: formAction,
-            type: 'PUT',
-            headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        },
-            data: formData,
-            success: function (response) {
-                    $('#editPhoneModal').modal('hide');
-                    var alertType = response['alert-type'];
-                    var message = response['message'];
-                    var title = "{{ trans('quickadmin.customers.customer') }}";
-                    showToaster(title,alertType,message);
-                    $('#EditCustomerPhone')[0].reset();
-                    //location.reload();
-                    DataaTable.ajax.reload();
-                    $("#EditCustomerPhone button[type=submit]").prop('disabled',false);
-            },
-            error: function (xhr) {
-                var errors= xhr.responseJSON.errors;
-                console.log(xhr.responseJSON);
-
-                for (const elementId in errors) {
-                    $("#EditCustomerPhone #"+elementId).addClass('is-invalid');
-                    var errorHtml = '<div><span class="error text-danger">'+errors[elementId]+'</span></';
-                    $(errorHtml).insertAfter($("#EditForm #"+elementId).parent());
-                }
-                $("#EditForm button[type=submit]").prop('disabled',false);
-            }
         });
-    });
 
 
-    $(document).on('click', '.print-button', function(e) {
-        e.preventDefault();
-        var actionurl = $(this).data('href');
-        console.log(actionurl);
-
-        $.ajax({
-            url: actionurl,
-            method: 'GET',
-            success: function(response) {
-                var basestringpdf = response.pdf;
-                var objbuilder= '';
-                objbuilder += ('<object width = "100%" height="100%" data="data:application/pdf;base64,');
-                objbuilder += (basestringpdf);
-                objbuilder += ('" type="application/pdf" class="internal">');
-                objbuilder += ('<embed type="application/pdf" src="data:application/pdf;base64,' + basestringpdf + '" />');
-                objbuilder += ('</object>');
-
-                var mywindow = window.open('', 'PRINT', 'height=600,width=800');
-                mywindow.document.write('<html><head><title>PRINT PREVIEW</title>');
-                mywindow.document.write('</head><body >');
-                // mywindow.document.write('<embed type="application/pdf" width="100%" height="100%" src="data:application/pdf;base64,' + decodedPdfContent + '" />');
-                mywindow.document.write(objbuilder);
-                mywindow.document.write('</body></html>');
-                layer = $(mywindow.document);
-                // mywindow.print();
-                // mywindow.close();
-                },
-                error: function(error) {
-                    console.error('Error fetching invoice:', error);
-                }
-        });
-    });
-
-
-    $(document).on('click', '.share-email-btn', function(e) {
-        e.preventDefault();
-        var recipientMail = $(this).data('recipient-email');
-        var orderId = $(this).data('order-id');
-        var pdfDownloadUrl = $(this).data('href');
-        var pdfLink = document.createElement('a');
-        var mssg="{{ getSetting('share_invoice_mail_message')}}";
-        pdfLink.href = pdfDownloadUrl;
-        pdfLink.download = 'invoice.pdf';
-        pdfLink.style.display = 'none';
-        document.body.appendChild(pdfLink);
-        pdfLink.click();
-        document.body.removeChild(pdfLink);
-        var mailtoUrl = 'mailto:' + recipientMail + '?subject=Invoice Detail&body='+mssg;
-        window.location.href = mailtoUrl;
-    });
-
-    $(document).on('click','.share-whatsapp-btn',function(e){
-        e.preventDefault();
-        var recipientNumber = $(this).data('recipient-number');
-        var orderId = $(this).data('order-id');
-        var pdfDownloadUrl = $(this).data('href');
-        var pdfLink = document.createElement('a');
-        var mssg="{{ getSetting('share_invoice_whatsapp_message')}}";
-        pdfLink.href = pdfDownloadUrl;
-        pdfLink.download = 'invoice.pdf';
-        pdfLink.style.display = 'none';
-        document.body.appendChild(pdfLink);
-        pdfLink.click();
-        document.body.removeChild(pdfLink);
-        var whatsappUrl = 'https://api.whatsapp.com/send?phone=' + recipientNumber + '&text='+mssg;
-        window.open(whatsappUrl, '_blank');
-    });
-
-    $(document).on('submit', '.deleteForm', function(e) {
-        e.preventDefault();
-        console.log(2);
-        var formAction = $(this).attr('action');
-        swal({
-        title: "{{ trans('messages.deletetitle') }}",
-        text: "{{ trans('messages.areYouSure') }}",
-        icon: 'warning',
-        buttons: {
-        confirm: 'Yes, delete it',
-        cancel: 'No, cancel',
-         },
-        dangerMode: true,
-        }).then((willDelete) => {
-        if (willDelete) {
-            $.ajax({
-            url: formAction,
-            type: 'DELETE',
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            },
-            success: function (response) {
-                var alertType = response['alert-type'];
-                    var message = response['message'];
-                    var title = "{{ trans('quickadmin.order.invoice') }}";
-                    showToaster(title,alertType,message);
-                    dataTable.ajax.reload();
-                    // location.reload();
-
-            },
-            error: function (xhr) {
-                // Handle error response
-                swal("{{ trans('quickadmin.order.invoice') }}", 'Some mistake is there.', 'error');
-            }
-            });
-        }
-        });
-    });
-
-
-    $(document).on('submit', '.restoreForm', function(e) {
-        e.preventDefault();
-        console.log(2);
-        var formAction = $(this).attr('action');
-        swal({
-        title: "{{ trans('messages.restoretitle') }}",
-        text: "{{ trans('messages.areYouSureRestore') }}",
-        icon: 'warning',
-        buttons: {
-        confirm: 'Yes, Restore it',
-        cancel: 'No, cancel',
-         },
-        dangerMode: true,
-        }).then((willDelete) => {
-        if (willDelete) {
-            $.ajax({
-            url: formAction,
-            type: 'PATCH',
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            },
-            success: function (response) {
-                var alertType = response['alert-type'];
-                    var message = response['message'];
-                    var title = "{{ trans('quickadmin.order.invoice') }}";
-                    showToaster(title,alertType,message);
-                    dataTable.ajax.reload();
-                    // location.reload();
-
-            },
-            error: function (xhr) {
-                // Handle error response
-                swal("{{ trans('quickadmin.order.invoice') }}", 'Some mistake is there.', 'error');
-            }
-            });
-        }
-        });
-    });
-
-    $('#reset-filter').on('click', function(e) {
-        e.preventDefault();
-        $('#invoice-filter-form')[0].reset();
-
-        var select2Element = $('#customer_id');
-        select2Element.val(null).trigger('change');
-        var select2Elementfrom_date = $('#from_date');
-        select2Elementfrom_date.val(null).trigger('change');
-        var select2Elementto_date = $('#to_date');
-        select2Elementto_date.val(null).trigger('change');
-
-        var type = "{{$type}}";
-
-        if(type == 'deleted'){
-            var url = "{{ route('orders.getTypeOrder') }}/" + type;
-            dataTable.ajax.url(url).load();
-        }else{
-            dataTable.ajax.url("{{ route('orders.index') }}").load();
-        }
-
-        originalExportUrl = "{{ route('orders.allexport') }}";
-        originalPrintUrl = "{{ route('orders.allprint') }}";
-        $('#invoice-excel').attr('href', originalExportUrl);
-        $('#invoice-print').attr('href', originalPrintUrl);
 
 
     });
-
-    $('#invoice-filter-form').on('submit', function(e) {
-
-        e.preventDefault();
-        // Get the date range picker instance
-        var picker = $('#reportrange').data('daterangepicker');
-
-        // Retrieve the selected start and end dates
-        var from_date = picker.startDate.format('YYYY-MM-DD');
-        var to_date = picker.endDate.format('YYYY-MM-DD');
-
-        console.log('from_date',from_date);
-        console.log('to_date',to_date);
-        var type = "{{$type}}";
-
-        // Collect filter values (customer, from_date, to_date) from the form
-        var customer_id = $('#customer_id').val();
-        if(customer_id == undefined){
-            customer_id = '';
-        }
-
-        if(from_date == undefined || from_date == 'Invalid date'){
-            from_date = '';
-        }
-
-        if(to_date == undefined || to_date == 'Invalid date'){
-            to_date = '';
-        }
-
-        //exportUrl = "{{ route('orders.allexport') }}" + '/' + customer_id+ '/' + from_date + '/' + to_date;
-        //printUrl = "{{ route('orders.allprint') }}" + '/' + customer_id+ '/' + from_date + '/' + to_date;
-        var exportUrl = "{{ route('orders.allexport') }}"
-        + '?customer_id=' + encodeURIComponent(customer_id)
-        + '&from_date=' + encodeURIComponent(from_date)
-        + '&to_date=' + encodeURIComponent(to_date);
-
-        var printUrl = "{{ route('orders.allprint') }}"
-        + '?customer_id=' + encodeURIComponent(customer_id)
-        + '&from_date=' + encodeURIComponent(from_date)
-        + '&to_date=' + encodeURIComponent(to_date);
-
-        var params = {
-                customer_id      : customer_id,
-                from_date        : from_date,
-                to_date          : to_date,
-        };
-        // Apply filters to the DataTable
-        if(type == 'deleted'){
-            dataTable.ajax.url("{{ route('orders.getTypeOrder') }}/" + type + "?" +$.param(params)).load();
-        }else{
-
-            dataTable.ajax.url("{{ route('orders.index') }}?"+$.param(params)).load();
-        }
-
-        $('#invoice-excel').attr('href', exportUrl);
-        $('#invoice-print').attr('href', printUrl);
-
-
-    });
-
-    $(document).on('click','.view-delete-orders', function(){
-       // $('#preloader').css('display', 'flex');
-        var hrefUrl = $(this).attr('data-href');
-        console.log(hrefUrl);
-        $.ajax({
-            type: 'get',
-            url: hrefUrl,
-            dataType: 'json',
-            success: function (response) {
-                //$('#preloader').css('display', 'none');
-                if(response.success) {
-                    console.log('success');
-                    $('.popup_render_div').html(response.htmlView);
-                    $('#OrderModal').modal('show');
-                }
-            }
-        });
-    });
-
-
-
-
-});
-
-
-
 </script>
+
 @endsection
