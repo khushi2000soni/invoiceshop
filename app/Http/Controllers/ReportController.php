@@ -21,51 +21,41 @@ use Maatwebsite\Excel\Facades\Excel;
 
 class ReportController extends Controller
 {
-    // Category Report Methods Starts
     public function reportCategory(ReportCategoryDataTable $dataTable)
     {
         abort_if(Gate::denies('report_category_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
         $addresses = Address::orderByRaw('CAST(address AS SIGNED), address')->get();
         // Pass the calculated data to the DataTable
         return $dataTable->render('admin.report.report-category',compact('addresses'));
-
     }
 
-    public function CategoryProductReport(ReportCategoryProductDataTable $dataTable)
+    public function CategoryProductReport(Request $request)
     {
         abort_if(Gate::denies('report_category_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-        //return $dataTable->render('admin.report.report-category-product');
-        // Get the category ID and other filter parameters from the request
-        $category_id = request('category_id');
-        $address_id = request('address_id');
-        $from_date = request('from_date');
-        $to_date = request('to_date');
-
-        //dd($category_id);
-        // Assuming you have a method to get the category name based on the category ID
+        $category_id = $request->category_id ;
+        $from_date = $request->from_date ?? null;
+        $to_date = $request->to_date ?? null;
+        $category_percent = $request->category_percent ?? null;
         $category_name = Category::find($category_id)->name;
-        // Assuming you have a method to get the address name based on the address ID
-        $address_name = $address_id ? Address::find($address_id)->address : null;
-        // Prepare the duration string
         $duration = $from_date && $to_date ? Carbon::parse($from_date)->format('Y-m-d') . ' to ' . Carbon::parse($to_date)->format('Y-m-d') : null;
-
-        // Pass the variables to the view
-        return $dataTable->render('admin.report.report-category-product',compact('category_name','address_name','duration'));
-
+        $query = Product::getFilteredProducts($request);
+        $alldata = $query->get();
+        $totalAmount = $alldata->sum('amount');
+        $html = view('admin.report.report-category-product', compact('alldata','category_percent','totalAmount','category_name', 'duration'))->render();
+        return response()->json(['success' => true, 'htmlView' => $html]);
     }
+
 
     public function getCategoryChartData(Request $request)
     {
         $query = Category::getFilteredCategories($request);
         $data =  $query->get();
-        // Transform the data to the required format
         $transformedData = $data->map(function ($item) {
             return [
                 'category' => $item->name,
                 'amount' => $item->amount,
             ];
         });
-        //dd($data);
         return response()->json($transformedData);
     }
 
@@ -84,30 +74,6 @@ class ReportController extends Controller
         return Excel::download(new CatgoryReportExport($request), 'Category-Report.xlsx');
     }
 
-
-    // Invoice Report Methods Starts
-    public function reportInvoice(Request $request)
-    {
-        abort_if(Gate::denies('report_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-        $timeFrame = $request->input('time_frame', 'monthly');
-        $data = null;
-        // Fetch the default data based on the default time frame
-        $data = $this->getDataForTimeFrame($timeFrame);
-
-        $totalOrderCount = Order::count();
-        $totalProductCount = Product::count();
-        $totalCustomerCount = Customer::count();
-        $deviceCount = Device::count();
-
-        return view('admin.report.report-invoice', compact(
-            'data',
-            'timeFrame',
-            'totalOrderCount',
-            'totalCustomerCount',
-            'totalProductCount',
-            'deviceCount'
-        ));
-    }
     ///// old report code
 
     public function index(Request $request)

@@ -46,7 +46,7 @@
                           <div class="col">
                               <form id="categoryreport">
                                 <div class="row align-items-center pb-3 mb-4 cart_filter_box">
-                                  <div class="col-md-3 pr-0">
+                                  {{-- <div class="col-md-3 pr-0">
                                     <div class="custom-select2 fullselect2">
                                           <div class="form-control-inner">
                                               <label for="address_id">@lang('quickadmin.customers.fields.select_address')</label>
@@ -58,8 +58,8 @@
                                               </select>
                                           </div>
                                       </div>
-                                  </div>
-                                  <div class="col-md-3 pr-0">
+                                  </div> --}}
+                                  <div class="col-md-4 pr-0">
                                     <div class="datapikergroup custom-select2 datepickerbox">
                                         <div class="form-control-inner">
                                             <label for="select_date">Select Date</label>
@@ -108,6 +108,7 @@
             </div>
         </div>
     </div>
+    <div class="popup_render_div"></div>
   </section>
 @endsection
 
@@ -127,7 +128,6 @@
 
 <script type="text/javascript">
     $(function() {
-
         var date = '{{ config("app.start_date")}}';
         var start = moment(date, 'YYYY-MM-DD'); /*.moment().startOf('month')*/
         var end = moment();
@@ -145,7 +145,6 @@
                'Last 30 Days': [moment().subtract(29, 'days'), moment()],
                'This Month': [moment().startOf('month'), moment().endOf('month')],
                'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
-
             }
         }, cb);
         cb(start, end);
@@ -186,8 +185,6 @@
         });
     }
 
-    // Call the function initially to load the chart
-    updatepieChart();
     });
 
 
@@ -197,21 +194,29 @@
 $(document).ready(function(){
     var dataTable = $('#dataaTable').DataTable();
     $('#report-print').printPage();
+    var picker = $('#reportrange').data('daterangepicker');
     // Filter Functionality
+    var defaltparam = {
+            // address_id      : null,
+            from_date        : picker.startDate.format('YYYY-MM-DD'),
+            to_date          : picker.endDate.format('YYYY-MM-DD'),
+    };
+    // Call the function initially to load the chart
+    updatepieChart(defaltparam);
 
+    // Filter Functionality
     $('#categoryreport').on('submit', function(e) {
         e.preventDefault();
-        // Get the date range picker instance
-        var picker = $('#reportrange').data('daterangepicker');
+        picker = $('#reportrange').data('daterangepicker');
         // Retrieve the selected start and end dates
         var from_date = picker.startDate.format('YYYY-MM-DD');
         var to_date = picker.endDate.format('YYYY-MM-DD');
         // Collect filter values (address, from_date, to_date) from the form
-        var address_id = $('#address_id').val();
+       /* var address_id = $('#address_id').val();
         if(address_id == undefined){
             address_id = '';
         }
-
+        */
         if(from_date == undefined || from_date == 'Invalid date'){
             from_date = '';
         }
@@ -220,21 +225,14 @@ $(document).ready(function(){
             to_date = '';
         }
 
-        // console.log('address_id',address_id);
-        // console.log('from_date',from_date);
-        // console.log('to_date',to_date);
-        var exportUrl = "{{ route('reports.category.export') }}"
-        + '?address_id=' + encodeURIComponent(address_id)
-        + '&from_date=' + encodeURIComponent(from_date)
+        var exportUrl = "{{ route('reports.category.export') }}" + /*'?address_id=' + encodeURIComponent(address_id) + */'&from_date=' + encodeURIComponent(from_date)
         + '&to_date=' + encodeURIComponent(to_date);
 
-        var printUrl = "{{ route('reports.category.print') }}"
-        + '?address_id=' + encodeURIComponent(address_id)
-        + '&from_date=' + encodeURIComponent(from_date)
+        var printUrl = "{{ route('reports.category.print') }}"+ /*'?address_id=' + encodeURIComponent(address_id) + */'&from_date=' + encodeURIComponent(from_date)
         + '&to_date=' + encodeURIComponent(to_date);
 
         var params = {
-                address_id      : address_id,
+                // address_id      : address_id,
                 from_date        : from_date,
                 to_date          : to_date,
         };
@@ -251,16 +249,36 @@ $(document).ready(function(){
         e.preventDefault();
         $('#categoryreport')[0].reset();
 
-        var select2Element = $('#address_id');
-        select2Element.val(null).trigger('change');
+        // var select2Element = $('#address_id');
+        // select2Element.val(null).trigger('change');
         dataTable.ajax.url("{{ route('reports.category') }}").load();
         updatepieChart();
         originalExportUrl = "{{ route('reports.category.export') }}";
         originalPrintUrl = "{{ route('reports.category.print') }}";
         $('#report-excel').attr('href', originalExportUrl);
         $('#report-print').attr('href', originalPrintUrl);
+    });
 
-
+    $(document).on("click", ".category-product-detail", function () {
+        var hrefUrl = $(this).attr('data-href');
+        $('.modal-backdrop').remove();
+        console.log(hrefUrl);
+        $.ajax({
+            type: 'get',
+            url: hrefUrl,
+            dataType: 'json',
+            success: function (response) {
+                //$('#preloader').css('display', 'none');
+                if(response.success) {
+                    console.log('success');
+                    $('.popup_render_div').html(response.htmlView);
+                    $('#categoryProductModal').modal('show');
+                    setTimeout(() => {
+                        $('.modal-backdrop').not(':first').remove();
+                    }, 300);
+                }
+            }
+        });
     });
 
 

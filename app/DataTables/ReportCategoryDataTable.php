@@ -28,24 +28,14 @@ class ReportCategoryDataTable extends DataTable
         return datatables()
         ->eloquent($query)
             ->addIndexColumn()
-            // ->editColumn('name', function ($data) {
-            //     $productCount = $data->totalsoldproduct;
-            //     if ($productCount > 0) {
-            //         $name = '<a class="" title="' . $productCount . ' '. trans('quickadmin.qa_record_found').'" href="'.route('reports.category.products',['category_id'=>$data->category_id]).'">' . ucwords($data->name). '</a>';
-            //     } else {
-            //         $name = ucwords($data->name);
-            //     }
-            //     return $name;
-            // })
-            ->editColumn('name', function ($data) {
+            ->editColumn('name', function ($data) use ($totalAmount){
                 $productCount = $data->totalsoldproduct;
                 $routeParams = ['category_id' => $data->category_id];
-
+                $routeParams['category_percent'] = CategoryAmountPercent($data->amount ,$totalAmount);
                 // Check if filter parameters are present
-                if (request()->has('address_id')) {
-                    $routeParams['address_id'] = request('address_id');
-                }
-
+                // if (request()->has('address_id')) {
+                //     $routeParams['address_id'] = request('address_id');
+                // }
                 if (request()->has('from_date')) {
                     $routeParams['from_date'] = request('from_date');
                 }
@@ -55,7 +45,7 @@ class ReportCategoryDataTable extends DataTable
                 }
 
                 if ($productCount > 0) {
-                    $name = '<a class="" title="' . $productCount . ' ' . trans('quickadmin.qa_record_found') . '" href="' . route('reports.category.products', $routeParams) . '">' . ucwords($data->name) . '</a>';
+                    $name = '<button class="btn btn-primary category-product-detail" title="' . $productCount . ' ' . trans('quickadmin.qa_record_found') . '" data-href="' . route('reports.category.products', $routeParams) . '">' . ucwords($data->name) . '</button>';
                 } else {
                     $name = ucwords($data->name);
                 }

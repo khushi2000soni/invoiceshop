@@ -14,6 +14,7 @@ use Yajra\DataTables\Services\DataTable;
 
 class ReportCategoryProductDataTable extends DataTable
 {
+
     /**
      * Build the DataTable class.
      *

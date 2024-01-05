@@ -85,11 +85,6 @@
                     <a class="nav-link" href="{{ route('reports.category') }}">@lang('quickadmin.report-management.fields.category_report')</a>
                 </li>
                 @endcan
-                @can('report_invoice_access')
-                <li class="{{ Request::is('reports*') ? 'active' : '' }}">
-                    <a class="nav-link" href="{{ route('reports.invoice') }}">@lang('quickadmin.report-management.fields.order_report')</a>
-                </li>
-                @endcan
             </ul>
         </li>
         @endcan

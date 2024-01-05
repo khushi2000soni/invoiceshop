@@ -29,7 +29,7 @@ class Category extends Model
 
     public static function getFilteredCategories($request)
     {
-        $address_id = $request->address_id ?? null;
+        // $address_id = $request->address_id ?? null;
         $from_date = $request->from_date ?? null;
         $to_date = $request->to_date ?? null;
 
@@ -51,9 +51,9 @@ class Category extends Model
         ->orderByDesc('categories.id')
         ->orderByDesc('order_products.id');
 
-        if ($address_id) {
-            $query->where('customers.address_id', $address_id);
-        }
+        // if ($address_id) {
+        //     $query->where('customers.address_id', $address_id);
+        // }
 
         if ($from_date !== null && $from_date != 'null') {
             $fromDate = Carbon::parse($from_date)->startOfDay();
