@@ -76,7 +76,7 @@
                                           <button type="reset" class="btn btn-primary mr-1 col" id="reset-filter">@lang('quickadmin.qa_reset')</button>
                                       </div>
                                   </div>
-                                  <div class="col-md-4 text-end">
+                                  <div class="col-md-6 text-end">
                                     <div class="form-group mb-0 d-flex justify-content-end">
                                       <div class="col-auto px-md-1 pr-1">
                                         <a href="{{ route('reports.category.print')}}" class="btn printbtn h-10 col circlebtn" id="report-print" title="@lang('quickadmin.qa_print')">
