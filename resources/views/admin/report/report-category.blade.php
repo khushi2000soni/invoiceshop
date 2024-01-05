@@ -7,31 +7,31 @@
 @endsection
 
 <style type="text/css">
-  .custom-select2 .form-control-inner label {
-    position: absolute;
-    left: 10px;
-    top: -8px;
-    background-color: #fff;
-    padding: 0 5px;
-    z-index: 1;
-    font-size: 12px;
-}
-.custom-select2 .form-control-inner {
-    position: relative;
-}
-.select2-container--default .select2-selection--single .select2-selection__rendered {
-    line-height: 41px !important;
-}
+    .custom-select2 .form-control-inner label {
+        position: absolute;
+        left: 10px;
+        top: -8px;
+        background-color: #fff;
+        padding: 0 5px;
+        z-index: 1;
+        font-size: 12px;
+    }
+    .custom-select2 .form-control-inner {
+        position: relative;
+    }
+    .select2-container--default .select2-selection--single .select2-selection__rendered {
+        line-height: 41px !important;
+    }
 
-#chartdiv {
-    width: 100%;
-    max-width: 600px;
-    height: 500px;
-    margin: 0 auto;
-}
-g[aria-labelledby="id-66-title"]{
-    display: none !important;
-}
+    #chartdiv {
+        width: 100%;
+        max-width: 600px;
+        height: 500px;
+        margin: 0 auto;
+    }
+    g[aria-labelledby="id-66-title"]{
+        display: none !important;
+    }
 </style>
 
 @section('main-content')
@@ -79,13 +79,13 @@ g[aria-labelledby="id-66-title"]{
                                   <div class="col-md-4 text-end">
                                     <div class="form-group mb-0 d-flex justify-content-end">
                                       <div class="col-auto px-md-1 pr-1">
-                                        <a href="" class="btn printbtn h-10 col circlebtn" id="report-print">
+                                        <a href="{{ route('reports.category.print')}}" class="btn printbtn h-10 col circlebtn" id="report-print" title="@lang('quickadmin.qa_print')">
                                           <x-svg-icon icon="print" />
                                         </a>
                                       </div>
                                       <!--  -->
                                       <div class="col-auto px-md-1 pr-1">
-                                        <a href="" class="btn excelbtn h-10 col circlebtn" id="report-excel">
+                                        <a href="{{ route('reports.category.export')}}" class="btn excelbtn h-10 col circlebtn" id="report-excel" title="@lang('quickadmin.qa_excel')">
                                           <x-svg-icon icon="excel" />
                                         </a>
                                       </div>
@@ -161,7 +161,6 @@ g[aria-labelledby="id-66-title"]{
     }
 
     window.updatepieChart = function(params=null) {
-        console.log('called');
         $.ajax({
             type: 'GET',
             url: "{{ route('reports.category.piechart') }}",
@@ -193,6 +192,8 @@ g[aria-labelledby="id-66-title"]{
 <script>
 $(document).ready(function(){
     var dataTable = $('#dataaTable').DataTable();
+    $('#report-print').printPage();
+    // Filter Functionality
 
     $('#categoryreport').on('submit', function(e) {
         e.preventDefault();
@@ -215,9 +216,18 @@ $(document).ready(function(){
             to_date = '';
         }
 
-        console.log('address_id',address_id);
-        console.log('from_date',from_date);
-        console.log('to_date',to_date);
+        // console.log('address_id',address_id);
+        // console.log('from_date',from_date);
+        // console.log('to_date',to_date);
+        var exportUrl = "{{ route('reports.category.export') }}"
+        + '?address_id=' + encodeURIComponent(address_id)
+        + '&from_date=' + encodeURIComponent(from_date)
+        + '&to_date=' + encodeURIComponent(to_date);
+
+        var printUrl = "{{ route('reports.category.print') }}"
+        + '?address_id=' + encodeURIComponent(address_id)
+        + '&from_date=' + encodeURIComponent(from_date)
+        + '&to_date=' + encodeURIComponent(to_date);
 
         var params = {
                 address_id      : address_id,
@@ -228,8 +238,25 @@ $(document).ready(function(){
         dataTable.ajax.url("{{ route('reports.category') }}"+ "?" +$.param(params)).load();
         /// for update pichart according to filter ......
         updatepieChart(params);
-        // $('#report-excel').attr('href', exportUrl);
-        // $('#report-print').attr('href', printUrl);
+        $('#report-excel').attr('href', exportUrl);
+        $('#report-print').attr('href', printUrl);
+    });
+
+
+    $('#reset-filter').on('click', function(e) {
+        e.preventDefault();
+        $('#categoryreport')[0].reset();
+
+        var select2Element = $('#address_id');
+        select2Element.val(null).trigger('change');
+        dataTable.ajax.url("{{ route('reports.category') }}").load();
+
+        originalExportUrl = "{{ route('reports.category.export') }}";
+        originalPrintUrl = "{{ route('reports.category.print') }}";
+        $('#report-excel').attr('href', originalExportUrl);
+        $('#report-print').attr('href', originalPrintUrl);
+
+
     });
 
 

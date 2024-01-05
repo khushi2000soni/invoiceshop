@@ -39,12 +39,7 @@ class ReportCategoryDataTable extends DataTable
             //     return $totalAmount;
             // })
             ->editColumn('percent_share', function ($data) use ($totalAmount) {
-                if ($totalAmount == 0) {
-                    return '0.00%';
-                }
-
-                $percentShare = ($data->amount / $totalAmount) * 100;
-                return number_format($percentShare, 2) . '%';
+                return CategoryAmountPercent($data->amount ,$totalAmount);
             });
     }
 
@@ -54,41 +49,8 @@ class ReportCategoryDataTable extends DataTable
     public function query(Category $model): QueryBuilder
     {
         $query = $model->newQuery();
-        $query = $query->select([
-            'categories.id as category_id',
-            'categories.name as name',
-            DB::raw('SUM(order_products.total_price) as amount'),
-        ])
-        ->leftJoin('products', 'categories.id', '=', 'products.category_id')
-        ->leftJoin('order_products', 'products.id', '=', 'order_products.product_id')
-        ->leftJoin('orders', 'order_products.order_id', '=', 'orders.id')
-        ->leftJoin('customers', 'orders.customer_id', '=', 'customers.id')
-        ->whereNull('orders.deleted_at')
-        ->whereNull('order_products.deleted_at')
-        ->groupBy('categories.id')
-        ->havingRaw('amount > 0')
-        ->orderByDesc('categories.id')
-        ->orderByDesc('order_products.id');
-
-        if (request()->has('address_id')) {
-            //dd(request()->address_id);
-            $addressId = request()->address_id;
-            $query->where('customers.address_id', $addressId);
-        }
-
-        if (request()->has('from_date')) {
-            //dd(request()->from_date ,request()->to_date );
-            $fromDate = Carbon::parse(request()->from_date)->startOfDay();
-            $query->where('order_products.created_at', '>=', $fromDate);
-        }
-
-        if (request()->has('to_date')) {
-            $toDate = Carbon::parse(request()->to_date)->endOfDay();
-            $query->where('order_products.created_at', '<=', $toDate);
-        }
-
-        //dd($query->toSql());
-
+        $request = request();
+        $query = Category::getFilteredCategories($request);
         return $query;
     }
 

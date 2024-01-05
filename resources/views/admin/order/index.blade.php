@@ -133,25 +133,25 @@
                                         @if ($type != 'deleted')
                                             @can('invoice_create')
                                             <div class="col-auto px-md-1 pr-1">
-                                                <a href="{{ route('orders.create')}}" class="btn btn-outline-dark invoiceicon add_invoice_btn circlebtn"><x-svg-icon icon="add-order" /> </a>
+                                                <a href="{{ route('orders.create')}}" class="btn btn-outline-dark invoiceicon add_invoice_btn circlebtn" title="@lang('quickadmin.dashboard.add_invoice')"><x-svg-icon icon="add-order" /> </a>
                                             </div>
                                             @endcan
 
                                             @can('invoice_print')
                                             <div class="col-auto px-md-1 pr-1">
-                                                <a href="{{ route('orders.allprint') }}" class="btn printbtn h-10 col circlebtn"  id="invoice-print"> <x-svg-icon icon="print" /></a>
+                                                <a href="{{ route('orders.allprint') }}" class="btn printbtn h-10 col circlebtn"  id="invoice-print" title="@lang('quickadmin.qa_print')"> <x-svg-icon icon="print" /></a>
                                             </div>
                                             @endcan
 
                                             @can('invoice_print')
                                             <div class="col-auto px-md-1 pr-1">
-                                                <a href="{{ route('orders.allexport') }}" class="btn excelbtn h-10 col circlebtn"  id="invoice-excel"><x-svg-icon icon="excel" /></a>
+                                                <a href="{{ route('orders.allexport') }}" class="btn excelbtn h-10 col circlebtn"  id="invoice-excel" title="@lang('quickadmin.qa_excel')"><x-svg-icon icon="excel"/></a>
                                             </div>
                                             @endcan
 
                                             @can('invoice_recycle_access')
                                             <div class="col-auto px-md-1 pr-1">
-                                                <a class="btn btn-outline-danger recycleicon col circlebtn" href="{{ route('orders.getTypeOrder',['type'=>'deleted'])}}" id="trashed-data"><x-svg-icon icon="recycle" /></a>
+                                                <a class="btn btn-outline-danger recycleicon col circlebtn" href="{{ route('orders.getTypeOrder',['type'=>'deleted'])}}" id="trashed-data" title="@lang('quickadmin.order.recycle')"><x-svg-icon icon="recycle" /></a>
                                             </div>
                                             @endcan
                                         @endif

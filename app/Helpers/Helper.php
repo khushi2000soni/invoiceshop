@@ -179,4 +179,17 @@ if (!function_exists('handleDataTypeThreeDigit')) {
     }
 }
 
+/// Calculate Category Amount Ratio's percentage
+
+if (!function_exists('CategoryAmountPercent')) {
+    function CategoryAmountPercent($amount , $totalAmount) {
+        if ($totalAmount == 0) {
+            return '0.00%';
+        }
+        $percentShare = ($amount / $totalAmount) * 100;
+        return number_format($percentShare, 2) . '%';
+    }
+}
+
+
 ?>

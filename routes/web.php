@@ -82,9 +82,10 @@ Route::middleware(['auth','PreventBackHistory'])->group(function () {
     Route::get('/products-export/{category_id?}/{product_id?}',[ProductController::class,'export'])->name('products.export');
 
     Route::resource('/device',DeviceController::class);
+
     Route::resource('/orders',OrderController::class);
-    Route::get('/orders-printView/{customer_id?}/{from_date?}/{to_date?}',[OrderController::class,'allinvoicePrintView'])->where('customer_id', '.*')->name('orders.allprint');
-    Route::get('/orders-export/{category_id?}/{from_date?}/{to_date?}',[OrderController::class,'allinvoiceExport'])->where('customer_id', '.*')->name('orders.allexport');
+    Route::get('/orders-printView',[OrderController::class,'allinvoicePrintView'])->where('customer_id', '.*')->name('orders.allprint');
+    Route::get('/orders-export',[OrderController::class,'allinvoiceExport'])->where('customer_id', '.*')->name('orders.allexport');
     Route::get('/orders/print/{order}/{type?}',[OrderController::class,'printView'])->name('orders.print');
     Route::patch('/orders/{order}/restore',[OrderController::class,'restore'])->name('orders.restore');
     Route::get('/get-orders/{type?}', [OrderController::class,'getTypeOrder'])->name('orders.getTypeOrder');
@@ -92,9 +93,15 @@ Route::middleware(['auth','PreventBackHistory'])->group(function () {
     Route::get('/print-pdf/{order}/{type?}',[OrderController::class,'printPDF'])->name('orders.print-pdf');
     Route::get('/share-email/{order}',[OrderController::class,'shareEmail'])->name('orders.share-email');
     Route::get('/share-whatsapp/{order}',[OrderController::class,'shareWhatsApp'])->name('orders.share-whatsapp');
+
+
     Route::get('/reports/invoice',[ReportController::class,'reportInvoice'])->name('reports.invoice');
+
     Route::get('/reports/category',[ReportController::class,'reportCategory'])->name('reports.category');
     Route::get('/reports/category/piechart',[ReportController::class,'getCategoryChartData'])->name('reports.category.piechart');
+    Route::get('/reports/category-printView',[ReportController::class,'CatgoryReportPrintView'])->where('customer_id', '.*')->name('reports.category.print');
+    Route::get('/reports/category-export',[ReportController::class,'CatgoryReportExport'])->where('customer_id', '.*')->name('reports.category.export');
+
     Route::get('/fetch-report-data', [DashboardController::class,'fetchReportData'])->name('fetchReportData');
     Route::get('/getSoldProducts', [ReportController::class,'getSoldProducts'])->name('getSoldProducts');
     Route::get('/settings/{tab?}',[SettingController::class,'index'])->name('settings');

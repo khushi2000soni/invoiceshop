@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\DataTables\ReportCategoryDataTable;
+use App\Exports\CatgoryReportExport;
 use App\Models\Customer;
 use App\Models\Device;
 use App\Models\Order;
@@ -15,19 +16,52 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ReportController extends Controller
 {
-
+    // Category Report Methods Starts
     public function reportCategory(ReportCategoryDataTable $dataTable)
     {
-        abort_if(Gate::denies('report_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        abort_if(Gate::denies('report_category_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
         $addresses = Address::orderByRaw('CAST(address AS SIGNED), address')->get();
         // Pass the calculated data to the DataTable
         return $dataTable->render('admin.report.report-category',compact('addresses'));
 
     }
 
+    public function getCategoryChartData(Request $request)
+    {
+        $query = Category::getFilteredCategories($request);
+        $data =  $query->get();
+        // Transform the data to the required format
+        $transformedData = $data->map(function ($item) {
+            return [
+                'category' => $item->name,
+                'amount' => $item->amount,
+            ];
+        });
+        //dd($data);
+        return response()->json($transformedData);
+    }
+
+    public function CatgoryReportPrintView(Request $request)
+    {
+        abort_if(Gate::denies('report_category_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        $query = Category::getFilteredCategories($request);
+        $catdata = $query->get();
+       // dd($catdata);
+        $totalAmount = $catdata->sum('amount');
+        return view('admin.report.print-report-category',compact('catdata','totalAmount'))->render();
+    }
+
+    public function CatgoryReportExport(Request $request){
+        abort_if(Gate::denies('report_category_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        return Excel::download(new CatgoryReportExport($request), 'Category-Report.xlsx');
+    }
+
+
+    // Invoice Report Methods Starts
     public function reportInvoice(Request $request)
     {
         abort_if(Gate::denies('report_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
@@ -50,56 +84,6 @@ class ReportController extends Controller
             'deviceCount'
         ));
     }
-
-
-    public function getCategoryChartData(Request $request)
-    {
-        $address_id = $request->address_id ?? null;
-        $from_date = $request->from_date ?? null;
-        $to_date = $request->to_date ?? null;
-        $query = Category::query();
-        $query->select([
-            'categories.id as category_id',
-            'categories.name as name',
-            DB::raw('SUM(order_products.total_price) as amount'),
-        ])
-        ->leftJoin('products', 'categories.id', '=', 'products.category_id')
-        ->leftJoin('order_products', 'products.id', '=', 'order_products.product_id')
-        ->leftJoin('orders', 'order_products.order_id', '=', 'orders.id')
-        ->leftJoin('customers', 'orders.customer_id', '=', 'customers.id')
-        ->whereNull('orders.deleted_at')
-        ->whereNull('order_products.deleted_at')
-        ->groupBy('categories.id')
-        ->havingRaw('amount > 0')
-        ->orderByDesc('categories.id')
-        ->orderByDesc('order_products.id');
-
-        if ($address_id) {
-            $query->where('customers.address_id', $address_id);
-        }
-
-        if ($from_date !== null && $from_date != 'null') {
-            $fromDate = Carbon::parse($from_date)->startOfDay();
-            $query->where('order_products.created_at', '>=', $fromDate);
-        }
-        if ($to_date !== null && $to_date != 'null') {
-            $toDate = Carbon::parse($to_date)->endOfDay();
-            $query->where('order_products.created_at', '<=', $toDate);
-        }
-
-        $data =  $query->get();
-
-        // Transform the data to the required format
-        $transformedData = $data->map(function ($item) {
-            return [
-                'category' => $item->name,
-                'amount' => $item->amount,
-            ];
-        });
-        //dd($data);
-        return response()->json($transformedData);
-    }
-
     ///// old report code
 
     public function index(Request $request)

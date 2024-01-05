@@ -347,7 +347,7 @@ class OrderController extends Controller
         $customer_id = $request->input('customer_id');
         $from_date = $request->input('from_date');
         $to_date = $request->input('to_date');
-        abort_if(Gate::denies('product_export'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        abort_if(Gate::denies('invoice_share'), Response::HTTP_FORBIDDEN, '403 Forbidden');
         return Excel::download(new InvoiceExport($customer_id,$from_date,$to_date), 'Invoice-List.xlsx');
     }
 
