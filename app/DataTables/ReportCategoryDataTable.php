@@ -45,7 +45,7 @@ class ReportCategoryDataTable extends DataTable
                 }
 
                 if ($productCount > 0) {
-                    $name = '<button class="btn btn-primary category-product-detail" title="' . $productCount . ' ' . trans('quickadmin.qa_record_found') . '" data-href="' . route('reports.category.products', $routeParams) . '">' . ucwords($data->name) . '</button>';
+                    $name = '<button class="category-product-detail" title="' . $productCount . ' ' . trans('quickadmin.qa_record_found') . '" data-href="' . route('reports.category.products', $routeParams) . '">' . ucwords($data->name) . '</button>';
                 } else {
                     $name = ucwords($data->name);
                 }

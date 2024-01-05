@@ -13387,3 +13387,13 @@ button#saveInvoicebtn {
 .daterangepicker .daterangepicker_input i{
     top: 12px !important;
 }
+
+button.category-product-detail {
+    padding: 0;
+    border: 0;
+    background: transparent;
+}
+
+button.category-product-detail:hover{
+    color: #d30000;
+  }
