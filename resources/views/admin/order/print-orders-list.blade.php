@@ -37,12 +37,11 @@
     <div class="page-header">
         <header style="padding: 1px 0; max-width: 100%; margin: 0 auto;">
             <h2 style="margin: 0;color: #2a2a33;font-size: 20px;font-weight: bold; text-align:center;"><strong>@lang('quickadmin.order-management.fields.list')</strong></h2>
-
         </header>
     </div>
     <main class="main" style="max-width: 100%;margin: 0 auto;padding: 40px 0;padding-top: 20px;">
         <table cellpadding="0" cellspacing="0" width="100%" style="color: #000;font-size: 16px;">
-            <thead>
+            <tbody>
                 <tr>
                     <td colspan="4"><div class=""style="color: #2a2a33;font-size: 20px; text-align:left;">@lang('quickadmin.order.fields.duration') : {{ $duration}}</div></td>
                 </tr>
@@ -56,15 +55,14 @@
                     <th style="padding: 8px;border: 1px solid #000;border-right: none;" align="center">@lang('quickadmin.order.fields.invoice_date')</th>
                     <th style="padding: 8px;border: 1px solid #000;" align="center">@lang('quickadmin.order.fields.total_price')</th>
                 </tr>
-            </thead>
-            <tbody>
+
                 @forelse ($allorders as $key => $order)
                 <tr>
-                    <td style="padding: 8px;border: 1px solid #000;border-right: none;border-top: none;" align="left">{{ $key + 1 }}</td>
-                    <td style="padding: 8px;border: 1px solid #000;border-right: none;border-top: none;" align="center">{{  $order->invoice_number ?? '' }}</td>
-                    <td style="padding: 8px;border: 1px solid #000;border-right: none;border-top: none;" align="center">{{ $order->customer ? $order->customer->full_name : ''}}</td>
-                    <td style="padding: 8px;border: 1px solid #000;border-top: none;border-right: none;" align="center">{{ $order->created_at->format('d-m-Y') }}</td>
-                    <td style="padding: 8px;border: 1px solid #000;border-top: none;" align="center">{{ $order->grand_total ?? '0'}}</td>
+                    <td style="padding: 8px;border: 1px solid #000;border-right: none;" align="left">{{ $key + 1 }}</td>
+                    <td style="padding: 8px;border: 1px solid #000;border-right: none;" align="center">{{  $order->invoice_number ?? '' }}</td>
+                    <td style="padding: 8px;border: 1px solid #000;border-right: none;" align="center">{{ $order->customer ? $order->customer->full_name : ''}}</td>
+                    <td style="padding: 8px;border: 1px solid #000;border-right: none;" align="center">{{ $order->created_at->format('d-m-Y') }}</td>
+                    <td style="padding: 8px;border: 1px solid #000;" align="center">{{ $order->grand_total ?? '0'}}</td>
                 </tr>
                 @empty
                 <tr>
