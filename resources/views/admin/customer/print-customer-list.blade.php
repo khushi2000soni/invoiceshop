@@ -18,6 +18,7 @@
         <table cellpadding="0" cellspacing="0" width="100%" style="color: #000;font-size: 16px;">
             <thead>
                 <tr>
+                    <th style="padding: 10px;border: 1px solid #000;border-right: none;" align="left">@lang('quickadmin.qa_sn')</th>
                     <th style="padding: 10px;border: 1px solid #000;border-right: none;" align="center">@lang('quickadmin.customers.fields.name')</th>
                     <th style="padding: 10px;border: 1px solid #000;border-right: none;" align="center">@lang('quickadmin.customers.fields.guardian_name')</th>
                     <th style="padding: 10px;border: 1px solid #000;border-right: none;" align="center">@lang('quickadmin.customers.fields.ph_num')</th>
@@ -28,6 +29,7 @@
 
                 @forelse ($customers as $key => $customer)
                 <tr>
+                    <td style="padding: 10px;border: 1px solid #000;border-right: none;border-top: none;" align="left">{{ $key + 1 }}</td>
                     <td style="padding: 10px;border: 1px solid #000;border-right: none;border-top: none;" align="center">{{ $customer->name ?? '' }}</td>
                     <td style="padding: 10px;border: 1px solid #000;border-right: none;border-top: none;" align="center">{{ $customer->guardian_name ?? '' }}</td>
                     <td style="padding: 10px;border: 1px solid #000;border-right: none;border-top: none;" align="center">{{ $customer->phone}} @if($customer->phone2 !='') {{'/'. $customer->phone2}} @endif </td>

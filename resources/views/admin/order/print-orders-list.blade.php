@@ -20,7 +20,7 @@
         justify-content: start;
         flex-direction:column;
     }
-    
+
     html
     {
         zoom:75%;
@@ -52,6 +52,7 @@
             </thead>
             <thead>
                 <tr>
+                    <th style="padding: 10px;border: 1px solid #000;border-right: none;" align="left">@lang('quickadmin.qa_sn')</th>
                     <th style="padding: 10px;border: 1px solid #000;border-right: none;" align="center">@lang('quickadmin.order.fields.invoice_number')</th>
                     <th style="padding: 10px;border: 1px solid #000;border-right: none;" align="center">@lang('quickadmin.order.fields.customer_name')</th>
                     <th style="padding: 10px;border: 1px solid #000;border-right: none;" align="center">@lang('quickadmin.order.fields.invoice_date')</th>
@@ -61,6 +62,7 @@
             <tbody>
                 @forelse ($allorders as $key => $order)
                 <tr>
+                    <td style="padding: 10px;border: 1px solid #000;border-right: none;border-top: none;" align="left">{{ $key + 1 }}</td>
                     <td style="padding: 10px;border: 1px solid #000;border-right: none;border-top: none;" align="center">{{  $order->invoice_number ?? '' }}</td>
                     <td style="padding: 10px;border: 1px solid #000;border-right: none;border-top: none;" align="center">{{ $order->customer ? $order->customer->full_name : ''}}</td>
                     <td style="padding: 10px;border: 1px solid #000;border-top: none;border-right: none;" align="center">{{ $order->created_at->format('d-m-Y') }}</td>
@@ -68,16 +70,14 @@
                 </tr>
                 @empty
                 <tr>
-                    <td colspan="4" style="padding: 10px;border: 1px solid #000;border-top: none;" align="center">No Record Found!</td>
+                    <td colspan="5" style="padding: 10px;border: 1px solid #000;border-top: none;" align="center">No Record Found!</td>
                 </tr>
                 @endforelse
-            </tbody>
-            <tfoot>
                 <tr>
-                    <th colspan="3" style="padding: 10px;border: 1px solid #000;border-right: none;border-top: none;" align="right">@lang('quickadmin.order.fields.grand_total')</th>
+                    <th colspan="4" style="padding: 10px;border: 1px solid #000;border-right: none;border-top: none;" align="right">@lang('quickadmin.order.fields.grand_total')</th>
                     <th style="padding: 10px;border: 1px solid #000;border-top: none;" align="center">{{ $sumGrandTotal }}</th>
                 </tr>
-            </tfoot>
+            </tbody>
         </table>
     </main>
 @endsection
