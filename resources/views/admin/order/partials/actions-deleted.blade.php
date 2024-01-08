@@ -13,3 +13,9 @@
     <button class="btn btn-icon btn-info restoreBtn  d-inline-flex align-items-center" type="submit" title="@lang('quickadmin.qa_restore')"><x-svg-icon icon="restore" /></button>
 </form>
 @endcan
+
+@can('invoice_delete')
+    <form action="{{route('orders.destroy',['id' => $order->id, 'type' => 'deleted'])}}" method="POST" class="deleteForm m-1">
+        <button class="btn btn-icon btn-danger record_delete_btn deleteBtn  d-inline-flex align-items-center" type="submit" title="@lang('quickadmin.qa_delete')"><x-svg-icon icon="delete" /></button>
+    </form>
+@endcan

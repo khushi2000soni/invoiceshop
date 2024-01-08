@@ -354,13 +354,29 @@ class OrderController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy($id , $type=null)
     {
         abort_if(Gate::denies('invoice_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
         try {
             DB::beginTransaction();
-            $order = Order::findOrFail($id);
-            $order->delete();
+            $order = Order::withTrashed()->findOrFail($id);
+            if (!$order) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Order not found',
+                    'alert-type' => trans('quickadmin.alert-type.error')
+                ], 404);
+            }
+
+            if ($type == 'deleted') {
+                // Permanently delete the record
+                $order->orderProduct()->forceDelete();
+                $order->forceDelete();
+            } else {
+                // Soft delete the record
+                $order->delete();
+            }
+
             DB::commit();
             return response()->json(['success' => true,
             'message' => trans('messages.crud.delete_record'),

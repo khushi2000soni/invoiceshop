@@ -84,6 +84,7 @@ Route::middleware(['auth','PreventBackHistory'])->group(function () {
     Route::resource('/device',DeviceController::class);
 
     Route::resource('/orders',OrderController::class);
+    Route::delete('/orders/{id}/{type?}', [OrderController::class, 'destroy'])->name('orders.destroy');
     Route::get('/orders-printView',[OrderController::class,'allinvoicePrintView'])->where('customer_id', '.*')->name('orders.allprint');
     Route::get('/orders-export',[OrderController::class,'allinvoiceExport'])->where('customer_id', '.*')->name('orders.allexport');
     Route::get('/orders/print/{order}/{type?}',[OrderController::class,'printView'])->name('orders.print');
