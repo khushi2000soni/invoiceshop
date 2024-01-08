@@ -9,6 +9,7 @@ use App\DataTables\RoleDataTable;
 use App\Rules\TitleValidationRule;
 //use App\Models\Permission;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 
@@ -96,14 +97,23 @@ class RoleController extends Controller
             'name' => ['required','string','unique:roles,name,'.$role->id, new TitleValidationRule],
             'permissions' => 'array',
         ]);
-
-        $permissionsToAssign = $request->input('permissions', []);
-       // dd($permissionsToAssign);
-
-        $role->update($validatedData);
-       // $role->givePermissionTo($permissionsToAssign);
-       $role->syncPermissions($permissionsToAssign);
-
+        try {
+            DB::beginTransaction();
+            $permissionsToAssign = $request->input('permissions', []);
+            // dd($permissionsToAssign);
+            $role->update($validatedData);
+            // $role->givePermissionTo($permissionsToAssign);
+            $role->syncPermissions($permissionsToAssign);
+            DB::commit();
+         } catch (\Exception $e) {
+            //dd($e->getMessage());
+            DB::rollBack();
+            return response()->json([
+                'success' => false,
+                'message' => trans('messages.error1'),
+                'alert-type' => trans('quickadmin.alert-type.error')
+            ], 500);
+        }
 
 
      return response()->json([
