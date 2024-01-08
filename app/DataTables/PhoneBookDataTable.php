@@ -73,18 +73,18 @@ class PhoneBookDataTable extends DataTable
             'responsive' => true,
             'pageLength' => 70,
             'lengthMenu' => [[10, 25, 50, 70, 100, -1], [10, 25, 50, 70, 100, 'All']],
+            'drawCallback' => 'function() {
+                $(".loader").show();
+                setTimeout(function() {
+                    $(".loader").css("display","none");
+                }, 1500);
+            }',
         ])
         ->columns($this->getColumns())
         ->minifiedAjax()
         ->dom('lfrtip')
         ->orderBy(1)
         ->selectStyleSingle();
-        // ->buttons([
-        //     //Button::make('excel'),
-        //     // Button::make('csv'),
-        //     // Button::make('pdf'),
-        //     Button::make('print'),
-        // ]);
     }
 
 

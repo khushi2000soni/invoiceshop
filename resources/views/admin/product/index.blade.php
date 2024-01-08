@@ -382,7 +382,6 @@ $(document).ready(function () {
                     //console.log(newOption);
                     $('#product_id').append(newOption).trigger('change');
 
-
                     showToaster(title,alertType,message);
                     $('#AddForm')[0].reset();
                    // location.reload();
