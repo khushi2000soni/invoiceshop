@@ -34,7 +34,7 @@ class CategoryExport implements FromCollection , WithHeadings
         // return Category::all()->map(function ($category, $key) {
             return $categories->map(function ($category, $key) {
             return [
-                // 'Sn.' => $key + 1,
+                'Sn.' => $key + 1,
                 'Name' => $category->name,
                 'Total Item' => $category->products->count() ?? 0,
             ];
@@ -43,7 +43,7 @@ class CategoryExport implements FromCollection , WithHeadings
 
     public function headings(): array
     {
-        return ["Name" , "Total Item"];
+        return ["Sn.","Name" , "Total Item"];
     }
 
 }

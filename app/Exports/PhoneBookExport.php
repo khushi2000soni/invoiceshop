@@ -29,6 +29,7 @@ class PhoneBookExport implements FromCollection, WithHeadings
         $customers = $query->orderBy('name','asc')->get();
         return $customers->map(function ($customer, $key) {
             return [
+                trans('quickadmin.qa_sn') => $key + 1,
                 trans('quickadmin.customers.fields.name') => $customer->name ?? '',
                 trans('quickadmin.customers.fields.guardian_name') => $customer->guardian_name ?? '',
                 trans('quickadmin.customers.fields.ph_num') => $customer->phone ?? '',
@@ -40,7 +41,7 @@ class PhoneBookExport implements FromCollection, WithHeadings
 
     public function headings(): array
     {
-        return [trans('quickadmin.customers.fields.name') , trans('quickadmin.customers.fields.guardian_name') , trans('quickadmin.customers.fields.ph_num'), trans('quickadmin.customers.fields.phone2'), trans('quickadmin.customers.fields.address')];
+        return [trans('quickadmin.qa_sn'),trans('quickadmin.customers.fields.name') , trans('quickadmin.customers.fields.guardian_name') , trans('quickadmin.customers.fields.ph_num'), trans('quickadmin.customers.fields.phone2'), trans('quickadmin.customers.fields.address')];
     }
 
 

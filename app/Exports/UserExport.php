@@ -20,6 +20,7 @@ class UserExport implements FromCollection,WithHeadings
         return $staff->map(function ($staff, $key) {
             $role = $staff->roles->first();
             return [
+                trans('quickadmin.qa_sn') => $key + 1,
                 trans('quickadmin.users.fields.name') => $staff->name ?? '',
                 trans('quickadmin.users.fields.role') => $role ? $role->name : '',
                 trans('quickadmin.users.fields.usernameid') => $staff->username  ?? "",
@@ -32,6 +33,6 @@ class UserExport implements FromCollection,WithHeadings
 
     public function headings(): array
     {
-        return [trans('quickadmin.users.fields.name') , trans('quickadmin.users.fields.role') , trans('quickadmin.users.fields.usernameid'), trans('quickadmin.users.fields.email'), trans('quickadmin.users.fields.phone')];
+        return [trans('quickadmin.qa_sn'),trans('quickadmin.users.fields.name') , trans('quickadmin.users.fields.role') , trans('quickadmin.users.fields.usernameid'), trans('quickadmin.users.fields.email'), trans('quickadmin.users.fields.phone')];
     }
 }

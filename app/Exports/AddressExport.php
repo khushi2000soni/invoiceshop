@@ -33,7 +33,7 @@ class AddressExport implements FromCollection, WithHeadings
 
         return $addresses->map(function ($address, $key) {
             return [
-                // 'Sn.' => $key + 1,
+                'Sn.' => $key + 1,
                 'City' => $address->address,
                 'No. of Party' => $address->customers->count() ?? 0,
                 // 'Created At' => $address->created_at->format('d-m-Y'),
@@ -43,7 +43,7 @@ class AddressExport implements FromCollection, WithHeadings
 
     public function headings(): array
     {
-        return [/*"Sn.",*/ "City" , "No. of Party"];
+        return ["Sn.", "City" , "No. of Party"];
     }
 
 }

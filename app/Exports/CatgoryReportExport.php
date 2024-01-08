@@ -25,6 +25,7 @@ class CatgoryReportExport implements FromCollection , WithHeadings
         $totalAmount = $catdata->sum('amount');
             return $catdata->map(function ($data, $key) use ($totalAmount) {
             return [
+                trans('quickadmin.qa_sn') => $key + 1,
                 trans('quickadmin.qa_category_name') => $data->name ?? '' ,
                 trans('quickadmin.reports.sale_amount') =>$data->amount ?? '',
                 trans('quickadmin.reports.sale_percent') => CategoryAmountPercent($data->amount, $totalAmount) ?? '0',
@@ -34,6 +35,6 @@ class CatgoryReportExport implements FromCollection , WithHeadings
 
     public function headings(): array
     {
-        return [trans('quickadmin.qa_category_name') , trans('quickadmin.reports.sale_amount'), trans('quickadmin.reports.sale_percent')];
+        return [trans('quickadmin.qa_sn') , trans('quickadmin.qa_category_name') , trans('quickadmin.reports.sale_amount'), trans('quickadmin.reports.sale_percent')];
     }
 }
