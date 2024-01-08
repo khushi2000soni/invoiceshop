@@ -32,9 +32,15 @@
     </td>
     <td class="text-right">
         <div class="d-flex align-items-center buttonGroup justify-content-end">
+            @can('order_product_create')
             <button  class="btn btn-success addNewBlankRow"><i class="fas fa-plus"></i></button>
+            @endcan
+            @can('order_product_copy')
             <button class="btn btn-dark btn-sm copy-product"><x-svg-icon icon="copy" /></button>
+            @endcan
+            @can('order_product_delete')
             <button class="btn btn-danger btn-sm delete-product"><x-svg-icon icon="delete" /></button>
+            @endcan
         </div>
     </td>
 </tr>

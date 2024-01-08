@@ -16,15 +16,21 @@
           </ul>
         </div>
         <ul class="navbar-nav navbar-right">
+            @can('product_create')
             <li>
                 <a href="{{ route('products.index')}}" class="nav-link nav-link-lg btn btn-outline-dark icon-left default_btn add_item_btn">
                     <x-svg-icon icon="add-product" />
                     @lang('quickadmin.dashboard.add_product')
                 </a>
             </li>
+            @endcan
+
+            @can('customer_access')
             <li>
                 <a href="{{ route('customers.index')}}" class="nav-link nav-link-lg btn btn-outline-dark icon-left mx-2 default_btn add_party_btn"><x-svg-icon icon="add-customer" /> @lang('quickadmin.dashboard.add_customer')</a>
             </li>
+            @endcan
+
             @can('invoice_create')
             <li>
                 <a href="{{ route('orders.create')}}" class="nav-link nav-link-lg btn btn-outline-dark icon-left default_btn add_invoice_btn"><x-svg-icon icon="add-invoice" /> @lang('quickadmin.dashboard.add_invoice')</a>

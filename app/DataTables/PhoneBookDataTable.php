@@ -22,32 +22,53 @@ class PhoneBookDataTable extends DataTable
      */
     public function dataTable(QueryBuilder $query)
     {
-        return datatables()
-        ->eloquent($query)
-            ->addIndexColumn()
-            ->editColumn('name',function($customer){
-                return $customer->name ?? "";
-            })
-            ->editColumn('guardian_name',function($customer){
-                return $customer->guardian_name ?? "";
-            })
-            ->editColumn('phone',function($customer){
-                $ph1= $customer->phone  ?? "";
-                $ph2= $customer->phone2 ? ' / '.$customer->phone2 : "";
-                $phone= $ph1.$ph2;
-                return $phone;
-            })
-
-            ->editColumn('address.address',function($customer){
-                $address = $customer->address;
-                return $address ? $address->address : '';
-            })
-            ->filterColumn('address', function ($query, $keyword) {
-                $query->whereHas('address', function ($q) use ($keyword) {
-                    $q->where('address.address', 'like', "%$keyword%");
-                });
-            });
-
+        return (new EloquentDataTable($query))
+        ->addIndexColumn()
+        ->editColumn('name',function($customer){
+            return $customer->name ?? "";
+        })
+        ->editColumn('guardian_name',function($customer){
+            return $customer->guardian_name ?? "";
+        })
+        ->editColumn('phone',function($customer){
+            $ph1= $customer->phone  ?? "";
+            $ph2= $customer->phone2 ? ' / '.$customer->phone2 : "";
+            $phone= $ph1.$ph2;
+            return $phone;
+        })
+        ->editColumn('address.address',function($customer){
+            $address = $customer->address;
+            return $address ? $address->address : '';
+        })
+        ->editColumn('created_at', function ($customer) {
+            return $customer->created_at->format('d-m-Y h:i A');
+        })
+        ->addColumn('action',function($customer){
+            $action='';
+            if (Gate::check('customer_edit')) {
+            $editIcon = view('components.svg-icon', ['icon' => 'edit'])->render();
+            $action .= '<button class="btn btn-icon btn-info edit-customers-btn p-1 mx-1" data-href="'.route('customers.edit', $customer->id).'">'.$editIcon.'</button>';
+            }
+            if (Gate::check('customer_delete')) {
+            $deleteIcon = view('components.svg-icon', ['icon' => 'delete'])->render();
+            $action .= '<form action="'.route('customers.destroy', $customer->id).'" method="POST" class="deleteForm m-1">
+            <button title="'.trans('quickadmin.qa_delete').'" class="btn btn-icon btn-danger record_delete_btn btn-sm">'.$deleteIcon.'</button>
+            </form>';
+            }
+            return $action;
+        })
+        // ->filterColumn('address', function ($query, $keyword) {
+        //     $query->whereHas('address', function ($q) use ($keyword) {
+        //         $q->where('address.address', 'like', "%$keyword%");
+        //     });
+        // })
+        ->orderColumn('address.address', function ($query, $keyword) {
+            $query->orderBy('address.address', 'asc');
+        })
+        ->filterColumn('created_at.address', function ($query, $keyword) {
+            $query->whereRaw("DATE_FORMAT(customers.created_at,'%d-%M-%Y') like ?", ["%$keyword%"]); //date_format when searching using date
+        })
+        ->rawColumns(['action']);
     }
 
     /**
@@ -98,7 +119,13 @@ class PhoneBookDataTable extends DataTable
             Column::make('name')->title(trans('quickadmin.customers.fields.name')),
             Column::make('guardian_name')->title(trans('quickadmin.customers.fields.guardian_name')),
             Column::make('phone')->title(trans('quickadmin.customers.fields.ph_num')),
-            Column::make('address.address')->title(trans('quickadmin.customers.fields.address'))->addClass('text-center'),
+            Column::make('address.address')->title(trans('quickadmin.customers.fields.address')),
+            Column::make('created_at')->title(trans('quickadmin.customers.fields.created_at')),
+            Column::computed('action')
+            ->exportable(false)
+            ->printable(false)
+            ->width(60)
+            ->addClass('text-center')->title(trans('quickadmin.qa_action')),
         ];
     }
 

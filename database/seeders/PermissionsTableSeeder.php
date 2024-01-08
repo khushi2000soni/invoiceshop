@@ -110,6 +110,13 @@ class PermissionsTableSeeder extends Seeder
                 'updated_at' => $updateDate,
             ],
             [
+                'name'      => 'dashboard_widget_access',
+                'guard_name'=>'web',
+                'route_name'=>'dashboard',
+                'created_at' => $createDate,
+                'updated_at' => $updateDate,
+            ],
+            [
                 'name'      => 'address_access',
                 'guard_name'=>'web',
                 'route_name'=>'address',
@@ -431,6 +438,13 @@ class PermissionsTableSeeder extends Seeder
                 'updated_at' => $updateDate,
             ],
             [
+                'name'      => 'invoice_filter',
+                'guard_name'=>'web',
+                'route_name'=>'invoice',
+                'created_at' => $createDate,
+                'updated_at' => $updateDate,
+            ],
+            [
                 'name'      => 'invoice_recycle_access',
                 'guard_name'=>'web',
                 'route_name'=>'invoice',
@@ -460,6 +474,13 @@ class PermissionsTableSeeder extends Seeder
             ],
             [
                 'name'      => 'invoice_print',
+                'guard_name'=>'web',
+                'route_name'=>'invoice',
+                'created_at' => $createDate,
+                'updated_at' => $updateDate,
+            ],
+            [
+                'name'      => 'invoice_export',
                 'guard_name'=>'web',
                 'route_name'=>'invoice',
                 'created_at' => $createDate,
@@ -543,13 +564,6 @@ class PermissionsTableSeeder extends Seeder
                 'updated_at' => $updateDate,
             ],
 
-            [
-                'name'      => 'report_invoice_access',
-                'guard_name'=>'web',
-                'route_name'=>'reports',
-                'created_at' => $createDate,
-                'updated_at' => $updateDate,
-            ],
             [
                 'name'      => 'report_category_access',
                 'guard_name'=>'web',

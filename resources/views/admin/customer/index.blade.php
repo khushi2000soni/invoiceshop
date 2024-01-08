@@ -121,7 +121,6 @@
                                         <div class="form-group d-flex mb-0">
                                             <button type="submit" class="btn btn-primary mr-1 col" id="apply-filter">@lang('quickadmin.qa_submit')</button>
                                             <button type="reset" class="btn btn-primary mr-1 col" id="reset-filter">@lang('quickadmin.qa_reset')</button>
-                                            {{-- <button class="btn btn-primary mr-1 col"  id="print-button">Print</button> --}}
                                         </div>
                                     </div>
                                 </div>

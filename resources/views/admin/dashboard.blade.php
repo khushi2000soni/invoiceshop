@@ -10,151 +10,154 @@
 <section class="section roles" style="z-index: unset">
 
     <div class="section-body dashboard-card">
-          <div class="row">
-                <div class="col-lg-6 col-md-12 col-sm-12">
-                    <div class="row diffrent-cards">
-                        <div class="col-12 col-md-6 col-lg-6">
-                            <div class="card card-info">
-                            <div class="card-header">
-                               <!--  <div class="card-square l-bg-cyan text-white rounded">
-                                    <i class="fas fa-rupee-sign p-2"></i>
-                                </div> -->
-                                <h4 class="">@lang('quickadmin.dashboard.todaySaleAmount')</h4>
-                            </div>
-                            <div class="card-body">
-                                <h4>{{ $todaySaleAmount }}</h4>
-                            </div>
-                            </div>
-                        </div>
-                        <div class="col-12 col-md-6 col-lg-6">
-                            <div class="card card-info" >
-                            <div class="card-header">
-                                <!-- <div class="card-square l-bg-cyan text-white rounded">
-                                    <i class="fas fa-rupee-sign p-2"></i>
-                                </div> -->
-                                <h4 class="">@lang('quickadmin.dashboard.last7DaysSaleAmount')</h4>
-                            </div>
-                            <div class="card-body">
-                                <h4>{{ $last7DaysSaleAmount }}</h4>
-                            </div>
-                            </div>
-                        </div>
-                        <div class="col-12 col-md-6 col-lg-6">
-                            <div class="card card-info">
-                            <div class="card-header">
-                                <!-- <div class="card-square l-bg-cyan text-white rounded">
-                                    <i class="fas fa-rupee-sign p-2"></i>
-                                </div> -->
-                                <h4 class="">@lang('quickadmin.dashboard.last30DaysSaleAmount')</h4>
-                            </div>
-                            <div class="card-body">
-                                <h4>{{ $last30DaysSaleAmount }}</h4>
-                            </div>
-                            </div>
-                        </div>
-                        <div class="col-12 col-md-6 col-lg-6">
-                            <div class="card card-info">
-                            <div class="card-header">
-                                <!-- <div class="card-square l-bg-cyan text-white rounded">
-                                    <i class="fas fa-rupee-sign p-2"></i>
-                                </div> -->
-                                <h4 class=" me-0">@lang('quickadmin.dashboard.allSaleAmount')</h4>
-                            </div>
-                            <div class="card-body">
-                                <h4>{{ $allSaleAmount }}</h4>
-                            </div>
-                            </div>
-                        </div>
-                        <div class="col-12 col-md-6 col-lg-6">
-                            <div class="card card-info">
-                            <div class="card-header">
-                                <!-- <div class="card-square l-bg-cyan text-white rounded">
-                                    <i class="fas fa-shopping-cart p-2"></i>
-                                </div> -->
-                                <h4 class=" me-0">@lang('quickadmin.dashboard.todayTotalOrder')</h4>
-                            </div>
-                            <div class="card-body">
-                                <h4>{{ $todayTotalOrder }}</h4>
-                            </div>
-                            </div>
-                        </div>
-                        <div class="col-12 col-md-6 col-lg-6">
-                            <div class="card card-info">
-                            <div class="card-header">
-                                <!-- <div class="card-square l-bg-cyan text-white rounded">
-                                    <i class="far fa-credit-card p-2"></i>
-                                </div> -->
-                                <h4 class=" me-0">@lang('quickadmin.dashboard.totalProductInStock')</h4>
-                            </div>
-                            <div class="card-body">
-                                <h4>{{ $totalProductInStock }}</h4>
-                            </div>
-                            </div>
-                        </div>
-                        <div class="col-12 col-md-6 col-lg-6">
-                            <div class="card card-info">
-                            <div class="card-header">
-                                <!-- <div class="card-square l-bg-cyan text-white rounded">
-                                    <i class="far fa-credit-card p-2"></i>
-                                </div> -->
-                                <h4 class=" me-0">@lang('quickadmin.dashboard.totalCategory')</h4>
-                            </div>
-                            <div class="card-body">
-                                <h4>{{ $totalCategory }}</h4>
-                            </div>
-                            </div>
-                        </div>
-                        <div class="col-12 col-md-6 col-lg-6">
-                            <div class="card card-info">
-                            <div class="card-header">
-                                <!-- <div class="card-square l-bg-cyan text-white rounded">
-                                    <i class="fas fa-user-plus p-2"></i>
-                                </div> -->
-                                <h4 class=" me-0">@lang('quickadmin.dashboard.totalCustomer')</h4>
-                            </div>
-                            <div class="card-body">
-                                <h4>{{ $totalCustomer }}</h4>
-                            </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-6 col-12 col-md-12">
-                    <div class="card overflow-hidden h-100 border-0 ordertble-block">
-                      <div class="card-header">
-                        <div class="row">
-                            <div class="col-12">
-                                <h5 class="mt-1 mb-1">@lang('quickadmin.dashboard.order')</h5>
-                            </div>
-                            <!-- <div class="col-6">
-                                <div class="form-group mb-1">
-                                    <select id="timeFrameOrderSelectTable" class="form-select">
-                                        <option value="today">@lang('quickadmin.dashboard.today')</option>
-                                        <option value="7days">@lang('quickadmin.dashboard.7days')</option>
-                                        <option value="30days">@lang('quickadmin.dashboard.30days')</option>
-                                    </select>
-                                </div>
+        @can('dashboard_widget_access')
+        <div class="row">
+            <div class="col-lg-6 col-md-12 col-sm-12">
+                <div class="row diffrent-cards">
+                    <div class="col-12 col-md-6 col-lg-6">
+                        <div class="card card-info">
+                        <div class="card-header">
+                           <!--  <div class="card-square l-bg-cyan text-white rounded">
+                                <i class="fas fa-rupee-sign p-2"></i>
                             </div> -->
+                            <h4 class="">@lang('quickadmin.dashboard.todaySaleAmount')</h4>
                         </div>
-                      </div>
-                      <div class="card-body" style="max-height: 430px;  overflow-y: auto;">
-                        <div class="table-responsive">
-                          <table class="table" id="order-table-body">
-                            <thead>
-                            <tr>
-                              <th class="py-0">@lang('quickadmin.dashboard.customer')</th>
-                              <th class="py-0">@lang('quickadmin.dashboard.amount')</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-
-                            </tbody>
-                          </table>
+                        <div class="card-body">
+                            <h4>{{ $todaySaleAmount }}</h4>
                         </div>
-                      </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6 col-lg-6">
+                        <div class="card card-info" >
+                        <div class="card-header">
+                            <!-- <div class="card-square l-bg-cyan text-white rounded">
+                                <i class="fas fa-rupee-sign p-2"></i>
+                            </div> -->
+                            <h4 class="">@lang('quickadmin.dashboard.last7DaysSaleAmount')</h4>
+                        </div>
+                        <div class="card-body">
+                            <h4>{{ $last7DaysSaleAmount }}</h4>
+                        </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6 col-lg-6">
+                        <div class="card card-info">
+                        <div class="card-header">
+                            <!-- <div class="card-square l-bg-cyan text-white rounded">
+                                <i class="fas fa-rupee-sign p-2"></i>
+                            </div> -->
+                            <h4 class="">@lang('quickadmin.dashboard.last30DaysSaleAmount')</h4>
+                        </div>
+                        <div class="card-body">
+                            <h4>{{ $last30DaysSaleAmount }}</h4>
+                        </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6 col-lg-6">
+                        <div class="card card-info">
+                        <div class="card-header">
+                            <!-- <div class="card-square l-bg-cyan text-white rounded">
+                                <i class="fas fa-rupee-sign p-2"></i>
+                            </div> -->
+                            <h4 class=" me-0">@lang('quickadmin.dashboard.allSaleAmount')</h4>
+                        </div>
+                        <div class="card-body">
+                            <h4>{{ $allSaleAmount }}</h4>
+                        </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6 col-lg-6">
+                        <div class="card card-info">
+                        <div class="card-header">
+                            <!-- <div class="card-square l-bg-cyan text-white rounded">
+                                <i class="fas fa-shopping-cart p-2"></i>
+                            </div> -->
+                            <h4 class=" me-0">@lang('quickadmin.dashboard.todayTotalOrder')</h4>
+                        </div>
+                        <div class="card-body">
+                            <h4>{{ $todayTotalOrder }}</h4>
+                        </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6 col-lg-6">
+                        <div class="card card-info">
+                        <div class="card-header">
+                            <!-- <div class="card-square l-bg-cyan text-white rounded">
+                                <i class="far fa-credit-card p-2"></i>
+                            </div> -->
+                            <h4 class=" me-0">@lang('quickadmin.dashboard.totalProductInStock')</h4>
+                        </div>
+                        <div class="card-body">
+                            <h4>{{ $totalProductInStock }}</h4>
+                        </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6 col-lg-6">
+                        <div class="card card-info">
+                        <div class="card-header">
+                            <!-- <div class="card-square l-bg-cyan text-white rounded">
+                                <i class="far fa-credit-card p-2"></i>
+                            </div> -->
+                            <h4 class=" me-0">@lang('quickadmin.dashboard.totalCategory')</h4>
+                        </div>
+                        <div class="card-body">
+                            <h4>{{ $totalCategory }}</h4>
+                        </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6 col-lg-6">
+                        <div class="card card-info">
+                        <div class="card-header">
+                            <!-- <div class="card-square l-bg-cyan text-white rounded">
+                                <i class="fas fa-user-plus p-2"></i>
+                            </div> -->
+                            <h4 class=" me-0">@lang('quickadmin.dashboard.totalCustomer')</h4>
+                        </div>
+                        <div class="card-body">
+                            <h4>{{ $totalCustomer }}</h4>
+                        </div>
+                        </div>
                     </div>
                 </div>
-          </div>
+            </div>
+            <div class="col-lg-6 col-12 col-md-12">
+                <div class="card overflow-hidden h-100 border-0 ordertble-block">
+                  <div class="card-header">
+                    <div class="row">
+                        <div class="col-12">
+                            <h5 class="mt-1 mb-1">@lang('quickadmin.dashboard.order')</h5>
+                        </div>
+                        <!-- <div class="col-6">
+                            <div class="form-group mb-1">
+                                <select id="timeFrameOrderSelectTable" class="form-select">
+                                    <option value="today">@lang('quickadmin.dashboard.today')</option>
+                                    <option value="7days">@lang('quickadmin.dashboard.7days')</option>
+                                    <option value="30days">@lang('quickadmin.dashboard.30days')</option>
+                                </select>
+                            </div>
+                        </div> -->
+                    </div>
+                  </div>
+                  <div class="card-body" style="max-height: 430px;  overflow-y: auto;">
+                    <div class="table-responsive">
+                      <table class="table" id="order-table-body">
+                        <thead>
+                        <tr>
+                          <th class="py-0">@lang('quickadmin.dashboard.customer')</th>
+                          <th class="py-0">@lang('quickadmin.dashboard.amount')</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+            </div>
+        </div>
+        @endcan
+
     </div>
   </section>
 @endsection

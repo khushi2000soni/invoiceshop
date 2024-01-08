@@ -122,9 +122,9 @@ class CustomerController extends Controller
 
     //***************************Phone-Book Methods************************************** */
 
-    public function showPhoneBook(CustomerDataTable $dataTable){
+    public function showPhoneBook(PhoneBookDataTable $dataTable){
         $addresses = Address::orderBy('id','desc')->get();
-        return $dataTable->render('admin.customer.index',compact('addresses'));
+        return $dataTable->render('admin.customer.phone-book',compact('addresses'));
     }
 
     // public function showPhoneBook(PhoneBookDataTable $dataTable){

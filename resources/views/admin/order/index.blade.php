@@ -96,6 +96,7 @@
             <div class="col-12">
                 <div class="card pt-2">
                     <div class="card-body">
+                        @can('invoice_filter')
                         <form id="invoice-filter-form">
                             <div class="row align-items-center pb-3 mb-4 cart_filter_box">
                                 <div class="col-md-3 pr-0">
@@ -143,7 +144,7 @@
                                             </div>
                                             @endcan
 
-                                            @can('invoice_print')
+                                            @can('invoice_export')
                                             <div class="col-auto px-md-1 pr-1">
                                                 <a href="{{ route('orders.allexport') }}" class="btn excelbtn h-10 col circlebtn"  id="invoice-excel" title="@lang('quickadmin.qa_excel')"><x-svg-icon icon="excel"/></a>
                                             </div>
@@ -159,6 +160,8 @@
                                 </div>
                             </div>
                         </form>
+                        @endcan
+
 
                         <div class="table-responsive fixed_Search">
                             {{$dataTable->table(['class' => 'table dt-responsive invoicdatatable dropdownBtnTable', 'style' => 'width:100%;','id'=>'dataaTable'])}}
