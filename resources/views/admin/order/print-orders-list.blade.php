@@ -49,8 +49,6 @@
                 <tr>
                     <td colspan="4" style="padding-bottom: 20px"><div class="" style="color: #2a2a33;font-size: 20px; text-align:left;">@lang('quickadmin.order.fields.customer') : {{ $customer_name }}</div></td>
                 </tr>
-            </thead>
-            <thead>
                 <tr>
                     <th style="padding: 8px;border: 1px solid #000;border-right: none;" align="left">@lang('quickadmin.qa_sn')</th>
                     <th style="padding: 8px;border: 1px solid #000;border-right: none;" align="center">@lang('quickadmin.order.fields.invoice_number')</th>
