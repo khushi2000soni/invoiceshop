@@ -22,7 +22,7 @@
 
         <div class="col-md-6">
             <div class="form-group">
-                <label for="phone">@lang('quickadmin.customers.fields.phone')<span class="text-danger">*</span></label>
+                <label for="phone">@lang('quickadmin.customers.fields.phone')<small class="text-danger"> (Optional)</small></label>
                 <div class="input-group">
                     <input type="text" class="form-control" name="phone" value="{{ isset($customer) ? $customer->phone : old('phone') }}" id="phone" autocomplete="true">
                 </div>

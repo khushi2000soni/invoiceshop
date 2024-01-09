@@ -23,7 +23,7 @@ class LoginController extends Controller
     public function login(Request $request){
         $validated = $request->validate([
             'username'    => ['required','string',new IsActive],
-            'password' => 'required|min:8',
+            'password' => 'required|min:4',
 
         ],[
             'username.required' => 'The Username is required.',
@@ -40,7 +40,12 @@ class LoginController extends Controller
             $user = User::where('username',$request->username)->first();
             if($user){
                 if (Auth::attempt($credentialsOnly, $remember_me)) {
-
+                    // Staff Cannot Login Into Web
+                   // dd(auth()->user()->getRoleNames());
+                    if ((auth()->user()->hasRole(4))) {
+                        Auth::guard('web')->logout();
+                        return redirect()->route('login')->withErrors(['wrongcrendials' => trans('auth.unauthorize')])->withInput($request->only('username', 'password'));
+                    }
                     //return redirect()->route('dashboard')->with('success',trans('quickadmin.qa_login_success'));
                     return redirect()->route('dashboard')->with(['success' => true,
                     'message' => trans('quickadmin.qa_login_success'),

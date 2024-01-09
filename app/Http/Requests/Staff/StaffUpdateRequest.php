@@ -27,7 +27,7 @@ class StaffUpdateRequest extends FormRequest
             'name' => ['required','string','max:150','unique:users,name,'.$this->staff->id, new TitleValidationRule],
             'username' => ['required','string','max:40','unique:users,username,'.$this->staff->id],
             'email' => ['required','email','unique:users,email,'.$this->staff->id],
-            'phone' => ['required','digits:10','numeric'],
+            'phone' => ['nullable','digits:10','numeric'],
             'role_id'=>['required','numeric'],
         ];
     }

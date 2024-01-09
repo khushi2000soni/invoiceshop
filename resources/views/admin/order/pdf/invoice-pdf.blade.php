@@ -94,14 +94,10 @@
                 <pagebreak />
                 @endif --}}
                 @endforeach
-
         </tbody>
     </table>
-    <table style="max-width: 100%; width: 60%; border-collapse: collapse; margin-left: auto;margin-top:40px">
+    <table style="max-width: 100%; width: 60%; border-collapse: collapse; margin-left: auto;margin-top:20px">
         <tbody>
-            <tr>
-                <td colspan="2" style="padding: 5px 10px;  text-align: start; font-size: 25px;"><strong>Amounts</strong></td>
-            </tr>
             <tr>
                 <td style="padding: 5px 10px; text-align: start; font-size: 20px;">Sub Total </td>
                 <td style="padding: 5px 10px; text-align: right; font-size: 20px;">{{ handleDataTypeTwoDigit($order->sub_total) ?? 0  }}</td>

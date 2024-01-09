@@ -72,6 +72,10 @@ class InvoiceDataTable extends DataTable
             $model = $model->whereDate('invoice_date','<=', request()->to_date);
         }
 
+        if (!(auth()->user()->hasRole(1))) {
+            $model = $model->whereDate('invoice_date', '>=', now()->subDays(7));
+        }
+
         return $model->newQuery()->with('customer')->orderBy('updated_at','desc');
     }
 

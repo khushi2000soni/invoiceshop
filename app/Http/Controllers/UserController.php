@@ -64,15 +64,6 @@ class UserController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-
-    }
-
-    /**
      * Show the form for editing the specified resource.
      */
     public function edit(string $id)
@@ -107,8 +98,8 @@ class UserController extends Controller
     public function staffUpdatePass(Request $request, string $id){
 
         $validated = $request->validate([
-            'password'   => ['required', 'string', 'min:8','confirmed', 'different:currentpassword'],
-            'password_confirmation' => ['required','min:8','same:password'],
+            'password'   => ['required', 'string', 'min:4','confirmed', 'different:currentpassword'],
+            'password_confirmation' => ['required','min:4','same:password'],
 
         ], getCommonValidationRuleMsgs());
 
@@ -154,7 +145,7 @@ class UserController extends Controller
             'name' => ['required','string','unique:users,name,'.$user->id, new TitleValidationRule],
             'username' => ['required','string','max:40','unique:users,username,'.$user->id],
             // 'email' => ['required','email','unique:users,email,' . $user->id],
-            'phone' => ['required','digits:10','numeric'],
+            'phone' => ['nullable','digits:10','numeric'],
             'address_id' => ['required','numeric'],
         ]);
         //dd($validatedData);
@@ -199,9 +190,9 @@ class UserController extends Controller
         $userId = auth()->user()->id;
 
         $validated = $request->validate([
-            'currentpassword'  => ['required', 'string','min:8',new MatchOldPassword],
-            'password'   => ['required', 'string', 'min:8','confirmed', 'different:currentpassword'],
-            'password_confirmation' => ['required','min:8','same:password'],
+            'currentpassword'  => ['required', 'string','min:4',new MatchOldPassword],
+            'password'   => ['required', 'string', 'min:4','confirmed', 'different:currentpassword'],
+            'password_confirmation' => ['required','min:4','same:password'],
 
         ], getCommonValidationRuleMsgs());
 

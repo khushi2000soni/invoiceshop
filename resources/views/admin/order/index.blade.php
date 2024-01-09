@@ -112,6 +112,7 @@
                                         </div>
                                     </div>
                                 </div>
+                                @can('invoice_date_filter')
                                 <div class="col-md-3 pr-0">
                                     <div class="mx-0 datapikergroup custom-select2">
                                         <div class="form-control-inner">
@@ -123,6 +124,7 @@
                                         </div>
                                     </div>
                                 </div>
+                                @endcan
                                 <div class="col-md-2">
                                     <div class="form-group mb-0 d-flex">
                                         <button type="submit" class="btn btn-primary mr-1 col" id="apply-filter">@lang('quickadmin.qa_submit')</button>
@@ -621,11 +623,14 @@
             select2Element.val(null).trigger('change');
 
             //Reset the Daterangepicker
-            var start = defaultStartDate;
-            var end = defaultEndDate;
-            $('#reportrange').data('daterangepicker').setStartDate(defaultStartDate);
-            $('#reportrange').data('daterangepicker').setEndDate(defaultEndDate);
-            $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+            if ($('#reportrange').data('daterangepicker')) {
+                var start = defaultStartDate ?? null;
+                var end = defaultEndDate ?? null;
+
+                $('#reportrange').data('daterangepicker').setStartDate(start);
+                $('#reportrange').data('daterangepicker').setEndDate(end);
+                $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+            }
 
             var type = "{{$type}}";
 
@@ -651,11 +656,18 @@
             var picker = $('#reportrange').data('daterangepicker');
 
             // Retrieve the selected start and end dates
-            var from_date = picker.startDate.format('YYYY-MM-DD');
-            var to_date = picker.endDate.format('YYYY-MM-DD');
 
-            console.log('from_date',from_date);
-            console.log('to_date',to_date);
+            if (picker && picker.startDate && picker.endDate) {
+                var from_date = picker.startDate.format('YYYY-MM-DD');
+                var to_date = picker.endDate.format('YYYY-MM-DD');
+            } else {
+                // Handle the case where picker or its properties are undefined
+                var from_date = null;
+                var to_date = null;
+            }
+
+            // console.log('from_date',from_date);
+            // console.log('to_date',to_date);
             var type = "{{$type}}";
 
             // Collect filter values (customer, from_date, to_date) from the form

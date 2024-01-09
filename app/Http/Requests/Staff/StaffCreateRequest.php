@@ -29,10 +29,10 @@ class StaffCreateRequest extends FormRequest
             'name' => ['required','string','max:150','unique:users,name', new TitleValidationRule],
             'username' => ['required','string','max:40','unique:users,username'],
             'email' => ['required','email','unique:users,email'],
-            'phone' => ['required','digits:10','numeric'],
+            'phone' => ['nullable','digits:10','numeric'],
             'role_id'=>['required','numeric'],
-            'password'   => ['required', 'string', 'min:8','confirmed'],
-            'password_confirmation' => ['required','min:8','same:password'],
+            'password'   => ['required', 'string', 'min:4','confirmed'],
+            'password_confirmation' => ['required','min:4','same:password'],
         ];
     }
 
