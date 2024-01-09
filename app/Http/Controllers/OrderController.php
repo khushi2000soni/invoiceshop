@@ -237,6 +237,7 @@ class OrderController extends Controller
                 $order = Order::withTrashed()->with('orderProduct.product')->findOrFail($order);
                 $pdfConfig['show_watermark_image'] = false;
             }
+
             config(['pdf' => $pdfConfig]);
             $pdf = PDF::loadView('admin.order.pdf.invoice-pdf', compact('order', 'type'));
             $pdf->getMpdf()->setFooter('Page {PAGENO}');
@@ -247,7 +248,7 @@ class OrderController extends Controller
                 'pdf' => $base64Pdf,
             ]);
         } catch (\Exception $e) {
-            //dd($e->getMessage());
+           // dd($e->getMessage());
             return response()->json(['error' => 'Error generating PDF'], 500);
         }
     }
@@ -317,7 +318,7 @@ class OrderController extends Controller
 
     public function allinvoicePrintView(Request $request)
     {
-        abort_if(Gate::denies('product_print'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        abort_if(Gate::denies('invoice_print'), Response::HTTP_FORBIDDEN, '403 Forbidden');
         $customer_id = $request->customer_id;
         $from_date = $request->from_date;
         $to_date = $request->to_date;
@@ -336,6 +337,10 @@ class OrderController extends Controller
         }
         if ($to_date !== null && $to_date != 'null') {
             $query->whereDate('invoice_date','<=',  $to_date);
+        }
+
+        if (!(auth()->user()->hasRole(1))) {
+            $query = $query->whereDate('invoice_date', '>=', now()->subDays(7));
         }
 
         $from_date = $from_date ? Carbon::parse($from_date)->format('d-m-Y') : null;

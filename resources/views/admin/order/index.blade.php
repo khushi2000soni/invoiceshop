@@ -666,8 +666,8 @@
                 var to_date = null;
             }
 
-            // console.log('from_date',from_date);
-            // console.log('to_date',to_date);
+            console.log('from_date',from_date);
+            console.log('to_date',to_date);
             var type = "{{$type}}";
 
             // Collect filter values (customer, from_date, to_date) from the form
