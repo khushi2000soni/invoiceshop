@@ -105,7 +105,7 @@ class Product extends Model
             ->havingRaw('amount > 0')
             ->orderByDesc('order_products.id');
 
-       // dd($query->toSql());
+        //dd($query->toSql());
 
         return $query;
     }

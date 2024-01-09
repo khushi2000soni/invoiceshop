@@ -98,8 +98,10 @@ Route::middleware(['auth','PreventBackHistory'])->group(function () {
     Route::get('/reports/category',[ReportController::class,'reportCategory'])->name('reports.category');
     Route::get('/reports/category/products', [ReportController::class,'CategoryProductReport'])->name('reports.category.products');
     Route::get('/reports/category/piechart',[ReportController::class,'getCategoryChartData'])->name('reports.category.piechart');
-    Route::get('/reports/category-printView',[ReportController::class,'CatgoryReportPrintView'])->where('customer_id', '.*')->name('reports.category.print');
-    Route::get('/reports/category-export',[ReportController::class,'CatgoryReportExport'])->where('customer_id', '.*')->name('reports.category.export');
+    Route::get('/reports/category-printView',[ReportController::class,'CatgoryReportPrintView'])->name('reports.category.print');
+    Route::get('/reports/category-export',[ReportController::class,'CatgoryReportExport'])->name('reports.category.export');
+    Route::get('/reports/category/product-printView',[ReportController::class,'CatgoryProductReportPrintView'])->name('reports.category.product.print');
+    Route::get('/reports/category/product-export',[ReportController::class,'CatgoryProductReportExport'])->name('reports.category.product.export');
 
     Route::get('/fetch-report-data', [DashboardController::class,'fetchReportData'])->name('fetchReportData');
     Route::get('/getSoldProducts', [ReportController::class,'getSoldProducts'])->name('getSoldProducts');

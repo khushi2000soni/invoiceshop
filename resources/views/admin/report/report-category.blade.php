@@ -148,7 +148,12 @@
             }
         }, cb);
         cb(start, end);
+
+
     });
+    var defaultStartDate = moment('{{ config("app.start_date") }}', 'YYYY-MM-DD');
+    var defaultEndDate = moment();
+
 </script>
 
 <script>
@@ -194,6 +199,8 @@
 $(document).ready(function(){
     var dataTable = $('#dataaTable').DataTable();
     $('#report-print').printPage();
+
+
     var picker = $('#reportrange').data('daterangepicker');
     // Filter Functionality
     var defaltparam = {
@@ -225,11 +232,10 @@ $(document).ready(function(){
             to_date = '';
         }
 
-        var exportUrl = "{{ route('reports.category.export') }}" + /*'?address_id=' + encodeURIComponent(address_id) + */'&from_date=' + encodeURIComponent(from_date)
-        + '&to_date=' + encodeURIComponent(to_date);
+       // var exportUrl = "{{ route('reports.category.export') }}" + '?address_id=' + encodeURIComponent(address_id) + '&from_date=' + encodeURIComponent(from_date) + '&to_date=' + encodeURIComponent(to_date);
 
-        var printUrl = "{{ route('reports.category.print') }}"+ /*'?address_id=' + encodeURIComponent(address_id) + */'&from_date=' + encodeURIComponent(from_date)
-        + '&to_date=' + encodeURIComponent(to_date);
+        var exportUrl = "{{ route('reports.category.export') }}" + '?from_date=' + encodeURIComponent(from_date) + '&to_date=' + encodeURIComponent(to_date);
+        var printUrl = "{{ route('reports.category.print') }}"+ '?from_date=' + encodeURIComponent(from_date) + '&to_date=' + encodeURIComponent(to_date);
 
         var params = {
                 // address_id      : address_id,
@@ -248,9 +254,13 @@ $(document).ready(function(){
     $('#reset-filter').on('click', function(e) {
         e.preventDefault();
         $('#categoryreport')[0].reset();
+        //Reset the Daterangepicker
+        var start = defaultStartDate;
+        var end = defaultEndDate;
+        $('#reportrange').data('daterangepicker').setStartDate(defaultStartDate);
+        $('#reportrange').data('daterangepicker').setEndDate(defaultEndDate);
+        $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
 
-        // var select2Element = $('#address_id');
-        // select2Element.val(null).trigger('change');
         dataTable.ajax.url("{{ route('reports.category') }}").load();
         updatepieChart();
         originalExportUrl = "{{ route('reports.category.export') }}";
@@ -273,6 +283,7 @@ $(document).ready(function(){
                     console.log('success');
                     $('.popup_render_div').html(response.htmlView);
                     $('#categoryProductModal').modal('show');
+                    $('#report-product-print').printPage();
                     setTimeout(() => {
                         $('.modal-backdrop').not(':first').remove();
                     }, 300);

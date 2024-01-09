@@ -228,6 +228,9 @@
             cb(start, end);
 
         });
+        var defaultStartDate = moment('{{ config("app.start_date") }}', 'YYYY-MM-DD');
+        var defaultEndDate = moment();
+
     </script>
 
 <script>
@@ -616,10 +619,13 @@
 
             var select2Element = $('#customer_id');
             select2Element.val(null).trigger('change');
-            var select2Elementfrom_date = $('#from_date');
-            select2Elementfrom_date.val(null).trigger('change');
-            var select2Elementto_date = $('#to_date');
-            select2Elementto_date.val(null).trigger('change');
+
+            //Reset the Daterangepicker
+            var start = defaultStartDate;
+            var end = defaultEndDate;
+            $('#reportrange').data('daterangepicker').setStartDate(defaultStartDate);
+            $('#reportrange').data('daterangepicker').setEndDate(defaultEndDate);
+            $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
 
             var type = "{{$type}}";
 

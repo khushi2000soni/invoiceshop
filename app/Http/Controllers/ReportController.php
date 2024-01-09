@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\DataTables\ReportCategoryDataTable;
-use App\DataTables\ReportCategoryProductDataTable;
 use App\Exports\CatgoryReportExport;
+use App\Exports\CatgoryProductReportExport;
 use App\Models\Customer;
 use App\Models\Device;
 use App\Models\Order;
@@ -37,11 +37,11 @@ class ReportController extends Controller
         $to_date = $request->to_date ?? null;
         $category_percent = $request->category_percent ?? null;
         $category_name = Category::find($category_id)->name;
-        $duration = $from_date && $to_date ? Carbon::parse($from_date)->format('Y-m-d') . ' to ' . Carbon::parse($to_date)->format('Y-m-d') : null;
+        $duration = $from_date && $to_date ? Carbon::parse($from_date)->format('d-m-Y') . ' to ' . Carbon::parse($to_date)->format('d-m-Y') : null;
         $query = Product::getFilteredProducts($request);
         $alldata = $query->get();
         $totalAmount = $alldata->sum('amount');
-        $html = view('admin.report.report-category-product', compact('alldata','category_percent','totalAmount','category_name', 'duration'))->render();
+        $html = view('admin.report.report-category-product', compact('alldata','category_percent','totalAmount','category_name', 'duration','category_id','from_date','to_date'))->render();
         return response()->json(['success' => true, 'htmlView' => $html]);
     }
 
@@ -61,10 +61,11 @@ class ReportController extends Controller
 
     public function CatgoryReportPrintView(Request $request)
     {
+       // dd($request->all());
         abort_if(Gate::denies('report_category_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
         $query = Category::getFilteredCategories($request);
         $catdata = $query->get();
-       // dd($catdata);
+        //dd($catdata);
         $totalAmount = $catdata->sum('amount');
         return view('admin.report.print-report-category',compact('catdata','totalAmount'))->render();
     }
@@ -73,6 +74,33 @@ class ReportController extends Controller
         abort_if(Gate::denies('report_category_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
         return Excel::download(new CatgoryReportExport($request), 'Category-Report.xlsx');
     }
+
+    // category's product print and excel
+
+    public function CatgoryProductReportPrintView(Request $request)
+    {
+       //
+        abort_if(Gate::denies('report_category_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        $category_id = $request->category_id ;
+        $from_date = $request->from_date ?? null;
+        $to_date = $request->to_date ?? null;
+        $category_percent = $request->category_percent ?? null;
+        $category_name = Category::find($category_id)->name;
+        $duration = $from_date && $to_date ? Carbon::parse($from_date)->format('d-m-Y') . ' to ' . Carbon::parse($to_date)->format('d-m-Y') : null;
+        $query = Product::getFilteredProducts($request);
+        $alldata = $query->get();
+        $totalAmount = $alldata->sum('amount');
+        return view('admin.report.print-report-category-product',compact('alldata','category_percent','totalAmount','category_name', 'duration'))->render();
+    }
+
+    public function CatgoryProductReportExport(Request $request){
+        //dd($request->all());
+        abort_if(Gate::denies('report_category_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        return Excel::download(new CatgoryProductReportExport($request), 'Category-Product-Report.xlsx');
+    }
+
+
+
 
     ///// old report code
 

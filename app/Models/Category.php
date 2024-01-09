@@ -64,6 +64,8 @@ class Category extends Model
             $query->where('order_products.created_at', '<=', $toDate);
         }
 
+        //dd($query->toSql());
+
         return $query;
     }
 }
