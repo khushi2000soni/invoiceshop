@@ -281,6 +281,7 @@ class OrderController extends Controller
         }
         config(['pdf' => $pdfConfig]);
         $pdfFileName = 'invoice_' . $order->invoice_number . '.pdf';
+
         $pdf = PDF::loadView('admin.order.pdf.invoice-pdf', compact('order','type'));
         $pdf->getMpdf()->setFooter('Page {PAGENO}');
         $pdf->getMpdf()->SetFont('Mangal', 'B');
