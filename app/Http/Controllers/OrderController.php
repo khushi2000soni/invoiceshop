@@ -259,7 +259,9 @@ class OrderController extends Controller
         $order = Order::with('orderProduct.product')->findOrFail($orderId);
         $pdf = PDF::loadView('admin.order.pdf.invoice-pdf', compact('order','type'));
        // $pdf->setPaper('A4', 'portrait');
-        return $pdf->download('order_' . $order->invoice_number . '.pdf');
+       $customer_name = $order->customer->full_name;
+       $pdfFileName = $order->invoice_number.'_'.$customer_name . '.pdf';
+        return $pdf->download($pdfFileName);
     }
 
     public function printPDF(Request $request, $order,$type=null)
@@ -279,14 +281,15 @@ class OrderController extends Controller
 
             $pdfConfig['show_watermark_image'] = false;
         }
-        config(['pdf' => $pdfConfig]);
-        $pdfFileName = 'invoice_' . $order->invoice_number . '.pdf';
 
+        config(['pdf' => $pdfConfig]);
+        $customer_name = $order->customer->full_name;
+        $pdfFileName = $order->invoice_number.'_'.$customer_name . '.pdf';
         $pdf = PDF::loadView('admin.order.pdf.invoice-pdf', compact('order','type'));
         $pdf->getMpdf()->setFooter('Page {PAGENO}');
         $pdf->getMpdf()->SetFont('Mangal', 'B');
         return $pdf->stream($pdfFileName, ['Attachment' => false]);
-      // return view('admin.order.pdf.invoice-pdf', compact('order','type'));
+        // return view('admin.order.pdf.invoice-pdf', compact('order','type'));
     }
 
     public function shareEmail(Request $request, $order)
