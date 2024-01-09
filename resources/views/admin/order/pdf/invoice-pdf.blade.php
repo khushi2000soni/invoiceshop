@@ -36,11 +36,16 @@
             box-sizing: border-box;
         }
 
+        /* @page {
+            size: A5;
+            margin:0 auto;
+        } */
+
         </style>
     </head>
 <body  class="@if($type=='deleted') table_wrapper @endif tablebody" >
     <header name="page-header" class="header">
-        <table  style="max-width: 768px; width: 100%; margin: 0px auto; padding-bottom: 10px;">
+        <table  style="max-width: 100%; width: 100%; margin: 0px auto; padding-bottom: 10px;">
             <tbody>
                 @if (!is_null(getSetting('invoice_pdf_top_title')))
                 <tr>
@@ -64,7 +69,7 @@
         </table>
     </header>
 
-    <table style="max-width: 768px; width: 98.8%; margin: 0px auto; border-collapse: collapse;">
+    <table style="max-width: 100%; width: 98.8%; margin: 0px auto; border-collapse: collapse;">
         <thead>
             <tr>
                 <th style="padding: 5px 10px; border: 1px solid #000; text-align: start; font-size: 20px; width: 10%"><strong>Sn.</strong></th>
@@ -92,7 +97,7 @@
 
         </tbody>
     </table>
-    <table style="max-width: 768px; width: 60%; border-collapse: collapse; margin-left: auto;margin-top:40px">
+    <table style="max-width: 100%; width: 60%; border-collapse: collapse; margin-left: auto;margin-top:40px">
         <tbody>
             <tr>
                 <td colspan="2" style="padding: 5px 10px;  text-align: start; font-size: 25px;"><strong>Amounts</strong></td>
@@ -116,7 +121,7 @@
         </tbody>
     </table>
 
-    <table style="max-width: 768px; width: 100%; margin: 0px auto; border-collapse: collapse;">
+    <table style="max-width: 100%; width: 100%; margin: 0px auto; border-collapse: collapse;">
         <tbody>
             <tr>
                 <td colspan="2" style="padding: 50px 5px 0px; text-align: start; font-size: 20px;"><strong><span style="color: red;">Remark :</span> {{ getSetting('custom_invoice_print_message') ?? ''}} </strong></td>
