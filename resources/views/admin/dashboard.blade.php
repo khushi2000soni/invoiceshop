@@ -155,7 +155,7 @@
                   </div>
                 </div>
             </div>
-            <div class="col-lg-8 col-sm-12">
+            <div class="col-lg-12 col-sm-12">
                 <div class="card mt-5">
                 <div class="card-body card-type-3">
                     <div class="row">
