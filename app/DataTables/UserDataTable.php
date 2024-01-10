@@ -48,8 +48,10 @@ class UserDataTable extends DataTable
             ->addColumn('action',function($staff){
                 $action='';
                 if (Gate::check('staff_edit')) {
-                $editIcon = view('components.svg-icon', ['icon' => 'edit'])->render();
-                $action .= '<button class="btn btn-icon btn-info edit-users-btn p-1 mx-1" data-toggle="modal" data-target="#editModal" data-id="'.encrypt($staff->id).'" data-href="'.route('staff.edit', $staff->id).'">'.$editIcon.'</button>';
+                    if (!($staff->hasRole(1))) {
+                    $editIcon = view('components.svg-icon', ['icon' => 'edit'])->render();
+                    $action .= '<button class="btn btn-icon btn-info edit-users-btn p-1 mx-1" data-toggle="modal" data-target="#editModal" data-id="'.encrypt($staff->id).'" data-href="'.route('staff.edit', $staff->id).'">'.$editIcon.'</button>';
+                    }
                 }
                 if (Gate::check('staff_edit')) {
                 $lockIcon = view('components.svg-icon', ['icon' => 'lock'])->render();

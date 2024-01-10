@@ -27,7 +27,7 @@ class UserController extends Controller
     {
         //
         abort_if(Gate::denies('staff_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-        $roles = Role::orderBy('id','asc')->get();
+        $roles = Role::where('id','!=','1')->orderBy('id','asc')->get();
         return $dataTable->render('admin.staff.index',compact('roles'));
     }
 
@@ -70,7 +70,7 @@ class UserController extends Controller
     {
         //dd($id);
         $user = User::findOrFail($id);
-        $roles = Role::all();
+        $roles = Role::where('id','!=','1')->orderBy('id','asc')->get();
         $htmlView = view('admin.staff.edit', compact('roles','user'))->render();
         return response()->json(['success' => true, 'htmlView' => $htmlView]);
     }

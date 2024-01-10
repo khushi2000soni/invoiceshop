@@ -155,6 +155,29 @@
                   </div>
                 </div>
             </div>
+            {{-- <div class="col-lg-8 col-md-6 col-sm-12">
+                <div class="card ">
+                <div class="card-body card-type-3">
+                    <div class="row">
+                        <div class="col">
+                            <h5 class="mt-1 mb-1">@lang('quickadmin.reports.order')</h5>
+                        </div>
+                        <div class="col">
+                            <div class="form-group mb-1">
+                                <select id="timeFrameOrderChartSelect" class="form-select">
+                                    <option value="yearly" {{ $timeFrame === 'yearly' ? 'selected' : '' }}>@lang('quickadmin.reports.yearly')</option>
+                                    <option value="monthly" {{ $timeFrame === 'monthly' ? 'selected' : '' }}>@lang('quickadmin.reports.monthly')</option>
+                                    <option value="daily" {{ $timeFrame === 'daily' ? 'selected' : '' }}>@lang('quickadmin.reports.daily')</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-chart mb-2 ml-4 mr-4">
+                    <canvas id="orderChart"></canvas>
+                </div>
+                </div>
+            </div> --}}
         </div>
         @endcan
 
@@ -169,6 +192,62 @@
 
 <script>
 $(document).ready(function() {
+
+    var orderData = @json($data);
+
+    var ctx = document.getElementById('orderChart').getContext('2d');
+    var orderChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: orderData.labels,
+            datasets: [{
+                label: 'No. of Orders',
+                data: orderData.values,
+                backgroundColor: 'rgba(255, 99, 132, 0.2)', // Reddish background color
+                borderColor: 'rgba(255, 99, 132, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        stepSize: 5, // Adjust the step size to change line height
+                    },
+                }
+            },
+        }
+    });
+
+    function updateChart(timeFrame) {
+        var data = { timeFrame: timeFrame };
+        $.ajax({
+            type: 'GET',
+            url: "{{ route('fetchReportData') }}",
+            data: data,
+            success: function(response) {
+                var newData = response.data;
+                console.log('newData', newData);
+                orderChart.data.labels = newData.labels;
+                orderChart.data.datasets[0].data = newData.values;
+                orderChart.update();
+            },
+            error: function(error) {
+                console.error(error);
+            }
+        });
+    }
+
+    // Initialize the chart with the default data (monthly)
+    updateChart('daily');
+
+    // Handle the time frame select change for the chart
+    $('#timeFrameOrderChartSelect').on('change', function(e) {
+        e.preventDefault();
+        var selectedTimeFrame = this.value;
+        updateChart(selectedTimeFrame);
+    });
 
     // Function to update the table data
     function updateTableData(timeFrame) {

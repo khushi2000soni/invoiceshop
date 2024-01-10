@@ -332,8 +332,10 @@ return [
 	'reports' => [
 		'title' => 'Report',
         'order' => 'Order',
+        'yearly' => 'Yearly',
         'monthly' => 'Monthly',
         'weekly' => 'Weekly',
+        'daily' => 'Daily',
         'total_order' => 'Total Order',
         'total_product' => 'Total Item',
         'total_quantity'=> 'Total Quantity',

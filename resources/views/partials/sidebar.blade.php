@@ -32,20 +32,20 @@
         </li>
         @endcan
 
-        @can('customer_access')
-        <li class="{{ Request::is('customers*') ? 'active' : '' }}">
-            <a href="{{ route('customers.index') }}" class="nav-link">
-                <x-side-bar-svg-icon icon="customer" />
-                <span>@lang('quickadmin.customer-management.title')</span>
-            </a>
-        </li>
-        @endcan
-
         @can('device_access')
         <li class="{{ Request::is('device*') ? 'active' : '' }}">
             <a href="{{ route('device.index') }}" class="nav-link">
                 <x-side-bar-svg-icon icon="device" />
                 <span>@lang('quickadmin.device-management.title')</span>
+            </a>
+        </li>
+        @endcan
+
+        @can('customer_access')
+        <li class="{{ Request::is('customers*') ? 'active' : '' }}">
+            <a href="{{ route('customers.index') }}" class="nav-link">
+                <x-side-bar-svg-icon icon="customer" />
+                <span>@lang('quickadmin.customer-management.title')</span>
             </a>
         </li>
         @endcan

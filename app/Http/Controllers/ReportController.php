@@ -100,8 +100,6 @@ class ReportController extends Controller
     }
 
 
-
-
     ///// old report code
 
     public function index(Request $request)

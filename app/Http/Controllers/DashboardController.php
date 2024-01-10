@@ -18,8 +18,12 @@ class DashboardController extends Controller
     }
 
 
-    public function index(){
+    public function index(Request $request){
 
+        $timeFrame = $request->input('time_frame', 'daily');
+        $data = null;
+        // Fetch the default data based on the default time frame
+        $data = $this->getDataForTimeFrame($timeFrame);
         $todaySaleAmount = Order::whereDate('invoice_date', Carbon::today())->sum('grand_total');
         $last7DaysSaleAmount = Order::whereDate('invoice_date', '>=', Carbon::today()->subDays(7))->sum('grand_total');
         $last30DaysSaleAmount = Order::whereDate('invoice_date', '>=', Carbon::today()->subDays(30))->sum('grand_total');
@@ -30,6 +34,7 @@ class DashboardController extends Controller
         $totalCustomer = Customer::count();
 
         return view('admin.dashboard', compact(
+            'data',
             'todaySaleAmount',
             'last7DaysSaleAmount',
             'last30DaysSaleAmount',
@@ -37,7 +42,7 @@ class DashboardController extends Controller
             'todayTotalOrder',
             'totalProductInStock',
             'totalCategory',
-            'totalCustomer'
+            'totalCustomer',
         ));
     }
 
@@ -64,11 +69,17 @@ class DashboardController extends Controller
             case '30days':
                 $data = $this->getLast30DaysData();
                 break;
+            case 'yearly':
+                $data = $this->getYearlyData();
+                break;
             case 'monthly':
                 $data = $this->getMonthlyData();
                 break;
             case 'weekly':
                 $data = $this->getWeeklyData();
+                break;
+            case 'daily':
+                $data = $this->getDailyData();
                 break;
             default:
                 $data = $this->getMonthlyData();
@@ -78,24 +89,46 @@ class DashboardController extends Controller
         return $data; // Handle other cases or validation
     }
 
-    private function getMonthlyData() {
-        $currentDate = now();
+    private function getYearlyData() {
+        $currentYear = now()->year;
         $labels = [];
         $values = [];
 
-        // Fetch data for the last 30 days
-        for ($i = 0; $i < 30; $i++) {
-            $startDate = $currentDate->copy()->startOfDay();
-            $endDate = $currentDate->copy()->endOfDay();
+        // Fetch data for each year from the current year to 2022
+        for ($year = $currentYear; $year >= 2022; $year--) {
+            $startDate = now()->startOfYear()->setYear($year);
+            $endDate = now()->endOfYear()->setYear($year);
 
             $orders = Order::with('orderProduct.product')
                 ->whereBetween('created_at', [$startDate, $endDate])
                 ->get();
 
             // Format data for the chart
-            $labels[] = $startDate->format('d M');
+            $labels[] = $year;
             $values[] = $orders->count();
-            $currentDate->subDay(); // Move back to the previous day
+        }
+
+        return ['labels' => array_reverse($labels), 'values' => array_reverse($values)];
+    }
+
+    private function getMonthlyData() {
+        $currentDate = now();
+        $labels = [];
+        $values = [];
+
+        // Fetch data for the last 12 months
+        for ($i = 0; $i < 12; $i++) {
+            $startDate = $currentDate->copy()->startOfMonth();
+            $endDate = $currentDate->copy()->endOfMonth();
+
+            $orders = Order::with('orderProduct.product')
+                ->whereBetween('created_at', [$startDate, $endDate])
+                ->get();
+
+            // Format data for the chart
+            $labels[] = $startDate->format('M Y'); // Display month and year
+            $values[] = $orders->count();
+            $currentDate->subMonth(); // Move back to the previous month
         }
 
         return ['labels' => array_reverse($labels), 'values' => array_reverse($values)];
@@ -118,13 +151,40 @@ class DashboardController extends Controller
                 ->get();
 
             // Format data for the chart
-            $labels[] = $startDate->format('d M');
+            $labels[] = $startDate->format('d M Y');
             $values[] = $orders->count();
             $currentDate->subDay(); // Move back to the previous day
         }
 
         return ['labels' => array_reverse($labels), 'values' => array_reverse($values)];
     }
+
+    // Method to fetch Daily data  of last 30 days
+    private function getDailyData() {
+        $currentDate = now();
+        $labels = [];
+        $values = [];
+
+        // Fetch data for the last 30 days
+        for ($i = 0; $i < 30; $i++) {
+            $startDate = $currentDate->copy()->startOfDay();
+            $endDate = $currentDate->copy()->endOfDay();
+
+            $orders = Order::with('orderProduct.product')
+                ->whereBetween('created_at', [$startDate, $endDate])
+                ->get();
+
+            // Format data for the chart
+            $labels[] = $startDate->format('d M Y');
+            $values[] = $orders->count();
+            $currentDate->subDay(); // Move back to the previous day
+        }
+
+        return ['labels' => array_reverse($labels), 'values' => array_reverse($values)];
+    }
+
+
+
 
     private function getTodayData()
     {

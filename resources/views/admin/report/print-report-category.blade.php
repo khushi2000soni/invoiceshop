@@ -46,6 +46,7 @@
                 <tr>
                     <th style="padding: 10px;border: 1px solid #000;border-right: none;" align="left">@lang('quickadmin.qa_sn')</th>
                     <th style="padding: 10px;border: 1px solid #000;border-right: none;" align="center">@lang('quickadmin.qa_category_name')</th>
+                    <th style="padding: 10px;border: 1px solid #000;border-right: none;" align="center">@lang('quickadmin.reports.total_product')</th>
                     <th style="padding: 10px;border: 1px solid #000;border-right: none;" align="center">@lang('quickadmin.reports.sale_amount')</th>
                     <th style="padding: 10px;border: 1px solid #000;" align="center">@lang('quickadmin.reports.sale_percent')</th>
                 </tr>
@@ -55,21 +56,20 @@
                 <tr>
                     <td style="padding: 10px;border: 1px solid #000;border-right: none;border-top: none;" align="left">{{ $key + 1 }}</td>
                     <td style="padding: 10px;border: 1px solid #000;border-right: none;border-top: none;" align="center">{{  $data->name ?? '' }}</td>
+                    <td style="padding: 10px;border: 1px solid #000;border-right: none;border-top: none;" align="center">{{  $data->totalsoldproduct ?? '' }}</td>
                     <td style="padding: 10px;border: 1px solid #000;border-right: none;border-top: none;" align="center">{{ $data->amount ?? ''}}</td>
                     <td style="padding: 10px;border: 1px solid #000;border-top: none;" align="center">{{ CategoryAmountPercent($data->amount ,$totalAmount) ?? '0'}}</td>
                 </tr>
                 @empty
                 <tr>
-                    <td colspan="4" style="padding: 10px;border: 1px solid #000;border-top: none;" align="center">No Record Found!</td>
+                    <td colspan="5" style="padding: 10px;border: 1px solid #000;border-top: none;" align="center">No Record Found!</td>
                 </tr>
                 @endforelse
-            </tbody>
-            <tfoot>
                 <tr>
-                    <th colspan="3" style="padding: 10px;border: 1px solid #000;border-right: none;border-top: none;" align="right">@lang('quickadmin.order.fields.grand_total')</th>
+                    <th colspan="4" style="padding: 10px;border: 1px solid #000;border-right: none;border-top: none;" align="right">@lang('quickadmin.order.fields.grand_total')</th>
                     <th style="padding: 10px;border: 1px solid #000;border-top: none;" align="center">{{ $totalAmount }}</th>
                 </tr>
-            </tfoot>
+            </tbody>
         </table>
     </main>
 @endsection
