@@ -120,17 +120,17 @@ if (!function_exists('generateInvoiceNumber')) {
 }
 
 if (!function_exists('generateInvoicePdf')) {
-    function generateInvoicePdf($order) {
+    function generateInvoicePdf($order,$type=null) {
         $order = Order::with('orderProduct.product')->findOrFail($order);
         $pdfFileName = 'invoice_' . $order->invoice_number . '.pdf';
-        $pdf = PDF::loadView('admin.order.pdf.invoice-pdf', compact('order'));
+        $pdf = PDF::loadView('admin.order.pdf.invoice-pdf', compact('order','type'));
         $pdfContent = $pdf->output();
         // Create a temporary file to save the PDF
-        $pdfFileName = 'invoice_' . $order->invoice_number . '.pdf';
-        $tempPdfFile = tempnam(sys_get_temp_dir(), 'invoice_');
-        file_put_contents($tempPdfFile, $pdfContent);
+        $customer_name = $order->customer->full_name;
+        $pdfFileName = $order->invoice_number.'_'.$customer_name . '.pdf';
 
-        return $tempPdfFile;
+        //return $pdf->download($pdfFileName);
+        return ['pdfContent' => $pdfContent,'pdfFileName' => $pdfFileName];
     }
 }
 

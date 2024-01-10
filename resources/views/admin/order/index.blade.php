@@ -373,7 +373,7 @@
                 type: 'POST',
                 headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            },
+                },
                 data: formData,
                 success: function (response) {
 
@@ -501,24 +501,6 @@
             });
         });
 
-
-        $(document).on('click', '.share-email-btn', function(e) {
-            e.preventDefault();
-            var recipientMail = $(this).data('recipient-email');
-            var orderId = $(this).data('order-id');
-            var pdfDownloadUrl = $(this).data('href');
-            var pdfLink = document.createElement('a');
-            var mssg="{{ getSetting('share_invoice_mail_message')}}";
-            pdfLink.href = pdfDownloadUrl;
-            pdfLink.download = 'invoice.pdf';
-            pdfLink.style.display = 'none';
-            document.body.appendChild(pdfLink);
-            pdfLink.click();
-            document.body.removeChild(pdfLink);
-            var mailtoUrl = 'mailto:' + recipientMail + '?subject=Invoice Detail&body='+mssg;
-            window.location.href = mailtoUrl;
-        });
-
         $(document).on('click','.share-whatsapp-btn',function(e){
             e.preventDefault();
             var recipientNumber = $(this).data('recipient-number');
@@ -534,6 +516,32 @@
             document.body.removeChild(pdfLink);
             var whatsappUrl = 'https://api.whatsapp.com/send?phone=' + recipientNumber + '&text='+mssg;
             window.open(whatsappUrl, '_blank');
+        });
+
+        $(document).on('click','.share-email-btn',function(e){
+            e.preventDefault();
+            var hrefurl = $(this).data('href');
+            console.log('hrefurl',hrefurl);
+            var orderId = $(this).data('order-id');
+            $.ajax({
+                url: hrefurl,
+                type: 'GET',
+                headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                success: function (response) {
+                        var alertType = response['alert-type'];
+                        var message = response['message'];
+                        var title = "{{ trans('quickadmin.order.invoice') }}";
+                        showToaster(title,alertType,message);
+                        $('#ShareInvoiceModal'+orderId).modal('hide');
+                },
+                error: function (xhr) {
+                    var errors= xhr.responseJSON.errors;
+                    var errorMessage = xhr.responseJSON.message;
+                    swal("{{ trans('quickadmin.order.invoice') }}", errorMessage, 'error');
+                }
+            });
         });
 
         $(document).on('submit', '.deleteForm', function(e) {

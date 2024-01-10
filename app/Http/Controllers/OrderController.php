@@ -8,6 +8,7 @@ use App\Events\InvoiceUpdated;
 use App\Exports\InvoiceExport;
 use App\Http\Requests\Order\StoreRequest;
 use App\Http\Requests\Order\UpdateRequest;
+use App\Mail\ShareInvoiceMail;
 use App\Models\Customer;
 use App\Models\Order;
 use App\Models\OrderProduct;
@@ -293,17 +294,33 @@ class OrderController extends Controller
         // return view('admin.order.pdf.invoice-pdf', compact('order','type'));
     }
 
-    public function shareEmail(Request $request, $order)
+    public function shareEmail($order)
     {
-        // Generate the PDF (similar to the printPDF method) and send it via email.
-        // You can use Laravel's built-in Mail functionality to send the email.
+        $type=null;
+        $pdfData = generateInvoicePdf($order,$type);
+        $pdfContent = $pdfData['pdfContent'];
+        $pdfFileName = $pdfData['pdfFileName'];
+        $order = Order::with('orderProduct.product')->findOrFail($order);
+        // Send email with the generated PDF attached
+        $to_mail = $order->customer->email;
+        //dd($to_mail);
+        if($to_mail){
+            Mail::to($to_mail)->send(new ShareInvoiceMail($pdfContent, $pdfFileName));
+            return response()->json([
+                'success' => true,
+                'message' => trans('messages.invoice_mail'),
+                'alert-type' => trans('quickadmin.alert-type.success')
+            ], 200);
+        }
+        else{
+            return response()->json([
+                'success' => false,
+                'message' => trans('messages.blank_mailid'),
+                'alert-type' => trans('quickadmin.alert-type.error')
+            ], 500);
+        }
 
-        // Example code for sending email (adjust to your needs):
-        Mail::send('email.invoice', ['order' => $order], function ($message) use ($order) {
-            $message->to($order->email)->subject('Invoice');
-        });
 
-        return redirect()->back()->with('success', 'Invoice sent via email');
     }
 
     public function shareWhatsApp(Request $request, $order)

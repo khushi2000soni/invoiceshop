@@ -28,6 +28,9 @@ return [
     'verified_otp'=> 'OTP successfully Verified.',
     'invalid_token_email'=> 'Invalid Token or Email!',
     'success'=>'Success',
+
+    'invoice_mail'=>'Mail has been successfully Sent !',
+    'blank_mailid' => 'This Party Does not have Email Address !'
 ];
 
 ?>
