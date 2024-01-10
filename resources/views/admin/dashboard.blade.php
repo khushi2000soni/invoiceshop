@@ -155,7 +155,7 @@
                   </div>
                 </div>
             </div>
-            {{-- <div class="col-lg-8 col-md-6 col-sm-12">
+            <div class="col-lg-8 col-md-6 col-sm-12">
                 <div class="card ">
                 <div class="card-body card-type-3">
                     <div class="row">
@@ -164,7 +164,7 @@
                         </div>
                         <div class="col">
                             <div class="form-group mb-1">
-                                <select id="timeFrameOrderChartSelect" class="form-select">
+                                <select id="timeFrameOrderChartSelect" class="form-select" >
                                     <option value="yearly" {{ $timeFrame === 'yearly' ? 'selected' : '' }}>@lang('quickadmin.reports.yearly')</option>
                                     <option value="monthly" {{ $timeFrame === 'monthly' ? 'selected' : '' }}>@lang('quickadmin.reports.monthly')</option>
                                     <option value="daily" {{ $timeFrame === 'daily' ? 'selected' : '' }}>@lang('quickadmin.reports.daily')</option>
@@ -177,7 +177,7 @@
                     <canvas id="orderChart"></canvas>
                 </div>
                 </div>
-            </div> --}}
+            </div>
         </div>
         @endcan
 
@@ -228,7 +228,8 @@ $(document).ready(function() {
             data: data,
             success: function(response) {
                 var newData = response.data;
-                console.log('newData', newData);
+                $('#timeFrameOrderChartSelect').val(response.timeFrame);
+                //console.log('newData', newData);
                 orderChart.data.labels = newData.labels;
                 orderChart.data.datasets[0].data = newData.values;
                 orderChart.update();

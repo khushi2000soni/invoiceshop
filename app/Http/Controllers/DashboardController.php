@@ -43,17 +43,16 @@ class DashboardController extends Controller
             'totalProductInStock',
             'totalCategory',
             'totalCustomer',
+            'timeFrame',
         ));
     }
 
     public function fetchReportData(Request $request)
     {
         $timeFrame = $request->input('timeFrame');
-
         // Fetch the data for the selected time frame
         $data = $this->getDataForTimeFrame($timeFrame);
-
-        return response()->json(['data' => $data]);
+        return response()->json(['data' => $data,'timeFrame'=>$timeFrame]);
     }
 
     private function getDataForTimeFrame($timeFrame)
