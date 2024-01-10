@@ -160,7 +160,7 @@
                 <div class="card-body card-type-3">
                     <div class="row">
                         <div class="col-12 col-lg-6">
-                            <h5 class="mt-1 mb-1">@lang('quickadmin.reports.order')</h5>
+                            <h5 class="mt-1 mb-1">@lang('quickadmin.reports.total_order_amount')</h5>
                         </div>
                         <div class="col-12 col-lg-6">
                             <div class="form-group mb-1 text-right">
@@ -197,11 +197,11 @@ $(document).ready(function() {
 
     var ctx = document.getElementById('orderChart').getContext('2d');
     var orderChart = new Chart(ctx, {
-        type: 'line',
+        type: 'bar',
         data: {
             labels: orderData.labels,
             datasets: [{
-                label: 'No. of Orders',
+                label: "@lang('quickadmin.reports.total_order_amount')",
                 data: orderData.values,
                 backgroundColor: 'rgba(255, 99, 132, 0.2)', // Reddish background color
                 borderColor: 'rgba(255, 99, 132, 1)',
@@ -213,7 +213,7 @@ $(document).ready(function() {
                 y: {
                     beginAtZero: true,
                     ticks: {
-                        stepSize: 5, // Adjust the step size to change line height
+                        stepSize: 1000, // Adjust the step size to change line height
                     },
                 }
             },

@@ -332,6 +332,8 @@ return [
 	'reports' => [
 		'title' => 'Report',
         'order' => 'Order',
+        'order_sell_record' => 'Invoice Sell Record',
+        'no_of_order_sold' => 'No of Invoice Sold',
         'yearly' => 'Yearly',
         'monthly' => 'Monthly',
         'weekly' => 'Weekly',
@@ -346,12 +348,11 @@ return [
         '30days' => '30 Days',
         'customer' => 'Party',
         'total_amount'	=> 'Total Amount',
-        'total_amount'	=> 'Total Amount',
+        'total_order_amount'	=> 'Total Sell Amount',
         'sale_amount'	=> 'Sale Amount',
         'sale_percent'	=> 'Sale Percentage',
         'products' => 'Items',
         'title' => 'Report',
-
 	],
 
 	'report-management' => [

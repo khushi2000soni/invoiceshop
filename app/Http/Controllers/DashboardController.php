@@ -98,13 +98,15 @@ class DashboardController extends Controller
             $startDate = now()->startOfYear()->setYear($year);
             $endDate = now()->endOfYear()->setYear($year);
 
-            $orders = Order::with('orderProduct.product')
-                ->whereBetween('created_at', [$startDate, $endDate])
-                ->get();
+            // $orders = Order::with('orderProduct.product')
+            //     ->whereBetween('created_at', [$startDate, $endDate])
+            //     ->get();
+            $totalGrandTotal = Order::whereBetween('created_at', [$startDate, $endDate])
+            ->sum('grand_total');
 
             // Format data for the chart
             $labels[] = $year;
-            $values[] = $orders->count();
+            $values[] = $totalGrandTotal;
         }
 
         return ['labels' => array_reverse($labels), 'values' => array_reverse($values)];
@@ -120,13 +122,15 @@ class DashboardController extends Controller
             $startDate = $currentDate->copy()->startOfMonth();
             $endDate = $currentDate->copy()->endOfMonth();
 
-            $orders = Order::with('orderProduct.product')
-                ->whereBetween('created_at', [$startDate, $endDate])
-                ->get();
+            // $orders = Order::with('orderProduct.product')
+            //     ->whereBetween('created_at', [$startDate, $endDate])
+            //     ->get();
+            $totalGrandTotal = Order::whereBetween('created_at', [$startDate, $endDate])
+            ->sum('grand_total');
 
             // Format data for the chart
             $labels[] = $startDate->format('M Y'); // Display month and year
-            $values[] = $orders->count();
+            $values[] = $totalGrandTotal;
             $currentDate->subMonth(); // Move back to the previous month
         }
 
@@ -169,13 +173,15 @@ class DashboardController extends Controller
             $startDate = $currentDate->copy()->startOfDay();
             $endDate = $currentDate->copy()->endOfDay();
 
-            $orders = Order::with('orderProduct.product')
-                ->whereBetween('created_at', [$startDate, $endDate])
-                ->get();
+            // $orders = Order::with('orderProduct.product')
+            //     ->whereBetween('created_at', [$startDate, $endDate])
+            //     ->get();
+            $totalGrandTotal = Order::whereBetween('created_at', [$startDate, $endDate])
+            ->sum('grand_total');
 
             // Format data for the chart
             $labels[] = $startDate->format('d M Y');
-            $values[] = $orders->count();
+            $values[] = $totalGrandTotal;
             $currentDate->subDay(); // Move back to the previous day
         }
 
