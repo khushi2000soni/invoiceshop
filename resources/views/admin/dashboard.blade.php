@@ -213,10 +213,22 @@ $(document).ready(function() {
                 y: {
                     beginAtZero: true,
                     ticks: {
-                        stepSize: 1000, // Adjust the step size to change line height
+                    callback: function(value, index, values) {
+                        return '₹' + value; // Add the rupee symbol
+                    },
+                    //stepSize: 2000, // Adjust the step size as needed
                     },
                 }
             },
+            plugins: {
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            return '₹' + context.parsed.y; // Display rupee symbol in tooltip
+                        }
+                    }
+                }
+            }
         }
     });
 
