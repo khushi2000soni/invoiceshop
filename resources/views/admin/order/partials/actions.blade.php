@@ -26,6 +26,7 @@
                             <a href="javascript:void(0);" data-order-id="{{ $order->id }}" data-href="{{route('orders.share-email', $order->id)}}" class="btn btn-danger dangerBtn text-white btn-block share-email-btn">
                                 <x-svg-icon icon="mail" />
                             </a>
+
                         </div>
                         <div class="btnbk">
                             @php

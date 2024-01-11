@@ -294,31 +294,49 @@ class OrderController extends Controller
         // return view('admin.order.pdf.invoice-pdf', compact('order','type'));
     }
 
-    public function shareEmail($order)
+    public function shareEmail(Request $request, Order $order)
     {
+        $email = $order->customer->email;
+
+        $htmlView = view('admin.order.share_email_modal', compact('order', 'email'))->render();
+        return response()->json(['success' => true, 'htmlView' => $htmlView]);
+    }
+
+    public function sendshareEmail(Request $request , Order $order)
+    {
+        //dd($request->email);
+        $this->validate($request, [
+            'email' => 'required|email',
+        ]);
+
         $type=null;
-        $pdfData = generateInvoicePdf($order,$type);
-        $pdfContent = $pdfData['pdfContent'];
-        $pdfFileName = $pdfData['pdfFileName'];
-        $order = Order::with('orderProduct.product')->findOrFail($order);
-        // Send email with the generated PDF attached
-        $to_mail = $order->customer->email;
-        //dd($to_mail);
-        if($to_mail){
-            Mail::to($to_mail)->send(new ShareInvoiceMail($pdfContent, $pdfFileName));
-            return response()->json([
-                'success' => true,
-                'message' => trans('messages.invoice_mail'),
-                'alert-type' => trans('quickadmin.alert-type.success')
-            ], 200);
+
+        try{
+            $pdfData = generateInvoicePdf($order->id,$type);
+            $pdfContent = $pdfData['pdfContent'];
+            $pdfFileName = $pdfData['pdfFileName'];
+            $order = Order::with('orderProduct.product')->findOrFail($order->id);
+            // Send email with the generated PDF attached
+            $recipientEmail = $request->email;
+            //dd($to_mail);
+
+                Mail::to($recipientEmail)->send(new ShareInvoiceMail($pdfContent, $pdfFileName));
+                return response()->json([
+                    'success' => true,
+                    'message' => trans('messages.invoice_mail'),
+                    'alert-type' => trans('quickadmin.alert-type.success')
+                ], 200);
+
+                // return response()->json([
+                //     'success' => false,
+                //     'message' => trans('messages.blank_mailid'),
+                //     'alert-type' => trans('quickadmin.alert-type.error')
+                // ], 500);
+
+        }catch(\Exception $e){
+            dd($e->getMessage());
         }
-        else{
-            return response()->json([
-                'success' => false,
-                'message' => trans('messages.blank_mailid'),
-                'alert-type' => trans('quickadmin.alert-type.error')
-            ], 500);
-        }
+
 
 
     }

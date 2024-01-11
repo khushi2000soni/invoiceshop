@@ -426,47 +426,6 @@
                 });
         });
 
-        $(document).on('submit', '#EditCustomerPhone', function (e) {
-            e.preventDefault();
-            $("#EditCustomerPhone button[type=submit]").prop('disabled',true);
-            $(".error").remove();
-            $(".is-invalid").removeClass('is-invalid');
-            var formData = $(this).serialize();
-            var formAction = $(this).attr('action');
-            console.log(formAction);
-
-            $.ajax({
-                url: formAction,
-                type: 'PUT',
-                headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            },
-                data: formData,
-                success: function (response) {
-                        $('#editPhoneModal').modal('hide');
-                        var alertType = response['alert-type'];
-                        var message = response['message'];
-                        var title = "{{ trans('quickadmin.customers.customer') }}";
-                        showToaster(title,alertType,message);
-                        $('#EditCustomerPhone')[0].reset();
-                        //location.reload();
-                        DataaTable.ajax.reload();
-                        $("#EditCustomerPhone button[type=submit]").prop('disabled',false);
-                },
-                error: function (xhr) {
-                    var errors= xhr.responseJSON.errors;
-                    console.log(xhr.responseJSON);
-
-                    for (const elementId in errors) {
-                        $("#EditCustomerPhone #"+elementId).addClass('is-invalid');
-                        var errorHtml = '<div><span class="error text-danger">'+errors[elementId]+'</span></';
-                        $(errorHtml).insertAfter($("#EditForm #"+elementId).parent());
-                    }
-                    $("#EditForm button[type=submit]").prop('disabled',false);
-                }
-            });
-        });
-
 
         $(document).on('click', '.print-button', function(e) {
             e.preventDefault();
@@ -520,12 +479,37 @@
 
         $(document).on('click','.share-email-btn',function(e){
             e.preventDefault();
-            var hrefurl = $(this).data('href');
-            console.log('hrefurl',hrefurl);
             var orderId = $(this).data('order-id');
+            var hrefurl = $(this).data('href');
+            $('.modal-backdrop').remove();
+            // Use Ajax to load the modal content
             $.ajax({
-                url: hrefurl,
                 type: 'GET',
+                url: hrefurl,
+                headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                success: function (response) {
+                    $('.popup_render_div').html(response.htmlView);
+                    $('.popup_render_div #shareEmailModal').modal('show');
+                    $('.popup_render_div #shareEmailModal').attr('style', 'z-index: 100000');
+
+                }
+            });
+        });
+
+        $(document).on('submit','#shareEmailForm',function(e){
+            e.preventDefault();
+            $("#shareEmailForm button[type=submit]").prop('disabled',true);
+            $(".error").remove();
+            $(".is-invalid").removeClass('is-invalid');
+            var formData = $(this).serialize();
+            var formAction = $(this).attr('action');
+            console.log(formData);
+            $.ajax({
+                url: formAction,
+                type: 'POST',
+                data: formData,
                 headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
@@ -534,12 +518,22 @@
                         var message = response['message'];
                         var title = "{{ trans('quickadmin.order.invoice') }}";
                         showToaster(title,alertType,message);
-                        $('#ShareInvoiceModal'+orderId).modal('hide');
+                        $('#shareEmailModal').modal('hide');
+                        //$('#ShareInvoiceModal'+orderId).modal('hide');
                 },
                 error: function (xhr) {
                     var errors= xhr.responseJSON.errors;
-                    var errorMessage = xhr.responseJSON.message;
-                    swal("{{ trans('quickadmin.order.invoice') }}", errorMessage, 'error');
+                    console.log(xhr.responseJSON);
+
+                    for (const elementId in errors) {
+                        $("#shareEmailForm #"+elementId).addClass('is-invalid');
+                        var errorHtml = '<div><span class="error text-danger">'+errors[elementId]+'</span></';
+                        $(errorHtml).insertAfter($("#shareEmailForm #"+elementId).parent());
+                    }
+                    $("#shareEmailForm button[type=submit]").prop('disabled',false);
+
+                    // var errorMessage = xhr.responseJSON.message;
+                    // swal("{{ trans('quickadmin.order.invoice') }}", errorMessage, 'error');
                 }
             });
         });

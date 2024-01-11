@@ -232,8 +232,8 @@ $(document).ready(function() {
         }
     });
 
-    $('#orderChart').css('height', '600px');
-    $('#orderChart').css('width', '100%');
+    // $('#orderChart').css('height', '600px');
+    // $('#orderChart').css('width', '100%');
 
     function updateChart(timeFrame) {
         var data = { timeFrame: timeFrame };

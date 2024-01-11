@@ -13270,10 +13270,10 @@ button#addProductBtn {
     padding: 10px 0;
     border-bottom: 1px solid #000;
 }
-.dashboard-card .card .card-body{
+/* .dashboard-card .card .card-body{
     padding-left: 0;
     padding-right: 0;
-}
+} */
 .diffrent-cards .col-lg-6:first-child .card {
     background-color: rgb(255 138 0);
 }

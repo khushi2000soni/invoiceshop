@@ -41,22 +41,6 @@
     <div class="row">
         <div class="col-md-12">
 
-            {{-- <div class="form-group">
-                <label for="address_id">@lang('quickadmin.customers.fields.address')</label>
-                <div class="input-group">
-                    <select class="form-control @error('address_id') is-invalid @enderror" name="address_id" id="address_id" >
-                        <option value="{{ isset($customer) ? $customer->address->id : old('address_id') }}">
-                            {{ isset($customer) ? $customer->address->address : trans('quickadmin.customers.select_address') }}
-                        </option>
-                        @foreach($addresses as $address)
-                            @if (!isset($customer) || $customer->address->id !== $address->id)
-                            <option value="{{ $address->id }}">{{ $address->address }}</option>
-                            @endif
-                        @endforeach
-                    </select>
-                </div>
-            </div> --}}
-
             <div class="fullselect2">
                 <div class="form-control-inner">
                     <label>@lang('quickadmin.customers.fields.address')</label>
