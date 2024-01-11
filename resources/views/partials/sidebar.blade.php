@@ -3,7 +3,7 @@
       <div class="sidebar-brand">
         <a href="#">
           <div class="circleimg"><img alt="image" src="{{asset('admintheme/assets/img/shopping-bag.png') }}" class="header-logo" /></div>
-          <span>@lang('quickadmin.qa_company_name')</span>
+          {{-- <span>@lang('quickadmin.qa_company_name')</span> --}}
         </a>
       </div>
       <ul class="sidebar-menu">

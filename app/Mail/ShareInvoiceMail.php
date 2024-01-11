@@ -18,16 +18,21 @@ class ShareInvoiceMail extends Mailable
      */
     public $pdfContent;
     public $pdfFileName;
+    public $customer_name;
 
-    public function __construct($pdfContent, $pdfFileName)
+    public function __construct($pdfContent, $pdfFileName,$customer_name)
     {
         $this->pdfContent = $pdfContent;
         $this->pdfFileName = $pdfFileName;
+        $this->customer_name = $customer_name;
     }
 
     public function build()
     {
-        return $this->view('emails.order.share-invoice-mail')
+        //dd($this->customer_name ,$this->pdfFileName);
+        return $this->view('emails.order.share-invoice-mail')->with([
+            'customer_name' =>  $this->customer_name,
+        ])
         ->attachData($this->pdfContent, $this->pdfFileName, [
             'mime' => 'application/pdf',
         ]);

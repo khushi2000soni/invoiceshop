@@ -463,17 +463,21 @@
         $(document).on('click','.share-whatsapp-btn',function(e){
             e.preventDefault();
             var recipientNumber = $(this).data('recipient-number');
+            var recipientName = $(this).data('recipient-name');
             var orderId = $(this).data('order-id');
             var pdfDownloadUrl = $(this).data('href');
             var pdfLink = document.createElement('a');
-            var mssg="{{ getSetting('share_invoice_whatsapp_message')}}";
+            var whatsappMessage="{{ getSetting('share_invoice_whatsapp_message')}}";
+
+
+            //console.log('mssg',whatsappMessage);
             pdfLink.href = pdfDownloadUrl;
             pdfLink.download = 'invoice.pdf';
             pdfLink.style.display = 'none';
             document.body.appendChild(pdfLink);
             pdfLink.click();
             document.body.removeChild(pdfLink);
-            var whatsappUrl = 'https://api.whatsapp.com/send?phone=' + recipientNumber + '&text='+mssg;
+            var whatsappUrl = 'https://api.whatsapp.com/send?phone=' + recipientNumber + '&text='+whatsappMessage;
             window.open(whatsappUrl, '_blank');
         });
 

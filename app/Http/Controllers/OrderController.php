@@ -315,7 +315,9 @@ class OrderController extends Controller
             $pdfFileName = $pdfData['pdfFileName'];
             $order = Order::with('orderProduct.product')->findOrFail($order->id);
             $recipientEmail = $request->email;
-                Mail::to($recipientEmail)->send(new ShareInvoiceMail($pdfContent, $pdfFileName));
+
+            //dd($recipientEmail , $order->customer->name);
+                Mail::to($recipientEmail)->send(new ShareInvoiceMail($pdfContent, $pdfFileName , $order->customer->name));
                 return response()->json([
                     'success' => true,
                     'message' => trans('messages.invoice_mail'),
@@ -334,6 +336,7 @@ class OrderController extends Controller
 
     public function shareWhatsApp(Request $request, $order)
     {
+        dd($request->all());
         // Generate the PDF (similar to the printPDF method) and provide a way to share it via WhatsApp.
         // You can open a WhatsApp web link or use a sharing package for Laravel.
 

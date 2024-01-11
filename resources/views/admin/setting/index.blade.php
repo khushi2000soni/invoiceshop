@@ -3,6 +3,7 @@
 @section('title')@lang('quickadmin.settings.manage_settings')@endsection
 @section('customCss')
 <meta name="csrf-token" content="{{ csrf_token() }}" >
+<link rel="stylesheet" href="{{ asset('admintheme/assets/bundles/summernote/summernote-bs4.css') }}">
 @endsection
 
 @section('main-content')
@@ -49,9 +50,28 @@
 
 @section('customJS')
 <script src="{{ asset('admintheme/assets/bundles/jquery-ui/jquery-ui.min.js') }}"></script>
+<script src="{{ asset('admintheme/assets/bundles/summernote/summernote-bs4.min.js') }}"></script>
 
 <script>
 $(document).ready(function(){
+
+    // $('textarea.summernote').summernote({
+    //     placeholder: 'Type somthing...',
+    //     tabsize: 2,
+    //     height: 200,
+    //     fontNames: ['Arial', 'Helvetica', 'Times New Roman', 'Courier New','sans-serif'],
+    //     toolbar: [
+    //         ['style', ['style']],
+    //         ['font', ['bold', 'underline', 'clear']],
+    //         ['fontname', ['fontname']],
+    //         // ['color', ['color']],
+    //         ['para', ['ul', 'ol', 'paragraph']],
+    //         ['table', ['table']],
+    //         ['insert', ['link', /*'picture', 'video'*/]],
+    //         ['view', [/*'fullscreen',*/ 'codeview', /*'help'*/]],
+    //     ],
+    // });
+
     $(document).on('submit','#settingform',function(e){
         e.preventDefault();
         $("#settingform button[type=submit]").prop('disabled',true);
@@ -60,7 +80,11 @@ $(document).ready(function(){
 
         var formData = new FormData(this);
         var formAction = $(this).attr('action');
-        console.log(formAction);
+        $('.summernote').each(function() {
+            var textareaName = $(this).attr('name');
+            var summernoteContent = $(this).summernote('code');
+            formData.append(textareaName, summernoteContent);
+        });
 
         $.ajax({
             type: "POST",
@@ -93,10 +117,13 @@ $(document).ready(function(){
             }
         });
     });
+
+    $(document).on('click','.copy-btn',function(event){
+        event.preventDefault();
+        var elementVal = $(this).attr('data-elementVal');
+        var targetTextareaId = $(this).attr('data-targetTextareaId');
+        $('#' + targetTextareaId).summernote('insertText', elementVal);
+    });
 });
 </script>
-
-
-
-
 @endsection

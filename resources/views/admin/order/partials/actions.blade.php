@@ -27,9 +27,10 @@
                         </div>
                         <div class="btnbk">
                             @php
-                                $recipientNumber = $order->customer->phone ?? ""; // Replace with the actual recipient's phone number
+                               // $recipientNumber = $order->customer->phone ?? ""; // Replace with the actual recipient's phone number
+                               $recipientNumber = 8107308639;
                             @endphp
-                            <a href="javascript:void(0);" class="btn btn-success btn-block share-whatsapp-btn" data-order-id="{{ $order->id }}" data-recipient-number="{{ $recipientNumber }}" data-href="{{route('orders.generate-pdf', $order->id)}}">
+                            <a href="javascript:void(0);" class="btn btn-success btn-block share-whatsapp-btn" data-order-id="{{ $order->id }}" data-recipient-number="{{ $recipientNumber }}" data-recipient-name="{{ $order->customer->name ?? "" }}" data-href="{{route('orders.generate-pdf', $order->id)}}">
                                 <x-svg-icon icon="whatsapp" />
                             </a>
                         </div>

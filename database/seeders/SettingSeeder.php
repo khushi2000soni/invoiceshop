@@ -40,9 +40,9 @@ class SettingSeeder extends Seeder
             // ],
             [
                 'key'    => 'share_invoice_mail_message',
-                'value'  => 'Hello Dear, Please check your attached invoice pdf.',
-                'type'   => 'text',
-                'details' => null,
+                'value'  => 'Dear [PARTY_NAME] , Please Find your Invoice Detail below.',
+                'type'   => 'text_area',
+                'details' => '[PARTY_NAME], [SUPPORT_EMAIL], [SUPPORT_PHONE], [APP_NAME]',
                 'display_name'=>'Share-Invoice Mail Message',
                 'group'  => 'web',
                 'status' => 1,
@@ -51,7 +51,7 @@ class SettingSeeder extends Seeder
             ],
             [
                 'key'    => 'share_invoice_whatsapp_message',
-                'value'  =>  'Hello Dear, Please check your attached invoice pdf.',
+                'value'  =>  'Dear Customer , Please Find your Invoice Detail below.',
                 'type'   => 'text',
                 'details' => null,
                 'display_name'=>'Share-Invoice Whatsapp Message',
