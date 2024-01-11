@@ -13406,7 +13406,3 @@ button.category-product-detail:hover{
     line-height: 42px !important;
     text-align: left;
 }
-canvas#orderChart {
-    width: 100% !important;
-    height: 500px !important;
-}

@@ -224,13 +224,16 @@ $(document).ready(function() {
                 tooltip: {
                     callbacks: {
                         label: function(context) {
-                            return '₹' + context.parsed.y; // Display rupee symbol in tooltip
+                            return "@lang('quickadmin.reports.total_order_amount') : ₹" + context.parsed.y; // Display rupee symbol in tooltip
                         }
                     }
                 }
             }
         }
     });
+
+    $('#orderChart').css('height', '600px');
+    $('#orderChart').css('width', '100%');
 
     function updateChart(timeFrame) {
         var data = { timeFrame: timeFrame };
