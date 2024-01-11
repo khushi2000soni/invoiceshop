@@ -294,32 +294,27 @@ class OrderController extends Controller
         // return view('admin.order.pdf.invoice-pdf', compact('order','type'));
     }
 
+    /// Render Share mail modal form
     public function shareEmail(Request $request, Order $order)
     {
-        $email = $order->customer->email;
-
-        $htmlView = view('admin.order.share_email_modal', compact('order', 'email'))->render();
+       // $email = $order->customer->email;
+        $htmlView = view('admin.order.share_email_modal', compact('order'))->render();
         return response()->json(['success' => true, 'htmlView' => $htmlView]);
     }
 
+    // Send mail to request recipient
     public function sendshareEmail(Request $request , Order $order)
     {
-        //dd($request->email);
         $this->validate($request, [
             'email' => 'required|email',
         ]);
-
         $type=null;
-
         try{
             $pdfData = generateInvoicePdf($order->id,$type);
             $pdfContent = $pdfData['pdfContent'];
             $pdfFileName = $pdfData['pdfFileName'];
             $order = Order::with('orderProduct.product')->findOrFail($order->id);
-            // Send email with the generated PDF attached
             $recipientEmail = $request->email;
-            //dd($to_mail);
-
                 Mail::to($recipientEmail)->send(new ShareInvoiceMail($pdfContent, $pdfFileName));
                 return response()->json([
                     'success' => true,
@@ -327,18 +322,14 @@ class OrderController extends Controller
                     'alert-type' => trans('quickadmin.alert-type.success')
                 ], 200);
 
-                // return response()->json([
-                //     'success' => false,
-                //     'message' => trans('messages.blank_mailid'),
-                //     'alert-type' => trans('quickadmin.alert-type.error')
-                // ], 500);
-
         }catch(\Exception $e){
-            dd($e->getMessage());
+            //dd($e->getMessage());
+            return response()->json([
+                'success' => false,
+                'message' => trans('messages.error1'),
+                'alert-type' => trans('quickadmin.alert-type.success')
+            ], 200);
         }
-
-
-
     }
 
     public function shareWhatsApp(Request $request, $order)

@@ -519,7 +519,6 @@
                         var title = "{{ trans('quickadmin.order.invoice') }}";
                         showToaster(title,alertType,message);
                         $('#shareEmailModal').modal('hide');
-                        //$('#ShareInvoiceModal'+orderId).modal('hide');
                 },
                 error: function (xhr) {
                     var errors= xhr.responseJSON.errors;

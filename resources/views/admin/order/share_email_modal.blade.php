@@ -14,7 +14,7 @@
                             <div class="form-group">
                                 <label for="email">@lang('quickadmin.customers.fields.email')</label>
                                 <div class="input-group">
-                                    <input type="email" class="form-control" name="email" value="{{ $email }}" id="email" autocomplete="true">
+                                    <input type="email" class="form-control" name="email" value="" id="email" autocomplete="true">
                                 </div>
                             </div>
                         </div>
