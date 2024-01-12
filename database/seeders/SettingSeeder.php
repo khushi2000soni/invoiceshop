@@ -82,6 +82,17 @@ class SettingSeeder extends Seeder
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'created_by' => 1,
             ],
+            [
+                'key'    => 'invoice_allow_day_admin_accountant',
+                'value'  =>  7,
+                'type'   => 'number',
+                'details' => null,
+                'display_name'=>'Invoice access allow Days for admin & accountent role',
+                'group'  => 'web',
+                'status' => 1,
+                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+                'created_by' => 1,
+            ],
         ];
 
         Setting::insert($settings);

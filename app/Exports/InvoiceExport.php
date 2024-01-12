@@ -36,8 +36,9 @@ class InvoiceExport implements FromCollection , WithHeadings
                 $query->whereDate('invoice_date','<=', $this->to_date);
             }
 
-            if (!(auth()->user()->hasRole(1))) {
-                $query = $query->whereDate('invoice_date', '>=', now()->subDays(7));
+            if (!(auth()->user()->hasRole(config('app.roleid.super_admin')))) {
+                $days = getSetting('invoice_allow_day_admin_accountant');
+                $query = $query->whereDate('invoice_date', '>=', now()->subDays($days));
             }
 
             $allorders = $query->orderBy('id','desc')->get();

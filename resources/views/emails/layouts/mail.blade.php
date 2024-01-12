@@ -31,12 +31,10 @@
 						{{-- <td style="padding:36px 30px 42px 30px;"> --}}
 						<td style="padding:36px 30px 0px 30px;">
                             <table role="presentation" style="width:100%;border-collapse:collapse;border:0;border-spacing:0;">
-
                                 @yield('email-content')
                                 {{-- <tr>
                                     <td><p style="font-size:14px; margin:0 0 12px 27;">Thank you</p></td>
                                 </tr> --}}
-
                             </table>
 						</td>
 					</tr>

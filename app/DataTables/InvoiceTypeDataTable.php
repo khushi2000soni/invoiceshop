@@ -83,8 +83,9 @@ class InvoiceTypeDataTable extends DataTable
             $model = $model->whereDate('invoice_date','<=', request()->to_date);
         }
 
-        if (!(auth()->user()->hasRole(1))) {
-            $model = $model->whereDate('invoice_date', '>=', now()->subDays(7));
+        if (!(auth()->user()->hasRole(config('app.roleid.super_admin')))) {
+            $days = getSetting('invoice_allow_day_admin_accountant');
+            $model = $model->whereDate('invoice_date', '>=', now()->subDays($days));
         }
 
         return $model->newQuery()->with('customer');

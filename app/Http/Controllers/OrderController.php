@@ -368,8 +368,9 @@ class OrderController extends Controller
             $query->whereDate('invoice_date','<=',  $to_date);
         }
 
-        if (!(auth()->user()->hasRole(1))) {
-            $query = $query->whereDate('invoice_date', '>=', now()->subDays(7));
+        if (!(auth()->user()->hasRole(config('app.roleid.super_admin')))) {
+            $days = getSetting('invoice_allow_day_admin_accountant');
+            $query = $query->whereDate('invoice_date', '>=', now()->subDays($days));
         }
 
         $from_date = $from_date ? Carbon::parse($from_date)->format('d-m-Y') : null;

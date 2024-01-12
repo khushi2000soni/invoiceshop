@@ -89,7 +89,7 @@ class UserDataTable extends DataTable
     public function query(User $model): QueryBuilder
     {
         $query = $model->newQuery()->select(['users.*']);
-        if (!(auth()->user()->hasRole(1))) {
+        if (!(auth()->user()->hasRole(config('app.roleid.super_admin')))) {
             $query->whereNotIn('id', [1]);
         }
         return $this->applyScopes($query);

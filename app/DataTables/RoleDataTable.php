@@ -49,7 +49,7 @@ class RoleDataTable extends DataTable
     {
         //return $model->newQuery();
         $query = $model->newQuery()->select(['roles.*']);
-        if (!(auth()->user()->hasRole(1))) {
+        if (!(auth()->user()->hasRole(config('app.roleid.super_admin')))) {
             $query->whereNotIn('id', [1]);
         }
         return $this->applyScopes($query);

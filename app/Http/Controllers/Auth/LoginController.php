@@ -42,7 +42,7 @@ class LoginController extends Controller
                 if (Auth::attempt($credentialsOnly, $remember_me)) {
                     // Staff Cannot Login Into Web
                    // dd(auth()->user()->getRoleNames());
-                    if ((auth()->user()->hasRole(4))) {
+                    if ((auth()->user()->hasRole(config('app.roleid.staff')))) {
                         Auth::guard('web')->logout();
                         return redirect()->route('login')->withErrors(['wrongcrendials' => trans('auth.unauthorize')])->withInput($request->only('username', 'password'));
                     }

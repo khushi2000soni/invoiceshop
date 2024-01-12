@@ -34,7 +34,7 @@
                     $moduleName = ucfirst($moduleName); // Capitalize the first letter
                     @endphp
 
-                    @if (!(auth()->user()->hasRole(1)))
+                    @if (!(auth()->user()->hasRole(config('app.roleid.super_admin'))))
                         @if ($moduleName == 'roles')
                             @continue
                         @endif

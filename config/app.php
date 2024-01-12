@@ -21,6 +21,12 @@ return [
     'support_email' => env('COMPANY_SUPPORT_EMAIL', 'invoiceapp@invoice.com'),
     'support_phone' => env('COMPANY_SUPPORT_PHONE', '1234567890'),
     'app_name' => env('APP_NAME', 'Invoice Management'),
+    'roleid' => [
+        'super_admin' => 1 ,
+        'admin' => 2 ,
+        'accountant' => 3 ,
+        'staff' => 4 ,
+    ],
 
 
     /*
