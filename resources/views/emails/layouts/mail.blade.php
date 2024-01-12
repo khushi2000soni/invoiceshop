@@ -21,12 +21,12 @@
 		<tr>
 			<td align="center" style="padding:0;">
 				<table role="presentation" style="width: 100%; max-width:602px;border-collapse:collapse;border-spacing:0;text-align:left;">
-					<tr>
+					{{-- <tr>
 						<td align="center" style="padding:20px 0;background:#f3cfbf;">
-							{{-- <img src="{{ asset(config('constants.default.logo')) }}" alt="" width="300" style="height:auto;display:block;" /> --}}
+							<img src="{{ asset(config('constants.default.logo')) }}" alt="" width="300" style="height:auto;display:block;" />
                             <h3>{{trans('quickadmin.qa_company_name')}}</h3>
 						</td>
-					</tr>
+					</tr> --}}
 					<tr>
 						{{-- <td style="padding:36px 30px 42px 30px;"> --}}
 						<td style="padding:36px 30px 0px 30px;">
@@ -40,7 +40,7 @@
                             </table>
 						</td>
 					</tr>
-					<tr>
+					{{-- <tr>
 						<td style="padding:30px;background:#f3cfbf;">
 							<table role="presentation" style="width:100%;border-collapse:collapse;border:0;border-spacing:0;font-size:9px;">
 								<tr>
@@ -52,7 +52,7 @@
 								</tr>
 							</table>
 						</td>
-					</tr>
+					</tr> --}}
 				</table>
 			</td>
 		</tr>
