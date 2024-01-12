@@ -72,7 +72,7 @@ class InvoiceDataTable extends DataTable
             $model = $model->whereDate('invoice_date','<=', request()->to_date);
         }
 
-        if (!(auth()->user()->hasRole(config('app.roleid.super_admin')))) {
+        if (auth()->user()->hasRole([config('app.roleid.admin'), config('app.roleid.accountant')])) {
             $days = getSetting('invoice_allow_day_admin_accountant');
             $model = $model->whereDate('invoice_date', '>=', now()->subDays($days));
         }
