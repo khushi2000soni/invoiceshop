@@ -162,7 +162,16 @@
 $(document).ready(function () {
 
     $('#print-button').printPage();
+
     var DataaTable = $('#dataaTable').DataTable();
+
+    // Page show from top when page changes
+    $(document).on('draw.dt','#dataaTable', function (e) {
+            e.preventDefault();
+            $('html, body').animate({
+                scrollTop: 0
+            }, 'fast');
+        });
 
     $(".filter-address-select").select2({
     }).on('select2:open', function () {

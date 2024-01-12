@@ -69,7 +69,13 @@
 $(document).ready(function () {
     var DataaTable = $('#dataaTable').DataTable();
     $('#print-button').printPage();
-    // Create Form
+    // Page show from top when page changes
+    $(document).on('draw.dt','#dataaTable', function (e) {
+        e.preventDefault();
+        $('html, body').animate({
+            scrollTop: 0
+        }, 'fast');
+    });
 
     $(document).on('click','.addRecordBtn', function(){
        // $('#preloader').css('display', 'flex');

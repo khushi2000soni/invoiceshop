@@ -44,7 +44,14 @@
 <script>
 $(document).ready(function () {
     var DataaTable = $('#dataaTable').DataTable();
-    // Create Form
+
+    // Page show from top when page changes
+    $(document).on('draw.dt','#dataaTable', function (e) {
+        e.preventDefault();
+        $('html, body').animate({
+            scrollTop: 0
+        }, 'fast');
+    });
 
     $(document).off('click', '.addRecordBtn').on('click', '.addRecordBtn', function (e) {
        // $('#preloader').css('display', 'flex');

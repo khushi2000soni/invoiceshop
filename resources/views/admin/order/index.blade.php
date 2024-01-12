@@ -240,6 +240,14 @@
         var dataTable = $('#dataaTable').DataTable();
         $('#invoice-print').printPage();
 
+        // Page show from top when page changes
+        $(document).on('draw.dt','#dataaTable', function (e) {
+            e.preventDefault();
+            $('html, body').animate({
+                scrollTop: 0
+            }, 'fast');
+        });
+
         $(document).on('shown.bs.modal','.share-modal', function (e) {
             e.preventDefault();
             // Remove the modal backdrop

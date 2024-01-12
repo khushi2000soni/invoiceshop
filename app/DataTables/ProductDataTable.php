@@ -95,7 +95,7 @@ class ProductDataTable extends DataTable
                 $(".loader").show();
                 setTimeout(function() {
                     $(".loader").css("display","none");
-                }, 1500);
+                }, 1000);
             }',
         ])
         ->columns($this->getColumns())

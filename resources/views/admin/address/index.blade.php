@@ -162,6 +162,14 @@ $(document).ready(function () {
 
     $('#print-button').printPage();
 
+    // Page show from top when page changes
+    $(document).on('draw.dt','#addressTable', function (e) {
+        e.preventDefault();
+        $('html, body').animate({
+            scrollTop: 0
+        }, 'fast');
+    });
+
     $(document).on('click' , 'excel-button' , function(e){
         e.preventDefault();
         var iframe = document.createElement('iframe');
