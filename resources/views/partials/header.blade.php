@@ -4,15 +4,6 @@
           <ul class="navbar-nav mr-3">
             <li><a href="#" data-toggle="sidebar" class="nav-link nav-link-lg collapse-btn"><i
                   class="fas fa-bars"></i></a></li>
-            {{-- <li>
-              <div class="search-group">
-                <span class="nav-link nav-link-lg" id="search">
-                  <i class="fa fa-search" aria-hidden="true"></i>
-                </span>
-                <input type="text" class="search-control" placeholder="search" aria-label="search"
-                  aria-describedby="search">
-              </div>
-            </li> --}}
           </ul>
         </div>
         <ul class="navbar-nav navbar-right">
@@ -36,10 +27,10 @@
                 <a href="{{ route('orders.create')}}" class="nav-link nav-link-lg btn btn-outline-dark icon-left default_btn add_invoice_btn"><x-svg-icon icon="add-invoice" /> @lang('quickadmin.dashboard.add_invoice')</a>
             </li>
             @endcan
-            <li><a href="#" class="nav-link nav-link-lg fullscreen-btn">
-                <i class="fas fa-expand"></i>
+            {{-- <li><a href="#" class="nav-link nav-link-lg btn-outline-success">
+                <i class="fas fa-wifi"></i>
                 </a>
-            </li>
+            </li> --}}
 
           <li class="dropdown"><a href="#" data-toggle="dropdown"
               class="nav-link dropdown-toggle nav-link-lg nav-link-user">
