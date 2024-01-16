@@ -72,8 +72,11 @@
         z-index: 9999;
     }
      .cart_filter_box{
-            border-bottom: 1px solid #e5e9f2;
-        }
+        border-bottom: 1px solid #e5e9f2;
+    }
+    .alertMessage {
+        display: inline-block;
+    }
 </style>
 
 
@@ -83,6 +86,14 @@
 
 <section class="section">
     <div class="section-body">
+        <div class="text-center">
+            <div class="bg-danger alertMessage d-none my-1 text-center text-light py-1 px-3 rounded" id="internetlostMessage">
+                @lang('quickadmin.qa_internet_lost_message')
+            </div>
+            <div class="bg-success alertMessage d-none my-1 text-center text-light py-1 px-3 rounded" id="OnlineComeBack">
+                @lang('quickadmin.qa_back_online')
+            </div>
+        </div>
         <form method="post" id="SaveEditInvoiceForm" action="{{route('orders.update', $order->id)}}">
             <div class="card pt-2">
                 <div class="invoice-print card-body">
@@ -1050,89 +1061,90 @@
 
         $(document).on('submit', '#SaveEditInvoiceForm', function (e) {
             e.preventDefault();
-            $("#SaveEditInvoiceForm button[type=submit]").prop('disabled',true);
-            var formAction = $(this).attr('action');
-                if (typeof (Storage) !== 'undefined') {
-                    // Create the invoiceData object
-                    var invoiceData = {
-                        customer_id: order.customer_id,
-                        thaila_price: order.thailaPrice,
-                        is_round_off: order.is_round_off,
-                        round_off: order.round_off_amount,
-                        sub_total: order.sub_total,
-                        grand_total: order.grand_total,
-                        products: order.products, // The products array as-is
-                        deleted_products: order.deleted_products,
-                    };
-                    if (navigator.onLine) {
-                        // Send data to the server using AJAX
-                        console.log("Sending data to the server");
-                        $.ajax({
-                            url: formAction,
-                            type: 'PUT',
-                            data: invoiceData,
-                            headers: {
-                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                            },
-                            success: function (response) {
-                                console.log('Data stored in the database:', response);
-                                // Remove data from localStorage after successful insertion
-                                var alertType = response['alert-type'];
-                                var message = response['message'];
-                                var title = "{{ trans('quickadmin.order.order') }}";
-                                //showToaster(title,alertType,message);
-                                //swal(title, message, alertType);
-
-                                swal({
-                                title: title,
-                                text: message,
-                                icon: alertType,
-                                buttons: {
-                                confirm: 'OK',
-                                },
-                                }).then((confirm) => {
-                                if (confirm) {
-                                    localStorage.removeItem('order');
-                                    window.location.href = "{{ route('orders.index') }}";
-                                }
-                                });
-
-                                $('#SaveEditInvoiceForm')[0].reset();
-                                //location.reload();
-                                $("#SaveEditInvoiceForm button[type=submit]").prop('disabled',false);
-                                console.log('Data removed from localStorage.');
-                            },
-                            error: function (xhr) {
-                                var errors= xhr.responseJSON.errors;
-                                console.log(xhr.responseJSON);
-                                swal("{{ trans('quickadmin.product.product') }}", 'Some mistake is there.', 'error');
-                                // for (const elementId in errors) {
-                                //     $("#"+elementId).addClass('is-invalid');
-                                //     var errorHtml = '<div><span class="error text-danger">'+errors[elementId]+'</span></';
-                                //     $(errorHtml).insertAfter($("#"+elementId).parent());
-                                // }
-                                // $("#AddForm button[type=submit]").prop('disabled',false);
-                                var alertType = errors['alert-type'];
-                                var message = errors['message'];
-                                var title = "{{ trans('quickadmin.order.order') }}";
-                                //showToaster(title,alertType,message);
-                            }
-                        });
-                    }else {
-                        // User is offline
-                        alert("You have lost internet connection, Please connect with the internet to save your Temorary data");
-                        $("#saveInvoicebtn").replaceWith('<button type="submit" class="btn btn-success btn-icon icon-left saveTempInvoiceDatabtn" id="saveTempInvoiceDatabtn"><i class="fas fa-credit-card"></i>@lang("quickadmin.qa_temp_save_invoice")</button>');
-
-                    }
-                } else {
-                    alert('localStorage is not supported in this browser.');
+            var isValid = true;
+            $(".ordertable tbody tr:not(.template-row)").each(function () {
+                if (!validateRow($(this))) {
+                    isValid = false;
                 }
+            });
 
+            if (!isValid) {
+                // Display an error message or take appropriate action
+                return;
+            }
+
+            //$("#SaveEditInvoiceForm button[type=submit]").prop('disabled',true);
+            var formAction = $(this).attr('action');
+
+            if(networkstatus === true){
+                var invoiceData = {
+                    customer_id: order.customer_id,
+                    thaila_price: order.thailaPrice,
+                    is_round_off: order.is_round_off,
+                    round_off: order.round_off_amount,
+                    sub_total: order.sub_total,
+                    grand_total: order.grand_total,
+                    products: order.products, // The products array as-is
+                    deleted_products: order.deleted_products,
+                };
+                // Send data to the server using AJAX
+                console.log("Sending data to the server");
+                $.ajax({
+                    url: formAction,
+                    type: 'PUT',
+                    data: invoiceData,
+                    headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    success: function (response) {
+                        console.log('Data stored in the database:', response);
+                        // Remove data from localStorage after successful insertion
+                        var alertType = response['alert-type'];
+                        var message = response['message'];
+                        var title = "{{ trans('quickadmin.order.order') }}";
+                        //showToaster(title,alertType,message);
+                        //swal(title, message, alertType);
+                        swal({
+                        title: title,
+                        text: message,
+                        icon: alertType,
+                        buttons: {
+                        confirm: 'OK',
+                        },
+                        }).then((confirm) => {
+                        if (confirm) {
+                            localStorage.removeItem('order');
+                            window.location.href = "{{ route('orders.index') }}";
+                        }
+                        });
+
+                        $('#SaveEditInvoiceForm')[0].reset();
+                        //location.reload();
+                        $("#SaveEditInvoiceForm button[type=submit]").prop('disabled',false);
+                        console.log('Data removed from localStorage.');
+                    },
+                    error: function (xhr) {
+                        var errors= xhr.responseJSON.errors;
+                        console.log(xhr.responseJSON);
+                        swal("{{ trans('quickadmin.product.product') }}", 'Some mistake is there.', 'error');
+                        // for (const elementId in errors) {
+                        //     $("#"+elementId).addClass('is-invalid');
+                        //     var errorHtml = '<div><span class="error text-danger">'+errors[elementId]+'</span></';
+                        //     $(errorHtml).insertAfter($("#"+elementId).parent());
+                        // }
+                        // $("#AddForm button[type=submit]").prop('disabled',false);
+                        var alertType = errors['alert-type'];
+                        var message = errors['message'];
+                        var title = "{{ trans('quickadmin.order.order') }}";
+                        //showToaster(title,alertType,message);
+                    }
+                });
+            }else{
+                console.log('networkstatus',networkstatus);
+                alert("You have lost internet connection, Please connect with the internet to save your Temorary data");
+                $("#saveInvoicebtn").replaceWith('<button type="submit" class="btn btn-success btn-icon icon-left saveTempInvoiceDatabtn" id="saveTempInvoiceDatabtn"><i class="fas fa-credit-card"></i>@lang("quickadmin.qa_temp_save_invoice")</button>');
+            }
         });
-
-
-
-
     });
 
   </script>

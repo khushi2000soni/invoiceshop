@@ -7,10 +7,8 @@
             url: '/check-connectivity',
             type: 'GET',
             success: function(response) {
-                // Handle successful response
-                //console.log(response.status);
                 networkstatus = response.status;
-                console.log('network status',networkstatus);
+               // console.log('network status',networkstatus);
             },
             error: function(jqXHR, textStatus, errorThrown) {
                     // Handle connectivity issues
@@ -26,6 +24,7 @@
         } else {
             // Handle offline state
             console.log('offline');
+            networkstatus = false;
         }
     }
 

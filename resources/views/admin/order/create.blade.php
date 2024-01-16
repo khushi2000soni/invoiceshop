@@ -955,7 +955,21 @@
         // Save Invoice into database
         $(document).on('submit', '#SaveInvoiceForm', function (e) {
             e.preventDefault();
-            $("#SaveInvoiceForm button[type=submit]").prop('disabled',true);
+
+            var isValid = true;
+            $(".ordertable tbody tr:not(.template-row)").each(function () {
+                if (!validateRow($(this))) {
+                    isValid = false;
+                }
+            });
+
+            if (!isValid) {
+                // Display an error message or take appropriate action
+                return;
+            }
+
+           // $("#SaveInvoiceForm button[type=submit]").prop('disabled',true);
+
             var formAction = $(this).attr('action');
             var orderData= JSON.stringify(localStorage.getItem('order'));
 
@@ -1031,11 +1045,6 @@
                 $("#saveInvoicebtn").replaceWith('<button type="submit" class="btn btn-success btn-icon icon-left saveTempInvoiceDatabtn" id="saveTempInvoiceDatabtn"><i class="fas fa-credit-card"></i>@lang("quickadmin.qa_temp_save_invoice")</button>');
             }
 
-        });
-
-        /// save data when when click on Temp Save Btn
-        $(document).on('submit', '#SaveInvoiceForm', function (e) {
-            e.preventDefault();
         });
 
     });
