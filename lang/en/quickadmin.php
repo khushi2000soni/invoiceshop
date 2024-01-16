@@ -421,7 +421,7 @@ return [
 	'qa_save_invoice' 	=> 'Save Invoice',
     'qa_temp_save_invoice' 	=> 'Save Temporary Invoice',
     'qa_internet_lost_message' => 'You are Offline as you lost your Internet Connection !',
-    'qa_back_online' => 'You are back to Online Again !',
+    'qa_back_online' => 'You are Online !',
     'qa_print_invoice' 	=> 'Print Invoice',
 	'qa_sr_no' 	=> 'Sr.No.',
 	'qa_create' => 'Create',
