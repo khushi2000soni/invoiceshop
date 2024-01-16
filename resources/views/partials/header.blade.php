@@ -27,8 +27,9 @@
                 <a href="{{ route('orders.create')}}" class="nav-link nav-link-lg btn btn-outline-dark icon-left default_btn add_invoice_btn"><x-svg-icon icon="add-invoice" /> @lang('quickadmin.dashboard.add_invoice')</a>
             </li>
             @endcan
-            {{-- <li><a href="#" class="nav-link nav-link-lg btn-outline-success">
-                <i class="fas fa-wifi"></i>
+            {{-- <li>
+                <a href="#" class="nav-link nav-link-lg btn-outline-success">
+                <x-svg-icon icon="internet-disconnected" />
                 </a>
             </li> --}}
 
