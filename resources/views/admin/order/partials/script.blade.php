@@ -10,10 +10,12 @@
                 // Handle successful response
                 //console.log(response.status);
                 networkstatus = response.status;
-                //console.log('network status',networkstatus);
+                console.log('network status',networkstatus);
             },
             error: function() {
                 // Handle connectivity issues
+                networkstatus= false;
+                console.log('network status',networkstatus);
             }
             });
         } else {

@@ -117,7 +117,13 @@ Route::middleware(['auth','PreventBackHistory'])->group(function () {
 Route::get('/check-connectivity', function() {
     try {
       $response = file_get_contents('https://8.8.8.8');
-      return response()->json(['status' => true]);
+      if($response){
+        return response()->json(['status' => true]);
+      }
+      else{
+        return response()->json(['status' => false]);
+      }
+
     } catch (\Exception $e) {
       return response()->json(['status' => false]);
     }
