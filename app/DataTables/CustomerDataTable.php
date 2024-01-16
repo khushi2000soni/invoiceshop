@@ -90,7 +90,7 @@ class CustomerDataTable extends DataTable
             ->setTableId('customers-table')
             ->parameters([
                 'responsive' => true,
-                'pageLength' => 5,
+                'pageLength' => 70,
                 'lengthMenu' => [[10, 25, 50, 70, 100, -1], [10, 25, 50, 70, 100, 'All']],
                 'initComplete' => 'function(settings, json) {
                     // Hide the loader on initial draw
