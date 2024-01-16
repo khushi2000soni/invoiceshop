@@ -12,10 +12,15 @@
                 networkstatus = response.status;
                 console.log('network status',networkstatus);
             },
-            error: function() {
-                // Handle connectivity issues
-                networkstatus= false;
-                console.log('network status',networkstatus);
+            error: function(jqXHR, textStatus, errorThrown) {
+                    // Handle connectivity issues
+                    if (jqXHR.status === 500) {
+                        // Server returned an error status
+                        networkstatus = false;
+                    } else {
+                        // Other types of errors
+                        networkstatus = false; // or handle differently based on your requirements
+                    }
             }
             });
         } else {
