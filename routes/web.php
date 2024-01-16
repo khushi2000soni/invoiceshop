@@ -14,6 +14,7 @@ use App\Http\Controllers\ReportController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\UserController;
+use App\Livewire\OnlineStatus;
 use App\Models\Customer;
 use Illuminate\Support\Facades\Route;
 
@@ -108,4 +109,16 @@ Route::middleware(['auth','PreventBackHistory'])->group(function () {
     Route::get('/getSoldProducts', [ReportController::class,'getSoldProducts'])->name('getSoldProducts');
     Route::get('/settings/{tab?}',[SettingController::class,'index'])->name('settings');
     Route::post('/settings/update',[SettingController::class,'update'])->name('settings.update');
+
+
+
+});
+
+Route::get('/check-connectivity', function() {
+    try {
+      $response = file_get_contents('https://www.google.com');
+      return response()->json(['status' => true]);
+    } catch (\Exception $e) {
+      return response()->json(['status' => false]);
+    }
 });

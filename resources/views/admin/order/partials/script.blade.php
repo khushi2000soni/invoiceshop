@@ -1,5 +1,44 @@
 <script>
-    var canCopy = @can('order_product_copy') true @else false @endcan;
-    var canEdit = @can('order_product_edit') true @else false @endcan;
-    var canDelete = @can('order_product_delete') true @else false @endcan;
+    var networkstatus = true;
+
+    function checkConnectivity() {
+        if (navigator.onLine) {
+            $.ajax({
+            url: '/check-connectivity',
+            type: 'GET',
+            success: function(response) {
+                // Handle successful response
+                //console.log(response.status);
+                networkstatus = response.status;
+                //console.log('network status',networkstatus);
+            },
+            error: function() {
+                // Handle connectivity issues
+            }
+            });
+        } else {
+            // Handle offline state
+            console.log('offline');
+        }
+    }
+
+    // Check connectivity every 5 seconds
+    setInterval(checkConnectivity, 2000);
+
+
+    function displaynetworkstatus(){
+        if (networkstatus === false) {
+            console.log(false);
+            // Network is lost, show the div
+            $(document).find('#OnlineComeBack').addClass('d-none');
+            $(document).find('#internetlostMessage').removeClass('d-none');
+        } else {
+            console.log(true);
+            // Network is available, hide the div OnlineComeBack
+            $(document).find('#internetlostMessage').addClass('d-none');
+            $(document).find('#OnlineComeBack').removeClass('d-none');
+        }
+    }
+
+    setInterval(displaynetworkstatus, 2000);
 </script>
