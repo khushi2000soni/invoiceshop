@@ -90,12 +90,17 @@ class CustomerDataTable extends DataTable
             ->setTableId('customers-table')
             ->parameters([
                 'responsive' => true,
-                'pageLength' => 70,
+                'pageLength' => 5,
                 'lengthMenu' => [[10, 25, 50, 70, 100, -1], [10, 25, 50, 70, 100, 'All']],
+                'initComplete' => 'function(settings, json) {
+                    // Hide the loader on initial draw
+                    $(".loader").hide();
+                }',
                 'drawCallback' => 'function() {
+                    // Show and hide the loader on every draw (including page changes)
                     $(".loader").show();
                     setTimeout(function() {
-                        $(".loader").css("display","none");
+                        $(".loader").hide();
                     }, 1000);
                 }',
             ])
