@@ -193,7 +193,7 @@
 @endsection
 
 @section('customJS')
-  @include('admin.order.partials.script')
+
 <script>
    // document.querySelector('[tabindex="1"]').focus();
 </script>

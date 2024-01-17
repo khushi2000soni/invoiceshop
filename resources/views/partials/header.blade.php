@@ -10,10 +10,10 @@
             <li>
                 <div class="text-center mx-2">
                     <div class="bg-danger alertMessage d-none my-1 text-center text-light py-2 px-3" id="internetlostMessage">
-                        <x-svg-icon icon="internet-disconnected" />
+                        <x-svg-icon icon="internet-disconnected" /> @lang('quickadmin.qa_disconnected')
                     </div>
                     <div class="bg-success alertMessage d-none my-1 text-center text-light py-2 px-3" id="OnlineComeBack">
-                        <x-svg-icon icon="internet-connected" /> Connected
+                        <x-svg-icon icon="internet-connected" /> @lang('quickadmin.qa_connected')
                     </div>
                 </div>
             </li>

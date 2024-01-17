@@ -202,8 +202,6 @@
 @endsection
 
 @section('customJS')
-  @include('admin.order.partials.script')
-
   <script>
 
     var order = {
