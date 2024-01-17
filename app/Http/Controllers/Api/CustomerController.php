@@ -161,10 +161,9 @@ class CustomerController extends Controller
         try{
 
             $today = Carbon::today();
-            //$orders = Order::with('customer')->whereDate('created_at', $today)->where(['id'=>$request->order_id,'customer_id'=>$request->customer_id])->get();
             $orders = Order::with(['customer.address', 'orderProduct.product'])->whereDate('created_at', $today)
             ->where('customer_id', $request->customer_id)
-            ->orderBy('updated_at','desc')
+            //->orderBy('updated_at','desc')
             ->get();
 
             //dd($orders);
