@@ -13,14 +13,14 @@ use Yajra\DataTables\Html\Editor\Editor;
 use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
-class CustomerDataTable extends DataTable
+class ReportCustomerDataTable extends DataTable
 {
     /**
      * Build the DataTable class.
      *
      * @param QueryBuilder $query Results from query() method.
      */
-     public function dataTable(QueryBuilder $query): EloquentDataTable
+    public function dataTable(QueryBuilder $query): EloquentDataTable
      {
          return (new EloquentDataTable($query))
             ->addIndexColumn()
@@ -45,23 +45,18 @@ class CustomerDataTable extends DataTable
             })
             ->addColumn('action',function($customer){
                 $action='';
-                if (Gate::check('customer_edit')) {
-                $editIcon = view('components.svg-icon', ['icon' => 'edit'])->render();
-                $action .= '<button class="btn btn-icon btn-info edit-customers-btn p-1 mx-1" data-href="'.route('customers.edit', $customer->id).'">'.$editIcon.'</button>';
-                }
-                if (Gate::check('customer_delete')) {
-                $deleteIcon = view('components.svg-icon', ['icon' => 'delete'])->render();
-                $action .= '<form action="'.route('customers.destroy', $customer->id).'" method="POST" class="deleteForm m-1">
-                <button title="'.trans('quickadmin.qa_delete').'" class="btn btn-icon btn-danger record_delete_btn btn-sm">'.$deleteIcon.'</button>
+                if (Gate::check('report_customer_approve')) {
+                    $approveIcon = view('components.svg-icon', ['icon' => 'approve'])->render();
+                    $action .= '<form action="'.route('reports.customers.approve', $customer->id).'" method="POST" class="approve-customers-form m-1">
+                <button title="'.trans('quickadmin.qa_approve').'" class="btn btn-icon btn-info approve-customers-btn btn-sm">'.$approveIcon.'</button>
                 </form>';
                 }
+                if (Gate::check('report_customer_edit')) {
+                    $editIcon = view('components.svg-icon', ['icon' => 'edit'])->render();
+                    $action .= '<button class="btn btn-icon btn-info edit-customers-btn p-1 mx-1" data-href="'.route('customers.edit', $customer->id).'">'.$editIcon.'</button>';
+                    }
                 return $action;
             })
-            // ->filterColumn('address', function ($query, $keyword) {
-            //     $query->whereHas('address', function ($q) use ($keyword) {
-            //         $q->where('address.address', 'like', "%$keyword%");
-            //     });
-            // })
             ->orderColumn('address.address', function ($query, $keyword) {
                 $query->orderBy('address.address', 'asc');
             })
@@ -79,36 +74,38 @@ class CustomerDataTable extends DataTable
         if(isset(request()->address_id) && request()->address_id){
             $model = $model->where('address_id', request()->address_id);
         }
-        $model = $model->where('is_verified', 1);
+        $model = $model->where('is_verified', 0)->orderBy('updated_at','desc');
         return $model->newQuery()->with('address');
     }
 
-
+    /**
+     * Optional method if you want to use the html builder.
+     */
     public function html(): HtmlBuilder
     {
         return $this->builder()
-            ->setTableId('customers-table')
-            ->parameters([
-                'responsive' => true,
-                'pageLength' => 70,
-                'lengthMenu' => [[10, 25, 50, 70, 100, -1], [10, 25, 50, 70, 100, 'All']],
-                'initComplete' => 'function(settings, json) {
-                    // Hide the loader on initial draw
+        ->setTableId('customers-table')
+        ->parameters([
+            'responsive' => true,
+            'pageLength' => 70,
+            'lengthMenu' => [[10, 25, 50, 70, 100, -1], [10, 25, 50, 70, 100, 'All']],
+            'initComplete' => 'function(settings, json) {
+                // Hide the loader on initial draw
+                $(".loader").hide();
+            }',
+            'drawCallback' => 'function() {
+                // Show and hide the loader on every draw (including page changes)
+                $(".loader").show();
+                setTimeout(function() {
                     $(".loader").hide();
-                }',
-                'drawCallback' => 'function() {
-                    // Show and hide the loader on every draw (including page changes)
-                    $(".loader").show();
-                    setTimeout(function() {
-                        $(".loader").hide();
-                    }, 1000);
-                }',
-            ])
-            ->columns($this->getColumns())
-            ->minifiedAjax()
-            ->dom('lfrtip')
-            ->orderBy(1)
-            ->selectStyleSingle();
+                }, 1000);
+            }',
+        ])
+        ->columns($this->getColumns())
+        ->minifiedAjax()
+        ->dom('lfrtip')
+        ->orderBy(1)
+        ->selectStyleSingle();
     }
 
     /**
@@ -130,7 +127,6 @@ class CustomerDataTable extends DataTable
             ->addClass('text-center')->title(trans('quickadmin.qa_action')),
         ];
     }
-
 
     /**
      * Get the filename for export.

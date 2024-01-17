@@ -64,6 +64,11 @@ class CustomerController extends Controller
     {
         $input = $request->all();
         $input['name']=ucwords($request->name);
+
+        if ((auth()->user()->hasRole(config('app.roleid.super_admin')))) {
+            $input['is_verified']=true;
+        }
+
         $customer=Customer::create($input);
         return response()->json(['success' => true,
         'message' => trans('messages.crud.add_record'),

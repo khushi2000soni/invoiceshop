@@ -11,6 +11,7 @@ use App\Http\Controllers\DeviceController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ReportCategoryController;
+use App\Http\Controllers\ReportCustomerController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\UserController;
@@ -104,6 +105,10 @@ Route::middleware(['auth','PreventBackHistory'])->group(function () {
     Route::get('/reports/category-export',[ReportCategoryController::class,'CatgoryReportExport'])->name('reports.category.export');
     Route::get('/reports/category/product-printView',[ReportCategoryController::class,'CatgoryProductReportPrintView'])->name('reports.category.product.print');
     Route::get('/reports/category/product-export',[ReportCategoryController::class,'CatgoryProductReportExport'])->name('reports.category.product.export');
+
+
+    Route::get('/reports/customer/index',[ReportCustomerController::class,'index'])->name('reports.customer.index');
+    Route::put('/reports/customer/{customer}/approve', [ReportCustomerController::class, 'approve'])->name('reports.customers.approve');
 
     Route::get('/fetch-report-data', [DashboardController::class,'fetchReportData'])->name('fetchReportData');
     Route::get('/getSoldProducts', [ReportCategoryController::class,'getSoldProducts'])->name('getSoldProducts');

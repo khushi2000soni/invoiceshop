@@ -17,6 +17,7 @@ return new class extends Migration
             $table->unsignedBigInteger('category_id');
             $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
             $table->tinyInteger('is_active')->default(1)->comment('1=> active, 0=>deactive');
+            $table->tinyInteger('is_verified')->default(0)->comment('1=> approved, 0=>pending');
             $table->integer('created_by')->nullable();
             $table->timestamps();
         });

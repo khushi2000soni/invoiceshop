@@ -29,6 +29,7 @@ class Customer extends Model
         'updated_at',
         'deleted_at',
         'is_active',
+        'is_verified',
     ];
 
     protected $appends = [

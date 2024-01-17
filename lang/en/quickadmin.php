@@ -360,7 +360,7 @@ return [
 		'fields' 	=> [
 			'customer_report' => 'Party Report',
             'category_report' => 'Category Report',
-            'order_report' => 'Invoice Report',
+            'product_report' => 'Item Report',
 			'list' 			  => 'List All Reports',
 		],
 	],
@@ -444,6 +444,7 @@ return [
 	'qa_are_you_sure' => 'Are you sure?',
 	'qa_dashboard' => 'Dashboard',
 	'qa_delete' => 'Delete',
+    'qa_approve' => 'Approve',
 	'qa_delete_selected' => 'Delete selected',
 	'qa_category' => 'Category',
 	'qa_categories' => 'Categories',
