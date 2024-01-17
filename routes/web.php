@@ -10,7 +10,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DeviceController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
-use App\Http\Controllers\ReportController;
+use App\Http\Controllers\ReportCategoryController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\UserController;
@@ -97,16 +97,16 @@ Route::middleware(['auth','PreventBackHistory'])->group(function () {
     Route::post('/share-email/{order}',[OrderController::class,'sendshareEmail'])->name('orders.send-email');
     Route::get('/share-whatsapp/{order}',[OrderController::class,'shareWhatsApp'])->name('orders.share-whatsapp');
 
-    Route::get('/reports/category',[ReportController::class,'reportCategory'])->name('reports.category');
-    Route::get('/reports/category/products', [ReportController::class,'CategoryProductReport'])->name('reports.category.products');
-    Route::get('/reports/category/piechart',[ReportController::class,'getCategoryChartData'])->name('reports.category.piechart');
-    Route::get('/reports/category-printView',[ReportController::class,'CatgoryReportPrintView'])->name('reports.category.print');
-    Route::get('/reports/category-export',[ReportController::class,'CatgoryReportExport'])->name('reports.category.export');
-    Route::get('/reports/category/product-printView',[ReportController::class,'CatgoryProductReportPrintView'])->name('reports.category.product.print');
-    Route::get('/reports/category/product-export',[ReportController::class,'CatgoryProductReportExport'])->name('reports.category.product.export');
+    Route::get('/reports/category',[ReportCategoryController::class,'reportCategory'])->name('reports.category');
+    Route::get('/reports/category/products', [ReportCategoryController::class,'CategoryProductReport'])->name('reports.category.products');
+    Route::get('/reports/category/piechart',[ReportCategoryController::class,'getCategoryChartData'])->name('reports.category.piechart');
+    Route::get('/reports/category-printView',[ReportCategoryController::class,'CatgoryReportPrintView'])->name('reports.category.print');
+    Route::get('/reports/category-export',[ReportCategoryController::class,'CatgoryReportExport'])->name('reports.category.export');
+    Route::get('/reports/category/product-printView',[ReportCategoryController::class,'CatgoryProductReportPrintView'])->name('reports.category.product.print');
+    Route::get('/reports/category/product-export',[ReportCategoryController::class,'CatgoryProductReportExport'])->name('reports.category.product.export');
 
     Route::get('/fetch-report-data', [DashboardController::class,'fetchReportData'])->name('fetchReportData');
-    Route::get('/getSoldProducts', [ReportController::class,'getSoldProducts'])->name('getSoldProducts');
+    Route::get('/getSoldProducts', [ReportCategoryController::class,'getSoldProducts'])->name('getSoldProducts');
     Route::get('/settings/{tab?}',[SettingController::class,'index'])->name('settings');
     Route::post('/settings/update',[SettingController::class,'update'])->name('settings.update');
 

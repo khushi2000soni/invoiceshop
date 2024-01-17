@@ -1,13 +1,28 @@
 <form action="{{ route('settings.update') }}" method="POST" id="settingform" enctype="multipart/form-data">
     <div class="row">
             <div class="col-lg-12">
+
                 @foreach ($settings as $setting)
                 <div class="form-group">
+                    @if ($setting->key == 'invoice_allow_day_admin_accountant')
+                    @can('setting_invoice_allow_days')
                     <label for="{{ $setting->key }}">{{ $setting->display_name }}</label>
+                    @endcan
+                    @else
+                    <label for="{{ $setting->key }}">{{ $setting->display_name }}</label>
+                    @endif
+
                     @if ($setting->type === 'image')
                         <input type="file" class="form-control" name="{{ $setting->key }}" value="{{ isset($settings) ? $setting->value : old($setting->value) }}" id="{{ $setting->key }}" autocomplete="true">
                     @elseif ($setting->type === 'number')
-                        <input type="number" class="form-control" name="{{ $setting->key }}" value="{{ isset($settings) ? $setting->value : old($setting->value) }}" id="{{ $setting->key}}" autocomplete="true">
+                        @if ($setting->key == 'invoice_allow_day_admin_accountant')
+                            @can('setting_invoice_allow_days')
+                            <input type="number" class="form-control" name="{{ $setting->key }}" value="{{ isset($settings) ? $setting->value : old($setting->value) }}" id="{{ $setting->key}}" autocomplete="true">
+                            @endcan
+                        @else
+                            <input type="number" class="form-control" name="{{ $setting->key }}" value="{{ isset($settings) ? $setting->value : old($setting->value) }}" id="{{ $setting->key}}" autocomplete="true">
+                        @endif
+
                         @elseif ($setting->type === 'text')
                         <input type="text" class="form-control" name="{{ $setting->key }}" value="{{ isset($settings) ? $setting->value : old($setting->value) }}" id="{{ $setting->key}}" autocomplete="true">
                     @elseif($setting->type == 'text_area')

@@ -35,7 +35,7 @@ class CatgoryProductReportExport implements FromView
         $alldata = $query->get();
         $totalAmount = $alldata->sum('amount');
 
-        return view('admin.report.export-report-category-product',compact('alldata','category_percent','totalAmount','category_name', 'duration'));
+        return view('admin.report.category.export-report-category-product',compact('alldata','category_percent','totalAmount','category_name', 'duration'));
     }
 
 }

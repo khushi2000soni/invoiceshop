@@ -570,9 +570,50 @@ class PermissionsTableSeeder extends Seeder
                 'created_at' => $createDate,
                 'updated_at' => $updateDate,
             ],
-
             [
                 'name'      => 'report_category_access',
+                'guard_name'=>'web',
+                'route_name'=>'reports',
+                'created_at' => $createDate,
+                'updated_at' => $updateDate,
+            ],
+            [
+                'name'      => 'report_customer_access',
+                'guard_name'=>'web',
+                'route_name'=>'reports',
+                'created_at' => $createDate,
+                'updated_at' => $updateDate,
+            ],
+            [
+                'name'      => 'report_customer_approve',
+                'guard_name'=>'web',
+                'route_name'=>'reports',
+                'created_at' => $createDate,
+                'updated_at' => $updateDate,
+            ],
+            [
+                'name'      => 'report_customer_edit',
+                'guard_name'=>'web',
+                'route_name'=>'reports',
+                'created_at' => $createDate,
+                'updated_at' => $updateDate,
+            ],
+            [
+                'name'      => 'report_product_access',
+                'guard_name'=>'web',
+                'route_name'=>'reports',
+                'created_at' => $createDate,
+                'updated_at' => $updateDate,
+            ],
+            [
+                'name'      => 'report_product_approve',
+                'guard_name'=>'web',
+                'route_name'=>'reports',
+                'created_at' => $createDate,
+                'updated_at' => $updateDate,
+            ],
+            [
+                'name'      => 'report_product_edit',
                 'guard_name'=>'web',
                 'route_name'=>'reports',
                 'created_at' => $createDate,
@@ -586,13 +627,7 @@ class PermissionsTableSeeder extends Seeder
                 'created_at' => $createDate,
                 'updated_at' => $updateDate,
             ],
-            [
-                'name'      => 'setting_create',
-                'guard_name'=>'web',
-                'route_name'=>'settings',
-                'created_at' => $createDate,
-                'updated_at' => $updateDate,
-            ],
+
             [
                 'name'      => 'setting_edit',
                 'guard_name'=>'web',
@@ -601,14 +636,7 @@ class PermissionsTableSeeder extends Seeder
                 'updated_at' => $updateDate,
             ],
             [
-                'name'      => 'setting_show',
-                'guard_name'=>'web',
-                'route_name'=>'settings',
-                'created_at' => $createDate,
-                'updated_at' => $updateDate,
-            ],
-            [
-                'name'      => 'setting_delete',
+                'name'      => 'setting_invoice_allow_days',
                 'guard_name'=>'web',
                 'route_name'=>'settings',
                 'created_at' => $createDate,
