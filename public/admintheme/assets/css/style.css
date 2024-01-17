@@ -13428,6 +13428,9 @@ button.category-product-detail:hover{
     width: 18px;
     height: 18px;
 }
+#internetlostMessage svg path, #internetlostMessage svg circle{
+    fill: #fff;
+}
 #OnlineComeBack {
     color: #000 !important;
     font-weight: 500;
