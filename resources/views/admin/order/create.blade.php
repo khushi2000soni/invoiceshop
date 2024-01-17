@@ -85,14 +85,14 @@
 
 <section class="section">
     <div class="section-body">
-        <div class="text-center">
+        <!-- <div class="text-center">
             <div class="bg-danger alertMessage d-none my-1 text-center text-light py-1 px-3 rounded" id="internetlostMessage">
                 <x-svg-icon icon="internet-disconnected" />
             </div>
             <div class="bg-success alertMessage d-none my-1 text-center text-light py-1 px-3 rounded" id="OnlineComeBack">
                 <x-svg-icon icon="internet-connected" />
             </div>
-        </div>
+        </div> -->
 
         <form method="post" id="SaveInvoiceForm" action="{{route('orders.store')}}">
             <div class="card pt-2">

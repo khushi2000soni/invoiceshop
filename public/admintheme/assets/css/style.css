@@ -7221,7 +7221,12 @@ body.layout-3 .main-footer {
     padding-left: 55px;
     font-weight: 400
 }
-
+.sidebar-mini .sidebar-menu li ul.dropdown-menu li a {
+    padding-left: 15px;
+}
+.sidebar-mini .sidebar-menu li a{
+    padding: 10px;
+}
 .main-sidebar .sidebar-menu li ul.dropdown-menu li a:hover {
     color: #6777ef;
     background-color: inherit
@@ -12856,11 +12861,11 @@ ul.sidebar-menu li a svg {
 }
 
 .purple-sidebar.sidebar-mini .main-sidebar .sidebar-menu {
-    background-color: rgb(4 44 72 / 98%) !important;
+    background-color: #121212 !important;
 }
 
 .purple-sidebar.sidebar-mini .main-sidebar:after {
-    background-color: rgb(4 44 72 / 98%);
+    background-color: #121212;
 }
 
 .purple-sidebar.sidebar-mini .main-sidebar .sidebar-menu li a svg {
@@ -12874,7 +12879,7 @@ ul.sidebar-menu li a svg {
 }
 
 .purple-sidebar.sidebar-mini .main-sidebar .dropdown-title {
-    background-color: rgb(4 44 72 / 98%);
+    background-color: #121212;
 }
 
 .purple-sidebar.sidebar-mini .main-sidebar .sidebar-menu li ul.dropdown-menu li:hover a {
@@ -13405,4 +13410,29 @@ button.category-product-detail:hover{
 #timeFrameOrderChartSelect ~ .select2-container.select2-container--default .select2-selection--single .select2-selection__rendered {
     line-height: 42px !important;
     text-align: left;
+}
+
+
+@keyframes blinker {
+  from {opacity: 1.0;}
+  to {opacity: 0.0;}
+}
+#OnlineComeBack svg,
+#internetlostMessage svg{
+    text-decoration: blink;
+    -webkit-animation-name: blinker;
+    -webkit-animation-duration: 0.6s;
+    -webkit-animation-iteration-count:infinite;
+    -webkit-animation-timing-function:ease-in-out;
+    -webkit-animation-direction: alternate;
+    width: 18px;
+    height: 18px;
+}
+#OnlineComeBack {
+    color: #000 !important;
+    font-weight: 500;
+}
+#internetlostMessage {
+    color: #fff !important;
+    font-weight: 500;
 }

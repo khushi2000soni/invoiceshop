@@ -7,6 +7,16 @@
           </ul>
         </div>
         <ul class="navbar-nav navbar-right">
+            <li>
+                <div class="text-center mx-2">
+                    <div class="bg-danger alertMessage d-none my-1 text-center text-light py-2 px-3" id="internetlostMessage">
+                        <x-svg-icon icon="internet-disconnected" />
+                    </div>
+                    <div class="bg-success alertMessage d-none my-1 text-center text-light py-2 px-3" id="OnlineComeBack">
+                        <x-svg-icon icon="internet-connected" /> Connected
+                    </div>
+                </div>
+            </li>
             @can('product_create')
             <li>
                 <a href="{{ route('products.index')}}" class="nav-link nav-link-lg btn btn-outline-dark icon-left default_btn add_item_btn">
