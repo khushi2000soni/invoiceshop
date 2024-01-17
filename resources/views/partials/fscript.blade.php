@@ -50,9 +50,9 @@
     }
 
     $(document).ready(function(){
-        $('select').select2({
-            selectOnClose: true
-        });
+        // $('select').select2({
+        //     selectOnClose: true
+        // });
         @if(Session::has('message'))
             var alertType = "{{ Session::get('alert-type') }}";
             var message = "{{ Session::get('message') }}";
