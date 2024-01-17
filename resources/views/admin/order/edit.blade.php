@@ -88,10 +88,10 @@
     <div class="section-body">
         <div class="text-center">
             <div class="bg-danger alertMessage d-none my-1 text-center text-light py-1 px-3 rounded" id="internetlostMessage">
-                @lang('quickadmin.qa_internet_lost_message')
+                <x-svg-icon icon="internet-disconnected" />
             </div>
             <div class="bg-success alertMessage d-none my-1 text-center text-light py-1 px-3 rounded" id="OnlineComeBack">
-                @lang('quickadmin.qa_back_online')
+                <x-svg-icon icon="internet-connected" />
             </div>
         </div>
         <form method="post" id="SaveEditInvoiceForm" action="{{route('orders.update', $order->id)}}">
