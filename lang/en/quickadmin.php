@@ -360,10 +360,16 @@ return [
 		'fields' 	=> [
 			'customer_report' => 'Party Report',
             'category_report' => 'Category Report',
-            'customer_modified' => 'Modified Party',
-            'product_modified' => 'Modified Item',
             'product_report' => 'Item Report',
 			'list' 			  => 'List All Reports',
+		],
+	],
+
+    'modified-management' => [
+		'title' 	=> 'Modified Management',
+		'fields' 	=> [
+            'customer_modified' => 'Modified Party',
+            'product_modified' => 'Modified Item',
 		],
 	],
 
