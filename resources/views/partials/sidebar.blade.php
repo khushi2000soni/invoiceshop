@@ -84,19 +84,19 @@
         @endcan
 
         @can('modified_menu_access')
-        <li class="dropdown">
+        <li class="dropdown {{ Request::is('modified*') ? 'active' : '' }}">
             <a href="#" class="nav-link has-dropdown">
                 <x-side-bar-svg-icon icon="report" />
                 <span>@lang('quickadmin.modified-management.title')</a>
             <ul class="dropdown-menu">
                 @can('modified_customer_access')
-                <li class="{{ Request::is('reports*') ? 'active' : '' }}">
-                    <a class="nav-link" href="{{ route('reports.customer.index') }}">@lang('quickadmin.modified-management.fields.customer_modified')</a>
+                <li class="{{ Request::is('modified*') ? 'active' : '' }}">
+                    <a class="nav-link" href="{{ route('modified.customer.index') }}">@lang('quickadmin.modified-management.fields.customer_modified')</a>
                 </li>
                 @endcan
                 @can('modified_product_access')
-                <li class="{{ Request::is('reports*') ? 'active' : '' }}">
-                    <a class="nav-link" href="{{ route('reports.product.index') }}">@lang('quickadmin.modified-management.fields.product_modified')</a>
+                <li class="{{ Request::is('modified*') ? 'active' : '' }}">
+                    <a class="nav-link" href="{{ route('modified.product.index') }}">@lang('quickadmin.modified-management.fields.product_modified')</a>
                 </li>
                 @endcan
             </ul>

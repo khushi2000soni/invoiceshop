@@ -15,7 +15,7 @@ class ReportCustomerController extends Controller
     {
         abort_if(Gate::denies('modified_customer_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
         $addresses = Address::orderByRaw('CAST(address AS SIGNED), address')->get();
-        return $dataTable->render('admin.report.customer.index',compact('addresses'));
+        return $dataTable->render('admin.modified.customer.index',compact('addresses'));
     }
 
     public function approve(Customer $customer)

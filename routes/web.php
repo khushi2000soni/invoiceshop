@@ -108,19 +108,15 @@ Route::middleware(['auth','PreventBackHistory'])->group(function () {
     Route::get('/reports/category/product-export',[ReportCategoryController::class,'CatgoryProductReportExport'])->name('reports.category.product.export');
 
 
-    Route::get('/reports/customer/index',[ReportCustomerController::class,'index'])->name('reports.customer.index');
-    Route::put('/reports/customer/{customer}/approve', [ReportCustomerController::class, 'approve'])->name('reports.customers.approve');
-
-
-    Route::get('/reports/product/index',[ReportProductController::class,'index'])->name('reports.product.index');
-    Route::put('/reports/product/{product}/approve', [ReportProductController::class, 'approve'])->name('reports.product.approve');
+    Route::get('/modified/customer/index',[ReportCustomerController::class,'index'])->name('modified.customer.index');
+    Route::put('/modified/customer/{customer}/approve', [ReportCustomerController::class, 'approve'])->name('modified.customers.approve');
+    Route::get('/modified/product/index',[ReportProductController::class,'index'])->name('modified.product.index');
+    Route::put('/modified/product/{product}/approve', [ReportProductController::class, 'approve'])->name('modified.product.approve');
 
     Route::get('/fetch-report-data', [DashboardController::class,'fetchReportData'])->name('fetchReportData');
     Route::get('/getSoldProducts', [ReportCategoryController::class,'getSoldProducts'])->name('getSoldProducts');
     Route::get('/settings/{tab?}',[SettingController::class,'index'])->name('settings');
     Route::post('/settings/update',[SettingController::class,'update'])->name('settings.update');
-
-
 
 });
 

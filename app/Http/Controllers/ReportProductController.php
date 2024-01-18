@@ -16,7 +16,7 @@ class ReportProductController extends Controller
         abort_if(Gate::denies('modified_product_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
         $products = Product::orderBy('id','desc')->get();
         $categories = Category::orderBy('id','desc')->get();
-        return $dataTable->render('admin.report.product.index',compact('products','categories'));
+        return $dataTable->render('admin.modified.product.index',compact('products','categories'));
     }
 
     public function approve(Product $product)

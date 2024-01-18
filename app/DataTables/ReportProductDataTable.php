@@ -42,7 +42,7 @@ class ReportProductDataTable extends DataTable
                 $action='';
                 if (Gate::check('modified_product_approve')) {
                     $approveIcon = view('components.svg-icon', ['icon' => 'approve'])->render();
-                    $action .= '<form action="'.route('reports.product.approve', $product->id).'" method="POST" class="approve-product-form m-1">
+                    $action .= '<form action="'.route('modified.product.approve', $product->id).'" method="POST" class="approve-product-form m-1">
                 <button title="'.trans('quickadmin.qa_approve').'" class="btn btn-icon btn-info approve-product-btn btn-sm">'.$approveIcon.'</button>
                 </form>';
                 }
