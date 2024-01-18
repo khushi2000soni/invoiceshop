@@ -584,7 +584,7 @@ class PermissionsTableSeeder extends Seeder
             ],
             [
                 'name'      => 'report_category_access',
-                'title'      => 'Category Menu Access',
+                'title'      => 'Category Report Menu Access',
                 'guard_name'=>'web',
                 'route_name'=>'reports',
                 'created_at' => $createDate,
