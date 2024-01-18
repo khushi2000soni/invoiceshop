@@ -600,7 +600,7 @@ class PermissionsTableSeeder extends Seeder
             ],
             [
                 'name'      => 'report_customer_access',
-                'title'      => 'Modified Party Access',
+                'title'      => 'Modified Party Menu Access',
                 'guard_name'=>'web',
                 'route_name'=>'modified-menu',
                 'created_at' => $createDate,
@@ -624,7 +624,7 @@ class PermissionsTableSeeder extends Seeder
             ],
             [
                 'name'      => 'report_product_access',
-                'title'      => 'Modified Item Access',
+                'title'      => 'Modified Item Menu Access',
                 'guard_name'=>'web',
                 'route_name'=>'modified-menu',
                 'created_at' => $createDate,
