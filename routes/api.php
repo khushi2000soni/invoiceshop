@@ -40,9 +40,6 @@ Route::group(['middleware' => 'checkDevice'], function () {
 
         Route::group(['prefix' => 'customers'], function () {
             Route::get('/index', [CustomerController::class, 'todayInvoiceGroupList']);
-           // Route::get('today-invoice-group-list', [CustomerController::class, 'todayInvoiceGroupList']);
-           // Route::get('/index', [CustomerController::class, 'PartyAllInvoiceList']);
-           // Route::get('/index', [CustomerController::class, 'PartyInvoiceList']);     // Old List With Recent Party Invoice
             Route::get('/party-list', [CustomerController::class, 'AllCustomerList']);
             Route::post('/store', [CustomerController::class, 'store']);
             Route::get('/order-details', [CustomerController::class, 'PartyOrderDetail']);
@@ -51,7 +48,6 @@ Route::group(['middleware' => 'checkDevice'], function () {
 
         Route::group(['prefix' => 'orders'], function () {
             Route::post('/store', [OrderController::class, 'store']);
-           // Route::post('/update/{id}', [OrderController::class, 'update']);
             Route::delete('/{order}', [OrderController::class, 'destroy']);
             Route::put('/{order}', [OrderController::class, 'update']);
             Route::get('/generate-pdf/{order}{type?}',[OrderController::class,'generateInvoicePdf']);

@@ -62,6 +62,10 @@ class ProductController extends Controller
     public function store(StoreRequest $request)
     {
         $input = $request->all();
+        if ((auth()->user()->hasRole(config('app.roleid.super_admin')))) {
+            $input['is_verified']=true;
+        }
+
         $product=Product::create($input);
         return response()->json(['success' => true,
         'message' => trans('messages.crud.add_record'),

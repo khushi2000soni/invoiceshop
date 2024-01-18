@@ -71,9 +71,6 @@ class ReportCustomerDataTable extends DataTable
      */
     public function query(Customer $model): QueryBuilder
     {
-        if(isset(request()->address_id) && request()->address_id){
-            $model = $model->where('address_id', request()->address_id);
-        }
         $model = $model->where('is_verified', 0)->orderBy('updated_at','desc');
         return $model->newQuery()->with('address');
     }

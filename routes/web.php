@@ -12,6 +12,7 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ReportCategoryController;
 use App\Http\Controllers\ReportCustomerController;
+use App\Http\Controllers\ReportProductController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\UserController;
@@ -109,6 +110,10 @@ Route::middleware(['auth','PreventBackHistory'])->group(function () {
 
     Route::get('/reports/customer/index',[ReportCustomerController::class,'index'])->name('reports.customer.index');
     Route::put('/reports/customer/{customer}/approve', [ReportCustomerController::class, 'approve'])->name('reports.customers.approve');
+
+
+    Route::get('/reports/product/index',[ReportProductController::class,'index'])->name('reports.product.index');
+    Route::put('/reports/product/{product}/approve', [ReportProductController::class, 'approve'])->name('reports.product.approve');
 
     Route::get('/fetch-report-data', [DashboardController::class,'fetchReportData'])->name('fetchReportData');
     Route::get('/getSoldProducts', [ReportCategoryController::class,'getSoldProducts'])->name('getSoldProducts');

@@ -81,7 +81,12 @@
                 @endcan
                 @can('report_customer_access')
                 <li class="{{ Request::is('reports*') ? 'active' : '' }}">
-                    <a class="nav-link" href="{{ route('reports.customer.index') }}">@lang('quickadmin.report-management.fields.customer_report')</a>
+                    <a class="nav-link" href="{{ route('reports.customer.index') }}">@lang('quickadmin.report-management.fields.customer_modified')</a>
+                </li>
+                @endcan
+                @can('report_product_access')
+                <li class="{{ Request::is('reports*') ? 'active' : '' }}">
+                    <a class="nav-link" href="{{ route('reports.product.index') }}">@lang('quickadmin.report-management.fields.product_modified')</a>
                 </li>
                 @endcan
             </ul>

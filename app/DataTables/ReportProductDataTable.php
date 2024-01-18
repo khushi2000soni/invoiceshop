@@ -13,14 +13,13 @@ use Yajra\DataTables\Html\Editor\Editor;
 use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
-class ProductDataTable extends DataTable
+class ReportProductDataTable extends DataTable
 {
     /**
      * Build the DataTable class.
      *
      * @param QueryBuilder $query Results from query() method.
      */
-
     public function dataTable(QueryBuilder $query)
     {
         return datatables()
@@ -41,22 +40,17 @@ class ProductDataTable extends DataTable
             })
             ->addColumn('action',function($product){
                 $action='';
-                if (Gate::check('product_edit')) {
+                if (Gate::check('report_customer_approve')) {
+                    $approveIcon = view('components.svg-icon', ['icon' => 'approve'])->render();
+                    $action .= '<form action="'.route('reports.product.approve', $product->id).'" method="POST" class="approve-product-form m-1">
+                <button title="'.trans('quickadmin.qa_approve').'" class="btn btn-icon btn-info approve-product-btn btn-sm">'.$approveIcon.'</button>
+                </form>';
+                }
+                if (Gate::check('report_product_edit')) {
                 $editIcon = view('components.svg-icon', ['icon' => 'edit'])->render();
                 $action .= '<button class="btn btn-icon btn-info edit-products-btn p-1 mx-1" data-href="'.route('products.edit', $product->id).'">'.$editIcon.'</button>';
                 }
-                if (Gate::check('product_merge')) {
-                    $mergeIcon = view('components.svg-icon', ['icon' => 'merge'])->render();
-                    $action .= '<button class="btn btn-icon btn-info merge-button p-1 mx-1" data-href="'.route('products.showMerge', $product->id).'">'.$mergeIcon.'</button>';
-                    }
-                if (Gate::check('product_delete')) {
-                    if($product->order_count == 0){
-                    $deleteIcon = view('components.svg-icon', ['icon' => 'delete'])->render();
-                    $action .= '<form action="'.route('products.destroy', $product->id).'" method="POST" class="deleteForm m-1">
-                    <button title="'.trans('quickadmin.qa_delete').'" class="btn btn-icon btn-danger record_delete_btn btn-sm">'.$deleteIcon.'</button>
-                    </form>';
-                    }
-                }
+
                 return $action;
             })
             ->filterColumn('created_at', function ($query, $keyword) {
@@ -70,13 +64,7 @@ class ProductDataTable extends DataTable
      */
     public function query(Product $model): QueryBuilder
     {
-        if(isset(request()->category_id) && request()->category_id){
-            $model = $model->where('category_id', request()->category_id);
-        }
-        if(isset(request()->product_id) && request()->product_id){
-            $model = $model->where('id', request()->product_id);
-        }
-        $model = $model->where('is_verified', 1);
+        $model = $model->where('is_verified', 0)->orderBy('updated_at','desc');
         return $model->newQuery()->with('category');
     }
 
@@ -128,11 +116,12 @@ class ProductDataTable extends DataTable
         ];
     }
 
+
     /**
      * Get the filename for export.
      */
     protected function filename(): string
     {
-        return 'Product_' . date('YmdHis');
+        return 'Item_' . date('YmdHis');
     }
 }

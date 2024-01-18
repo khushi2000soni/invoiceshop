@@ -20,9 +20,7 @@ class ReportCustomerController extends Controller
 
     public function approve(Customer $customer)
     {
-        //dd($customer);
         $customer->update(['is_verified' => true]);
-
         return response()->json([
             'success' => true,
             'message' => trans('messages.crud.approve_record'),
