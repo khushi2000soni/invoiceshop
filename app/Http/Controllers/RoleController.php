@@ -37,7 +37,7 @@ class RoleController extends Controller
     public function create()
     {
         //
-        $permissions = Permission::select('id','route_name', 'name')->get()->groupBy('route_name');
+        $permissions = Permission::get()->groupBy('route_name');
         return view('admin.roles.create', ['permissions' => $permissions]);
     }
 
@@ -82,7 +82,7 @@ class RoleController extends Controller
     {
         //
         $role = Role::find($id);
-        $permissions = Permission::select('id', 'route_name', 'name')->get()->groupBy('route_name');
+        $permissions = Permission::get()->groupBy('route_name');
         $selectedPermissions = $role->getAllPermissions();
         return view('admin.roles.edit', compact('role','permissions','selectedPermissions'));
     }
@@ -124,11 +124,4 @@ class RoleController extends Controller
         'title' => trans('quickadmin.roles.role')], 200);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
-    }
 }

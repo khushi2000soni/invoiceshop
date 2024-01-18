@@ -52,16 +52,25 @@ class PermissionsTableSeeder extends Seeder
             //     'created_at' => $createDate,
             //     'updated_at' => $updateDate,
             // ],
-
             [
-                'name'      => 'role_create',
+                'name'      => 'role_access',
+                'title'      => 'Menu Access',
                 'guard_name'=>'web',
                 'route_name'=>'roles',
                 'created_at' => $createDate,
                 'updated_at' => $updateDate,
             ],
+            // [
+            //     'name'      => 'role_create',
+            //     'title'      => 'Add',
+            //     'guard_name'=>'web',
+            //     'route_name'=>'roles',
+            //     'created_at' => $createDate,
+            //     'updated_at' => $updateDate,
+            // ],
             [
                 'name'      => 'role_edit',
+                'title'      => 'Edit',
                 'guard_name'=>'web',
                 'route_name'=>'roles',
                 'created_at' => $createDate,
@@ -69,27 +78,16 @@ class PermissionsTableSeeder extends Seeder
             ],
             [
                 'name'      => 'role_show',
+                'title'      => 'View',
                 'guard_name'=>'web',
                 'route_name'=>'roles',
                 'created_at' => $createDate,
                 'updated_at' => $updateDate,
             ],
-            [
-                'name'      => 'role_delete',
-                'guard_name'=>'web',
-                'route_name'=>'roles',
-                'created_at' => $createDate,
-                'updated_at' => $updateDate,
-            ],
-            [
-                'name'      => 'role_access',
-                'guard_name'=>'web',
-                'route_name'=>'roles',
-                'created_at' => $createDate,
-                'updated_at' => $updateDate,
-            ],
+
             [
                 'name'      => 'profile_access',
+                'title'      => 'View',
                 'guard_name'=>'web',
                 'route_name'=>'profiles',
                 'created_at' => $createDate,
@@ -97,6 +95,7 @@ class PermissionsTableSeeder extends Seeder
             ],
             [
                 'name'      => 'profile_edit',
+                'title'      => 'Edit',
                 'guard_name'=>'web',
                 'route_name'=>'profiles',
                 'created_at' => $createDate,
@@ -104,6 +103,7 @@ class PermissionsTableSeeder extends Seeder
             ],
             [
                 'name'      => 'user_change_password',
+                'title'      => 'Change Password',
                 'guard_name'=>'web',
                 'route_name'=>'profiles',
                 'created_at' => $createDate,
@@ -111,6 +111,7 @@ class PermissionsTableSeeder extends Seeder
             ],
             [
                 'name'      => 'dashboard_widget_access',
+                'title'      => 'Dashboard Widget Access',
                 'guard_name'=>'web',
                 'route_name'=>'dashboard',
                 'created_at' => $createDate,
@@ -118,6 +119,7 @@ class PermissionsTableSeeder extends Seeder
             ],
             [
                 'name'      => 'address_access',
+                'title'      => 'Menu Access',
                 'guard_name'=>'web',
                 'route_name'=>'address',
                 'created_at' => $createDate,
@@ -125,6 +127,7 @@ class PermissionsTableSeeder extends Seeder
             ],
             [
                 'name'      => 'address_create',
+                'title'      => 'Add',
                 'guard_name'=>'web',
                 'route_name'=>'address',
                 'created_at' => $createDate,
@@ -132,6 +135,7 @@ class PermissionsTableSeeder extends Seeder
             ],
             [
                 'name'      => 'address_edit',
+                'title'      => 'Edit',
                 'guard_name'=>'web',
                 'route_name'=>'address',
                 'created_at' => $createDate,
@@ -140,6 +144,7 @@ class PermissionsTableSeeder extends Seeder
 
             [
                 'name'      => 'address_delete',
+                'title'      => 'Delete',
                 'guard_name'=>'web',
                 'route_name'=>'address',
                 'created_at' => $createDate,
@@ -147,6 +152,7 @@ class PermissionsTableSeeder extends Seeder
             ],
             [
                 'name'      => 'address_print',
+                'title'      => 'Print',
                 'guard_name'=>'web',
                 'route_name'=>'address',
                 'created_at' => $createDate,
@@ -154,6 +160,7 @@ class PermissionsTableSeeder extends Seeder
             ],
             [
                 'name'      => 'address_export',
+                'title'      => 'Export',
                 'guard_name'=>'web',
                 'route_name'=>'address',
                 'created_at' => $createDate,
@@ -162,6 +169,7 @@ class PermissionsTableSeeder extends Seeder
 
             [
                 'name'      => 'staff_access',
+                'title'      => 'Menu Access',
                 'guard_name'=>'web',
                 'route_name'=>'staff',
                 'created_at' => $createDate,
@@ -169,6 +177,7 @@ class PermissionsTableSeeder extends Seeder
             ],
             [
                 'name'      => 'staff_create',
+                'title'      => 'Add',
                 'guard_name'=>'web',
                 'route_name'=>'staff',
                 'created_at' => $createDate,
@@ -176,20 +185,16 @@ class PermissionsTableSeeder extends Seeder
             ],
             [
                 'name'      => 'staff_edit',
+                'title'      => 'Edit',
                 'guard_name'=>'web',
                 'route_name'=>'staff',
                 'created_at' => $createDate,
                 'updated_at' => $updateDate,
             ],
-            [
-                'name'      => 'staff_show',
-                'guard_name'=>'web',
-                'route_name'=>'staff',
-                'created_at' => $createDate,
-                'updated_at' => $updateDate,
-            ],
+
             [
                 'name'      => 'staff_delete',
+                'title'      => 'Delete',
                 'guard_name'=>'web',
                 'route_name'=>'staff',
                 'created_at' => $createDate,
@@ -197,6 +202,7 @@ class PermissionsTableSeeder extends Seeder
             ],
             [
                 'name'      => 'staff_print',
+                'title'      => 'Print',
                 'guard_name'=>'web',
                 'route_name'=>'staff',
                 'created_at' => $createDate,
@@ -204,6 +210,7 @@ class PermissionsTableSeeder extends Seeder
             ],
             [
                 'name'      => 'staff_export',
+                'title'      => 'Export',
                 'guard_name'=>'web',
                 'route_name'=>'staff',
                 'created_at' => $createDate,
@@ -212,6 +219,7 @@ class PermissionsTableSeeder extends Seeder
 
             [
                 'name'      => 'customer_access',
+                'title'      => 'Menu Access',
                 'guard_name'=>'web',
                 'route_name'=>'customers',
                 'created_at' => $createDate,
@@ -219,6 +227,7 @@ class PermissionsTableSeeder extends Seeder
             ],
             [
                 'name'      => 'customer_create',
+                'title'      => 'Add',
                 'guard_name'=>'web',
                 'route_name'=>'customers',
                 'created_at' => $createDate,
@@ -226,13 +235,7 @@ class PermissionsTableSeeder extends Seeder
             ],
             [
                 'name'      => 'customer_edit',
-                'guard_name'=>'web',
-                'route_name'=>'customers',
-                'created_at' => $createDate,
-                'updated_at' => $updateDate,
-            ],
-            [
-                'name'      => 'customer_show',
+                'title'      => 'Edit',
                 'guard_name'=>'web',
                 'route_name'=>'customers',
                 'created_at' => $createDate,
@@ -240,6 +243,7 @@ class PermissionsTableSeeder extends Seeder
             ],
             [
                 'name'      => 'customer_delete',
+                'title'      => 'Delete',
                 'guard_name'=>'web',
                 'route_name'=>'customers',
                 'created_at' => $createDate,
@@ -247,6 +251,7 @@ class PermissionsTableSeeder extends Seeder
             ],
             [
                 'name'      => 'customer_print',
+                'title'      => 'Print',
                 'guard_name'=>'web',
                 'route_name'=>'customers',
                 'created_at' => $createDate,
@@ -254,6 +259,7 @@ class PermissionsTableSeeder extends Seeder
             ],
             [
                 'name'      => 'customer_export',
+                'title'      => 'Export',
                 'guard_name'=>'web',
                 'route_name'=>'customers',
                 'created_at' => $createDate,
@@ -261,6 +267,7 @@ class PermissionsTableSeeder extends Seeder
             ],
             [
                 'name'      => 'phone_book_access',
+                'title'      => 'Menu Access',
                 'guard_name'=>'web',
                 'route_name'=>'phone-book',
                 'created_at' => $createDate,
@@ -268,6 +275,7 @@ class PermissionsTableSeeder extends Seeder
             ],
             [
                 'name'      => 'phone_book_print',
+                'title'      => 'Print',
                 'guard_name'=>'web',
                 'route_name'=>'phone-book',
                 'created_at' => $createDate,
@@ -275,6 +283,7 @@ class PermissionsTableSeeder extends Seeder
             ],
             [
                 'name'      => 'phone_book_export',
+                'title'      => 'Export',
                 'guard_name'=>'web',
                 'route_name'=>'phone-book',
                 'created_at' => $createDate,
@@ -282,6 +291,7 @@ class PermissionsTableSeeder extends Seeder
             ],
             [
                 'name'      => 'master_access',
+                'title'      => 'Master Menu Access',
                 'guard_name'=>'web',
                 'route_name'=>'master',
                 'created_at' => $createDate,
@@ -289,6 +299,7 @@ class PermissionsTableSeeder extends Seeder
             ],
             [
                 'name'      => 'category_access',
+                'title'      => 'Menu Access',
                 'guard_name'=>'web',
                 'route_name'=>'categories',
                 'created_at' => $createDate,
@@ -296,6 +307,7 @@ class PermissionsTableSeeder extends Seeder
             ],
             [
                 'name'      => 'category_create',
+                'title'      => 'Add',
                 'guard_name'=>'web',
                 'route_name'=>'categories',
                 'created_at' => $createDate,
@@ -303,20 +315,16 @@ class PermissionsTableSeeder extends Seeder
             ],
             [
                 'name'      => 'category_edit',
+                'title'      => 'Edit',
                 'guard_name'=>'web',
                 'route_name'=>'categories',
                 'created_at' => $createDate,
                 'updated_at' => $updateDate,
             ],
-            [
-                'name'      => 'category_show',
-                'guard_name'=>'web',
-                'route_name'=>'categories',
-                'created_at' => $createDate,
-                'updated_at' => $updateDate,
-            ],
+
             [
                 'name'      => 'category_print',
+                'title'      => 'Print',
                 'guard_name'=>'web',
                 'route_name'=>'categories',
                 'created_at' => $createDate,
@@ -324,6 +332,7 @@ class PermissionsTableSeeder extends Seeder
             ],
             [
                 'name'      => 'category_export',
+                'title'      => 'Export',
                 'guard_name'=>'web',
                 'route_name'=>'categories',
                 'created_at' => $createDate,
@@ -331,6 +340,7 @@ class PermissionsTableSeeder extends Seeder
             ],
             [
                 'name'      => 'category_delete',
+                'title'      => 'Delete',
                 'guard_name'=>'web',
                 'route_name'=>'categories',
                 'created_at' => $createDate,
@@ -339,6 +349,7 @@ class PermissionsTableSeeder extends Seeder
 
             [
                 'name'      => 'product_access',
+                'title'      => 'Menu Access',
                 'guard_name'=>'web',
                 'route_name'=>'products',
                 'created_at' => $createDate,
@@ -346,6 +357,7 @@ class PermissionsTableSeeder extends Seeder
             ],
             [
                 'name'      => 'product_create',
+                'title'      => 'Add',
                 'guard_name'=>'web',
                 'route_name'=>'products',
                 'created_at' => $createDate,
@@ -353,20 +365,16 @@ class PermissionsTableSeeder extends Seeder
             ],
             [
                 'name'      => 'product_edit',
+                'title'      => 'Edit',
                 'guard_name'=>'web',
                 'route_name'=>'products',
                 'created_at' => $createDate,
                 'updated_at' => $updateDate,
             ],
-            [
-                'name'      => 'product_show',
-                'guard_name'=>'web',
-                'route_name'=>'products',
-                'created_at' => $createDate,
-                'updated_at' => $updateDate,
-            ],
+
             [
                 'name'      => 'product_delete',
+                'title'      => 'Delete',
                 'guard_name'=>'web',
                 'route_name'=>'products',
                 'created_at' => $createDate,
@@ -374,6 +382,7 @@ class PermissionsTableSeeder extends Seeder
             ],
             [
                 'name'      => 'product_merge',
+                'title'      => 'Merge',
                 'guard_name'=>'web',
                 'route_name'=>'products',
                 'created_at' => $createDate,
@@ -381,6 +390,7 @@ class PermissionsTableSeeder extends Seeder
             ],
             [
                 'name'      => 'product_print',
+                'title'      => 'Print',
                 'guard_name'=>'web',
                 'route_name'=>'products',
                 'created_at' => $createDate,
@@ -388,6 +398,7 @@ class PermissionsTableSeeder extends Seeder
             ],
             [
                 'name'      => 'product_export',
+                'title'      => 'Export',
                 'guard_name'=>'web',
                 'route_name'=>'products',
                 'created_at' => $createDate,
@@ -396,6 +407,7 @@ class PermissionsTableSeeder extends Seeder
 
             [
                 'name'      => 'device_access',
+                'title'      => 'Menu Access',
                 'guard_name'=>'web',
                 'route_name'=>'devices',
                 'created_at' => $createDate,
@@ -403,6 +415,7 @@ class PermissionsTableSeeder extends Seeder
             ],
             [
                 'name'      => 'device_create',
+                'title'      => 'Add',
                 'guard_name'=>'web',
                 'route_name'=>'devices',
                 'created_at' => $createDate,
@@ -410,13 +423,7 @@ class PermissionsTableSeeder extends Seeder
             ],
             [
                 'name'      => 'device_edit',
-                'guard_name'=>'web',
-                'route_name'=>'devices',
-                'created_at' => $createDate,
-                'updated_at' => $updateDate,
-            ],
-            [
-                'name'      => 'device_show',
+                'title'      => 'Edit',
                 'guard_name'=>'web',
                 'route_name'=>'devices',
                 'created_at' => $createDate,
@@ -424,6 +431,7 @@ class PermissionsTableSeeder extends Seeder
             ],
             [
                 'name'      => 'device_delete',
+                'title'      => 'Delete',
                 'guard_name'=>'web',
                 'route_name'=>'devices',
                 'created_at' => $createDate,
@@ -432,6 +440,7 @@ class PermissionsTableSeeder extends Seeder
 
             [
                 'name'      => 'invoice_access',
+                'title'      => 'Menu Access',
                 'guard_name'=>'web',
                 'route_name'=>'invoice',
                 'created_at' => $createDate,
@@ -439,6 +448,7 @@ class PermissionsTableSeeder extends Seeder
             ],
             [
                 'name'      => 'invoice_filter',
+                'title'      => 'Invoice Filter',
                 'guard_name'=>'web',
                 'route_name'=>'invoice',
                 'created_at' => $createDate,
@@ -446,6 +456,7 @@ class PermissionsTableSeeder extends Seeder
             ],
             [
                 'name'      => 'invoice_date_filter',
+                'title'      => 'Invoice Date Range Filter Access',
                 'guard_name'=>'web',
                 'route_name'=>'invoice',
                 'created_at' => $createDate,
@@ -453,6 +464,7 @@ class PermissionsTableSeeder extends Seeder
             ],
             [
                 'name'      => 'invoice_recycle_access',
+                'title'      => 'Recycle Button Access',
                 'guard_name'=>'web',
                 'route_name'=>'invoice',
                 'created_at' => $createDate,
@@ -460,6 +472,7 @@ class PermissionsTableSeeder extends Seeder
             ],
             [
                 'name'      => 'invoice_create',
+                'title'      => 'Invoice Add',
                 'guard_name'=>'web',
                 'route_name'=>'invoice',
                 'created_at' => $createDate,
@@ -467,6 +480,7 @@ class PermissionsTableSeeder extends Seeder
             ],
             [
                 'name'      => 'invoice_edit',
+                'title'      => 'Invoice Edit',
                 'guard_name'=>'web',
                 'route_name'=>'invoice',
                 'created_at' => $createDate,
@@ -474,6 +488,7 @@ class PermissionsTableSeeder extends Seeder
             ],
             [
                 'name'      => 'invoice_show',
+                'title'      => 'Invoice View',
                 'guard_name'=>'web',
                 'route_name'=>'invoice',
                 'created_at' => $createDate,
@@ -481,6 +496,7 @@ class PermissionsTableSeeder extends Seeder
             ],
             [
                 'name'      => 'invoice_print',
+                'title'      => 'Invoice Print',
                 'guard_name'=>'web',
                 'route_name'=>'invoice',
                 'created_at' => $createDate,
@@ -488,6 +504,7 @@ class PermissionsTableSeeder extends Seeder
             ],
             [
                 'name'      => 'invoice_export',
+                'title'      => 'Invoice Export',
                 'guard_name'=>'web',
                 'route_name'=>'invoice',
                 'created_at' => $createDate,
@@ -495,6 +512,7 @@ class PermissionsTableSeeder extends Seeder
             ],
             [
                 'name'      => 'invoice_share',
+                'title'      => 'Invoice Share',
                 'guard_name'=>'web',
                 'route_name'=>'invoice',
                 'created_at' => $createDate,
@@ -502,6 +520,7 @@ class PermissionsTableSeeder extends Seeder
             ],
             [
                 'name'      => 'invoice_download',
+                'title'      => 'Invoice Download',
                 'guard_name'=>'web',
                 'route_name'=>'invoice',
                 'created_at' => $createDate,
@@ -509,6 +528,7 @@ class PermissionsTableSeeder extends Seeder
             ],
             [
                 'name'      => 'invoice_delete',
+                'title'      => 'Invoice Delete',
                 'guard_name'=>'web',
                 'route_name'=>'invoice',
                 'created_at' => $createDate,
@@ -516,6 +536,7 @@ class PermissionsTableSeeder extends Seeder
             ],
             [
                 'name'      => 'invoice_restore',
+                'title'      => 'Deleted Invoice Restore',
                 'guard_name'=>'web',
                 'route_name'=>'invoice',
                 'created_at' => $createDate,
@@ -523,6 +544,7 @@ class PermissionsTableSeeder extends Seeder
             ],
             [
                 'name'      => 'order_product_access',
+                'title'      => 'Invoice Product Access',
                 'guard_name'=>'web',
                 'route_name'=>'invoice',
                 'created_at' => $createDate,
@@ -530,6 +552,7 @@ class PermissionsTableSeeder extends Seeder
             ],
             [
                 'name'      => 'order_product_create',
+                'title'      => 'Invoice Product Add',
                 'guard_name'=>'web',
                 'route_name'=>'invoice',
                 'created_at' => $createDate,
@@ -537,20 +560,7 @@ class PermissionsTableSeeder extends Seeder
             ],
             [
                 'name'      => 'order_product_copy',
-                'guard_name'=>'web',
-                'route_name'=>'invoice',
-                'created_at' => $createDate,
-                'updated_at' => $updateDate,
-            ],
-            [
-                'name'      => 'order_product_edit',
-                'guard_name'=>'web',
-                'route_name'=>'invoice',
-                'created_at' => $createDate,
-                'updated_at' => $updateDate,
-            ],
-            [
-                'name'      => 'order_product_show',
+                'title'      => 'Invoice Product Copy',
                 'guard_name'=>'web',
                 'route_name'=>'invoice',
                 'created_at' => $createDate,
@@ -558,6 +568,7 @@ class PermissionsTableSeeder extends Seeder
             ],
             [
                 'name'      => 'order_product_delete',
+                'title'      => 'Invoice Product Delete',
                 'guard_name'=>'web',
                 'route_name'=>'invoice',
                 'created_at' => $createDate,
@@ -565,6 +576,7 @@ class PermissionsTableSeeder extends Seeder
             ],
             [
                 'name'      => 'report_access',
+                'title'      => 'Report Menu Access',
                 'guard_name'=>'web',
                 'route_name'=>'reports',
                 'created_at' => $createDate,
@@ -572,56 +584,72 @@ class PermissionsTableSeeder extends Seeder
             ],
             [
                 'name'      => 'report_category_access',
+                'title'      => 'Category Menu Access',
                 'guard_name'=>'web',
                 'route_name'=>'reports',
+                'created_at' => $createDate,
+                'updated_at' => $updateDate,
+            ],
+            [
+                'name'      => 'modified_menu_access',
+                'title'      => 'Modified Menu Access',
+                'guard_name'=>'web',
+                'route_name'=>'modified-menu',
                 'created_at' => $createDate,
                 'updated_at' => $updateDate,
             ],
             [
                 'name'      => 'report_customer_access',
+                'title'      => 'Modified Party Access',
                 'guard_name'=>'web',
-                'route_name'=>'reports',
+                'route_name'=>'modified-menu',
                 'created_at' => $createDate,
                 'updated_at' => $updateDate,
             ],
             [
                 'name'      => 'report_customer_approve',
+                'title'      => 'Modified Party Approve',
                 'guard_name'=>'web',
-                'route_name'=>'reports',
+                'route_name'=>'modified-menu',
                 'created_at' => $createDate,
                 'updated_at' => $updateDate,
             ],
             [
                 'name'      => 'report_customer_edit',
+                'title'      => 'Modified Party Edit',
                 'guard_name'=>'web',
-                'route_name'=>'reports',
+                'route_name'=>'modified-menu',
                 'created_at' => $createDate,
                 'updated_at' => $updateDate,
             ],
             [
                 'name'      => 'report_product_access',
+                'title'      => 'Modified Item Access',
                 'guard_name'=>'web',
-                'route_name'=>'reports',
+                'route_name'=>'modified-menu',
                 'created_at' => $createDate,
                 'updated_at' => $updateDate,
             ],
             [
                 'name'      => 'report_product_approve',
+                'title'      => 'Modified Item Approve',
                 'guard_name'=>'web',
-                'route_name'=>'reports',
+                'route_name'=>'modified-menu',
                 'created_at' => $createDate,
                 'updated_at' => $updateDate,
             ],
             [
                 'name'      => 'report_product_edit',
+                'title'      => 'Modified Item Edit',
                 'guard_name'=>'web',
-                'route_name'=>'reports',
+                'route_name'=>'modified-menu',
                 'created_at' => $createDate,
                 'updated_at' => $updateDate,
             ],
 
             [
                 'name'      => 'setting_access',
+                'title'      => 'Setting Menu Access',
                 'guard_name'=>'web',
                 'route_name'=>'settings',
                 'created_at' => $createDate,
@@ -630,6 +658,7 @@ class PermissionsTableSeeder extends Seeder
 
             [
                 'name'      => 'setting_edit',
+                'title'      => 'Edit',
                 'guard_name'=>'web',
                 'route_name'=>'settings',
                 'created_at' => $createDate,
@@ -637,6 +666,7 @@ class PermissionsTableSeeder extends Seeder
             ],
             [
                 'name'      => 'setting_invoice_allow_days',
+                'title'      => 'Settings Invoice Allow Days access',
                 'guard_name'=>'web',
                 'route_name'=>'settings',
                 'created_at' => $createDate,

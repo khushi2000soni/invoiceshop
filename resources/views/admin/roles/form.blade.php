@@ -34,20 +34,12 @@
                         <div class="card-body">
                             <div class="form-group">
                                 <div class="row">
-
                                     @foreach($modulePermissions as $permission)
-                                    @php
-                                    $permissionNameParts = explode(' ', str_replace('_', ' ', $permission->name));
-                                    array_shift($permissionNameParts);
-                                    $permissionName = implode(' ', $permissionNameParts);
-                                    $permissionName = ucfirst($permissionName);
-                                    @endphp
                                     <div class="col-md-3">
                                         <div class="custom-control custom-checkbox">
                                             <input type="checkbox" class="custom-control-input permission-checkbox" name="permissions[]" value="{{ $permission->id }}" id="permission{{ $permission->id }}"
                                             @if(isset($role) && $selectedPermissions->contains('id', $permission->id)) checked @endif>
-
-                                            <label class="custom-control-label" for="permission{{ $permission->id }}">{{ $permissionName }}</label>
+                                            <label class="custom-control-label" for="permission{{ $permission->id }}">{{ $permission->title }}</label>
                                         </div>
                                     </div>
                                     @endforeach
