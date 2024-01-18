@@ -21,7 +21,7 @@ class LoginController extends Controller
         //dd($request->all());
         $validator = Validator::make($request->all(), [
             'username'    => ['required','string',new IsActive],
-            'password' => 'required|min:8',
+            'password' => 'required|min:4',
         ]);
 
         if($validator->fails()){
@@ -255,8 +255,8 @@ class LoginController extends Controller
         $validation = Validator::make($request->all(), [
             'token' => 'required',
             'email'     => 'required|email|exists:password_resets,email',
-            'password'  => 'required|string|min:8',
-            'confirmed_password' => 'required|string|min:8',
+            'password'  => 'required|string|min:4',
+            'confirmed_password' => 'required|string|min:4',
         ]);
 
         if ($validation->fails()) {
