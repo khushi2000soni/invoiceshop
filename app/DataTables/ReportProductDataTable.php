@@ -40,13 +40,13 @@ class ReportProductDataTable extends DataTable
             })
             ->addColumn('action',function($product){
                 $action='';
-                if (Gate::check('report_customer_approve')) {
+                if (Gate::check('modified_product_approve')) {
                     $approveIcon = view('components.svg-icon', ['icon' => 'approve'])->render();
                     $action .= '<form action="'.route('reports.product.approve', $product->id).'" method="POST" class="approve-product-form m-1">
                 <button title="'.trans('quickadmin.qa_approve').'" class="btn btn-icon btn-info approve-product-btn btn-sm">'.$approveIcon.'</button>
                 </form>';
                 }
-                if (Gate::check('report_product_edit')) {
+                if (Gate::check('modified_product_edit')) {
                 $editIcon = view('components.svg-icon', ['icon' => 'edit'])->render();
                 $action .= '<button class="btn btn-icon btn-info edit-products-btn p-1 mx-1" data-href="'.route('products.edit', $product->id).'">'.$editIcon.'</button>';
                 }

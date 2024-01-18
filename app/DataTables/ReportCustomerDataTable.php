@@ -45,13 +45,13 @@ class ReportCustomerDataTable extends DataTable
             })
             ->addColumn('action',function($customer){
                 $action='';
-                if (Gate::check('report_customer_approve')) {
+                if (Gate::check('modified_customer_approve')) {
                     $approveIcon = view('components.svg-icon', ['icon' => 'approve'])->render();
                     $action .= '<form action="'.route('reports.customers.approve', $customer->id).'" method="POST" class="approve-customers-form m-1">
                 <button title="'.trans('quickadmin.qa_approve').'" class="btn btn-icon btn-info approve-customers-btn btn-sm">'.$approveIcon.'</button>
                 </form>';
                 }
-                if (Gate::check('report_customer_edit')) {
+                if (Gate::check('modified_customer_edit')) {
                     $editIcon = view('components.svg-icon', ['icon' => 'edit'])->render();
                     $action .= '<button class="btn btn-icon btn-info edit-customers-btn p-1 mx-1" data-href="'.route('customers.edit', $customer->id).'">'.$editIcon.'</button>';
                     }

@@ -13,7 +13,7 @@ class ReportCustomerController extends Controller
 {
     public function index(ReportCustomerDataTable $dataTable)
     {
-        abort_if(Gate::denies('report_customer_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        abort_if(Gate::denies('modified_customer_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
         $addresses = Address::orderByRaw('CAST(address AS SIGNED), address')->get();
         return $dataTable->render('admin.report.customer.index',compact('addresses'));
     }
