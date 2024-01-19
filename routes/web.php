@@ -140,3 +140,7 @@ Route::get('/check-connectivity', function() {
       return response()->json(['status' => false]);
     }
 });
+
+Route::get('/phpinfo', function () {
+    phpinfo();
+});
