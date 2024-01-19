@@ -148,7 +148,7 @@
                 error: function (xhr) {
                     var errors= xhr.responseJSON.errors;
                     console.log(xhr.responseJSON);
-                    swal("{{ trans('quickadmin.backup.title') }}", errors, 'error');
+                    swal("{{ trans('quickadmin.backup.title') }}", errors.message, 'error');
                 }
         });
 
