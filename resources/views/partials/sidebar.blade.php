@@ -86,7 +86,7 @@
         @can('modified_menu_access')
         <li class="dropdown {{ Request::is('modified*') ? 'active' : '' }}">
             <a href="#" class="nav-link has-dropdown">
-                <x-side-bar-svg-icon icon="report" />
+                <x-side-bar-svg-icon icon="modified" />
                 <span>@lang('quickadmin.modified-management.title')</a>
             <ul class="dropdown-menu">
                 @can('modified_customer_access')
@@ -132,6 +132,15 @@
             <a href="{{ route('settings') }}" class="nav-link">
                 <x-side-bar-svg-icon icon="setting" />
                 <span>@lang('quickadmin.settings.title')</span>
+            </a>
+        </li>
+        @endcan
+
+        @can('backup_access')
+        <li class="{{ Request::is('backups*') ? 'active' : '' }}">
+            <a href="{{ route('backup.index') }}" class="nav-link">
+                <x-side-bar-svg-icon icon="backup" />
+                <span>@lang('quickadmin.backup.title')</span>
             </a>
         </li>
         @endcan

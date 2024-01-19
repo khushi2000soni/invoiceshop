@@ -7,6 +7,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\DataBaseBackupController;
 use App\Http\Controllers\DeviceController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
@@ -117,6 +118,11 @@ Route::middleware(['auth','PreventBackHistory'])->group(function () {
     Route::get('/getSoldProducts', [ReportCategoryController::class,'getSoldProducts'])->name('getSoldProducts');
     Route::get('/settings/{tab?}',[SettingController::class,'index'])->name('settings');
     Route::post('/settings/update',[SettingController::class,'update'])->name('settings.update');
+
+    Route::get('/backups', [DataBaseBackupController::class,'index'])->name('backup.index');
+    Route::post('/backups/create', [DataBaseBackupController::class, 'createBackup'])->name('backups.create');
+    Route::post('/backups/{fileName}/restore', [DataBaseBackupController::class, 'restoreBackup'])->name('backups.restore');
+    Route::delete('/backups/{fileName}/delete', [DataBaseBackupController::class, 'deleteBackup'])->name('backups.delete');
 
 });
 

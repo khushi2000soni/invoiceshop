@@ -382,6 +382,11 @@ return [
         'manage_settings'=>'Manage Settings'
 	],
 
+    'backup' => [
+		'title' 	=> 'Backup',
+        'backup-management' => 'Database Backup Management',
+	],
+
 
 	'brand_master'  => [
 		'title'  => 'Brand Master',

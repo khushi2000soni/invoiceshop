@@ -672,6 +672,38 @@ class PermissionsTableSeeder extends Seeder
                 'created_at' => $createDate,
                 'updated_at' => $updateDate,
             ],
+            [
+                'name'      => 'backup_access',
+                'title'      => 'Backup Menu Access',
+                'guard_name'=>'web',
+                'route_name'=>'database-backup',
+                'created_at' => $createDate,
+                'updated_at' => $updateDate,
+            ],
+            [
+                'name'      => 'backup_create',
+                'title'      => 'Backup Create',
+                'guard_name'=>'web',
+                'route_name'=>'database-backup',
+                'created_at' => $createDate,
+                'updated_at' => $updateDate,
+            ],
+            [
+                'name'      => 'backup_restore',
+                'title'      => 'Backup Restore',
+                'guard_name'=>'web',
+                'route_name'=>'database-backup',
+                'created_at' => $createDate,
+                'updated_at' => $updateDate,
+            ],
+            [
+                'name'      => 'backup_delete',
+                'title'      => 'Backup Delete',
+                'guard_name'=>'web',
+                'route_name'=>'database-backup',
+                'created_at' => $createDate,
+                'updated_at' => $updateDate,
+            ],
         ];
 
         Permission::insert($permissions);

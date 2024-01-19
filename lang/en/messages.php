@@ -11,6 +11,12 @@ return [
         'approve_record'=>'Record Successfully Approved !',
     ],
 
+    'backup'=> [
+        'created' => 'Backup Sucessfully Created !',
+        'restored' => 'Backup Sucessfully Restored !',
+        'deleted' => 'Backup Sucessfully Deleted !',
+    ],
+
     'areYouSure'=>'Are you sure you want to delete this record?',
     'areYouSureapprove'=>'Are you sure you want to Approve this record?',
     'deletetitle'=>'Delete Confirmation',

@@ -46,7 +46,7 @@ class AddressDataTable extends DataTable
                 if (Gate::check('address_edit')) {
                 $editIcon = view('components.svg-icon', ['icon' => 'edit'])->render();
                 $action .= '<button  class="btn btn-info edit-address-btn"  data-id="'.encrypt($address->id).'" data-address="'. $address->address .'" data-href="'.route('address.edit', $address->id).'">'.$editIcon.'</button>';
-            }
+                }
                 if (Gate::check('address_delete')) {
                 $customerCount = $address->customers->count();
                     if ($customerCount == 0) {
