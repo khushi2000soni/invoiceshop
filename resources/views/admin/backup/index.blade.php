@@ -146,9 +146,11 @@
 
                 },
                 error: function (xhr) {
-                    var errors= xhr.responseJSON.errors;
-                    console.log(xhr.responseJSON);
-                    swal("{{ trans('quickadmin.backup.title') }}", errors.message, 'error');
+                    var errorMessage = "An error occurred while processing your request.";
+                    if (xhr.responseJSON && xhr.responseJSON.message) {
+                        errorMessage = xhr.responseJSON.message;
+                    }
+                    swal("{{ trans('quickadmin.backup.title') }}", errorMessage, 'error');
                 }
         });
 
