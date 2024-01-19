@@ -152,52 +152,54 @@
                     }
                     swal("{{ trans('quickadmin.backup.title') }}", errorMessage, 'error');
                 }
+            });
         });
 
-        $(document).on('click', '.backup_delete_btn', function (e) {
-                e.preventDefault();
-                console.log(2);
-                var formAction = $(this).data('action');
-                var fileName = $(this).data('file-name');
-                console.log('formAction',formAction);
-                console.log('fileName',fileName);
-                swal({
-                    title: "{{ trans('messages.deletetitle') }}",
-                    text: "{{ trans('messages.areYouSure') }}",
-                    icon: 'warning',
-                    buttons: {
-                    confirm: 'Yes, delete it',
-                    cancel: 'No, cancel',
-                },
-                dangerMode: true,
-                }).then((willDelete) => {
-                    if (willDelete) {
-                        $.ajax({
-                        url: formAction,
-                        type: 'POST',
-                        data:fileName,
-                        headers: {
-                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                        },
-                        success: function (response) {
-                            var alertType = response['alert-type'];
-                                var message = response['message'];
-                                var title = "{{ trans('quickadmin.backup.title') }}";
-                                showToaster(title,alertType,message);
-                                DataaTable.ajax.reload();
-                                // location.reload();
 
-                        },
-                        error: function (xhr) {
-                            var errorMessage = "An error occurred while deleting the backup.";
-                            if (xhr.responseJSON && xhr.responseJSON.message) {
-                                errorMessage = xhr.responseJSON.message;
-                            }
-                            swal("{{ trans('quickadmin.backup.title') }}", errorMessage, 'error');
-                        }
-                        });
+        $(document).on('click', '.backup_delete_btn', function(e){
+            e.preventDefault();
+
+            var formaction = $(this).data('action');
+            var fileName = $(this).data('file-name');
+            console.log('fileName',fileName);
+            swal({
+            title: "{{ trans('messages.deletetitle') }}",
+            text: "{{ trans('messages.areYouSure') }}",
+            icon: 'warning',
+            buttons: {
+            confirm: 'Yes, delete it',
+            cancel: 'No, cancel',
+            },
+            dangerMode: true,
+            }).then((willDelete) => {
+            if (willDelete) {
+                // If the user confirms, send the DELETE request
+                $.ajax({
+                url: formaction,
+                type: 'POST',
+                data: { fileName: fileName },
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                success: function (response) {
+                    var alertType = response['alert-type'];
+                        var message = response['message'];
+                        var title = "{{ trans('quickadmin.backup.title') }}";
+                        showToaster(title,alertType,message);
+                        DataaTable.ajax.reload();
+                        // location.reload();
+
+                },
+                error: function (xhr) {
+                    // Handle error response
+                    var errorMessage = "An error occurred while deleting the backup.";
+                    if (xhr.responseJSON && xhr.responseJSON.message) {
+                        errorMessage = xhr.responseJSON.message;
                     }
+                    swal("{{ trans('quickadmin.backup.title') }}", errorMessage, 'error');
+                }
                 });
+            }
             });
         });
 

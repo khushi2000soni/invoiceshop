@@ -112,10 +112,10 @@ class DataBaseBackupController extends Controller
     //     return redirect()->back()->with('success', 'Backup restored successfully!');
     // }
 
-    public function deleteBackup(Request $request, $fileName)
+    public function deleteBackup(Request $request)
     {
-    // Use the correct way to get the fileName from the request
-    $fileName = $request->input('fileName');
+        $fileName = $request->fileName;
+
         $backupPath = storage_path('app/db_backups/');
         $filePath = $backupPath . $fileName;
 
