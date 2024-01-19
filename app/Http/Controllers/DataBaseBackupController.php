@@ -13,6 +13,7 @@ use Spatie\Backup\Tasks\Backup\BackupJob;
 use Spatie\Backup\BackupDestination\Backup;
 use Illuminate\Support\Facades\File;
 
+
 class DataBaseBackupController extends Controller
 {
     //
@@ -62,7 +63,7 @@ class DataBaseBackupController extends Controller
 
         try {
             // Execute the mysqldump command
-            $output = shell_exec($command);
+            exec($command);
             // Check if the file was created successfully
             if (file_exists($filePath)) {
                 return response()->json([
