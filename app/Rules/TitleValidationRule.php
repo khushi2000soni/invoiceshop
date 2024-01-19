@@ -17,10 +17,10 @@ class TitleValidationRule implements Rule
             return false;
         }
 
-        // Only allow alphabetic characters (no numbers or special characters)
-        if (!preg_match('/^[A-Za-z\s]+$/', $value)) {
-            return false;
-        }
+        // // Only allow alphabetic characters (no numbers or special characters)
+        // if (!preg_match('/^[A-Za-z\s]+$/', $value)) {
+        //     return false;
+        // }
 
         return true;
     }

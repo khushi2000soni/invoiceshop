@@ -45,9 +45,7 @@ class DatabaseBackupDataTable extends DataTable
                     }
                     if (Gate::check('backup_delete')) {
                         $deleteIcon = view('components.svg-icon', ['icon' => 'delete'])->render();
-                        $action .= '<form action="" method="POST" class="deleteBackupform m-1" >
-                        <button title="'.trans('quickadmin.qa_delete').'" class="btn btn-danger backup_delete_btn btn-sm">'.$deleteIcon.'</button>
-                        </form>';
+                        $action .= '<button type="button" title="'.trans('quickadmin.qa_delete').'" class="btn btn-danger backup_delete_btn btn-sm" data-action="'.route('backups.delete', $backup['file']).'" data-file-name="'.$backup['file'].'">'.$deleteIcon.'</button>';
                     }
                     return $action;
                 })

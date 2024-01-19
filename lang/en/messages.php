@@ -15,6 +15,8 @@ return [
         'created' => 'Backup Sucessfully Created !',
         'restored' => 'Backup Sucessfully Restored !',
         'deleted' => 'Backup Sucessfully Deleted !',
+        'not_found'=> 'This has not Found !',
+        'delete_failed'=>'This file Deletion has been failed',
     ],
 
     'areYouSure'=>'Are you sure you want to delete this record?',

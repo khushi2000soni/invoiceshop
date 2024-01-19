@@ -129,7 +129,7 @@
         $(document).on('click', '.takebackup', function (e) {
             e.preventDefault();
             var formAction = $(this).data('href');
-            console.log('formAction',formAction);
+
             $.ajax({
                 url: formAction,
                 type: 'POST',
@@ -154,10 +154,13 @@
                 }
         });
 
-        $(document).on('submit', '.deleteForm', function(e) {
-            e.preventDefault();
-            console.log(2);
-            var formAction = $(this).attr('action');
+        $(document).on('click', '.backup_delete_btn', function (e) {
+                e.preventDefault();
+                console.log(2);
+                var formAction = $(this).data('action');
+                var fileName = $(this).data('file-name');
+                console.log('formAction',formAction);
+                console.log('fileName',fileName);
                 swal({
                     title: "{{ trans('messages.deletetitle') }}",
                     text: "{{ trans('messages.areYouSure') }}",
@@ -171,31 +174,32 @@
                     if (willDelete) {
                         $.ajax({
                         url: formAction,
-                        type: 'DELETE',
+                        type: 'POST',
+                        data:fileName,
                         headers: {
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                         },
                         success: function (response) {
                             var alertType = response['alert-type'];
                                 var message = response['message'];
-                                var title = "{{ trans('quickadmin.device.device') }}";
+                                var title = "{{ trans('quickadmin.backup.title') }}";
                                 showToaster(title,alertType,message);
                                 DataaTable.ajax.reload();
                                 // location.reload();
 
                         },
                         error: function (xhr) {
-                            // Handle error response
-                            swal("{{ trans('quickadmin.device.device') }}", 'some mistake is there.', 'error');
+                            var errorMessage = "An error occurred while deleting the backup.";
+                            if (xhr.responseJSON && xhr.responseJSON.message) {
+                                errorMessage = xhr.responseJSON.message;
+                            }
+                            swal("{{ trans('quickadmin.backup.title') }}", errorMessage, 'error');
                         }
                         });
                     }
                 });
             });
         });
-
-
-
 
 
     });

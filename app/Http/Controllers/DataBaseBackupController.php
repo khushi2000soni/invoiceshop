@@ -112,12 +112,36 @@ class DataBaseBackupController extends Controller
     //     return redirect()->back()->with('success', 'Backup restored successfully!');
     // }
 
-    // public function deleteBackup($fileName)
-    // {
-    //     // Delete the backup file
-    //     BackupJob::getBackupDestination()->deleteBackup($fileName);
+    public function deleteBackup(Request $request, $fileName)
+    {
+    // Use the correct way to get the fileName from the request
+    $fileName = $request->input('fileName');
+        $backupPath = storage_path('app/db_backups/');
+        $filePath = $backupPath . $fileName;
 
-    //     // Redirect back with a success message
-    //     return redirect()->back()->with('success', 'Backup deleted successfully!');
-    // }
+        try {
+            if (File::exists($filePath)) {
+                File::delete($filePath);
+
+                return response()->json([
+                    'success' => true,
+                    'message' => trans('messages.backup.deleted'),
+                    'alert-type' => trans('quickadmin.alert-type.success'),
+                ]);
+            } else {
+                return response()->json([
+                    'success' => false,
+                    'message' => trans('messages.backup.not_found'),
+                    'alert-type' => trans('quickadmin.alert-type.error'),
+                ], 404);
+            }
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => trans('messages.backup.delete_failed'),
+                'alert-type' => trans('quickadmin.alert-type.error'),
+                'error' => $e->getMessage(),
+            ], 500);
+        }
+    }
 }
