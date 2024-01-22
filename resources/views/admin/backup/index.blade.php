@@ -203,6 +203,51 @@
             });
         });
 
+        $(document).on('click', '.backup-restore-btn', function(e){
+            e.preventDefault();
+            var formaction = $(this).data('action');
+            var fileName = $(this).data('file-name');
+            console.log('fileName',fileName);
+            console.log('formaction',formaction);
+            swal({
+            title: "{{ trans('messages.restoretitle') }}",
+            text: "{{ trans('messages.areYouSurerestore') }}",
+            icon: 'warning',
+            buttons: {
+            confirm: 'Yes, Restore it',
+            cancel: 'No, cancel',
+            },
+            dangerMode: true,
+            }).then((willDelete) => {
+            if (willDelete) {
+                $.ajax({
+                url: formaction,
+                type: 'POST',
+                data: { fileName: fileName },
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                success: function (response) {
+                    var alertType = response['alert-type'];
+                        var message = response['message'];
+                        var title = "{{ trans('quickadmin.backup.title') }}";
+                        showToaster(title,alertType,message);
+                        DataaTable.ajax.reload();
+                },
+                error: function (xhr) {
+                    // Handle error response
+                    var errorMessage = "An error occurred while deleting the backup.";
+                    if (xhr.responseJSON && xhr.responseJSON.message) {
+                        errorMessage = xhr.responseJSON.message;
+                    }
+                    swal("{{ trans('quickadmin.backup.title') }}", errorMessage, 'error');
+                }
+                });
+            }
+            });
+        });
+
+
     });
 </script>
 

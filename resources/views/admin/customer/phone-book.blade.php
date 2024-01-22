@@ -319,10 +319,10 @@ $(document).ready(function () {
     });
 
     /// Add Party
-    $(document).on('submit', '#AddForm', function (e) {
+    $(document).on('submit', '#centerModal #AddForm', function (e) {
         e.preventDefault();
 
-        $("#AddForm button[type=submit]").prop('disabled',true);
+        $("#centerModal #AddForm button[type=submit]").prop('disabled',true);
         $(".error").remove();
         $(".is-invalid").removeClass('is-invalid');
         var formData = $(this).serialize();
@@ -340,29 +340,29 @@ $(document).ready(function () {
                     var message = response['message'];
                     var title = "{{ trans('quickadmin.customers.customer') }}";
                     showToaster(title,alertType,message);
-                    $('#AddForm')[0].reset();
+                    $('#centerModal #AddForm')[0].reset();
                    // location.reload();
                    DataaTable.ajax.reload();
-                   $("#AddForm button[type=submit]").prop('disabled',false);
+                   $("#centerModal #AddForm button[type=submit]").prop('disabled',false);
             },
             error: function (xhr) {
                 var errors= xhr.responseJSON.errors;
                 console.log(xhr.responseJSON);
 
                 for (const elementId in errors) {
-                    $("#"+elementId).addClass('is-invalid');
+                    $("#centerModal #"+elementId).addClass('is-invalid');
                     var errorHtml = '<div><span class="error text-danger">'+errors[elementId]+'</span></';
-                    $(errorHtml).insertAfter($("#"+elementId).parent());
+                    $(errorHtml).insertAfter($("#centerModal #"+elementId).parent());
                 }
-                $("#AddForm button[type=submit]").prop('disabled',false);
+                $("#centerModal #AddForm button[type=submit]").prop('disabled',false);
             }
         });
     });
 
 
-    $(document).on('submit', '#EditForm', function (e) {
+    $(document).on('submit', '#editModal #EditForm', function (e) {
         e.preventDefault();
-        $("#EditForm button[type=submit]").prop('disabled',true);
+        $("#editModal #EditForm button[type=submit]").prop('disabled',true);
         $(".error").remove();
         $(".is-invalid").removeClass('is-invalid');
         var formData = $(this).serialize();
@@ -382,10 +382,10 @@ $(document).ready(function () {
                     var message = response['message'];
                     var title = "{{ trans('quickadmin.customers.customer') }}";
                     showToaster(title,alertType,message);
-                    $('#EditForm')[0].reset();
+                    $('#editModal #EditForm')[0].reset();
                     //location.reload();
                     DataaTable.ajax.reload();
-                    $("#EditForm button[type=submit]").prop('disabled',false);
+                    $("#editModal #EditForm button[type=submit]").prop('disabled',false);
             },
             error: function (xhr) {
                 var errors= xhr.responseJSON.errors;
@@ -394,9 +394,9 @@ $(document).ready(function () {
                 for (const elementId in errors) {
                     $("#EditForm #"+elementId).addClass('is-invalid');
                     var errorHtml = '<div><span class="error text-danger">'+errors[elementId]+'</span></';
-                    $(errorHtml).insertAfter($("#EditForm #"+elementId).parent());
+                    $(errorHtml).insertAfter($("#editModal #EditForm #"+elementId).parent());
                 }
-                $("#EditForm button[type=submit]").prop('disabled',false);
+                $("#editModal #EditForm button[type=submit]").prop('disabled',false);
             }
         });
     });

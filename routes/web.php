@@ -121,7 +121,7 @@ Route::middleware(['auth','PreventBackHistory'])->group(function () {
 
     Route::get('/backups', [DataBaseBackupController::class,'index'])->name('backup.index');
     Route::post('/backups/create', [DataBaseBackupController::class, 'createBackup'])->name('backups.create');
-    Route::post('/backups/{fileName}/restore', [DataBaseBackupController::class, 'restoreBackup'])->name('backups.restore');
+    Route::post('/backups/restore', [DataBaseBackupController::class, 'restoreBackup'])->name('backups.restore');
     Route::post('/backups/delete', [DataBaseBackupController::class, 'deleteBackup'])->name('backups.delete');
 
 });

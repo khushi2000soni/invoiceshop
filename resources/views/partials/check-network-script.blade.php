@@ -29,7 +29,7 @@
     }
 
     // Check connectivity every 5 seconds
-    setInterval(checkConnectivity, 2000);
+    setInterval(checkConnectivity, 4000);
 
 
     function displaynetworkstatus(){
@@ -46,5 +46,5 @@
         }
     }
 
-    setInterval(displaynetworkstatus, 2000);
+    setInterval(displaynetworkstatus, 4000);
 </script>

@@ -41,11 +41,11 @@ class DatabaseBackupDataTable extends DataTable
                     $action='';
                     if (Gate::check('backup_restore')) {
                     $restoreIcon = view('components.svg-icon', ['icon' => 'restore-backup'])->render();
-                    $action .= '<button  class="btn btn-info backup-restore-btn">'.$restoreIcon.'</button>';
+                    $action .= '<button  class="btn btn-info backup-restore-btn" data-action="'.route('backups.restore').'" data-file-name="'.$backup['file'].'">'.$restoreIcon.'</button>';
                     }
                     if (Gate::check('backup_delete')) {
                         $deleteIcon = view('components.svg-icon', ['icon' => 'delete'])->render();
-                        $action .= '<button type="button" title="'.trans('quickadmin.qa_delete').'" class="btn btn-danger backup_delete_btn btn-sm" data-action="'.route('backups.delete', $backup['file']).'" data-file-name="'.$backup['file'].'">'.$deleteIcon.'</button>';
+                        $action .= '<button type="button" title="'.trans('quickadmin.qa_delete').'" class="btn btn-danger backup_delete_btn btn-sm" data-action="'.route('backups.delete').'" data-file-name="'.$backup['file'].'">'.$deleteIcon.'</button>';
                     }
                     return $action;
                 })

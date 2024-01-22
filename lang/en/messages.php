@@ -13,7 +13,7 @@ return [
 
     'backup'=> [
         'created' => 'Backup Sucessfully Created !',
-        'restored' => 'Backup Sucessfully Restored !',
+        'restored' => 'Database Sucessfully Restored !',
         'deleted' => 'Backup Sucessfully Deleted !',
         'not_found'=> 'This has not Found !',
         'delete_failed'=>'This file Deletion has been failed',
@@ -21,6 +21,7 @@ return [
 
     'areYouSure'=>'Are you sure you want to delete this record?',
     'areYouSureapprove'=>'Are you sure you want to Approve this record?',
+    'areYouSurerestore'=>'Are you sure you want to Restore this Database? It will delete your current database.',
     'deletetitle'=>'Delete Confirmation',
     'restoretitle'=>'Restore Confirmation',
     'approvaltitle'=>'Approval Confirmation',

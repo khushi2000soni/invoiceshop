@@ -1,0 +1,69 @@
+<?php
+
+namespace App\Console\Commands;
+
+use Illuminate\Console\Command;
+use Illuminate\Support\Facades\File;
+
+class DatabaseBackUp extends Command
+{
+    /**
+     * The name and signature of the console command.
+     *
+     * @var string
+     */
+    protected $signature = 'backup:database';
+    protected $description = 'Backup the database';
+
+    /**
+     * The console command description.
+     *
+     * @var string
+     */
+
+
+    /**
+     * Execute the console command.
+     */
+    public function handle()
+    {
+        $backupPath = storage_path('app/db_backups/');
+        // Create the backup directory if it doesn't exist
+        if (!File::exists($backupPath)) {
+            File::makeDirectory($backupPath, 0755, true);
+        }
+
+        $fileName = 'backup_' . now()->format('d_m_Y_H_i_s') . '.sql';
+        $filePath = $backupPath . $fileName;
+
+        $host = env('DB_HOST', '127.0.0.1');
+        $port = env('DB_PORT', '3306');
+        $username = env('DB_USERNAME');
+        $password = env('DB_PASSWORD');
+        $database = env('DB_DATABASE');
+
+        try {
+
+            $command = 'mysqldump --user=' . $username . ' --password=' . $password . ' --host=' . $host . ' ' . '--databases' . ' ' . $database . ' > ' . $backupPath . $fileName;
+
+
+            $returnVar = null;
+            $output = null;
+
+            exec($command, $output, $returnVar);
+
+            // Check if the command was successful
+            if ($returnVar !== 0) {
+                throw new \Exception('mysqldump command failed: ' . implode(PHP_EOL, $output));
+            }
+
+            $this->info('Database backup completed successfully.');
+            $this->info('Backup file created at: ' . $filePath);
+        } catch (\Exception $e) {
+            dd($e->getMessage());
+            $this->error('Database backup failed. Error: ' . $e->getMessage());
+            // Log the exception for debugging
+            //\Log::error($e->getMessage());
+        }
+    }
+}
