@@ -216,6 +216,14 @@ class PermissionsTableSeeder extends Seeder
                 'created_at' => $createDate,
                 'updated_at' => $updateDate,
             ],
+            [
+                'name'      => 'staff_rejoin',
+                'title'      => 'Export',
+                'guard_name'=>'web',
+                'route_name'=>'staff',
+                'created_at' => $createDate,
+                'updated_at' => $updateDate,
+            ],
 
             [
                 'name'      => 'customer_access',

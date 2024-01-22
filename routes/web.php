@@ -69,6 +69,9 @@ Route::middleware(['auth','PreventBackHistory'])->group(function () {
     Route::get('/staff-printView',[UserController::class,'printView'])->name('staff.print');
     Route::get('staff-export/',[UserController::class,'export'])->name('staff.export');
 
+    Route::get('/staff/typeindex/{type?}',[UserController::class,'typeindex'])->name('staff.typeindex');
+    Route::patch('/staff/{staff}/rejoin',[UserController::class,'rejoin'])->name('staff.rejoin');
+
     Route::resource('/customers',CustomerController::class);
     Route::get('/customers/index/{address_id?}',[CustomerController::class,'index'])->name('customer.index');
     Route::get('/customers-printView/{address_id?}',[CustomerController::class,'printView'])->name('customers.print');

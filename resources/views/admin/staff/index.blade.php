@@ -24,6 +24,7 @@
                                     <h4>@lang('quickadmin.user-management.title')</h4>
                                 </div>
                                 <div class="col-auto  mt-md-0 mt-3 ml-auto">
+                                    @if ($type != 'deleted')
                                     <div class="row align-items-center">
                                         <div class="col-auto px-1">
                                             @can('staff_create')
@@ -40,7 +41,13 @@
                                             <a href="{{ route('staff.export')}}" class="excelbtn btn h-10 col circlebtn"  id="excel-button"><x-svg-icon icon="excel" /></a>
                                             @endcan
                                         </div>
+                                        <div class="col-auto pl-1">
+                                            @can('staff_rejoin')
+                                            <a href="{{ route('staff.typeindex',['type'=> 'deleted'])}}" class="recycleicon btn h-10 col circlebtn"  id="excel-button"><x-svg-icon icon="recycle" /></a>
+                                            @endcan
+                                        </div>
                                     </div>
+                                    @endif
                                 </div>
                             </div>
                             <div class=" fixed_Search">
@@ -290,6 +297,45 @@ $(document).ready(function () {
             error: function (xhr) {
                 // Handle error response
                 swal("{{ trans('quickadmin.users.users') }}", 'some mistake is there.', 'error');
+            }
+            });
+        }
+        });
+    });
+
+    // rejoin or restore
+    $(document).on('click', '.rejoin-users-btn', function(e) {
+        e.preventDefault();
+        console.log(2);
+        var formAction = $(this).data('href');
+        swal({
+        title: "{{ trans('messages.rejointitle') }}",
+        text: "{{ trans('messages.areYouSurerejoin') }}",
+        icon: 'warning',
+        buttons: {
+        confirm: 'Yes, Rejoin Staff',
+        cancel: 'No, cancel',
+        },
+        dangerMode: true,
+        }).then((willDelete) => {
+        if (willDelete) {
+            $.ajax({
+            url: formAction,
+            type: 'PATCH',
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            success: function (response) {
+                var alertType = response['alert-type'];
+                    var message = response['message'];
+                    var title = "{{ trans('quickadmin.users.users') }}";
+                    showToaster(title,alertType,message);
+                    DataaTable.ajax.reload();
+                    // location.reload();
+            },
+            error: function (xhr) {
+                // Handle error response
+                swal("{{ trans('quickadmin.order.invoice') }}", 'Some mistake is there.', 'error');
             }
             });
         }

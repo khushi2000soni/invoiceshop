@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\DataTables\UserDataTable;
+use App\DataTables\UserTypeDataTable;
 use App\Exports\UserExport;
 use App\Http\Requests\Staff\StaffCreateRequest;
 use App\Http\Requests\Staff\StaffUpdateRequest;
@@ -14,6 +15,7 @@ use App\Rules\TitleValidationRule;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Hash;
 use Maatwebsite\Excel\Facades\Excel;
@@ -26,9 +28,16 @@ class UserController extends Controller
     public function index(UserDataTable $dataTable)
     {
         //
+        $type = 'all';
         abort_if(Gate::denies('staff_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
         $roles = Role::where('id','!=','1')->orderBy('id','asc')->get();
-        return $dataTable->render('admin.staff.index',compact('roles'));
+        return $dataTable->render('admin.staff.index',compact('roles','type'));
+    }
+
+    public function typeindex(UserTypeDataTable $dataTable,string $type){
+        abort_if(Gate::denies('staff_rejoin'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        $roles = Role::where('id','!=','1')->orderBy('id','asc')->get();
+        return $dataTable->render('admin.staff.index',compact('roles','type'));
     }
 
     public function create(){
@@ -122,6 +131,33 @@ class UserController extends Controller
         abort_if(Gate::denies('staff_export'), Response::HTTP_FORBIDDEN, '403 Forbidden');
         return Excel::download(new UserExport($address_id), 'staff-list.xlsx');
     }
+
+
+    public function rejoin($id){
+        abort_if(Gate::denies('staff_rejoin'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        try {
+            DB::beginTransaction();
+            $staff = User::withTrashed()->findOrFail($id);
+            $staff->restore();
+            DB::commit();
+            return response()->json(['success' => true,
+            'message' => trans('messages.crud.restore_record'),
+            'alert-type'=> trans('quickadmin.alert-type.success'),
+            'title' => trans('quickadmin.user.user')
+            ], 200);
+        }
+        catch (\Exception $e) {
+            //dd($e->getMessage());
+            DB::rollBack();
+            return response()->json([
+                'success' => false,
+                'message' => trans('messages.error_message'),
+                'alert-type' => trans('quickadmin.alert-type.error')
+            ], 500);
+        }
+    }
+
+
 
     /**
      * Remove the specified resource from storage.
