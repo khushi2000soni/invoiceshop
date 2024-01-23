@@ -197,8 +197,6 @@ $(document).ready(function () {
         }, 'fast');
     });
 
-
-
     $(".filter-category-select").select2({
     }).on('select2:open', function () {
         let a = $(this).data('select2');

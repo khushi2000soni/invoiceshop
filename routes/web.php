@@ -20,6 +20,7 @@ use App\Http\Controllers\UserController;
 use App\Livewire\OnlineStatus;
 use App\Models\Customer;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Artisan;
 
 /*
 |--------------------------------------------------------------------------
@@ -146,4 +147,14 @@ Route::get('/check-connectivity', function() {
 
 Route::get('/phpinfo', function () {
     phpinfo();
+});
+
+Route::get('/refresh', function () {
+    // Run Artisan commands
+    Artisan::call('optimize:clear');
+    Artisan::call('config:clear');
+    Artisan::call('cache:clear');
+    Artisan::call('view:clear');
+    Artisan::call('route:clear');
+    return 'App refreshed successfully!';
 });
