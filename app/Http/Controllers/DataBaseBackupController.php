@@ -143,15 +143,17 @@ class DataBaseBackupController extends Controller
                 DB::statement('DROP TABLE IF EXISTS ' . $table_name);
             }
             DB::statement('SET foreign_key_checks = 1');
+            // $command = 'mysql --user=' . env('DB_USERNAME') . ' --password=' . env('DB_PASSWORD') . env('DB_DATABASE') . ' > ' . $backupPath . $fileName;
+            // exec($command);
+
             // Import tables from the backup file
-            putenv('PATH=' . getenv('PATH') . env('DB_MYSLDUMP_PATH'));
-            $command = 'mysql --user=' . env('DB_USERNAME') . ' --password=' . env('DB_PASSWORD') . env('DB_DATABASE') . ' > ' . $backupPath . $fileName;
-            $returnVar = null;
-            $output = null;
-            exec($command, $output, $returnVar);
-            // Check if the command was successful
-            if ($returnVar !== 0) {
-                throw new \Exception('mysqldump command failed: ' . implode(PHP_EOL, $output));
+            $pdo = DB::connection()->getPdo(); // Use PDO for database interaction
+           /// dd(file_get_contents($filePath));
+            $pdo->exec(file_get_contents($filePath));
+
+            // Handle potential errors
+            if ($pdo->errorCode() !== '00000') {
+                throw new \Exception('Error importing database: ' . implode(', ', $pdo->errorInfo()));
             }
 
             return response()->json([
