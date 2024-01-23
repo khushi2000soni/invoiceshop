@@ -33,7 +33,7 @@ class DatabaseBackUp extends Command
             File::makeDirectory($backupPath, 0755, true);
         }
 
-        $fileName = 'backup_' . now()->format('d_m_Y_H_i_s') . '.sql';
+        $fileName = 'backup_' . now()->format('d_M_Y_H_i_s') . '.sql';
         $filePath = $backupPath . $fileName;
         $host = env('DB_HOST', '127.0.0.1');
         $port = env('DB_PORT', '3306');

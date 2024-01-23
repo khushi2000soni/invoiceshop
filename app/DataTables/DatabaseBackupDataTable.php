@@ -60,7 +60,7 @@ class DatabaseBackupDataTable extends DataTable
             return [
                 'file' => pathinfo($backupFile, PATHINFO_BASENAME),
                 // 'size' => Storage::size($backupFile),
-                'date' => Carbon::createFromTimestamp(Storage::lastModified($backupFile))->format('d-m-Y H:i A'),
+                'date' => Carbon::createFromTimestamp(Storage::lastModified($backupFile))->format('d-m-Y h:i A'),
             ];
         });
         // Return the collection as-is, without applying scopes
