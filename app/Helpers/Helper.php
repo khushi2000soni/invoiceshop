@@ -113,8 +113,8 @@ if (!function_exists('getSetting')) {
 
 if (!function_exists('generateInvoiceNumber')) {
     function generateInvoiceNumber($orderId) {
-        $month = now()->format('M'); // Get the current month abbreviation
-        $invoiceNumber = strtoupper($month) . '-' . str_pad($orderId, 4, '0', STR_PAD_LEFT);
+        $timeframe = now()->format('M-y'); // Get the current month abbreviation
+        $invoiceNumber = strtoupper($timeframe) . '-' . str_pad($orderId, 4, '0', STR_PAD_LEFT);
         return $invoiceNumber;
     }
 }
@@ -134,14 +134,6 @@ if (!function_exists('generateInvoicePdf')) {
     }
 }
 
-// Define a helper function in your app/helpers.php file or any appropriate location.
-
-if (!function_exists('convertToWords')) {
-    function convertToWords($num)
-    {
-
-    }
-}
 
 if (!function_exists('str_limit_custom')) {
     /**
