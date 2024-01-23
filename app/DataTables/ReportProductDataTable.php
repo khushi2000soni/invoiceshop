@@ -46,6 +46,10 @@ class ReportProductDataTable extends DataTable
                 <button title="'.trans('quickadmin.qa_approve').'" class="btn btn-icon btn-info approve-product-btn btn-sm">'.$approveIcon.'</button>
                 </form>';
                 }
+                if (Gate::check('product_merge')) {
+                    $mergeIcon = view('components.svg-icon', ['icon' => 'merge'])->render();
+                    $action .= '<button class="btn btn-icon btn-info merge-button p-1 mx-1" data-href="'.route('products.showMerge', $product->id).'">'.$mergeIcon.'</button>';
+                }
                 if (Gate::check('modified_product_edit')) {
                 $editIcon = view('components.svg-icon', ['icon' => 'edit'])->render();
                 $action .= '<button class="btn btn-icon btn-info edit-products-btn p-1 mx-1" data-href="'.route('products.edit', $product->id).'">'.$editIcon.'</button>';

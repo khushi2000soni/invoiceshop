@@ -150,6 +150,29 @@ $(document).ready(function () {
             });
     });
 
+    $("body").on("click", ".merge-button", function (e) {
+            e.preventDefault();
+            var hrefUrl = $(this).attr('data-href');
+            console.log(hrefUrl);
+            $.ajax({
+                type: 'get',
+                url: hrefUrl,
+                dataType: 'json',
+                success: function (response) {
+                    //$('#preloader').css('display', 'none');
+                    if(response.success) {
+                        console.log('success');
+                        $('.popup_render_div').html(response.htmlView);
+                        $('.popup_render_div #MergeProductModal').modal('show');
+                        $('.popup_render_div #MergeProductModal').css('z-index', '99999');
+                        $(document).find('.popup_render_div #MergeProductModal select').select2({
+                            dropdownParent: $('.popup_render_div #MergeProductModal')
+                        });
+                    }
+                }
+            });
+    });
+
     // edit item
     $(document).on('submit', '#EditForm', function (e) {
         e.preventDefault();
@@ -229,6 +252,48 @@ $(document).ready(function () {
             }
             });
         }
+        });
+    });
+
+    //// Merge Items Functionality
+
+    $(document).on('submit', '#submitMergeForm', function (e) {
+        e.preventDefault();
+        $("#submitMergeForm button[type=submit]").prop('disabled',true);
+        $(".error").remove();
+        var form = $(this);
+        $(".is-invalid").removeClass('is-invalid');
+        var form = $(this);
+        var formData = $(this).serialize();
+        var formAction = $(this).attr('action');
+        $.ajax({
+            url: formAction,
+            type: 'POST',
+            headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+            data: formData,
+            success: function (response) {
+                    form.closest('#MergeProductModal').modal('hide');
+                    var alertType = response['alert-type'];
+                    var message = response['message'];
+                    var title = "{{ trans('quickadmin.product.product') }}";
+                    showToaster(title,alertType,message);
+                    $('#submitMergeForm')[0].reset();
+                    //location.reload();
+                    DataaTable.ajax.reload();
+                    $("#submitMergeForm button[type=submit]").prop('disabled',false);
+            },
+            error: function (xhr) {
+                var errors= xhr.responseJSON.errors;
+                console.log(xhr.responseJSON);
+                for (const elementId in errors) {
+                    $("#"+elementId).addClass('is-invalid');
+                    var errorHtml = '<div><span class="error text-danger">'+errors[elementId]+'</span></';
+                    $(errorHtml).insertAfter($("#"+elementId).parent());
+                }
+                $("#submitMergeForm button[type=submit]").prop('disabled',false);
+            }
         });
     });
 

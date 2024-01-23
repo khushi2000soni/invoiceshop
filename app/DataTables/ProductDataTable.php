@@ -48,7 +48,7 @@ class ProductDataTable extends DataTable
                 if (Gate::check('product_merge')) {
                     $mergeIcon = view('components.svg-icon', ['icon' => 'merge'])->render();
                     $action .= '<button class="btn btn-icon btn-info merge-button p-1 mx-1" data-href="'.route('products.showMerge', $product->id).'">'.$mergeIcon.'</button>';
-                    }
+                }
                 if (Gate::check('product_delete')) {
                     if($product->order_count == 0){
                     $deleteIcon = view('components.svg-icon', ['icon' => 'delete'])->render();
