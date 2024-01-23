@@ -9,7 +9,7 @@ class Address extends Model
 {
     use HasFactory;
     public $table = 'address';
-    protected $fillable = ['address'];
+    protected $fillable = ['address','updated_at'];
     public $timestamps = true;
 
     public function users(){
@@ -19,4 +19,5 @@ class Address extends Model
     public function customers(){
         return $this->hasMany(Customer::class);
     }
+
 }

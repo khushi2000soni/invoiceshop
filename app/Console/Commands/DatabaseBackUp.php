@@ -47,6 +47,7 @@ class DatabaseBackUp extends Command
             $returnVar = null;
             $output = null;
             exec($command, $output, $returnVar);
+
             // Check if the command was successful
             if ($returnVar !== 0) {
                 throw new \Exception('mysqldump command failed: ' . implode(PHP_EOL, $output));

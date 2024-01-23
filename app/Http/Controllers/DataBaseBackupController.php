@@ -68,66 +68,6 @@ class DataBaseBackupController extends Controller
         return isset($matches[1]) ? trim($matches[1]) : null;
     }
 
-    // public function createBackup(){
-    //     $backupPath = storage_path('app/db_backups/');
-    //     // Create the backup directory if it doesn't exist
-    //     if (!File::exists($backupPath)) {
-    //         File::makeDirectory($backupPath, 0755, true);
-    //     }
-
-    //     $fileName = 'backup_' . now()->format('d_m_Y_H_i_s') . '.sql';
-    //     $filePath = $backupPath . $fileName;
-    //     $host = env('DB_HOST', '127.0.0.1');
-    //     $port = env('DB_PORT', '3306');
-    //     $username = env('DB_USERNAME');
-    //     $password = env('DB_PASSWORD');
-    //     $database = env('DB_DATABASE');
-    //     try {
-    //         $command = sprintf(
-    //             'mysqldump --user=%s --password=%s --host=%s --port=%s --databases %s > %s',
-    //             $username,$password,$host,$port,$database,$filePath
-    //         );
-
-    //         $returnVar = null;
-    //         $output = null;
-    //         //dd($command);
-    //         exec($command, $output, $returnVar);
-    //         // Check if the command was successful
-    //         if ($returnVar !== 0) {
-    //             throw new \Exception('mysqldump command failed: ' . implode(PHP_EOL, $output));
-    //         }
-
-    //         // Check if the file was created successfully
-    //         if (file_exists($filePath)) {
-    //             return response()->json([
-    //                 'success' => true,
-    //                 'message' => trans('messages.backup.created'),
-    //                 'alert-type' => trans('quickadmin.alert-type.success'),
-    //                 'file_path' => $filePath,
-    //             ]);
-    //         } else {
-    //             // Handle the case where the file was not created
-    //             return response()->json([
-    //                 'success' => false,
-    //                 'message' => trans('messages.backup.failed'),
-    //                 'alert-type' => trans('quickadmin.alert-type.error'),
-    //                 'error' => 'Backup file not created.',
-    //             ], 500);
-    //         }
-    //     } catch (\Exception $e) {
-    //         // Handle any exceptions that may occur during the backup process
-    //         // Log the exception for debugging
-    //         //\Log::error($e->getMessage());
-    //         dd($e->getMessage());
-    //         return response()->json([
-    //             'success' => false,
-    //             'message' => trans('messages.backup.failed'),
-    //             'alert-type' => trans('quickadmin.alert-type.error'),
-    //             'error' => $e->getMessage(), // Provide additional error details
-    //         ], 500);
-    //     }
-    // }
-
     public function restoreBackup(Request $request)
     {
         try {
@@ -145,13 +85,8 @@ class DataBaseBackupController extends Controller
             DB::statement('SET foreign_key_checks = 1');
             // $command = 'mysql --user=' . env('DB_USERNAME') . ' --password=' . env('DB_PASSWORD') . env('DB_DATABASE') . ' > ' . $backupPath . $fileName;
             // exec($command);
-
-            // Import tables from the backup file
-            $pdo = DB::connection()->getPdo(); // Use PDO for database interaction
-           /// dd(file_get_contents($filePath));
+            $pdo = DB::connection()->getPdo();
             $pdo->exec(file_get_contents($filePath));
-
-            // Handle potential errors
             if ($pdo->errorCode() !== '00000') {
                 throw new \Exception('Error importing database: ' . implode(', ', $pdo->errorInfo()));
             }

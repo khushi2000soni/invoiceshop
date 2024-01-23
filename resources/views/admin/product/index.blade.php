@@ -362,7 +362,7 @@ $(document).ready(function () {
     });
 
     // Add Item
-    $(document).on('submit', '#AddForm', function (e) {
+    $(document).on('submit', '#centerModal #AddForm', function (e) {
         e.preventDefault();
 
         $("#AddForm button[type=submit]").prop('disabled',true);
@@ -403,7 +403,7 @@ $(document).ready(function () {
                 for (const elementId in errors) {
                     $("#"+elementId).addClass('is-invalid');
                     var errorHtml = '<div><span class="error text-danger">'+errors[elementId]+'</span></';
-                    $(errorHtml).insertAfter($("#"+elementId).parent());
+                    $(errorHtml).insertAfter($("#centerModal #"+elementId).parent());
                 }
                 $("#AddForm button[type=submit]").prop('disabled',false);
             }

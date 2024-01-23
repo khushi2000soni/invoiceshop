@@ -23,9 +23,9 @@ class UpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => ['required','string','max:150',/*'unique:products,name,'.$this->product->id,*/ Rule::unique('products')->ignore($this->product->id)->where(function ($query) {
+            'name' => ['required','string','max:150','unique:products,name,'.$this->product->id,/* Rule::unique('products')->ignore($this->product->id)->where(function ($query) {
                 return $query->where('category_id', $this->category_id);
-            }),'regex:/^[^\s]+$/'],
+            }),*/'regex:/^[^\s]+$/'],
             'category_id'=>['required','numeric'],
         ];
     }

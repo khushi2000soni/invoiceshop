@@ -24,9 +24,9 @@ class StoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => ['required','string','max:150',/*'unique:products,name',*/ 'regex:/^[^\s]+$/',Rule::unique('products')->ignore($this->route('product'))->where(function ($query) {
+            'name' => ['required','string','max:150','unique:products,name', 'regex:/^[^\s]+$/'/*,Rule::unique('products')->ignore($this->route('product'))->where(function ($query) {
                 return $query->where('category_id', $this->category_id);
-            }),],
+            }),*/],
             'category_id'=>['required','numeric'],
         ];
     }
