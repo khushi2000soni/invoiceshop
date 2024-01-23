@@ -77,15 +77,11 @@ class DataBaseBackupController extends Controller
             $filePath = $backupPath . $fileName;
             // Drop all tables in the current database
             DB::statement('SET foreign_key_checks = 0');
-            $tables = DB::select('SHOW TABLES');
+            $tables = config('db_backup_tables.delete_tables');
             foreach ($tables as $table) {
-                $table_array = get_object_vars($table);
-                $table_name = $table_array[key($table_array)];
-                DB::statement('DROP TABLE IF EXISTS ' . $table_name);
+                DB::statement('DROP TABLE IF EXISTS ' . $table);
             }
             DB::statement('SET foreign_key_checks = 1');
-            // $command = 'mysql --user=' . env('DB_USERNAME') . ' --password=' . env('DB_PASSWORD') . env('DB_DATABASE') . ' > ' . $backupPath . $fileName;
-            // exec($command);
             $pdo = DB::connection()->getPdo();
             $pdo->exec(file_get_contents($filePath));
             if ($pdo->errorCode() !== '00000') {

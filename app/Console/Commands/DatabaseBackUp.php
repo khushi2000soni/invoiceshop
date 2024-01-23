@@ -42,7 +42,12 @@ class DatabaseBackUp extends Command
         $database = env('DB_DATABASE');
         try {
             putenv('PATH=' . getenv('PATH') . env('DB_MYSLDUMP_PATH'));
-            $command = 'mysqldump --user=' . $username . ' --password=' . $password . ' --host=' . $host . ' --databases ' . $database . ' > ' . $backupPath . $fileName;
+            // for complete database backup
+            // $command = 'mysqldump --user=' . $username . ' --password=' . $password . ' --host=' . $host . ' --databases ' . $database . ' > ' . $backupPath . $fileName;
+            $deleteTables= config('db_backup_tables.delete_tables');
+           // command for taking backup of specific tables only
+            $command = 'mysqldump --user=' . $username . ' --password=' . $password . ' --host=' . $host . ' ' . $database . ' ' . implode(' ', $deleteTables) . ' > ' . $backupPath . $fileName;
+
             //dd($command);
             $returnVar = null;
             $output = null;
