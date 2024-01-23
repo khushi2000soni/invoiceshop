@@ -91,17 +91,6 @@ class ProductDataTable extends DataTable
             'responsive' => true,
             'pageLength' => 70,
             'lengthMenu' => [[10, 25, 50, 70, 100, -1], [10, 25, 50, 70, 100, 'All']],
-            'initComplete' => 'function(settings, json) {
-                // Hide the loader on initial draw
-                $(".loader").hide();
-            }',
-            'drawCallback' => 'function() {
-                // Show and hide the loader on every draw (including page changes)
-                $(".loader").show();
-                setTimeout(function() {
-                    $(".loader").hide();
-                }, 1000);
-            }',
         ])
         ->columns($this->getColumns())
         ->minifiedAjax()

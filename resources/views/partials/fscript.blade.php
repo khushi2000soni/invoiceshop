@@ -68,4 +68,12 @@
         $(this).closest(".select2-container").siblings('select:enabled').select2('open');
     });
 
+    $(document).on('click','.paginate_button', function (e) {
+        e.preventDefault();
+        $(".loader").show();
+        setTimeout(function() {
+            $(".loader").hide();
+        }, 1000);
+    });
+
 </script>
