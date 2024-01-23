@@ -39,6 +39,10 @@ class DatabaseBackupDataTable extends DataTable
                 })
                 ->addColumn('action',function($backup){
                     $action='';
+                    if (Gate::check('backup_download')) {
+                        $restoreIcon = view('components.svg-icon', ['icon' => 'download'])->render();
+                        $action .= '<a  class="btn btn-info backup-downloadbtn" href="'.route('backups.download', ['fileName' => $backup['file']]).'" >'.$restoreIcon.'</a>';
+                    }
                     if (Gate::check('backup_restore')) {
                     $restoreIcon = view('components.svg-icon', ['icon' => 'restore-backup'])->render();
                     $action .= '<button  class="btn btn-info backup-restore-btn" data-action="'.route('backups.restore').'" data-file-name="'.$backup['file'].'">'.$restoreIcon.'</button>';

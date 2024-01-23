@@ -697,6 +697,22 @@ class PermissionsTableSeeder extends Seeder
                 'updated_at' => $updateDate,
             ],
             [
+                'name'      => 'backup_download',
+                'title'      => 'Backup Download',
+                'guard_name'=>'web',
+                'route_name'=>'database-backup',
+                'created_at' => $createDate,
+                'updated_at' => $updateDate,
+            ],
+            [
+                'name'      => 'backup_upload',
+                'title'      => 'Backup Upload',
+                'guard_name'=>'web',
+                'route_name'=>'database-backup',
+                'created_at' => $createDate,
+                'updated_at' => $updateDate,
+            ],
+            [
                 'name'      => 'backup_restore',
                 'title'      => 'Backup Restore',
                 'guard_name'=>'web',

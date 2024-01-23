@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\DataTables\DatabaseBackupDataTable;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -136,5 +137,23 @@ class DataBaseBackupController extends Controller
                 'error' => $e->getMessage(),
             ], 500);
         }
+    }
+
+    public function downloadBackup($fileName)
+    {
+        $backupPath = storage_path('app/db_backups/');
+        $filePath = $backupPath . $fileName;
+        // Validate file existence and accessibility
+        if (!file_exists($filePath) || !is_readable($filePath)) {
+            return response()->json([
+                'success' => false,
+                'title' => 'File Not Found',
+                'message' => 'The backup file could not be found or accessed.'
+            ], 404);
+        }
+
+        return response()->download($filePath, $fileName, [
+            'Content-Type' => 'application/sql' // Set appropriate content type
+        ]);
     }
 }
