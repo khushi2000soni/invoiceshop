@@ -77,7 +77,7 @@ class InvoiceDataTable extends DataTable
             $model = $model->whereDate('invoice_date', '>=', now()->subDays($days));
         }
 
-        return $model->newQuery()->with('customer')->orderBy('created_at','desc');
+        return $model->newQuery()->with('customer')->orderBy('id','desc');
     }
 
     /**

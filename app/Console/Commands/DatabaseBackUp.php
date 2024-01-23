@@ -35,28 +35,22 @@ class DatabaseBackUp extends Command
 
         $fileName = 'backup_' . now()->format('d_m_Y_H_i_s') . '.sql';
         $filePath = $backupPath . $fileName;
-
         $host = env('DB_HOST', '127.0.0.1');
         $port = env('DB_PORT', '3306');
         $username = env('DB_USERNAME');
         $password = env('DB_PASSWORD');
         $database = env('DB_DATABASE');
-
         try {
-
-            $command = 'mysqldump --user=' . $username . ' --password=' . $password . ' --host=' . $host . ' ' . '--databases' . ' ' . $database . ' > ' . $backupPath . $fileName;
-
-
+            putenv('PATH=' . getenv('PATH') . env('DB_MYSLDUMP_PATH'));
+            $command = 'mysqldump --user=' . $username . ' --password=' . $password . ' --host=' . $host . ' --databases ' . $database . ' > ' . $backupPath . $fileName;
+            //dd($command);
             $returnVar = null;
             $output = null;
-
             exec($command, $output, $returnVar);
-
             // Check if the command was successful
             if ($returnVar !== 0) {
                 throw new \Exception('mysqldump command failed: ' . implode(PHP_EOL, $output));
             }
-
             $this->info('Database backup completed successfully.');
             $this->info('Backup file created at: ' . $filePath);
         } catch (\Exception $e) {
@@ -66,4 +60,5 @@ class DatabaseBackUp extends Command
             //\Log::error($e->getMessage());
         }
     }
+
 }

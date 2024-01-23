@@ -17,33 +17,11 @@ use Illuminate\Support\Facades\File;
 
 class DataBaseBackupController extends Controller
 {
-    //
-    // public function index()
-    // {
-    //     $backupPath = 'Invoice';
-
-    //     // Get the list of backup files
-    //     $backupFiles = Storage::files($backupPath);
-
-    //     // Transform the file list into an array of backup information
-    //     $backups = collect($backupFiles)->map(function ($backupFile) {
-    //         return [
-    //             'file' => pathinfo($backupFile, PATHINFO_BASENAME),
-    //             'size' => Storage::size($backupFile),
-    //             'date' => Carbon::createFromTimestamp(Storage::lastModified($backupFile))->diffForHumans(),
-    //         ];
-    //     });
-
-    //     // Now $backups contains the list of backups
-    //     //dd($backups);
-    //     return view('admin.backup.index', compact('backups'));
-    // }
 
     public function index(DatabaseBackupDataTable $dataTable)
     {
         return $dataTable->render('admin.backup.index');
     }
-
 
     public function createBackup()
     {
@@ -80,6 +58,14 @@ class DataBaseBackupController extends Controller
                 'error' => $e->getMessage(), // Provide additional error details
             ], 500);
         }
+    }
+
+    private function extractBackupFilePath($output)
+    {
+        // Parse the output to find the backup file path
+        preg_match('/Backup file created at: (.+)/', $output, $matches);
+
+        return isset($matches[1]) ? trim($matches[1]) : null;
     }
 
     // public function createBackup(){
@@ -142,19 +128,15 @@ class DataBaseBackupController extends Controller
     //     }
     // }
 
-
-
     public function restoreBackup(Request $request)
     {
         try {
             $fileName = $request->fileName;
             $backupPath = storage_path('app/db_backups/');
             $filePath = $backupPath . $fileName;
-
             // Drop all tables in the current database
             DB::statement('SET foreign_key_checks = 0');
             $tables = DB::select('SHOW TABLES');
-
             foreach ($tables as $table) {
                 $table_array = get_object_vars($table);
                 $table_name = $table_array[key($table_array)];
@@ -162,14 +144,15 @@ class DataBaseBackupController extends Controller
             }
             DB::statement('SET foreign_key_checks = 1');
             // Import tables from the backup file
-            $command = sprintf(
-                'mysql --user=%s --password=%s %s < %s',
-                env('DB_USERNAME'),
-                env('DB_PASSWORD'),
-                env('DB_DATABASE'),
-                $filePath
-            );
-            exec($command);
+            putenv('PATH=' . getenv('PATH') . env('DB_MYSLDUMP_PATH'));
+            $command = 'mysql --user=' . env('DB_USERNAME') . ' --password=' . env('DB_PASSWORD') . env('DB_DATABASE') . ' > ' . $backupPath . $fileName;
+            $returnVar = null;
+            $output = null;
+            exec($command, $output, $returnVar);
+            // Check if the command was successful
+            if ($returnVar !== 0) {
+                throw new \Exception('mysqldump command failed: ' . implode(PHP_EOL, $output));
+            }
 
             return response()->json([
                 'success' => true,
