@@ -4227,7 +4227,7 @@ div.dataTables_wrapper div.dataTables_paginate{
     padding: 7px 13px
 }
 div#reportrange {
-    height: 42px;
+    min-height: 42px;
     padding: 10px 15px !important;
     border-color: #e5e9f2 !important;
 }
@@ -13442,4 +13442,43 @@ button.category-product-detail:hover{
 
 #MergeProductModal #timeFrameOrderChartSelect ~ .select2-container {
     max-width: 100% !important;
+}
+
+@media (max-width:1550px){
+    #invoice-filter-form > .row {
+        row-gap: 15px;
+    }
+    #invoice-filter-form > .row > div{
+        max-width: 50%;
+        flex: 0  0 50%;
+        padding-right: 15px !important;
+    }
+    .circlebtn svg {
+        width: 22px;
+        height: 22px;
+    }
+    div#reportrange{
+        font-size: 12px;
+    }
+}
+
+
+@media (max-width:1199px){
+    #invoice-filter-form .col-xl-3 {
+        margin-bottom: 15px;
+    }
+}
+
+@media (max-width:767px){
+    #OnlineComeBack,
+    #internetlostMessage {
+        font-size: 12px;
+        padding: 4px 16px !important;
+    }
+}
+
+@media (max-width:575px){
+    .filegroip{
+        margin-top: 15px;
+    }
 }

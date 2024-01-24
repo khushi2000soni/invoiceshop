@@ -99,7 +99,7 @@
                         @can('invoice_filter')
                         <form id="invoice-filter-form">
                             <div class="row align-items-center pb-3 mb-4 cart_filter_box">
-                                <div class="col-md-3 pr-0">
+                                <div class="col-md-6 col-lg-6 col-xl-3 pr-xl-0">
                                     <div class="custom-select2 fullselect2">
                                         <div class="form-control-inner">
                                             <label for="customer_id">@lang('quickadmin.order.fields.customer_name')</label>
@@ -113,7 +113,7 @@
                                     </div>
                                 </div>
                                 @can('invoice_date_filter')
-                                <div class="col-md-3 pr-0">
+                                <div class="col-md-6 col-lg-6 col-xl-3 pr-xl-0">
                                     <div class="mx-0 datapikergroup custom-select2">
                                         <div class="form-control-inner">
                                             <label for="customer_id">Select Date</label>
@@ -125,14 +125,14 @@
                                     </div>
                                 </div>
                                 @endcan
-                                <div class="col-md-2">
+                                <div class="col-sm-6 col-md-6 col-lg-6 col-xl-2">
                                     <div class="form-group mb-0 d-flex">
                                         <button type="submit" class="btn btn-primary mr-1 col" id="apply-filter">@lang('quickadmin.qa_submit')</button>
                                         <button type="reset" class="btn btn-primary mr-1 col" id="reset-filter">@lang('quickadmin.qa_reset')</button>
                                     </div>
                                 </div>
-                                <div class="col-md-4 text-end">
-                                    <div class="form-group mb-0 d-flex justify-content-end">
+                                <div class="col-sm-6 col-md-6 col-lg-6 col-xl-4 text-end">
+                                    <div class="form-group mb-0 d-flex justify-content-md-end filegroip">
                                         @if ($type != 'deleted')
                                             @can('invoice_create')
                                             <div class="col-auto px-md-1 pr-1">
