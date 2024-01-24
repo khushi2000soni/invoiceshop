@@ -213,17 +213,11 @@ $(document).ready(function() {
     $('#profile_image').change(function(e) {
         e.preventDefault();
         $('#profile_error + div').empty().remove();
-        console.log('hello');
-        //var formData = $(this).serialize();
         var file = $(this).prop('files')[0];
         $(".error").remove();
         var selectedFile = this.files[0];
-
         var formData = new FormData($('#EditProfileImageForm')[0]);
-        // formData.append('profile_image', selectedFile);
         var formAction = $('#EditProfileImageForm').attr('action');
-        console.log(formData);
-        console.log(formAction);
         $.ajax({
             url: formAction,
             type: 'POST',
@@ -238,13 +232,11 @@ $(document).ready(function() {
                     var message = response['message'];
                     var title = response['title'];
                     showToaster(title,alertType,message);
-                    $('#EditprofileForm')[0].reset();
+                    $('#EditProfileImageForm')[0].reset();
                     location.reload();
             },
             error: function (xhr) {
                 var errors= xhr.responseJSON.errors;
-                console.log(xhr.responseJSON);
-                console.log(2);
                 var errorHtml = '<p class="error text-danger" style="line-height: 1;">';
                 for (const elementId in errors) {
                     for (const error of errors[elementId]) {

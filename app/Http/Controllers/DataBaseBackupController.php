@@ -159,12 +159,42 @@ class DataBaseBackupController extends Controller
             return response()->json([
                 'success' => false,
                 'title' => 'File Not Found',
-                'message' => 'The backup file could not be found or accessed.'
+                'message' => 'The backup file could not be found or accessed.',
+                'alert-type' => trans('quickadmin.alert-type.success'),
             ], 404);
         }
 
         return response()->download($filePath, $fileName, [
             'Content-Type' => 'application/sql' // Set appropriate content type
         ]);
+    }
+
+
+    public function uploadBackup(Request $request)
+    {
+       // dd($request->all());
+        $request->validate([
+            'backup_file' => 'required|file',
+        ]);
+        $file = $request->file('backup_file');
+        if ($file->getClientOriginalExtension() !== 'sql') {
+            return response()->json([
+                'success' => false,
+                'message' => trans('messages.backup.failed'),
+                'alert-type' => trans('quickadmin.alert-type.error'),
+                'error' => 'Invalid file type. Please upload an SQL file.', // Provide additional error details
+            ], 500);
+        }
+
+        $file = $request->file('backup_file');
+        $path = $file->storeAs('', $file->getClientOriginalName(), 'backups');
+        return response()->json([
+            'success' => true,
+            'title' => 'Upload Successful',
+            'message' => 'The backup file has been uploaded successfully.',
+            'alert-type' => trans('quickadmin.alert-type.success'),
+            'file_path' => $path, // You can include the file path in the response if needed
+        ],200);
+
     }
 }

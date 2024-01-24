@@ -43,7 +43,7 @@
                                         </div>
                                         <div class="col-auto pl-1">
                                             @can('staff_rejoin')
-                                            <a href="{{ route('staff.typeindex',['type'=> 'deleted'])}}" class="recycleicon btn h-10 col circlebtn"  id="excel-button"><x-svg-icon icon="recycle" /></a>
+                                            <a href="{{ route('staff.typeindex',['type'=> 'deleted'])}}" class="recycleicon btn h-10 col circlebtn"  id="excel-button"><x-svg-icon icon="rejoin-btn" /></a>
                                             @endcan
                                         </div>
                                     </div>

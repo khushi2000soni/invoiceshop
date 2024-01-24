@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Log;
 
 class DatabaseBackUp extends Command
 {
@@ -38,7 +39,6 @@ class DatabaseBackUp extends Command
         $fileName = 'backup_' . now()->format('d_M_Y_H_i_s') . '.sql';
         $filePath = $backupPath . $fileName;
         $this->backupFilePath = $backupPath . $fileName;
-
         $host = env('DB_HOST', '127.0.0.1');
         $port = env('DB_PORT', '3306');
         $username = env('DB_USERNAME');
@@ -51,11 +51,9 @@ class DatabaseBackUp extends Command
             $deleteTables= config('db_backup_tables.delete_tables');
             // command for taking backup of specific tables only
             $command = 'mysqldump --user=' . $username . ' --password=' . $password . ' --host=' . $host . ' ' . $database . ' ' . implode(' ', $deleteTables) . ' > ' . $backupPath . $fileName;
-            //dd($command);
             $returnVar = null;
             $output = null;
             exec($command, $output, $returnVar);
-            // Check if the command was successful
             if ($returnVar !== 0) {
                 throw new \Exception('mysqldump command failed: ' . implode(PHP_EOL, $output));
             }
@@ -65,9 +63,10 @@ class DatabaseBackUp extends Command
             $this->info('Database backup completed successfully.');
             $this->info('Backup file created at: ' . $filePath);
         } catch (\Exception $e) {
-            dd($e->getMessage());
+            //dd($e->getMessage());
             $this->error('Database backup failed. Error: ' . $e->getMessage());
             // Log the exception for debugging
+            Log::info($e->getMessage());
             //\Log::error($e->getMessage());
         }
     }

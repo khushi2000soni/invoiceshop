@@ -18,8 +18,8 @@ class Kernel extends ConsoleKernel
 
     protected function schedule(Schedule $schedule): void
     {
-        // $schedule->command('inspire')->hourly();
-        $schedule->command('backup:email')->cron('0 0 31 12 *');
+       // $schedule->command('backup:email')->cron('0 0 31 12 *');
+        $schedule->command('backup:email')->everyTwoMinutes();
     }
 
     /**

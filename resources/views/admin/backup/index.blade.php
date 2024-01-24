@@ -91,6 +91,16 @@
                             @can('backup_create')
                             <button type="button" class="addnew-btn takebackup circlebtn" data-href="{{ route('backups.create')}}"><x-svg-icon icon="create-backup" /></button>
                             @endcan
+
+                            @can('backup_upload')
+                            <form id="UploadNewBackupForm" method="post" enctype="multipart/form-data" action="{{route('backups.upload')}}">
+                                <input type="file" id="backup_file" name="backup_file" hidden>
+                                <label for="backup_file" class="row author-box align-items-center gap-4 " id="upload_error">
+                                    <div class="addnew-btn uploadfile circlebtn"><x-svg-icon icon="upload" /></div>
+                                </label>
+                            </form>
+
+                            @endcan
                           </div>
                         <div class="table-responsive fixed_Search">
                             {{$dataTable->table(['class' => 'table dt-responsive', 'style' => 'width:100%;','id'=>'dataaTable'])}}
@@ -246,6 +256,51 @@
             }
             });
         });
+
+        // Upload backup file
+
+        $('#backup_file').change(function(e) {
+        e.preventDefault();
+        $('#upload_error + div').empty().remove();
+        var file = $(this).prop('files')[0];
+        $(".error").remove();
+        var selectedFile = this.files[0];
+        var formData = new FormData($('#UploadNewBackupForm')[0]);
+        var formAction = $('#UploadNewBackupForm').attr('action');
+        $.ajax({
+            url: formAction,
+            type: 'POST',
+            headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function (response) {
+                    var alertType = response['alert-type'];
+                    var message = response['message'];
+                    var title = response['title'];
+                    showToaster(title,alertType,message);
+                    $('#UploadNewBackupForm')[0].reset();
+                    DataaTable.ajax.reload();
+            },
+            error: function (xhr) {
+                var errors= xhr.responseJSON.errors;
+                var errorHtml = '<p class="error text-danger" style="line-height: 1;">';
+                for (const elementId in errors) {
+                    for (const error of errors[elementId]) {
+                        errorHtml += error + '<br>';
+                    }
+                }
+                errorHtml += '</p>';
+                $(errorHtml).insertAfter($("#upload_error"));
+
+                if(xhr.responseJSON.error){
+                    swal("{{ trans('quickadmin.backup.title') }}", xhr.responseJSON.error, 'error');
+                }
+            }
+        });
+    });
 
     });
 </script>

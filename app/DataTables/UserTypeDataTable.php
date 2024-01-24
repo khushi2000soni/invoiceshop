@@ -49,7 +49,7 @@ class UserTypeDataTable extends DataTable
                 $action='';
                 if (Gate::check('staff_rejoin')) {
                     if (!($staff->hasRole(1))) {
-                    $editIcon = view('components.svg-icon', ['icon' => 'restore'])->render();
+                    $editIcon = view('components.svg-icon', ['icon' => 'staff-rejoin'])->render();
                     $action .= '<button class="btn btn-icon btn-info rejoin-users-btn p-1 mx-1" data-href="'.route('staff.rejoin', $staff->id).'">'.$editIcon.'</button>';
                     }
                 }
