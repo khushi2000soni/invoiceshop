@@ -57,7 +57,6 @@ class DatabaseBackUp extends Command
             if ($returnVar !== 0) {
                 throw new \Exception('mysqldump command failed: ' . implode(PHP_EOL, $output));
             }
-
             // Cache the backup file path
             Cache::put('database_backup_filepath', $this->backupFilePath, now()->addMinutes(5));
             $this->info('Database backup completed successfully.');
