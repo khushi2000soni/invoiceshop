@@ -88,9 +88,9 @@
                     <div class="card-body">
                         <div class="card-header d-flex justify-content-between align-items-center">
                             <h4>@lang('quickadmin.backup.backup-management')</h4>
-                            @can('backup_create')
+                            {{-- @can('backup_create')
                             <button type="button" class="addnew-btn takebackup circlebtn" data-href="{{ route('backups.create')}}"><x-svg-icon icon="create-backup" /></button>
-                            @endcan
+                            @endcan --}}
 
                             @can('backup_upload')
                             <form id="UploadNewBackupForm" method="post" enctype="multipart/form-data" action="{{route('backups.upload')}}">
