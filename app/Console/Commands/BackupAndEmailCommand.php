@@ -6,6 +6,8 @@ use App\Mail\ShareBackupFileMail;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
 
 class BackupAndEmailCommand extends Command
 {
@@ -24,11 +26,12 @@ class BackupAndEmailCommand extends Command
         $this->info('Executing backup, email, and truncate tasks...');
         // Run the createbackup command
         Artisan::call('backup:database');
-        $backupFilePath = app(DatabaseBackUp::class)->getBackupFilePath();
+        $backupFilePath = Cache::get('database_backup_filepath');
          // Send email with the backup file
+        //dd($backupFilePath);
          $this->sendBackupEmail($backupFilePath);
         // Truncate orders and order_product tables
-        //$this->truncateTables();
+        $this->truncateTables();
         $this->info('Tasks completed successfully.');
     }
 
@@ -37,16 +40,23 @@ class BackupAndEmailCommand extends Command
         $to = config('app.email');
         $subject = 'Backup File ' . now()->format('d_M_Y_H_i_s');
         // Use the ShareBackupFileMail mail class
-        Mail::to($to)->send(new ShareBackupFileMail($backupFilePath, $subject));
-        $this->info('Email sent with the backup file.');
+        if (!is_null($backupFilePath)) {
+            // Use the ShareBackupFileMail mail class
+            Mail::to($to)->send(new ShareBackupFileMail($backupFilePath, $subject));
+            $this->info('Email sent with the backup file.');
+        } else {
+            $this->error('Backup file path is null. Email not sent.');
+        }
     }
 
     protected function truncateTables()
     {
-        // Perform truncation logic here
-        // You can use Eloquent or DB facade to truncate tables
-        // Example: DB::table('orders')->truncate();
-        //          DB::table('order_product')->truncate();
+        $tables = config('db_backup_tables.delete_tables');
+        DB::statement('SET FOREIGN_KEY_CHECKS=0');
+        foreach ($tables as $table) {
+            DB::table($table)->truncate();
+        }
+        DB::statement('SET FOREIGN_KEY_CHECKS=1');
         // Remember to handle foreign key constraints if any
         $this->info('Tables truncated.');
     }

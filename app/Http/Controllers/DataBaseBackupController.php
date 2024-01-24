@@ -61,6 +61,21 @@ class DataBaseBackupController extends Controller
         }
     }
 
+    public function runBackupEmailCommand()
+    {
+        try {
+            // Run the backup:email command
+            Artisan::call('backup:email');
+
+            // Get the output of the command
+            $output = Artisan::output();
+
+            return response()->json(['message' => 'Command executed successfully', 'output' => $output]);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
+
     private function extractBackupFilePath($output)
     {
         // Parse the output to find the backup file path

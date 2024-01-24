@@ -40,7 +40,7 @@ class ShareBackupFileMail extends Mailable
      */
     public function build()
     {
-        return $this->view('emails.share_backup_file')
+        return $this->view('emails.backup.share_backup_mail')
             ->attach($this->backupFilePath, [
                 'as' => 'backup_' . now()->format('d_M_Y_H_i_s') . '.sql',
                 'mime' => 'application/sql',
