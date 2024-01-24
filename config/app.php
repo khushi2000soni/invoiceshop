@@ -17,7 +17,7 @@ return [
     */
 
     'name' => 'Dashboard Widgets',
-    'email' => 'khushisoni.hipl@gmail.com',
+    'email' => 'comanymail@admin.com',
     'start_date' => '2022-01-05',
     'support_email' => env('COMPANY_SUPPORT_EMAIL', 'invoiceapp@invoice.com'),
     'support_phone' => env('COMPANY_SUPPORT_PHONE', '1234567890'),

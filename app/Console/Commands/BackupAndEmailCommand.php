@@ -37,7 +37,7 @@ class BackupAndEmailCommand extends Command
 
     protected function sendBackupEmail($backupFilePath)
     {
-        $to = config('app.email');
+        $to = getSetting('company_email') ?? '';
         $subject = 'Backup File ' . now()->format('d_M_Y_H_i_s');
         // Use the ShareBackupFileMail mail class
         if (!is_null($backupFilePath)) {

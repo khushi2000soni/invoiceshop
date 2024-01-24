@@ -99,7 +99,6 @@
                                     <div class="addnew-btn uploadfile circlebtn"><x-svg-icon icon="upload" /></div>
                                 </label>
                             </form>
-
                             @endcan
                           </div>
                         <div class="table-responsive fixed_Search">

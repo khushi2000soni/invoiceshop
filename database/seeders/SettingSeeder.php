@@ -39,6 +39,18 @@ class SettingSeeder extends Seeder
             //     'created_by' => 1,
             // ],
             [
+
+                'key'    => 'company_email',
+                'value'  => 'khushisoni.hipl@gmail.com',
+                'type'   => 'text',
+                'display_name'  => 'Company Email [Receive DB Backup]',
+                'group'  => 'web',
+                'details' => null,
+                'status' => 1,
+                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+                'created_by' => 1,
+            ],
+            [
                 'key'    => 'share_invoice_mail_message',
                 'value'  => 'Dear [PARTY_NAME] , Please Find your Invoice Detail below.',
                 'type'   => 'text_area',
