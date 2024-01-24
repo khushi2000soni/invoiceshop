@@ -68,7 +68,16 @@
         </li>
         @endcan
 
-        @can('report_access')
+        @can('report_category_access')
+        <li class="{{ Request::is('reports*') ? 'active' : '' }}">
+            <a href="{{ route('reports.category') }}" class="nav-link">
+                <x-side-bar-svg-icon icon="report" />
+                <span>@lang('quickadmin.report-management.fields.category_report')</span>
+            </a>
+        </li>
+        @endcan
+
+        {{-- @can('report_access')
         <li class="dropdown {{ Request::is('reports*') ? 'active' : '' }}">
             <a href="#" class="nav-link has-dropdown">
                 <x-side-bar-svg-icon icon="report" />
@@ -81,7 +90,7 @@
                 @endcan
             </ul>
         </li>
-        @endcan
+        @endcan --}}
 
         @can('modified_menu_access')
         <li class="dropdown {{ Request::is('modified*') ? 'active' : '' }}">

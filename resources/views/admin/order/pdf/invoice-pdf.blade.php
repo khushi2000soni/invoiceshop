@@ -63,7 +63,7 @@
                 </tr>
                 <tr>
                     <td style="font-size: 22px;"><strong>Phone no: {{ $order->customer->phone ?? 'N/A' }}</strong>  </td>
-                    <td style="font-size: 22px; text-align: right;"><strong>Time : {{$order->created_at->format('h:i:s A')}}</strong>  </td>
+                    <td style="font-size: 22px; text-align: right;"><strong>Time : {{$order->created_at->format('h:i A')}}</strong>  </td>
                 </tr>
             </tbody>
         </table>
