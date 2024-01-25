@@ -40,6 +40,18 @@ class SettingSeeder extends Seeder
             // ],
             [
 
+                'key'    => 'company_name',
+                'value'  => 'Invoice',
+                'type'   => 'text',
+                'display_name'  => 'Company Name [Login Page,Sidebar Top Title]',
+                'group'  => 'web',
+                'details' => null,
+                'status' => 1,
+                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+                'created_by' => 1,
+            ],
+            [
+
                 'key'    => 'company_email',
                 'value'  => 'khushisoni.hipl@gmail.com',
                 'type'   => 'text',

@@ -2,8 +2,8 @@
     <aside id="sidebar-wrapper">
       <div class="sidebar-brand">
         <a href="#">
-          <div class="circleimg"><img alt="image" src="{{asset('admintheme/assets/img/shopping-bag.png') }}" class="header-logo" /></div>
-          {{-- <span>@lang('quickadmin.qa_company_name')</span> --}}
+          {{-- <div class="circleimg"><img alt="image" src="{{asset('admintheme/assets/img/shopping-bag.png') }}" class="header-logo" /></div> --}}
+          <span>{{ getSetting('company_name') ?? ''}}</span>
         </a>
       </div>
       <ul class="sidebar-menu">

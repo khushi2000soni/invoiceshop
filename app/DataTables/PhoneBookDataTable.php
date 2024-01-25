@@ -36,7 +36,7 @@ class PhoneBookDataTable extends DataTable
             $phone= $ph1.$ph2;
             return $phone;
         })
-        ->editColumn('address.address',function($customer){
+        ->addColumn('address.address',function($customer){
             $address = $customer->address;
             return $address ? $address->address : '';
         })
@@ -57,13 +57,10 @@ class PhoneBookDataTable extends DataTable
             }
             return $action;
         })
-        // ->filterColumn('address', function ($query, $keyword) {
-        //     $query->whereHas('address', function ($q) use ($keyword) {
-        //         $q->where('address.address', 'like', "%$keyword%");
-        //     });
-        // })
-        ->orderColumn('address.address', function ($query, $keyword) {
-            $query->orderBy('address.address', 'asc');
+        ->filterColumn('address.address', function ($query, $keyword) {
+            $query->whereHas('address', function ($q) use ($keyword) {
+                $q->where('address.address', 'like', "%$keyword%");
+            });
         })
         ->filterColumn('created_at.address', function ($query, $keyword) {
             $query->whereRaw("DATE_FORMAT(customers.created_at,'%d-%M-%Y') like ?", ["%$keyword%"]); //date_format when searching using date
