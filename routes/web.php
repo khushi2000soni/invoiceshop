@@ -84,6 +84,7 @@ Route::middleware(['auth','PreventBackHistory'])->group(function () {
     Route::get('/orders-printView',[OrderController::class,'allinvoicePrintView'])->where('customer_id', '.*')->name('orders.allprint');
     Route::get('/orders-export',[OrderController::class,'allinvoiceExport'])->where('customer_id', '.*')->name('orders.allexport');
     Route::get('/orders/print/{order}/{type?}',[OrderController::class,'printView'])->name('orders.print');
+    Route::get('/orders/detail-print/{order}/{type?}',[OrderController::class,'orderdetailprint'])->name('orders.orderdetailprint');
     Route::patch('/orders/{order}/restore',[OrderController::class,'restore'])->name('orders.restore');
     Route::get('/get-orders/{type?}', [OrderController::class,'getTypeOrder'])->name('orders.getTypeOrder');
     Route::get('/orders/{order}/generate-pdf/{type?}',[OrderController::class,'generatePdf'])->name('orders.generate-pdf');

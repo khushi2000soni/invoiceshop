@@ -254,6 +254,36 @@ class OrderController extends Controller
         }
     }
 
+    public function orderdetailprint($order,$type=null){
+        abort_if(Gate::denies('invoice_print'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        try {
+            $pdfConfig = config('pdf');
+            if($type=='deleted'){
+                $order = Order::withTrashed()
+                ->with(['orderProduct' => function ($query) {
+                    $query->withTrashed()->with('product');
+                    $pdfConfig['show_watermark_image'] = true;
+                    $pdfConfig['watermark_image_path'] = public_path('admintheme/assets/img/cancelled.png');
+                }])
+                ->findOrFail($order);
+            }else{
+                $order = Order::withTrashed()->with('orderProduct.product')->findOrFail($order);
+                $pdfConfig['show_watermark_image'] = false;
+            }
+
+            $htmlView = view('admin.order.pdf.invoice-print',compact('order', 'type'))->render();
+            return response()->json([
+                'status'        => true,
+                'pdf' => $htmlView,
+            ]);
+        } catch (\Exception $e) {
+           // dd($e->getMessage());
+            return response()->json(['error' => 'Error generating PDF'], 500);
+        }
+    }
+
+
+
 
     public function generatePdf($orderId,$type=null)
     {
@@ -336,7 +366,7 @@ class OrderController extends Controller
 
     public function shareWhatsApp(Request $request, $order)
     {
-        dd($request->all());
+        //dd($request->all());
         // Generate the PDF (similar to the printPDF method) and provide a way to share it via WhatsApp.
         // You can open a WhatsApp web link or use a sharing package for Laravel.
 

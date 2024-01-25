@@ -1,10 +1,9 @@
 @can('invoice_print')
-<button class="btn btn-icon btn-info print-order-btn p-1 px-2 print-button" data-href="{{route('orders.print', ['order'=> $order->id,'type'=>'deleted'])}}" title="@lang('quickadmin.qa_print')" ><x-svg-icon icon="invoice-print" /> </button>
+{{-- <button class="btn btn-icon btn-info print-order-btn p-1 px-2 print-button" data-href="{{route('orders.print', ['order'=> $order->id,'type'=>'deleted'])}}" title="@lang('quickadmin.qa_print')" ><x-svg-icon icon="invoice-print" /> </button> --}}
+<a class="btn btn-icon btn-info print-invoice-btn p-1 px-2" data-href="{{route('orders.orderdetailprint', ['order'=> $order->id,'type'=>'deleted'])}}" title="@lang('quickadmin.qa_print')" ><x-svg-icon icon="invoice-print" /></a>
 @endcan
 
 @can('invoice_show')
-{{-- <button type="button" class="btn btn-outline-dark view-delete-orders px-2" data-toggle="modal" data-target="#OrderModal" data-href="{{route('orders.show', $order->id)}}">@lang('quickadmin.qa_view')</button> --}}
-
 <a type="button" class="btn btn-icon btn-info view-delete-orders p-1 px-2" href="{{route('orders.print-pdf',['order'=>$order->id,'type'=>'deleted'] )}}" title="@lang('quickadmin.qa_view')" target="_blank"><x-svg-icon icon="view" /> </a>
 @endcan
 

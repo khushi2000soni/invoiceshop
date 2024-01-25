@@ -240,6 +240,44 @@
         var dataTable = $('#dataaTable').DataTable();
         $('#invoice-print').printPage();
 
+        $(document).on('click','.print-invoice-btn', function(e){
+            e.preventDefault();
+            var actionurl = $(this).data('href');
+            console.log(actionurl);
+            $.ajax({
+                url: actionurl,
+                method: 'GET',
+                dataType: 'json', // Specify JSON as the expected data type
+                success: function (response) {
+                    if (response.status === true && response.pdf) {
+                             // Create the iframe dynamically
+                            var printFrame = $('<iframe>', {
+                                name: 'myiframe',
+                                class: 'printFrame',
+                                width: '100%',
+                                height: '100%',
+                            });
+                            // Append the iframe to the body
+                            $('body').append(printFrame);
+                            $('body .printFrame').css('display', 'none');
+                            printFrame.contents().find('body')
+                            .append(response.pdf);
+                            printFrame.focus();
+                            printFrame.get(0).contentWindow.print();
+                            // Remove the iframe after a delay
+                            setTimeout(() => {
+                            printFrame.remove();
+                            }, 1000);
+                    } else {
+                        console.error('Error fetching PDF:', response.error);
+                    }
+                },
+                error: function (xhr, status, error) {
+                console.error('Error fetching PDF:', error);
+                }
+            });
+        });
+
         // Page show from top when page changes
         $(document).on('draw.dt','#dataaTable', function (e) {
             e.preventDefault();
