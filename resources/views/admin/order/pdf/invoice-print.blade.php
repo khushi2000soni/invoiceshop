@@ -56,7 +56,7 @@
     </head>
 <body  class="@if($type=='deleted') table_wrapper @endif tablebody" >
     <header name="page-header" class="header">
-        <table  style="max-width: 100%; width: 100%; margin: 0px auto; padding-bottom: 10px;">
+        <table  style="max-width: 100%; width: 100%; margin: 0px auto; padding-bottom: 10px;margin-top:-15px">
             <tbody>
                 @if (!is_null(getSetting('invoice_pdf_top_title')))
                 <tr>
