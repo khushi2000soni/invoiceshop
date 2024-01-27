@@ -11,11 +11,11 @@ if (!function_exists('getCommonValidationRuleMsgs')) {
 	function getCommonValidationRuleMsgs()
 	{
 		return [
-            'currentpassword.required'=>'The current password is required.',
-			'password.required' => 'The new password is required.',
-			'password.min' => 'The new password must be at least 8 characters',
-			'password.different' => 'The new password and current password must be different.',
-			'password.confirmed' => 'The password confirmation does not match.',
+            'currentpassword.required'=>'The current Password is required.',
+			'password.required' => 'The new Password is required.',
+			'password.min' => 'The new Password must be at least 8 characters',
+			'password.different' => 'The new Password and current password must be different.',
+			'password.confirmed' => 'The Password confirmation does not match.',
 			'password_confirmation.required' => 'The new password confirmation is required.',
 			'password_confirmation.min' => 'The new password confirmation must be at least 8 characters',
 			'email.required' => 'Please enter email address.',

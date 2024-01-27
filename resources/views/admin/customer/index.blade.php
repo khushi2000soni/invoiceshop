@@ -131,17 +131,17 @@
                             <div class="row align-items-center">
                                 <div class="col-auto px-md-1 pr-1">
                                     @can('customer_create')
-                                    <button type="button" class="addnew-btn addRecordBtn sm_btn circlebtn"  data-href="{{ route('customers.create')}}"><x-svg-icon icon="add" /></button>
+                                    <button type="button" class="addnew-btn addRecordBtn sm_btn circlebtn"  data-href="{{ route('customers.create')}}" title="@lang('quickadmin.qa_add_new')"><x-svg-icon icon="add" /></button>
                                     @endcan
                                 </div>
                                 <div class="col-auto px-1">
                                     @can('customer_print')
-                                    <a href="{{ route('customers.print') }}" class="btn printbtn h-10 col circlebtn"  id="print-button"> <x-svg-icon icon="print" /></a>
+                                    <a href="{{ route('customers.print') }}" class="btn printbtn h-10 col circlebtn"  id="print-button" title="@lang('quickadmin.qa_print')"> <x-svg-icon icon="print" /></a>
                                     @endcan
                                 </div>
                                 <div class="col-auto pl-1">
                                     @can('customer_export')
-                                    <a href="{{ route('customers.export') }}" class="btn excelbtn h-10 col circlebtn"  id="excel-button"><x-svg-icon icon="excel" /></a>
+                                    <a href="{{ route('customers.export') }}" class="btn excelbtn h-10 col circlebtn"  id="excel-button" title="@lang('quickadmin.qa_excel')"><x-svg-icon icon="excel" /></a>
                                     @endcan
                                 </div>
                             </div>

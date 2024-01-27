@@ -35,7 +35,7 @@ class CategoryDataTable extends DataTable
                 }
                 return $name;
             })
-            ->editColumn('total_product', function ($category) {
+            ->addColumn('total_product', function ($category) {
                 return $category->total_product;
             })
             ->editColumn('created_at', function ($category) {
@@ -104,7 +104,7 @@ class CategoryDataTable extends DataTable
 
             Column::make('DT_RowIndex')->title(trans('quickadmin.qa_sn'))->orderable(false)->searchable(false),
             Column::make('name')->title(trans('quickadmin.category.fields.name')),
-            Column::make('total_product')->title(trans('quickadmin.category.fields.total_product'))->orderable(false)->searchable(false),
+            Column::make('total_product')->title(trans('quickadmin.category.fields.total_product')),
             Column::make('created_at')->title(trans('quickadmin.category.fields.created_at')),
             Column::computed('action')
             ->exportable(false)

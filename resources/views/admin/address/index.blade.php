@@ -120,17 +120,17 @@
                             <div class="row align-items-center">
                                 <div class="col-auto px-md-1 pr-1">
                                     @can('address_create')
-                                    <button type="button" class="add_address addRecordBtn sm_btn circlebtn" data-toggle="modal" data-target="#centerModal" data-href="{{ route('address.create')}}"><x-svg-icon icon="add-address" /></button>
+                                    <button type="button" class="add_address addRecordBtn sm_btn circlebtn" data-toggle="modal" data-target="#centerModal" data-href="{{ route('address.create')}}" title="@lang('quickadmin.qa_add_new')"><x-svg-icon icon="add-address" /></button>
                                     @endcan
                                 </div>
                                 <div class="col-auto px-1">
                                     @can('address_print')
-                                    <a href="{{ route('address.print') }}" class="btn h-10 printbtn col circlebtn"  id="print-button"><x-svg-icon icon="print" /></a>
+                                    <a href="{{ route('address.print') }}" class="btn h-10 printbtn col circlebtn"  id="print-button" title="@lang('quickadmin.qa_print')"><x-svg-icon icon="print" /></a>
                                     @endcan
                                 </div>
                                 <div class="col-auto pl-1">
                                     @can('address_export')
-                                    <a href="{{ route('address.export') }}" class="btn h-10 excelbtn col circlebtn"  id="excel-button"><x-svg-icon icon="excel" /></a>
+                                    <a href="{{ route('address.export') }}" class="btn h-10 excelbtn col circlebtn"  id="excel-button" title="@lang('quickadmin.qa_excel')"><x-svg-icon icon="excel" /></a>
                                     @endcan
                                 </div>
                             </div>

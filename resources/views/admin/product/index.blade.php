@@ -144,18 +144,18 @@
                                     <div class="row align-items-center">
                                         <div class="col-auto px-1">
                                             @can('product_create')
-                                            <button type="button" class="addnew-btn addRecordBtn sm_btn circlebtn"  data-href="{{ route('products.create')}}"><x-svg-icon icon="add-item" /></button>
+                                            <button type="button" class="addnew-btn addRecordBtn sm_btn circlebtn"  data-href="{{ route('products.create')}}" title="@lang('quickadmin.qa_add_new')"><x-svg-icon icon="add-item" /></button>
                                             @endcan
                                         </div>
 
                                         <div class="col-auto px-1">
                                             @can('product_print')
-                                            <a href="{{ route('products.print') }}" class="btn h-10 printbtn col circlebtn"  id="print-button"><x-svg-icon icon="print" /></a>
+                                            <a href="{{ route('products.print') }}" class="btn h-10 printbtn col circlebtn"  id="print-button" title="@lang('quickadmin.qa_print')"><x-svg-icon icon="print" /></a>
                                             @endcan
                                         </div>
                                         <div class="col-auto pl-1">
                                             @can('product_export')
-                                            <a href="{{ route('products.export')}}" class="btn h-10 excelbtn col circlebtn"  id="excel-button"><x-svg-icon icon="excel" /></a>
+                                            <a href="{{ route('products.export')}}" class="btn h-10 excelbtn col circlebtn"  id="excel-button" title="@lang('quickadmin.qa_excel')"><x-svg-icon icon="excel" /></a>
                                             @endcan
                                         </div>
                                     </div>

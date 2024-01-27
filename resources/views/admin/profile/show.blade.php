@@ -106,11 +106,11 @@
                       </div></div>
                       <div class="col-lg-6">
                       <div class="form-group">
-                          <label for="password">@lang('quickadmin.profile.fields.usernameid')</label>
+                          <label for="username">@lang('quickadmin.profile.fields.usernameid')</label>
                           <div class="input-group">
                             <div class="input-group-prepend">
                               <div class="input-group-text">
-                                <i class="fas fa-lock"></i>
+                                <i class="fas fa-user"></i>
                               </div>
                             </div>
                             <input type="text" value="{{ old('username',$user->username) }}" id="username" class="form-control  @error('username') is-invalid @enderror" name="username" tabindex="1"   autofocus>

@@ -13,9 +13,9 @@
         <div class="col-12 col-md-12 col-lg-8">
           <div class="card">
             <div class="padding-20">
-                  <form method="post" class="needs-validation">
+                  <form method="post" >
                     <div class="card-header">
-                      <h4>@lang('quickadmin.qa_reset_password') </h4>
+                      <h4>@lang('quickadmin.qa_change_password') </h4>
                     </div>
                     <div class="card-body">
                         <form method="POST" action="{{route('reset-password')}}">
@@ -28,7 +28,7 @@
                                       <i class="fas fa-lock"></i>
                                     </div>
                                   </div>
-                                  <input type="password" value="{{ old('currentpassword') }}" id="currentpassword" class="form-control  @error('currentpassword') is-invalid @enderror" name="currentpassword" tabindex="1"   autofocus>
+                                  <input type="password" value="{{ old('currentpassword') }}" id="currentpassword" class="form-control  @error('currentpassword') is-invalid @enderror" name="currentpassword" tabindex="1">
                                   @error('currentpassword')
                                   <div class="invalid-feedback">
                                     {{ $message }}
@@ -44,7 +44,7 @@
                                       <i class="fas fa-lock"></i>
                                     </div>
                                   </div>
-                                  <input type="password" value="{{ old('password') }}" id="password" class="form-control  @error('password') is-invalid @enderror" name="password" tabindex="1"   autofocus>
+                                  <input type="password" value="{{ old('password') }}" id="password" class="form-control  @error('password') is-invalid @enderror" name="password" tabindex="1"   >
                                   @error('password')
                                   <div class="invalid-feedback">
                                     {{ $message }}
@@ -60,7 +60,7 @@
                                       <i class="fas fa-lock"></i>
                                     </div>
                                   </div>
-                                  <input type="password" value="{{ old('password_confirmation') }}" id="password_confirmation" class="form-control @error('password_confirmation') is-invalid @enderror" name="password_confirmation" tabindex="1"   autofocus>
+                                  <input type="password" value="{{ old('password_confirmation') }}" id="password_confirmation" class="form-control @error('password_confirmation') is-invalid @enderror" name="password_confirmation" tabindex="1"   >
                                   @error('password_confirmation')
                                   <div class="invalid-feedback">
                                     {{ $message }}
@@ -76,10 +76,7 @@
                             </div>
                         </form>
                     </div>
-
                   </form>
-
-
             </div>
           </div>
         </div>

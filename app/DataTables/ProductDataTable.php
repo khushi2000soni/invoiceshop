@@ -33,7 +33,7 @@ class ProductDataTable extends DataTable
                 $category = $product->category;
                 return $category ? $category->name : '';
             })
-            ->editColumn('order_count', function ($product) {
+            ->addColumn('order_count', function ($product) {
                 return  $product->order_count;
             })
             ->editColumn('created_at', function ($product) {
@@ -107,7 +107,7 @@ class ProductDataTable extends DataTable
             Column::make('DT_RowIndex')->title(trans('quickadmin.qa_sn'))->orderable(false)->searchable(false),
             Column::make('name')->title(trans('quickadmin.product.fields.name')),
             Column::make('category.name')->title(trans('quickadmin.product.fields.category_name')),
-            Column::make('order_count')->title(trans('quickadmin.product.fields.order_count'))->orderable(false)->searchable(false),
+            Column::make('order_count')->title(trans('quickadmin.product.fields.order_count')),
             Column::make('created_at')->title(trans('quickadmin.product.fields.created_at')),
             Column::computed('action')
             ->exportable(false)

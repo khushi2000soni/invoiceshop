@@ -22,6 +22,10 @@ class TitleValidationRule implements Rule
         //     return false;
         // }
 
+        if (preg_match('/[0-9]/', $value)) {
+            return false;
+        }
+
         return true;
     }
 

@@ -28,22 +28,22 @@
                                     <div class="row align-items-center">
                                         <div class="col-auto px-1">
                                             @can('staff_create')
-                                            <button type="button" class="addnew-btn addRecordBtn sm_btn circlebtn" data-toggle="modal" data-target="#centerModal" data-href="{{ route('staff.create')}}"><x-svg-icon icon="add" /></button>
+                                            <button type="button" class="addnew-btn addRecordBtn sm_btn circlebtn" data-toggle="modal" data-target="#centerModal" data-href="{{ route('staff.create')}}" title="@lang('quickadmin.qa_add_new')"><x-svg-icon icon="add" /></button>
                                             @endcan
                                         </div>
                                         <div class="col-auto px-1">
                                             @can('staff_print')
-                                            <a href="{{ route('staff.print') }}" class="printbtn btn h-10 col circlebtn"  id="print-button"><x-svg-icon icon="print" /></a>
+                                            <a href="{{ route('staff.print') }}" class="printbtn btn h-10 col circlebtn"  id="print-button"  title="@lang('quickadmin.qa_print')"><x-svg-icon icon="print" /></a>
                                             @endcan
                                         </div>
                                         <div class="col-auto pl-1">
                                             @can('staff_export')
-                                            <a href="{{ route('staff.export')}}" class="excelbtn btn h-10 col circlebtn"  id="excel-button"><x-svg-icon icon="excel" /></a>
+                                            <a href="{{ route('staff.export')}}" class="excelbtn btn h-10 col circlebtn"  id="excel-button" title="@lang('quickadmin.qa_excel')"><x-svg-icon icon="excel" /></a>
                                             @endcan
                                         </div>
                                         <div class="col-auto pl-1">
                                             @can('staff_rejoin')
-                                            <a href="{{ route('staff.typeindex',['type'=> 'deleted'])}}" class="recycleicon btn h-10 col circlebtn"  id="excel-button"><x-svg-icon icon="rejoin-btn" /></a>
+                                            <a href="{{ route('staff.typeindex',['type'=> 'deleted'])}}" class="recycleicon btn h-10 col circlebtn" title="@lang('quickadmin.qa_rejoin_staff')"><x-svg-icon icon="rejoin-btn" /></a>
                                             @endcan
                                         </div>
                                     </div>

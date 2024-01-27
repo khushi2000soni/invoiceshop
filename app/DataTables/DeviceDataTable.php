@@ -76,6 +76,7 @@ class DeviceDataTable extends DataTable
      */
     public function query(Device $model): QueryBuilder
     {
+        $model->orderBy('created_at','desc');
         return $model->newQuery()->with('staff');
     }
 

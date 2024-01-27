@@ -35,7 +35,7 @@ class AddressDataTable extends DataTable
                     return  $address->address;
                 }
             })
-            ->editColumn('no_of_customer', function ($address) {
+            ->addColumn('no_of_customer', function ($address) {
                 return $address->customers->count() ?? 0;
             })
             ->editColumn('created_at', function ($address) {
@@ -61,7 +61,7 @@ class AddressDataTable extends DataTable
             ->filterColumn('created_at', function ($query, $keyword) {
                 $query->whereRaw("DATE_FORMAT(address.created_at,'%d-%M-%Y') like ?", ["%$keyword%"]); //date_format when searching using date
             })
-            ->rawColumns(['action','address', 'customersTable']);
+            ->rawColumns(['action','address']);
     }
 
 
@@ -73,9 +73,8 @@ class AddressDataTable extends DataTable
         if(isset(request()->address_id) && request()->address_id){
             $model = $model->where('id', request()->address_id);
         }
-        //return $model->orderBy('address','asc')->newQuery();
-
-        return $model->orderByRaw('CAST(address AS SIGNED), address')->newQuery();
+       // return $model->orderBy('address','asc')->newQuery();
+       return $model->orderByRaw('CAST(address AS SIGNED), address')->newQuery();
     }
 
     /**
@@ -89,21 +88,12 @@ class AddressDataTable extends DataTable
             'responsive' => true,
             'pageLength' => 70,
             'lengthMenu' => [[10, 25, 50, 70, 100, -1], [10, 25, 50, 70, 100, 'All']],
-            //'stripeClasses' => ['bg-light', 'bg-white'],
         ])
         ->columns($this->getColumns())
         ->minifiedAjax()
         ->dom('lfrtip')
         ->orderBy(1)
         ->selectStyleSingle();
-        // ->buttons([
-        //     // Button::make('excel')->exportOptions(['columns' => [0, 1, 2,3]]),
-        //     // Button::make('print')->exportOptions(['columns' => [0, 1, 2,3]]),
-        //     // Button::make('excel'),
-        //     // Button::make('csv'),
-        //     // Button::make('pdf'),
-        //     // Button::make('print'),
-        // ]);
     }
 
     /**
@@ -112,10 +102,9 @@ class AddressDataTable extends DataTable
     public function getColumns(): array
     {
         return [
-
             Column::make('DT_RowIndex')->title(trans('quickadmin.qa_sn'))->orderable(false)->searchable(false),
             Column::make('address')->title(trans('quickadmin.address.fields.list.address')),
-            Column::make('no_of_customer')->title(trans('quickadmin.address.fields.list.no_of_customer'))->orderable(false)->searchable(false),
+            Column::make('no_of_customer')->title(trans('quickadmin.address.fields.list.no_of_customer')),
             Column::make('created_at')->title(trans('quickadmin.address.fields.list.created_at')),
             Column::computed('action')
             ->exportable(false)
