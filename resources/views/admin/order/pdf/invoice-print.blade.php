@@ -52,6 +52,9 @@
                 size: 8.5in 11in;
             }
         }
+
+
+
         </style>
     </head>
 <body  class="@if($type=='deleted') table_wrapper @endif tablebody" >
