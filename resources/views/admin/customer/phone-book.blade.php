@@ -184,9 +184,7 @@ $(document).ready(function () {
 
     $(document).on('click','.addNewAddressBtn',function(e){
         e.preventDefault();
-
         var hrefUrl = '{{ route('address.create') }}';
-        console.log(hrefUrl);
         $.ajax({
             type: 'get',
             url: hrefUrl,
@@ -194,7 +192,6 @@ $(document).ready(function () {
             success: function (response) {
                 //$('#preloader').css('display', 'none');
                 if(response.success) {
-                    console.log('success');
                     $('.popup_render_div').html(response.htmlView);
                     $('#centerModal').modal('show');
                     $(".js-example-basic-single").select2({
@@ -219,20 +216,12 @@ $(document).ready(function () {
             dataType: 'json',
             success: function (response) {
                 if (response.success) {
-                    console.log('success');
                     $('.addressmodalbody').remove();
                     $('.popup_render_div #address_id').select2('close');
                     $('.popup_render_div').after('<div class="addressmodalbody" style="display: block;"></div>');
                     $('.addressmodalbody').html(response.htmlView);
                     $('.addressmodalbody #centerModal').modal('show');
                     $('.addressmodalbody #centerModal').attr('style', 'z-index: 100000');
-                    // $('.addressmodalbody #centerModal').modal('show');
-                    // $('.addressmodalbody #centerModal').attr('style', 'z-index: 100000');
-                    // $('.popup_render_div #centerModal').modal('show');
-                    // $('.popup_render_div #centerModal').on('shown.bs.modal', function () {
-                    //     $('.addressmodalbody #centerModal').modal('show');
-                    //     $('.addressmodalbody #centerModal').attr('style', 'z-index: 100000');
-                    // });
                 }
             }
         });
@@ -246,7 +235,6 @@ $(document).ready(function () {
     $(document).on('click', '.addRecordBtn', function (e) {
         e.preventDefault();
         var hrefUrl = $(this).attr('data-href');
-        console.log(hrefUrl);
         $.ajax({
             type: 'get',
             url: hrefUrl,
@@ -255,10 +243,8 @@ $(document).ready(function () {
                 if (response.success) {
                     // Render the modal content for the first modal
                     $('.popup_render_div').html(response.htmlView);
-
                     // Show the first modal
                     $('.popup_render_div #centerModal').modal('show');
-
                     // Initialize select2 for the first modal
                     $(".js-example-basic-single").select2({
                     dropdownParent: $('.popup_render_div #centerModal') // Set the dropdown parent to the modal
@@ -277,7 +263,6 @@ $(document).ready(function () {
 
     $("body").on("click", ".edit-customers-btn", function () {
             var hrefUrl = $(this).attr('data-href');
-            console.log(hrefUrl);
             $.ajax({
                 type: 'get',
                 url: hrefUrl,
@@ -285,7 +270,6 @@ $(document).ready(function () {
                 success: function (response) {
                     //$('#preloader').css('display', 'none');
                     if(response.success) {
-                        console.log('success');
                         $('.popup_render_div').html(response.htmlView);
                         $('#editModal').modal('show');
                          // Initialize select2 for the first modal
@@ -302,7 +286,6 @@ $(document).ready(function () {
 
     $("body").on("click", ".edit-password-btn", function () {
             var hrefUrl = $(this).attr('data-href');
-            console.log(hrefUrl);
             $.ajax({
                 type: 'get',
                 url: hrefUrl,
@@ -310,7 +293,6 @@ $(document).ready(function () {
                 success: function (response) {
                     //$('#preloader').css('display', 'none');
                     if(response.success) {
-                        console.log('success');
                         $('.popup_render_div').html(response.htmlView);
                         $('#passwordModal').modal('show');
                     }
@@ -367,7 +349,6 @@ $(document).ready(function () {
         $(".is-invalid").removeClass('is-invalid');
         var formData = $(this).serialize();
         var formAction = $(this).attr('action');
-        console.log(formAction);
 
         $.ajax({
             url: formAction,
@@ -408,7 +389,6 @@ $(document).ready(function () {
         $(".is-invalid").removeClass('is-invalid');
         var formData = $(this).serialize();
         var formAction = $(this).attr('action');
-        console.log(formAction);
 
         $.ajax({
             url: formAction,
@@ -444,7 +424,6 @@ $(document).ready(function () {
 
     $(document).on('submit', '.deleteForm', function(e) {
         e.preventDefault();
-        console.log(2);
         var formAction = $(this).attr('action');
         swal({
         title: "{{ trans('messages.deletetitle') }}",
@@ -502,9 +481,7 @@ $(document).ready(function () {
 
                     form.closest('#centerModal').modal('hide');
                     var newOption = new Option(response.address.address, response.address.id, true, true);
-                    //console.log(newOption);
                     $('#citiwise-filter-form #address_id').append(newOption).trigger('change');
-
                     var alertType = response['alert-type'];
                     var message = response['message'];
                     var title = "{{ trans('quickadmin.address.address') }}";
@@ -558,7 +535,6 @@ $(document).ready(function () {
 
         exportUrl = "{{ route('PhoneBook.export') }}" + '/' + address_id;
         printUrl = "{{ route('PhoneBook.print') }}" + '/' + address_id;
-        console.log(exportUrl);
         // Apply filters to the DataTable
         DataaTable.ajax.url("{{ route('showPhoneBook') }}?"+$.param(params)).load();
         $('#excel-button').attr('href', exportUrl);

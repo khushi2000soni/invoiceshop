@@ -56,15 +56,12 @@ $(document).ready(function () {
        // $('#preloader').css('display', 'flex');
        e.preventDefault();
         var hrefUrl = $(this).attr('data-href');
-        console.log(hrefUrl);
         $.ajax({
             type: 'get',
             url: hrefUrl,
             dataType: 'json',
             success: function (response) {
-                //$('#preloader').css('display', 'none');
                 if(response.success) {
-                    console.log('success');
                     $('.popup_render_div').html(response.htmlView);
                     $('#centerModal').modal('show');
                 }
@@ -75,7 +72,6 @@ $(document).ready(function () {
     $("body").on("click", ".edit-device-btn", function (e) {
         e.preventDefault();
             var hrefUrl = $(this).attr('data-href');
-            console.log(hrefUrl);
             $.ajax({
                 type: 'get',
                 url: hrefUrl,
@@ -83,7 +79,6 @@ $(document).ready(function () {
                 success: function (response) {
                     //$('#preloader').css('display', 'none');
                     if(response.success) {
-                        console.log('success');
                         $('.popup_render_div').html(response.htmlView);
                         $('#editModal').modal('show');
                     }
@@ -93,7 +88,6 @@ $(document).ready(function () {
 
     $("body").on("click", ".edit-password-btn", function () {
             var hrefUrl = $(this).attr('data-href');
-            console.log(hrefUrl);
             $.ajax({
                 type: 'get',
                 url: hrefUrl,
@@ -101,7 +95,6 @@ $(document).ready(function () {
                 success: function (response) {
                     //$('#preloader').css('display', 'none');
                     if(response.success) {
-                        console.log('success');
                         $('.popup_render_div').html(response.htmlView);
                         $('#passwordModal').modal('show');
                     }
@@ -158,7 +151,6 @@ $(document).ready(function () {
         $(".is-invalid").removeClass('is-invalid');
         var formData = $(this).serialize();
         var formAction = $(this).attr('action');
-        console.log(formAction);
 
         $.ajax({
             url: formAction,
@@ -199,7 +191,6 @@ $(document).ready(function () {
         $(".is-invalid").removeClass('is-invalid');
         var formData = $(this).serialize();
         var formAction = $(this).attr('action');
-        console.log(formAction);
 
         $.ajax({
             url: formAction,
@@ -235,7 +226,6 @@ $(document).ready(function () {
 
     $(document).on('submit', '.deleteForm', function(e) {
         e.preventDefault();
-        console.log(2);
         var formAction = $(this).attr('action');
         swal({
         title: "{{ trans('messages.deletetitle') }}",

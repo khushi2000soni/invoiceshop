@@ -232,10 +232,7 @@
         });
         order.deleted_products=[];
         updateLocalStorage(order);
-        // order.sub_total = calculateSubtotal();
-        // order.grand_total = calculateGrandTotal();
         var storedOrder = JSON.parse(localStorage.getItem("order"));
-        console.log(storedOrder);
         if (storedOrder && storedOrder.products) {
             order = storedOrder;
             order.products.forEach(function (product, index) {
@@ -248,8 +245,6 @@
         $('#sub_total_amount').text(order.sub_total);
         $('#round_off_amount').text(order.round_off_amount);
         $('#grand_total_amount').text(order.grand_total);
-
-        //$('#sub_total_amount').text(order.sub_total);
 
         $("#customer_id").change(function (e) {
             e.preventDefault();
@@ -267,7 +262,6 @@
 
         $("#is_round_off").change(function (e) {
             e.preventDefault();
-            console.log('yes');
             order.is_round_off = this.checked ? 1 : 0;
             calculateGrandTotal();
         });
@@ -294,7 +288,6 @@
                     newRow.data('rowIndex', rowIndex);
                     newRow.data('order-id', storedOrder.orderid); // Set data-order-id attribute
                     newRow.data('order-product-id', product.order_product_id); // Set order_product_id attribute
-                    console.log('newRow',newRow);
                     // Update values in the new row
                     newRow.find('.js-product-basic-single').val(product.product_id).trigger('change');
                     newRow.find('input[name="quantity"]').val(product.quantity);
@@ -392,11 +385,9 @@
 
             lastRow.find('.addNewBlankRow').hide();
             newRow.find('.addNewBlankRow').show();
-           // console.log(productRecord);
             order.products.push(productRecord);
             updateLocalStorage(order);
             updateSubtotal();
-            // Calculate and update grand total
             calculateGrandTotal();
         }
 
@@ -413,7 +404,6 @@
             var product_id = parseInt(row.find('select[name="product_id"]').val());
             var quantity = parseFloat(row.find('input[name="quantity"]').val());
             var price = parseFloat(row.find('input[name="price"]').val());
-           // console.log('customer_id',customer_id);
             var errors = {
                 customer_id: "The Customer Name is required.",
                 product_id: "The Product Name is required.",
@@ -423,7 +413,6 @@
             };
 
             var hasErrors = false;
-
             // Check if customer_id is filled
             if (!customer_id) {
                 $('select[name="customer_id"]').addClass('is-invalid');
@@ -505,7 +494,6 @@
         $('.ordertable tbody').on('input', '#quantity, #price', function () {
             removerror();
             var row = $(this).closest('tr');
-            //console.log('row', row);
             calculateAmount(row);
         });
 
@@ -539,23 +527,13 @@
 
         $(document).on('select2:open','.js-product-basic-single', function (e) {
             e.preventDefault();
-            console.log('active');
-            //$(this).addClass('active');
             $(this).siblings('.select2-container').addClass('active');
             activeSelect2 = $(this);
         });
 
-        // $('.js-product-basic-single').on('select2:close', function (e) {
-        //     e.preventDefault();
-        //     // Remove the 'active' class when the dropdown is closed
-        //     $(this).removeClass('active');
-        // });
-
-
         function updateLocalStorage(order) {
             localStorage.setItem('order', JSON.stringify(order));
         }
-
 
         // Function to clear the form fields
         function clearForm() {
@@ -580,7 +558,6 @@
 
         function updateSubtotal() {
             var subtotal = calculateSubtotal();
-            console.log('subtotal',subtotal);
             $('#sub_total_amount').text(subtotal.toFixed(2));
             order.sub_total = subtotal;
             updateLocalStorage(order);
@@ -734,7 +711,6 @@
 
                     // If the deleted row had the addNewBlankRow button, add it to the previous row
                     if (hasAddNewButton) {
-                        console.log('res');
                         var lastRow = $('.ordertable tbody tr:not(.template-row):last');
                         lastRow.find('.addNewBlankRow').show();
                     }
@@ -764,21 +740,15 @@
             var gethis = $(this);
             var hrefUrl = "{{ route('customers.create') }}";
             $('.modal-backdrop').remove();
-           // console.log(hrefUrl);
             $.ajax({
                 type: 'get',
                 url: hrefUrl,
                 dataType: 'json',
                 success: function (response) {
                     if(response.success) {
-                        console.log('success');
-
-                        //$("body").addClass("modal-open");
                         $('.popup_render_div').html(response.htmlView);
-
                         // Show the first modal
                         $('.popup_render_div #centerModal').modal('show');
-
                         // Initialize select2 for the first modal
                         $(".js-example-basic-single").select2({
                         dropdownParent: $('.popup_render_div #centerModal') // Set the dropdown parent to the modal
@@ -799,14 +769,12 @@
             var gethis = $(this);
             var hrefUrl = "{{ route('address.create') }}";
             $('.modal-backdrop').remove();
-            // Fetch data and populate the second modal
             $.ajax({
                 type: 'get',
                 url: hrefUrl,
                 dataType: 'json',
                 success: function (response) {
                     if (response.success) {
-                        //console.log('success');
                         $('.addressmodalbody').remove();
                         $('.popup_render_div #address_id').select2('close');
                         $('.popup_render_div').after('<div class="addressmodalbody" style="display: block;"></div>');
@@ -829,9 +797,6 @@
                 dataType: 'json',
                 success: function (response) {
                     if(response.success) {
-                        //$("body").addClass("modal-open");
-                        // console.log(gethis.parent());
-                        // $('.js-product-basic-single .active')
                         $('.popup_render_div').html(response.htmlView);
                         $('.popup_render_div #centerModal').modal('show');
                         $(".js-example-basic-single").select2({
@@ -915,7 +880,6 @@
                         var title = response['title'];
 
                         var newOption = new Option(response.selectdata.name, response.selectdata.id, true, true);
-                        //console.log(newOption);
                         if (response.selectdata.formtype == 'customer') {
                             $('#customer_id').append(newOption).trigger('change');
                         } else if (response.selectdata.formtype == 'product') {
@@ -935,8 +899,6 @@
                 },
                 error: function (xhr) {
                     var errors= xhr.responseJSON.errors;
-                    //console.log(xhr.responseJSON);
-
                     for (const elementId in errors) {
                         $("#"+elementId).addClass('is-invalid');
                         var errorHtml = '<div><span class="error text-danger">'+errors[elementId]+'</span></div>';
@@ -968,26 +930,18 @@
                 success: function (response) {
                         // $('.addressmodalbody #centerModal').modal('hide');
                         // $('.popup_render_div #centerModal').modal('hide');
-
                         form.closest('#centerModal').modal('hide');
-
                         var newOption = new Option(response.address.address, response.address.id, true, true);
-                        //console.log(newOption);
                         $('.popup_render_div #centerModal #address_id').append(newOption).trigger('change');
-
                         var alertType = response['alert-type'];
                         var message = response['message'];
                         var title = "{{ trans('quickadmin.address.address') }}";
                         showToaster(title,alertType,message);
                         $('#AddaddressForm')[0].reset();
-                        //location.reload();
-                        //DataaTable.ajax.reload();
                         $("#AddaddressForm button[type=submit]").prop('disabled',false);
                 },
                 error: function (xhr) {
                     var errors= xhr.responseJSON.errors;
-                    //console.log(xhr.responseJSON);
-
                     for (const elementId in errors) {
                         $("#"+elementId).addClass('is-invalid');
                         var errorHtml = '<div><span class="error text-danger">'+errors[elementId]+'</span></';
@@ -1008,9 +962,6 @@
             var form = $(this);
             var formData = $(this).serialize();
             var formAction = $(this).attr('action');
-            // console.log(formAction);
-            // console.log(formData);
-
             $.ajax({
                 url: formAction,
                 type: 'POST',
@@ -1023,24 +974,17 @@
                         // $('.popup_render_div #centerModal').modal('hide');
 
                         form.closest('#centerModal').modal('hide');
-
                         var alertType = response['alert-type'];
                         var message = response['message'];
                         var title = "{{ trans('quickadmin.category.category') }}";
-
                         var newOption = new Option(response.category.name, response.category.id, true, true);
-                        //console.log(newOption);
                         $('.popup_render_div #category_id').append(newOption).trigger('change');
                         showToaster(title,alertType,message);
                         $('#AddCategoryForm')[0].reset();
-                    // location.reload();
-
-                    $("#AddCategoryForm button[type=submit]").prop('disabled',false);
+                        $("#AddCategoryForm button[type=submit]").prop('disabled',false);
                 },
                 error: function (xhr) {
                     var errors= xhr.responseJSON.errors;
-                    //console.log(xhr.responseJSON);
-
                     for (const elementId in errors) {
                         $("#"+elementId).addClass('is-invalid');
                         var errorHtml = '<div><span class="error text-danger">'+errors[elementId]+'</span></';
@@ -1100,8 +1044,6 @@
                         var alertType = response['alert-type'];
                         var message = response['message'];
                         var title = "{{ trans('quickadmin.order.order') }}";
-                        //showToaster(title,alertType,message);
-                        //swal(title, message, alertType);
                         swal({
                         title: title,
                         text: message,

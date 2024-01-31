@@ -170,7 +170,6 @@
 
             var formaction = $(this).data('action');
             var fileName = $(this).data('file-name');
-            console.log('fileName',fileName);
             swal({
             title: "{{ trans('messages.deletetitle') }}",
             text: "{{ trans('messages.areYouSure') }}",
@@ -216,8 +215,6 @@
             e.preventDefault();
             var formaction = $(this).data('action');
             var fileName = $(this).data('file-name');
-            console.log('fileName',fileName);
-            console.log('formaction',formaction);
             swal({
             title: "{{ trans('messages.restoretitle') }}",
             text: "{{ trans('messages.areYouSurerestore') }}",

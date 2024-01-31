@@ -232,9 +232,6 @@ $(document).ready(function() {
         }
     });
 
-    // $('#orderChart').css('height', '600px');
-    // $('#orderChart').css('width', '100%');
-
     function updateChart(timeFrame) {
         var data = { timeFrame: timeFrame };
         $.ajax({
@@ -244,7 +241,6 @@ $(document).ready(function() {
             success: function(response) {
                 var newData = response.data;
                 $('#timeFrameOrderChartSelect').val(response.timeFrame);
-                //console.log('newData', newData);
                 orderChart.data.labels = newData.labels;
                 orderChart.data.datasets[0].data = newData.values;
                 orderChart.update();
@@ -274,7 +270,6 @@ $(document).ready(function() {
             data: data,
             success: function(response) {
                 var newData = response.data;
-                //console.log('newData', newData);
                 // Update the table content
                 var tableBody = $('#order-table-body tbody');
                 tableBody.empty();

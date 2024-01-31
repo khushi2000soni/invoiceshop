@@ -265,8 +265,6 @@ $('#EditprofileForm').on('submit', function (e) {
         $(".is-invalid").removeClass('is-invalid');
         var formData = $(this).serialize();
         var formAction = $(this).attr('action');
-        console.log(formAction);
-
         $.ajax({
             url: formAction,
             type: 'POST',

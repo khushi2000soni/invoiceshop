@@ -175,7 +175,6 @@
             data: params,
             dataType: 'json',
             success: function(response) {
-                //console.log(response);
                 chart.series.clear();
                 chart.data = response;
                 var series = chart.series.push(new am4charts.PieSeries3D());
@@ -279,7 +278,6 @@ $(document).ready(function(){
     $(document).on("click", ".category-product-detail", function () {
         var hrefUrl = $(this).attr('data-href');
         $('.modal-backdrop').remove();
-        console.log(hrefUrl);
         $.ajax({
             type: 'get',
             url: hrefUrl,
@@ -287,7 +285,6 @@ $(document).ready(function(){
             success: function (response) {
                 //$('#preloader').css('display', 'none');
                 if(response.success) {
-                    console.log('success');
                     $('.popup_render_div').html(response.htmlView);
                     $('#categoryProductModal').modal('show');
                     $('#report-product-print').printPage();

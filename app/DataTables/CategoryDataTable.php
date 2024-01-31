@@ -45,14 +45,14 @@ class CategoryDataTable extends DataTable
                 $action='';
                 if (Gate::check('category_edit')) {
                 $editIcon = view('components.svg-icon', ['icon' => 'edit'])->render();
-                $action .= '<button  class="btn edit-category-btn"  data-id="'.encrypt($category->id).'" data-name="'. $category->name .'" data-href="'.route('categories.edit', $category->id).'">'.$editIcon.'</button>';
+                $action .= '<button  class="btn btn-info edit-category-btn"  data-id="'.encrypt($category->id).'" data-name="'. $category->name .'" data-href="'.route('categories.edit', $category->id).'">'.$editIcon.'</button>';
             }
                 if (Gate::check('category_delete')) {
                     $productCount = $category->total_product;
                     if ($productCount == 0) {
                     $deleteIcon = view('components.svg-icon', ['icon' => 'delete'])->render();
                     $action .= '<form action="'.route('categories.destroy', $category->id).'" method="POST" class="deleteCategoryForm m-1" >
-                    <button title="'.trans('quickadmin.qa_delete').'" class="btn record_delete_btn btn-sm">'.$deleteIcon.'</button>
+                    <button title="'.trans('quickadmin.qa_delete').'" class="btn btn-danger record_delete_btn btn-sm">'.$deleteIcon.'</button>
                     </form>';
                     }
                 }

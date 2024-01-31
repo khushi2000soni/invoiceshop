@@ -243,7 +243,6 @@
         $(document).on('click','.print-invoice-btn', function(e){
             e.preventDefault();
             var actionurl = $(this).data('href');
-            console.log(actionurl);
             $.ajax({
                 url: actionurl,
                 method: 'GET',
@@ -306,15 +305,12 @@
             var gethis = $(this);
             var hrefUrl = "{{ route('customers.create') }}";
             $('.modal-backdrop').remove();
-            // console.log(hrefUrl);
             $.ajax({
                 type: 'get',
                 url: hrefUrl,
                 dataType: 'json',
                 success: function (response) {
                     if(response.success) {
-                        console.log('success');
-
                         //$("body").addClass("modal-open");
                         $('.popup_render_div').html(response.htmlView);
                         // Show the first modal
@@ -348,7 +344,6 @@
                 dataType: 'json',
                 success: function (response) {
                     if (response.success) {
-                        //console.log('success');
                         $('.addressmodalbody').remove();
                         $('.popup_render_div #address_id').select2('close');
                         $('.popup_render_div').after('<div class="addressmodalbody" style="display: block;"></div>');
@@ -381,19 +376,14 @@
                         var alertType = response['alert-type'];
                         var message = response['message'];
                         var title = response['title'];
-
                         var newOption = new Option(response.selectdata.name, response.selectdata.id, true, true);
-                        //console.log(newOption);
-                            $('#customer_id').append(newOption).trigger('change');
+                        $('#customer_id').append(newOption).trigger('change');
                         showToaster(title,alertType,message);
                         $('#AddForm')[0].reset();
-                        //location.reload();
                     $("#AddForm button[type=submit]").prop('disabled',false);
                 },
                 error: function (xhr) {
                     var errors= xhr.responseJSON.errors;
-                    //console.log(xhr.responseJSON);
-
                     for (const elementId in errors) {
                         $("#"+elementId).addClass('is-invalid');
                         var errorHtml = '<div><span class="error text-danger">'+errors[elementId]+'</span></div>';
@@ -452,7 +442,6 @@
         $("body").on("click", ".edit-invoice-customer-btn", function () {
                 var hrefUrl = $(this).attr('data-href');
                 $('.modal-backdrop').remove();
-                console.log(hrefUrl);
                 $.ajax({
                     type: 'get',
                     url: hrefUrl,
@@ -460,10 +449,8 @@
                     success: function (response) {
                         //$('#preloader').css('display', 'none');
                         if(response.success) {
-                            console.log('success');
                             $('.popup_render_div').html(response.htmlView);
                             $('#editPhoneModal').modal('show');
-
                             setTimeout(() => {
                                 $('.modal-backdrop').not(':first').remove();
                             }, 300);
@@ -476,8 +463,6 @@
         $(document).on('click', '.print-button', function(e) {
             e.preventDefault();
             var actionurl = $(this).data('href');
-            console.log(actionurl);
-
             $.ajax({
                 url: actionurl,
                 method: 'GET',
@@ -514,9 +499,6 @@
             var pdfDownloadUrl = $(this).data('href');
             var pdfLink = document.createElement('a');
             var whatsappMessage="{{ getSetting('share_invoice_whatsapp_message')}}";
-
-
-            //console.log('mssg',whatsappMessage);
             pdfLink.href = pdfDownloadUrl;
             pdfLink.download = 'invoice.pdf';
             pdfLink.style.display = 'none';
@@ -532,7 +514,6 @@
             var orderId = $(this).data('order-id');
             var hrefurl = $(this).data('href');
             $('.modal-backdrop').remove();
-            // Use Ajax to load the modal content
             $.ajax({
                 type: 'GET',
                 url: hrefurl,
@@ -555,7 +536,6 @@
             $(".is-invalid").removeClass('is-invalid');
             var formData = $(this).serialize();
             var formAction = $(this).attr('action');
-            console.log(formData);
             $.ajax({
                 url: formAction,
                 type: 'POST',
@@ -580,7 +560,6 @@
                         $(errorHtml).insertAfter($("#shareEmailForm #"+elementId).parent());
                     }
                     $("#shareEmailForm button[type=submit]").prop('disabled',false);
-
                     // var errorMessage = xhr.responseJSON.message;
                     // swal("{{ trans('quickadmin.order.invoice') }}", errorMessage, 'error');
                 }
@@ -589,7 +568,6 @@
 
         $(document).on('submit', '.deleteForm', function(e) {
             e.preventDefault();
-            console.log(2);
             var formAction = $(this).attr('action');
             swal({
             title: "{{ trans('messages.deletetitle') }}",
@@ -614,12 +592,9 @@
                         var title = "{{ trans('quickadmin.order.invoice') }}";
                         showToaster(title,alertType,message);
                         dataTable.ajax.reload();
-                        // location.reload();
-
                 },
                 error: function (xhr) {
-                    // Handle error response
-                    swal("{{ trans('quickadmin.order.invoice') }}", 'Some mistake is there.', 'error');
+                    swal("{{ trans('quickadmin.order.invoice') }}", 'Something went wrong', 'error');
                 }
                 });
             }
@@ -629,7 +604,6 @@
 
         $(document).on('submit', '.restoreForm', function(e) {
             e.preventDefault();
-            console.log(2);
             var formAction = $(this).attr('action');
             swal({
             title: "{{ trans('messages.restoretitle') }}",
@@ -654,11 +628,8 @@
                         var title = "{{ trans('quickadmin.order.invoice') }}";
                         showToaster(title,alertType,message);
                         dataTable.ajax.reload();
-                        // location.reload();
-
                 },
                 error: function (xhr) {
-                    // Handle error response
                     swal("{{ trans('quickadmin.order.invoice') }}", 'Some mistake is there.', 'error');
                 }
                 });
@@ -717,10 +688,7 @@
                 var to_date = null;
             }
 
-            console.log('from_date',from_date);
-            console.log('to_date',to_date);
             var type = "{{$type}}";
-
             // Collect filter values (customer, from_date, to_date) from the form
             var customer_id = $('#customer_id').val();
             if(customer_id == undefined){
@@ -735,8 +703,6 @@
                 to_date = '';
             }
 
-            //exportUrl = "{{ route('orders.allexport') }}" + '/' + customer_id+ '/' + from_date + '/' + to_date;
-            //printUrl = "{{ route('orders.allprint') }}" + '/' + customer_id+ '/' + from_date + '/' + to_date;
             var exportUrl = "{{ route('orders.allexport') }}"
             + '?customer_id=' + encodeURIComponent(customer_id)
             + '&from_date=' + encodeURIComponent(from_date)
@@ -756,7 +722,6 @@
             if(type == 'deleted'){
                 dataTable.ajax.url("{{ route('orders.getTypeOrder') }}/" + type + "?" +$.param(params)).load();
             }else{
-
                 dataTable.ajax.url("{{ route('orders.index') }}?"+$.param(params)).load();
             }
 
@@ -769,7 +734,6 @@
         $(document).on('click','.view-delete-orders', function(){
         // $('#preloader').css('display', 'flex');
             var hrefUrl = $(this).attr('data-href');
-            console.log(hrefUrl);
             $.ajax({
                 type: 'get',
                 url: hrefUrl,
@@ -777,7 +741,6 @@
                 success: function (response) {
                     //$('#preloader').css('display', 'none');
                     if(response.success) {
-                        console.log('success');
                         $('.popup_render_div').html(response.htmlView);
                         $('#OrderModal').modal('show');
                     }

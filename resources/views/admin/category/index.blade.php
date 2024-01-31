@@ -177,7 +177,6 @@ $(document).ready(function () {
     $(document).on('click' , 'excel-button' , function(e){
         e.preventDefault();
         var iframe = document.createElement('iframe');
-        console.log('iframe');
         iframe.style.display = 'none';
         iframe.src = '/categories-export'; // Replace with the actual URL for your export route
         document.body.appendChild(iframe);
@@ -200,7 +199,6 @@ $(document).ready(function () {
     $(document).on('click','.addRecordBtn', function(){
        // $('#preloader').css('display', 'flex');
         var hrefUrl = $(this).attr('data-href');
-        console.log(hrefUrl);
         $.ajax({
             type: 'get',
             url: hrefUrl,
@@ -208,7 +206,6 @@ $(document).ready(function () {
             success: function (response) {
                 //$('#preloader').css('display', 'none');
                 if(response.success) {
-                    console.log('success');
                     $('.popup_render_div').html(response.htmlView);
                     $('#centerModal').modal('show');
                     setTimeout(() => {
@@ -221,7 +218,6 @@ $(document).ready(function () {
 
     $("body").on("click", ".edit-category-btn", function () {
             var hrefUrl = $(this).attr('data-href');
-            console.log(hrefUrl);
             $.ajax({
                 type: 'get',
                 url: hrefUrl,
@@ -229,7 +225,6 @@ $(document).ready(function () {
                 success: function (response) {
                     //$('#preloader').css('display', 'none');
                     if(response.success) {
-                        console.log('success');
                         $('.popup_render_div').html(response.htmlView);
                         $('#editCategoryModal').modal('show');
                         setTimeout(() => {
@@ -249,9 +244,6 @@ $(document).ready(function () {
         $(".is-invalid").removeClass('is-invalid');
         var formData = $(this).serialize();
         var formAction = $(this).attr('action');
-        console.log(formAction);
-        console.log(formData);
-
         $.ajax({
             url: formAction,
             type: 'POST',
@@ -272,8 +264,6 @@ $(document).ready(function () {
             },
             error: function (xhr) {
                 var errors= xhr.responseJSON.errors;
-                console.log(xhr.responseJSON);
-
                 for (const elementId in errors) {
                     $("#"+elementId).addClass('is-invalid');
                     var errorHtml = '<div><span class="error text-danger">'+errors[elementId]+'</span></';
@@ -293,8 +283,6 @@ $(document).ready(function () {
         $(".is-invalid").removeClass('is-invalid');
         var formData = $(this).serialize();
         var formAction = $(this).attr('action');
-        console.log(formAction);
-
         $.ajax({
             url: formAction,
             type: 'PUT',
@@ -330,9 +318,7 @@ $(document).ready(function () {
 
     $(document).on('submit', '.deleteCategoryForm', function(e) {
         e.preventDefault();
-        console.log(2);
         var formAction = $(this).attr('action');
-
         swal({
         title: "{{ trans('messages.deletetitle') }}",
         text: "{{ trans('messages.areYouSure') }}",

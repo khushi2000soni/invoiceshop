@@ -299,7 +299,6 @@
             };
 
             lastRow.find('.addNewBlankRow').hide();
-           // console.log(productRecord);
             order.products.push(productRecord);
             updateLocalStorage(order);
             updateSubtotal();
@@ -322,8 +321,6 @@
             var product_id = parseInt(row.find('select[name="product_id"]').val());
             var quantity = parseFloat(row.find('input[name="quantity"]').val());
             var price = parseFloat(row.find('input[name="price"]').val());
-
-           // console.log('customer_id',customer_id);
 
             var errors = {
                 customer_id: "The Customer Name is required.",
@@ -416,7 +413,6 @@
         $('.ordertable tbody').on('input', '#quantity, #price', function () {
             removerror();
             var row = $(this).closest('tr');
-            //console.log('row', row);
             calculateAmount(row);
         });
 
@@ -448,24 +444,14 @@
 
         $(document).on('select2:open','.js-product-basic-single', function (e) {
             e.preventDefault();
-            console.log('active');
-            //$(this).addClass('active');
             $(this).siblings('.select2-container').addClass('active');
             activeSelect2 = $(this);
         });
-
-        // $('.js-product-basic-single').on('select2:close', function (e) {
-        //     e.preventDefault();
-        //     // Remove the 'active' class when the dropdown is closed
-        //     $(this).removeClass('active');
-        // });
-
 
         function updateLocalStorage(order) {
 
             localStorage.setItem('order', JSON.stringify(order));
         }
-
 
         // Function to clear the form fields
         function clearForm() {
@@ -503,12 +489,9 @@
             if (isRoundOff) {
                 // Calculate the Rounded Subtotal
                 var roundedSubtotal = Math.floor(subTotal);
-                // Calculate the Round Off amount
-               // var roundOffAmount = roundedSubtotal - subTotal;
                var roundOffAmount = Math.abs(roundedSubtotal - subTotal);  // it will get positive value
                 // Update and display Round Off amount and Rounded Subtotal
                 $("#round_off_amount").text(roundOffAmount.toFixed(2));
-
                 order.round_off_amount = parseFloat(roundOffAmount.toFixed(2));
             } else {
                 $("#round_off_amount").text("0");
@@ -633,7 +616,6 @@
 
                     // If the deleted row had the addNewBlankRow button, add it to the previous row
                     if (hasAddNewButton) {
-                        console.log('res');
                         var lastRow = $('.ordertable tbody tr:not(.template-row):last');
                         lastRow.find('.addNewBlankRow').show();
                     }
@@ -663,21 +645,16 @@
             var gethis = $(this);
             var hrefUrl = "{{ route('customers.create') }}";
             $('.modal-backdrop').remove();
-           // console.log(hrefUrl);
             $.ajax({
                 type: 'get',
                 url: hrefUrl,
                 dataType: 'json',
                 success: function (response) {
                     if(response.success) {
-                        console.log('success');
 
-                        //$("body").addClass("modal-open");
                         $('.popup_render_div').html(response.htmlView);
-
                         // Show the first modal
                         $('.popup_render_div #centerModal').modal('show');
-
                         // Initialize select2 for the first modal
                         $(".js-example-basic-single").select2({
                         dropdownParent: $('.popup_render_div #centerModal') // Set the dropdown parent to the modal
@@ -705,7 +682,6 @@
                 dataType: 'json',
                 success: function (response) {
                     if (response.success) {
-                        //console.log('success');
                         $('.addressmodalbody').remove();
                         $('.popup_render_div #address_id').select2('close');
                         $('.popup_render_div').after('<div class="addressmodalbody" style="display: block;"></div>');
@@ -728,11 +704,6 @@
                 dataType: 'json',
                 success: function (response) {
                     if(response.success) {
-
-                        //$("body").addClass("modal-open");
-                        // console.log(gethis.parent());
-
-                        // $('.js-product-basic-single .active')
                         $('.popup_render_div').html(response.htmlView);
                         $('.popup_render_div #centerModal').modal('show');
                         $(".js-example-basic-single").select2({
@@ -814,9 +785,7 @@
                         var alertType = response['alert-type'];
                         var message = response['message'];
                         var title = response['title'];
-
                         var newOption = new Option(response.selectdata.name, response.selectdata.id, true, true);
-                        //console.log(newOption);
                         if (response.selectdata.formtype == 'customer') {
                             $('#customer_id').append(newOption).trigger('change');
                         } else if (response.selectdata.formtype == 'product') {
@@ -837,7 +806,6 @@
                 error: function (xhr) {
                     var errors= xhr.responseJSON.errors;
                     //console.log(xhr.responseJSON);
-
                     for (const elementId in errors) {
                         $("#"+elementId).addClass('is-invalid');
                         var errorHtml = '<div><span class="error text-danger">'+errors[elementId]+'</span></div>';
@@ -909,8 +877,6 @@
             var form = $(this);
             var formData = $(this).serialize();
             var formAction = $(this).attr('action');
-            // console.log(formAction);
-            // console.log(formData);
 
             $.ajax({
                 url: formAction,
@@ -920,15 +886,11 @@
                 },
                 data: formData,
                 success: function (response) {
-                        // $('.categorymodalbody #centerModal').modal('hide');
-                        // $('.popup_render_div #centerModal').modal('hide');
 
                         form.closest('#centerModal').modal('hide');
-
                         var alertType = response['alert-type'];
                         var message = response['message'];
                         var title = "{{ trans('quickadmin.category.category') }}";
-
                         var newOption = new Option(response.category.name, response.category.id, true, true);
                         //console.log(newOption);
                         $('.popup_render_div #category_id').append(newOption).trigger('change');
@@ -967,14 +929,11 @@
                 // Display an error message or take appropriate action
                 return;
             }
-
            // $("#SaveInvoiceForm button[type=submit]").prop('disabled',true);
-
             var formAction = $(this).attr('action');
             var orderData= JSON.stringify(localStorage.getItem('order'));
 
             if(networkstatus === true){
-                console.log('networkstatus',networkstatus);
                 /// Store Data into Database
                 var invoiceData = {
                     customer_id: order.customer_id,
@@ -985,7 +944,7 @@
                     grand_total: order.grand_total,
                     products: order.products, // The products array as-is
                 };
-                console.log("Sending data to the server");
+
                 $.ajax({
                     url: formAction,
                     type: 'POST',
@@ -994,14 +953,10 @@
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
                     success: function (response) {
-                        console.log('Data stored in the database:', response);
-                        // Remove data from localStorage after successful insertion
                         localStorage.removeItem('order');
                         var alertType = response['alert-type'];
                         var message = response['message'];
                         var title = "{{ trans('quickadmin.order.order') }}";
-                        //showToaster(title,alertType,message);
-                        //swal(title, message, alertType);
 
                         swal({
                         title: title,
@@ -1020,7 +975,6 @@
                         //location.reload();
 
                         $("#SaveInvoiceForm button[type=submit]").prop('disabled',false);
-                        console.log('Data removed from localStorage.');
                     },
                     error: function (xhr) {
                         var errors= xhr.responseJSON.errors;
@@ -1040,7 +994,6 @@
                 });
             }
             else{
-                console.log('networkstatus',networkstatus);
                 alert("You have lost internet connection, Please connect with the internet to save your Temorary data");
                 $("#saveInvoicebtn").replaceWith('<button type="submit" class="btn btn-success btn-icon icon-left saveTempInvoiceDatabtn" id="saveTempInvoiceDatabtn"><i class="fas fa-credit-card"></i>@lang("quickadmin.qa_temp_save_invoice")</button>');
             }

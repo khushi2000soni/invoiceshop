@@ -131,7 +131,6 @@ $(document).ready(function () {
     $("body").on("click", ".edit-products-btn", function (e) {
         e.preventDefault();
             var hrefUrl = $(this).attr('data-href');
-            console.log(hrefUrl);
             $.ajax({
                 type: 'get',
                 url: hrefUrl,
@@ -139,7 +138,6 @@ $(document).ready(function () {
                 success: function (response) {
                     //$('#preloader').css('display', 'none');
                     if(response.success) {
-                        console.log('success');
                         $('.popup_render_div').html(response.htmlView);
                         $('#editModal').modal('show');
                         $(".js-example-basic-single").select2({
@@ -153,7 +151,6 @@ $(document).ready(function () {
     $("body").on("click", ".merge-button", function (e) {
             e.preventDefault();
             var hrefUrl = $(this).attr('data-href');
-            console.log(hrefUrl);
             $.ajax({
                 type: 'get',
                 url: hrefUrl,
@@ -161,7 +158,6 @@ $(document).ready(function () {
                 success: function (response) {
                     //$('#preloader').css('display', 'none');
                     if(response.success) {
-                        console.log('success');
                         $('.popup_render_div').html(response.htmlView);
                         $('.popup_render_div #MergeProductModal').modal('show');
                         $('.popup_render_div #MergeProductModal').css('z-index', '99999');
@@ -181,7 +177,6 @@ $(document).ready(function () {
         $(".is-invalid").removeClass('is-invalid');
         var formData = $(this).serialize();
         var formAction = $(this).attr('action');
-        console.log(formAction);
 
         $.ajax({
             url: formAction,
@@ -219,7 +214,6 @@ $(document).ready(function () {
 
     $(document).on('submit', '.approve-product-form', function(e) {
         e.preventDefault();
-        console.log(2);
         var formAction = $(this).attr('action');
         swal({
         title: "{{ trans('messages.approvaltitle') }}",

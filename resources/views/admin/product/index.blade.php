@@ -210,7 +210,6 @@ $(document).ready(function () {
         e.preventDefault();
 
         var hrefUrl = '{{ route('categories.create') }}';
-        console.log(hrefUrl);
         $.ajax({
             type: 'get',
             url: hrefUrl,
@@ -218,7 +217,6 @@ $(document).ready(function () {
             success: function (response) {
                 //$('#preloader').css('display', 'none');
                 if(response.success) {
-                    console.log('success');
                     $('.popup_render_div').html(response.htmlView);
                     $('#centerModal').modal('show');
                     $(".js-example-basic-single").select2({
@@ -249,7 +247,6 @@ $(document).ready(function () {
     $(document).on('click' , 'excel-button' , function(e){
         e.preventDefault();
         var iframe = document.createElement('iframe');
-        console.log('iframe');
         iframe.style.display = 'none';
         iframe.src = '/products-export'; // Replace with the actual URL for your export route
         document.body.appendChild(iframe);
@@ -258,7 +255,6 @@ $(document).ready(function () {
     $(document).on('click','.addRecordBtn', function(){
        // $('#preloader').css('display', 'flex');
         var hrefUrl = $(this).attr('data-href');
-        console.log(hrefUrl);
         $.ajax({
             type: 'get',
             url: hrefUrl,
@@ -266,7 +262,6 @@ $(document).ready(function () {
             success: function (response) {
                 //$('#preloader').css('display', 'none');
                 if(response.success) {
-                    console.log('success');
                     $('.popup_render_div').html(response.htmlView);
                     $('.popup_render_div #centerModal').modal('show');
                     $(".js-example-basic-single").select2({
@@ -295,11 +290,9 @@ $(document).ready(function () {
             dataType: 'json',
             success: function (response) {
                 if (response.success) {
-                    console.log('success');
                     $('.popup_render_div #category_id').select2('close');
                     $('.popup_render_div').after('<div class="categorymodalbody" style="display: block;"></div>');
                     $('.categorymodalbody').html(response.htmlView);
-
                     $('.popup_render_div #centerModal').modal('show');
                     $('.popup_render_div #centerModal').attr('style', 'z-index: 9999');
                     $('.popup_render_div #centerModal').on('shown.bs.modal', function () {
@@ -319,7 +312,6 @@ $(document).ready(function () {
     $("body").on("click", ".edit-products-btn", function (e) {
         e.preventDefault();
             var hrefUrl = $(this).attr('data-href');
-            console.log(hrefUrl);
             $.ajax({
                 type: 'get',
                 url: hrefUrl,
@@ -327,7 +319,6 @@ $(document).ready(function () {
                 success: function (response) {
                     //$('#preloader').css('display', 'none');
                     if(response.success) {
-                        console.log('success');
                         $('.popup_render_div').html(response.htmlView);
                         $('#editModal').modal('show');
                         $(".js-example-basic-single").select2({
@@ -341,7 +332,6 @@ $(document).ready(function () {
     $("body").on("click", ".merge-button", function (e) {
             e.preventDefault();
             var hrefUrl = $(this).attr('data-href');
-            console.log(hrefUrl);
             $.ajax({
                 type: 'get',
                 url: hrefUrl,
@@ -349,7 +339,6 @@ $(document).ready(function () {
                 success: function (response) {
                     //$('#preloader').css('display', 'none');
                     if(response.success) {
-                        console.log('success');
                         $('.popup_render_div').html(response.htmlView);
                         $('.popup_render_div #MergeProductModal').modal('show');
                         $('.popup_render_div #MergeProductModal').css('z-index', '99999');
@@ -387,19 +376,14 @@ $(document).ready(function () {
                         $('.js-example-basic-single').select2();
                     }
                     var newOption = new Option(response.product.name, response.product.id, true, true);
-                    //console.log(newOption);
                     $('#product_id').append(newOption).trigger('change');
-
                     showToaster(title,alertType,message);
                     $('#AddForm')[0].reset();
-                   // location.reload();
-                   DataaTable.ajax.reload();
-                   $("#AddForm button[type=submit]").prop('disabled',false);
+                    DataaTable.ajax.reload();
+                    $("#AddForm button[type=submit]").prop('disabled',false);
             },
             error: function (xhr) {
                 var errors= xhr.responseJSON.errors;
-                console.log(xhr.responseJSON);
-
                 for (const elementId in errors) {
                     $("#"+elementId).addClass('is-invalid');
                     var errorHtml = '<div><span class="error text-danger">'+errors[elementId]+'</span></';
@@ -418,7 +402,6 @@ $(document).ready(function () {
         $(".is-invalid").removeClass('is-invalid');
         var formData = $(this).serialize();
         var formAction = $(this).attr('action');
-        console.log(formAction);
 
         $.ajax({
             url: formAction,
@@ -454,7 +437,6 @@ $(document).ready(function () {
 
     $(document).on('submit', '.deleteForm', function(e) {
         e.preventDefault();
-        console.log(2);
         var formAction = $(this).attr('action');
         swal({
         title: "{{ trans('messages.deletetitle') }}",
@@ -501,8 +483,6 @@ $(document).ready(function () {
         var form = $(this);
         var formData = $(this).serialize();
         var formAction = $(this).attr('action');
-        console.log(formAction);
-        console.log(formData);
 
         $.ajax({
             url: formAction,
@@ -531,16 +511,13 @@ $(document).ready(function () {
                     }
 
                     var newOption = new Option(response.category.name, response.category.id, true, true);
-                    //console.log(newOption);
                     $('#category_id').append(newOption).trigger('change');
-
                     $('.popup_render_div #category_id').append(newOption).trigger('change');
 
                     showToaster(title,alertType,message);
                     $('#AddCategoryForm')[0].reset();
-                   // location.reload();
-                   DataaTable.ajax.reload();
-                   $("#AddCategoryForm button[type=submit]").prop('disabled',false);
+                    DataaTable.ajax.reload();
+                    $("#AddCategoryForm button[type=submit]").prop('disabled',false);
             },
             error: function (xhr) {
                 var errors= xhr.responseJSON.errors;

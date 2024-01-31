@@ -13,14 +13,9 @@
 @include('partials.check-network-script')
 
 <script>
-    // Add an event listener for the modal's "hidden.bs.modal" event
 
-
-    //$('#centerModal').modal('dispose');
     function showToaster(title,alertType, message) {
-        console.log(alertType);
         var position = 'topRight'; // You can change the default position here
-
         var toastSettings = {
             title: title,
             message: message,
@@ -57,7 +52,6 @@
 	});
 
     $(document).on('focus', '.select2-selection.select2-selection--single', function (e) {
-       // console.log($(this));
         $(this).closest(".select2-container").siblings('select:enabled').select2('open');
     });
 

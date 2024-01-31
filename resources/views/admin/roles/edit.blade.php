@@ -45,27 +45,18 @@ $('#roleEditForm').on('submit', function (e) {
         data: formData,
         success: function (response) {
                 $('#centerModal').modal('hide');
-                console.log(response);
                 var alertType = response['alert-type'];
                 var message = response['message'];
                 var title = "{{ trans('quickadmin.roles.role') }}";
                 showToaster(title,alertType,message);
                  if (response.hasOwnProperty('redirecturl')) {
-                    console.log(23);
                     window.location.href = response['redirecturl'];
-                    //  window.location.href = response['redirecturl'] +
-                    // '?alert_type=' + response['alert-type'] +
-                    //  '&message=' + response['message'] +
-                    //  '&title=' + response['title'];
                  } else {
-                    console.log(2);
                      //location.reload();
                  }
         },
         error: function (xhr) {
             var errors= xhr.responseJSON.errors;
-            console.log(xhr.responseJSON);
-
             for (const elementId in errors) {
                 $("#"+elementId).addClass('is-invalid');
                 var errorHtml = '<div><span class="error text-danger">'+errors[elementId]+'</span></';
@@ -93,10 +84,6 @@ $('#roleEditForm').on('submit', function (e) {
                 selectedPermissions.splice(index, 1);
             }
         }
-
-
-        console.log('Selected Permission IDs:', selectedPermissions);
-        // $('#selectedPermissions').val(selectedPermissions);
     });
 </script>
 @endsection

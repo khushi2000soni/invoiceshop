@@ -200,7 +200,6 @@ $(document).ready(function () {
     $(document).on('click','.addNewAddressBtn',function(e){
         e.preventDefault();
         var hrefUrl = '{{ route('address.create') }}';
-        console.log(hrefUrl);
         $.ajax({
             type: 'get',
             url: hrefUrl,
@@ -208,7 +207,6 @@ $(document).ready(function () {
             success: function (response) {
                 //$('#preloader').css('display', 'none');
                 if(response.success) {
-                    console.log('success');
                     $('.popup_render_div').html(response.htmlView);
                     $('#centerModal').modal('show');
                     $(".js-example-basic-single").select2({
@@ -224,7 +222,6 @@ $(document).ready(function () {
     $(document).on('click' , 'excel-button' , function(e){
         e.preventDefault();
         var iframe = document.createElement('iframe');
-        console.log('iframe');
         iframe.style.display = 'none';
         iframe.src = '/customers-export'; // Replace with the actual URL for your export route
         document.body.appendChild(iframe);
@@ -242,20 +239,12 @@ $(document).ready(function () {
             dataType: 'json',
             success: function (response) {
                 if (response.success) {
-                    console.log('success');
                     $('.addressmodalbody').remove();
                     $('.popup_render_div #address_id').select2('close');
                     $('.popup_render_div').after('<div class="addressmodalbody" style="display: block;"></div>');
                     $('.addressmodalbody').html(response.htmlView);
                     $('.addressmodalbody #centerModal').modal('show');
                     $('.addressmodalbody #centerModal').attr('style', 'z-index: 100000');
-                    // $('.addressmodalbody #centerModal').modal('show');
-                    // $('.addressmodalbody #centerModal').attr('style', 'z-index: 100000');
-                    // $('.popup_render_div #centerModal').modal('show');
-                    // $('.popup_render_div #centerModal').on('shown.bs.modal', function () {
-                    //     $('.addressmodalbody #centerModal').modal('show');
-                    //     $('.addressmodalbody #centerModal').attr('style', 'z-index: 100000');
-                    // });
                 }
             }
         });
@@ -269,19 +258,14 @@ $(document).ready(function () {
     $(document).on('click', '.addRecordBtn', function (e) {
         e.preventDefault();
         var hrefUrl = $(this).attr('data-href');
-        console.log(hrefUrl);
         $.ajax({
             type: 'get',
             url: hrefUrl,
             dataType: 'json',
             success: function (response) {
                 if (response.success) {
-                    // Render the modal content for the first modal
                     $('.popup_render_div').html(response.htmlView);
-
-                    // Show the first modal
                     $('.popup_render_div #centerModal').modal('show');
-
                     // Initialize select2 for the first modal
                     $(".js-example-basic-single").select2({
                     dropdownParent: $('.popup_render_div #centerModal') // Set the dropdown parent to the modal
@@ -300,7 +284,6 @@ $(document).ready(function () {
 
     $("body").on("click", ".edit-customers-btn", function () {
             var hrefUrl = $(this).attr('data-href');
-            console.log(hrefUrl);
             $.ajax({
                 type: 'get',
                 url: hrefUrl,
@@ -308,7 +291,6 @@ $(document).ready(function () {
                 success: function (response) {
                     //$('#preloader').css('display', 'none');
                     if(response.success) {
-                        console.log('success');
                         $('.popup_render_div').html(response.htmlView);
                         $('#editModal').modal('show');
                          // Initialize select2 for the first modal
@@ -325,7 +307,6 @@ $(document).ready(function () {
 
     $("body").on("click", ".edit-password-btn", function () {
             var hrefUrl = $(this).attr('data-href');
-            console.log(hrefUrl);
             $.ajax({
                 type: 'get',
                 url: hrefUrl,
@@ -333,7 +314,6 @@ $(document).ready(function () {
                 success: function (response) {
                     //$('#preloader').css('display', 'none');
                     if(response.success) {
-                        console.log('success');
                         $('.popup_render_div').html(response.htmlView);
                         $('#passwordModal').modal('show');
                     }
@@ -390,8 +370,6 @@ $(document).ready(function () {
         $(".is-invalid").removeClass('is-invalid');
         var formData = $(this).serialize();
         var formAction = $(this).attr('action');
-        console.log(formAction);
-
         $.ajax({
             url: formAction,
             type: 'PUT',
@@ -431,8 +409,6 @@ $(document).ready(function () {
         $(".is-invalid").removeClass('is-invalid');
         var formData = $(this).serialize();
         var formAction = $(this).attr('action');
-        console.log(formAction);
-
         $.ajax({
             url: formAction,
             type: 'PUT',
@@ -467,7 +443,6 @@ $(document).ready(function () {
 
     $(document).on('submit', '.deleteForm', function(e) {
         e.preventDefault();
-        console.log(2);
         var formAction = $(this).attr('action');
         swal({
         title: "{{ trans('messages.deletetitle') }}",
@@ -523,11 +498,9 @@ $(document).ready(function () {
         },
             data: formData,
             success: function (response) {
-                    // $('.addressmodalbody #centerModal').modal('hide');
-                    // $('.popup_render_div #centerModal').modal('hide');
+
                     form.closest('#centerModal').modal('hide');
                     var newOption = new Option(response.address.address, response.address.id, true, true);
-                    //console.log(newOption);
                     $('.popup_render_div #centerModal #address_id').append(newOption).trigger('change');
                     $('#citiwise-filter-form #address_id').append(newOption).trigger('change');
 
@@ -543,7 +516,6 @@ $(document).ready(function () {
             error: function (xhr) {
                 var errors= xhr.responseJSON.errors;
                 console.log(xhr.responseJSON);
-
                 for (const elementId in errors) {
                     $("#"+elementId).addClass('is-invalid');
                     var errorHtml = '<div><span class="error text-danger">'+errors[elementId]+'</span></';
@@ -584,7 +556,6 @@ $(document).ready(function () {
 
         exportUrl = "{{ route('customers.export') }}" + '/' + address_id;
         printUrl = "{{ route('customers.print') }}" + '/' + address_id;
-        console.log(exportUrl);
         // Apply filters to the DataTable
         DataaTable.ajax.url("{{ route('customers.index') }}?"+$.param(params)).load();
         $('#excel-button').attr('href', exportUrl);

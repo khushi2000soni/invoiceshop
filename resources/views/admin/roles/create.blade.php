@@ -85,8 +85,6 @@ $('#roleForm').on('submit', function (e) {
                 selectedPermissions.splice(index, 1);
             }
         }
-
-        console.log('Selected Permission IDs:', selectedPermissions);
         $('#selectedPermissions').val(selectedPermissions);
     });
 </script>

@@ -87,7 +87,6 @@ $(document).ready(function () {
     $(document).on('click','.addRecordBtn', function(){
        // $('#preloader').css('display', 'flex');
         var hrefUrl = $(this).attr('data-href');
-        console.log(hrefUrl);
         $.ajax({
             type: 'get',
             url: hrefUrl,
@@ -95,7 +94,6 @@ $(document).ready(function () {
             success: function (response) {
                 //$('#preloader').css('display', 'none');
                 if(response.success) {
-                    console.log('success');
                     $('.popup_render_div').html(response.htmlView);
                     $('#centerModal').modal('show');
                 }
@@ -105,7 +103,6 @@ $(document).ready(function () {
 
     $("body").on("click", ".edit-users-btn", function () {
             var hrefUrl = $(this).attr('data-href');
-            console.log(hrefUrl);
             $.ajax({
                 type: 'get',
                 url: hrefUrl,
@@ -113,7 +110,6 @@ $(document).ready(function () {
                 success: function (response) {
                     //$('#preloader').css('display', 'none');
                     if(response.success) {
-                        console.log('success');
                         $('.popup_render_div').html(response.htmlView);
                         $('#editModal').modal('show');
                     }
@@ -123,7 +119,6 @@ $(document).ready(function () {
 
     $("body").on("click", ".edit-password-btn", function () {
             var hrefUrl = $(this).attr('data-href');
-            console.log(hrefUrl);
             $.ajax({
                 type: 'get',
                 url: hrefUrl,
@@ -131,7 +126,6 @@ $(document).ready(function () {
                 success: function (response) {
                     //$('#preloader').css('display', 'none');
                     if(response.success) {
-                        console.log('success');
                         $('.popup_render_div').html(response.htmlView);
                         $('#passwordModal').modal('show');
                     }
@@ -188,7 +182,6 @@ $(document).ready(function () {
         $(".is-invalid").removeClass('is-invalid');
         var formData = $(this).serialize();
         var formAction = $(this).attr('action');
-        console.log(formAction);
 
         $.ajax({
             url: formAction,
@@ -204,14 +197,11 @@ $(document).ready(function () {
                     var title = "{{ trans('quickadmin.users.users') }}";
                     showToaster(title,alertType,message);
                     $('#EditForm')[0].reset();
-                    //location.reload();
                     DataaTable.ajax.reload();
                     $("#EditForm button[type=submit]").prop('disabled',false);
             },
             error: function (xhr) {
                 var errors= xhr.responseJSON.errors;
-                console.log(xhr.responseJSON);
-
                 for (const elementId in errors) {
                     $("#EditForm #"+elementId).addClass('is-invalid');
                     var errorHtml = '<div><span class="error text-danger">'+errors[elementId]+'</span></';
@@ -229,8 +219,6 @@ $(document).ready(function () {
         $(".is-invalid").removeClass('is-invalid');
         var formData = $(this).serialize();
         var formAction = $(this).attr('action');
-        console.log(formAction);
-
         $.ajax({
             url: formAction,
             type: 'PUT',
@@ -245,14 +233,11 @@ $(document).ready(function () {
                     var title = "{{ trans('quickadmin.users.users') }}";
                     showToaster(title,alertType,message);
                     $('#EditPasswordForm')[0].reset();
-                    //location.reload();
                     DataaTable.ajax.reload();
                     $("#EditPasswordForm button[type=submit]").prop('disabled',false);
             },
             error: function (xhr) {
                 var errors= xhr.responseJSON.errors;
-                console.log(xhr.responseJSON);
-
                 for (const elementId in errors) {
                     $("#EditPasswordForm #"+elementId).addClass('is-invalid');
                     var errorHtml = '<div><span class="error text-danger">'+errors[elementId]+'</span></';
@@ -265,7 +250,6 @@ $(document).ready(function () {
 
     $(document).on('submit', '.deleteForm', function(e) {
         e.preventDefault();
-        console.log(2);
         var formAction = $(this).attr('action');
         swal({
         title: "{{ trans('messages.deletetitle') }}",
@@ -306,7 +290,6 @@ $(document).ready(function () {
     // rejoin or restore
     $(document).on('click', '.rejoin-users-btn', function(e) {
         e.preventDefault();
-        console.log(2);
         var formAction = $(this).data('href');
         swal({
         title: "{{ trans('messages.rejointitle') }}",
