@@ -13,18 +13,13 @@ use Illuminate\Support\Facades\Gate;
 
 class DeviceController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+
     public function index(DeviceDataTable $dataTable)
     {
         abort_if(Gate::denies('device_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
         return $dataTable->render('admin.device.index');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
         $staffs = User::role('staff')->get();
@@ -32,9 +27,6 @@ class DeviceController extends Controller
         return response()->json(['success' => true, 'htmlView' => $htmlView]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(StoreRequest $request)
     {
         $device=Device::create($request->all());
@@ -43,18 +35,7 @@ class DeviceController extends Controller
         'alert-type'=> trans('quickadmin.alert-type.success')], 200);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    public function edit($id)
     {
         $device = Device::with('staff')->findOrFail($id);
         $staffs = User::role('staff')->get();
@@ -62,9 +43,6 @@ class DeviceController extends Controller
         return response()->json(['success' => true, 'htmlView' => $htmlView]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(UpdateRequest $request, Device $device)
     {
         $device->update($request->all());
@@ -73,10 +51,7 @@ class DeviceController extends Controller
         'alert-type'=> trans('quickadmin.alert-type.success')], 200);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
+    public function destroy($id)
     {
         abort_if(Gate::denies('device_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
         $device = Device::findOrFail($id);

@@ -70,30 +70,15 @@ class CategoryController extends Controller
         ], 200);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    public function edit($id)
     {
         $category = Category::findOrFail($id);
         $htmlView = view('admin.category.edit', compact('category'))->render();
         return response()->json(['success' => true, 'htmlView' => $htmlView]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function update(Request $request, $id)
     {
-        //
         $category = Category::find($id);
         $validatedData =$request->validate([
             'name' => ['required','string','unique:categories,name,'.$category->id, new TitleValidationRule],
@@ -108,15 +93,12 @@ class CategoryController extends Controller
 
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
+
+    public function destroy($id)
     {
         abort_if(Gate::denies('category_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
         $address = Category::findOrFail($id);
         $address->delete();
-
         return response()->json(['success' => true,
          'message' => trans('messages.crud.delete_record'),
          'alert-type'=> trans('quickadmin.alert-type.success'),

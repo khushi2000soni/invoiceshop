@@ -28,9 +28,6 @@ use PDF;
 
 class OrderController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index(InvoiceDataTable $dataTable)
     {
         abort_if(Gate::denies('invoice_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
@@ -39,9 +36,6 @@ class OrderController extends Controller
         return $dataTable->render('admin.order.index',compact('customers','type'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
         $customers = Customer::all();
@@ -50,14 +44,10 @@ class OrderController extends Controller
         return view('admin.order.create',compact('customers','products','invoice_date'));
     }
 
-    /** StoreRequest
-     * Store a newly created resource in storage.
-     */
     public function store(StoreRequest $request)
-    {  //dd($request->all());
+    {
         try {
             DB::beginTransaction();
-            // Create a new order
             $order = Order::create([
                 'customer_id' => (int)$request->customer_id,
                 'thaila_price' => (float)$request->thaila_price,
@@ -68,11 +58,8 @@ class OrderController extends Controller
                 'invoice_date' => Carbon::now(),
             ]);
 
-            // Generate the invoice number
             $invoiceNumber = generateInvoiceNumber($order->id);
             $order->update(['invoice_number' => $invoiceNumber]);
-
-            // Create order products
             foreach ($request->products as $productData) {
                 OrderProduct::create([
                     'order_id' => $order->id,
@@ -99,9 +86,7 @@ class OrderController extends Controller
         }
     }
 
-    /**
-     * Display the specified resource.
-     */
+
     public function show(int $id)
     {
         $order = Order::withTrashed()->with('orderProduct.product')->findOrFail($id);
@@ -109,10 +94,7 @@ class OrderController extends Controller
         return response()->json(['success' => true, 'htmlView' => $htmlView]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    public function edit($id)
     {
         $order = Order::with('orderProduct.product')->findOrFail($id);
         $customer_id = $order->customer->id;
@@ -151,12 +133,9 @@ class OrderController extends Controller
         return view('admin.order.edit',compact('order','invoice_date','customers','products','orderData'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
+
     public function update(UpdateRequest $request, Order $order)
     {
-       //dd($request->all());
         try {
             DB::beginTransaction();
             $order->update([
@@ -277,13 +256,9 @@ class OrderController extends Controller
                 'pdf' => $htmlView,
             ]);
         } catch (\Exception $e) {
-           // dd($e->getMessage());
             return response()->json(['error' => 'Error generating PDF'], 500);
         }
     }
-
-
-
 
     public function generatePdf($orderId,$type=null)
     {
@@ -327,7 +302,6 @@ class OrderController extends Controller
     /// Render Share mail modal form
     public function shareEmail(Request $request, Order $order)
     {
-       // $email = $order->customer->email;
         $htmlView = view('admin.order.share_email_modal', compact('order'))->render();
         return response()->json(['success' => true, 'htmlView' => $htmlView]);
     }
@@ -345,9 +319,7 @@ class OrderController extends Controller
             $pdfFileName = $pdfData['pdfFileName'];
             $order = Order::with('orderProduct.product')->findOrFail($order->id);
             $recipientEmail = $request->email;
-
-            //dd($recipientEmail , $order->customer->name);
-                Mail::to($recipientEmail)->send(new ShareInvoiceMail($pdfContent, $pdfFileName , $order->customer->name));
+            Mail::to($recipientEmail)->send(new ShareInvoiceMail($pdfContent, $pdfFileName , $order->customer->name));
                 return response()->json([
                     'success' => true,
                     'message' => trans('messages.invoice_mail'),
@@ -367,10 +339,6 @@ class OrderController extends Controller
     public function shareWhatsApp(Request $request, $order)
     {
         //dd($request->all());
-        // Generate the PDF (similar to the printPDF method) and provide a way to share it via WhatsApp.
-        // You can open a WhatsApp web link or use a sharing package for Laravel.
-
-        // Example code for generating a WhatsApp web link:
         $url = 'https://web.whatsapp.com/send?text=' . urlencode('Check out this invoice: ' . route('orders.generate-pdf', $order->id));
         return redirect($url);
     }
@@ -420,9 +388,7 @@ class OrderController extends Controller
         return Excel::download(new InvoiceExport($customer_id,$from_date,$to_date), 'Invoice-List.xlsx');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
+
     public function destroy($id , $type=null)
     {
         abort_if(Gate::denies('invoice_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');

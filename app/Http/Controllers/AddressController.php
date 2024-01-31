@@ -18,10 +18,7 @@ class AddressController extends Controller
      */
     public function index(AddressDataTable $dataTable)
     {
-
         abort_if(Gate::denies('address_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-        //$roles = Address::orderBy('id','asc')->get();
-        // $addresses = Address::orderBy('address','asc')->get();
         $addresses = Address::orderByRaw('CAST(address AS SIGNED), address')->get();
         return $dataTable->render('admin.address.index',compact('addresses'));
     }
@@ -42,21 +39,14 @@ class AddressController extends Controller
         return Excel::download(new AddressExport($address_id), 'cities.xlsx');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
         $htmlView = view('admin.address.create')->render();
         return response()->json(['success' => true, 'htmlView' => $htmlView]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        // dd($request->all());
         $validatedData =$request->validate([
             'address' => ['required','string','unique:address,address', new TitleValidationRule],
         ],[
@@ -64,7 +54,6 @@ class AddressController extends Controller
         ]);
 
         $address=Address::create($validatedData);
-        // return response()->json(['success' => true, 'message' => trans('messages.crud.add_record'),'alert-type'=> trans('quickadmin.alert-type.success')], 200);
         return response()->json([
             'success' => true,
             'message' => trans('messages.crud.add_record'),
@@ -76,30 +65,15 @@ class AddressController extends Controller
         ], 200);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    public function edit($id)
     {
         $address = Address::findOrFail($id);
         $htmlView = view('admin.address.edit', compact('address'))->render();
         return response()->json(['success' => true, 'htmlView' => $htmlView]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function update(Request $request, $id)
     {
-
         $address = Address::find($id);
         $validatedData =$request->validate([
             'address' => ['required','string','unique:address,address,'.$address->id, new TitleValidationRule],
@@ -116,16 +90,11 @@ class AddressController extends Controller
             'title' => trans('quickadmin.address.address')], 200);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy($id)
     {
         abort_if(Gate::denies('address_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-        //dd($id);
         $address = Address::findOrFail($id);
         $address->delete();
-
         return response()->json(['success' => true,
          'message' => trans('messages.crud.delete_record'),
          'alert-type'=> trans('quickadmin.alert-type.success'),

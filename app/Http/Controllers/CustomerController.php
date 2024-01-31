@@ -20,9 +20,6 @@ use Maatwebsite\Excel\Facades\Excel;
 
 class CustomerController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index(CustomerDataTable $dataTable)
     {
         abort_if(Gate::denies('customer_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
@@ -47,9 +44,6 @@ class CustomerController extends Controller
         return Excel::download(new CustomerExport($address_id), $filename.'.xlsx');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
         $addresses = Address::orderByRaw('CAST(address AS SIGNED), address')->get();
@@ -57,14 +51,9 @@ class CustomerController extends Controller
         return response()->json(['success' => true, 'htmlView' => $htmlView]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(CreateRequest $request)
     {
         $input = $request->all();
-        $input['name']=ucwords($request->name);
-
         if ((auth()->user()->hasRole(config('app.roleid.super_admin')))) {
             $input['is_verified']=true;
         }
@@ -82,9 +71,6 @@ class CustomerController extends Controller
         ], 200);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit($id)
     {
         $customer = Customer::with('address')->findOrFail($id);
@@ -93,9 +79,6 @@ class CustomerController extends Controller
         return response()->json(['success' => true, 'htmlView' => $htmlView]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(UpdateRequest $request, Customer $customer)
     {
         $input = $request->all();
@@ -106,10 +89,9 @@ class CustomerController extends Controller
         'alert-type'=> trans('quickadmin.alert-type.success')], 200);
     }
 
-    public function destroy(string $id)
+    public function destroy($id)
     {
         abort_if(Gate::denies('customer_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
         $customer = Customer::with('orders.orderProduct')->findOrFail($id);
         $customer->orders->each(function ($order) {
             $order->orderProduct->each->forceDelete();
@@ -131,11 +113,6 @@ class CustomerController extends Controller
         $addresses = Address::orderBy('id','desc')->get();
         return $dataTable->render('admin.customer.phone-book',compact('addresses'));
     }
-
-    // public function showPhoneBook(PhoneBookDataTable $dataTable){
-    //     $addresses = Address::orderBy('id','desc')->get();
-    //     return $dataTable->render('admin.customer.phone-book',compact('addresses'));
-    // }
 
     public function PhoneBookprintView($address_id = null)
     {

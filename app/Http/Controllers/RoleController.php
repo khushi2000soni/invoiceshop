@@ -63,34 +63,24 @@ class RoleController extends Controller
         return response()->json(['success' => true, 'message' => trans('messages.crud.add_record'),'alert-type'=> trans('quickadmin.alert-type.success')], 200);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function show($id)
     {
         $role = Role::find($id);
         $permissions = $role->permissions;
         $groupedPermissions = $permissions->groupBy('route_name');
-        //dd($groupedPermissions);
         return view('admin.roles.show', compact('role','groupedPermissions'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    public function edit($id)
     {
-        //
         $role = Role::find($id);
         $permissions = Permission::get()->groupBy('route_name');
         $selectedPermissions = $role->getAllPermissions();
         return view('admin.roles.edit', compact('role','permissions','selectedPermissions'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+
+    public function update(Request $request, $id)
     {
         $role = Role::find($id);
         $validatedData = $request->validate([
@@ -100,7 +90,6 @@ class RoleController extends Controller
         try {
             DB::beginTransaction();
             $permissionsToAssign = $request->input('permissions', []);
-            // dd($permissionsToAssign);
             $role->update($validatedData);
             // $role->givePermissionTo($permissionsToAssign);
             $role->syncPermissions($permissionsToAssign);
@@ -115,8 +104,7 @@ class RoleController extends Controller
             ], 500);
         }
 
-
-     return response()->json([
+        return response()->json([
         'success' => true,
         'message' => trans('messages.crud.update_record'),
         'alert-type'=> trans('quickadmin.alert-type.success'),

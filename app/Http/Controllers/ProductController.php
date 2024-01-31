@@ -16,9 +16,6 @@ use Maatwebsite\Excel\Facades\Excel;
 
 class ProductController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index(ProductDataTable $dataTable)
     {
         abort_if(Gate::denies('product_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
@@ -46,9 +43,6 @@ class ProductController extends Controller
         return Excel::download(new ProductExport($category_id,$product_id), 'Items-List.xlsx');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
         $categories = Category::orderBy('id','DESC')->get();
@@ -56,9 +50,6 @@ class ProductController extends Controller
         return response()->json(['success' => true, 'htmlView' => $htmlView]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(StoreRequest $request)
     {
         $input = $request->all();
@@ -90,9 +81,6 @@ class ProductController extends Controller
         return response()->json(['success' => true, 'htmlView' => $htmlView]);
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function mergeProduct(Request $request)
     {
         //
@@ -118,9 +106,6 @@ class ProductController extends Controller
         ], 200);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit($id)
     {
         $product = Product::with('category')->findOrFail($id);
@@ -129,9 +114,6 @@ class ProductController extends Controller
         return response()->json(['success' => true, 'htmlView' => $htmlView]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(UpdateRequest $request, Product $product)
     {
         $product->update($request->all());
@@ -140,10 +122,7 @@ class ProductController extends Controller
         'alert-type'=> trans('quickadmin.alert-type.success')], 200);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
+    public function destroy($id)
     {
         abort_if(Gate::denies('product_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
         $product = Product::findOrFail($id);
@@ -153,6 +132,5 @@ class ProductController extends Controller
          'alert-type'=> trans('quickadmin.alert-type.success'),
          'title' => trans('quickadmin.product.product')
         ], 200);
-
     }
 }
