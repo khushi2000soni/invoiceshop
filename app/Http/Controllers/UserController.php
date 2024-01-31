@@ -30,20 +30,18 @@ class UserController extends Controller
         //
         $type = 'all';
         abort_if(Gate::denies('staff_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-        $roles = Role::where('id','!=','1')->orderBy('id','asc')->get();
+        $roles = Role::whereNotIn('id',[config('app.roleid.super_admin')])->orderBy('id','asc')->get();
         return $dataTable->render('admin.staff.index',compact('roles','type'));
     }
 
     public function typeindex(UserTypeDataTable $dataTable,string $type){
         abort_if(Gate::denies('staff_rejoin'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-        $roles = Role::where('id','!=','1')->orderBy('id','asc')->get();
+        $roles = Role::whereNotIn('id',[config('app.roleid.super_admin')])->orderBy('id','asc')->get();
         return $dataTable->render('admin.staff.index',compact('roles','type'));
     }
 
     public function create(){
-        $roles = Role::orderBy('id','asc')->get();
-        //dd($roles);
-        //return view('admin.staff.create',compact('roles'));
+        $roles = Role::whereNotIn('id',[config('app.roleid.super_admin')])->orderBy('id','asc')->get();
         $htmlView = view('admin.staff.create', compact('roles'))->render();
         return response()->json(['success' => true, 'htmlView' => $htmlView]);
     }
@@ -79,7 +77,7 @@ class UserController extends Controller
     {
         //dd($id);
         $user = User::findOrFail($id);
-        $roles = Role::where('id','!=','1')->orderBy('id','asc')->get();
+        $roles = Role::whereNotIn('id',[config('app.roleid.super_admin')])->orderBy('id','asc')->get();
         $htmlView = view('admin.staff.edit', compact('roles','user'))->render();
         return response()->json(['success' => true, 'htmlView' => $htmlView]);
     }
@@ -184,7 +182,7 @@ class UserController extends Controller
             'phone' => ['nullable','digits:10','numeric'],
             'address_id' => ['required','numeric'],
         ]);
-        //dd($validatedData);
+
         $user->update($validatedData);
 
         return response()->json(['success' => true,
@@ -206,7 +204,6 @@ class UserController extends Controller
             $uploadId = $profileImageRecord->id;
             $actionType = 'update';
         }
-        //dd($user, $request->profile_image,$actionType, $uploadId);
 
         $response = uploadImage($user, $request->profile_image, 'user/profile-images',"profile", 'original', $actionType, $uploadId);
 
@@ -222,7 +219,6 @@ class UserController extends Controller
     }
 
     public function updatePassword(Request $request){
-        //dd($request->all());
         $userId = auth()->user()->id;
 
         $validated = $request->validate([
