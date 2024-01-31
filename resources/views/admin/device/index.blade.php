@@ -16,7 +16,7 @@
                 <div class="card-header d-flex justify-content-between align-items-center">
                   <h4>@lang('quickadmin.device-management.fields.list')</h4>
                   @can('device_create')
-                  <button type="button" class="addnew-btn addRecordBtn circlebtn" data-toggle="modal" data-target="#centerModal" data-href="{{ route('device.create')}}"><x-svg-icon icon="add-device" /></button>
+                  <button type="button" class="addnew-btn addRecordBtn circlebtn" data-href="{{ route('device.create')}}"><x-svg-icon icon="add-device" /></button>
                   @endcan
                 </div>
                 <div class="card-body">
