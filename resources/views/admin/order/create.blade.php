@@ -917,7 +917,7 @@
         // Save Invoice into database
         $(document).on('submit', '#SaveInvoiceForm', function (e) {
             e.preventDefault();
-
+            showLoader();
             var isValid = true;
             $(".ordertable tbody tr:not(.template-row)").each(function () {
                 if (!validateRow($(this))) {
@@ -953,6 +953,7 @@
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
                     success: function (response) {
+                        hideLoader();
                         localStorage.removeItem('order');
                         var alertType = response['alert-type'];
                         var message = response['message'];
@@ -977,6 +978,7 @@
                         $("#SaveInvoiceForm button[type=submit]").prop('disabled',false);
                     },
                     error: function (xhr) {
+                        hideLoader();
                         var errors= xhr.responseJSON.errors;
                         console.log(xhr.responseJSON);
                         swal("{{ trans('quickadmin.product.product') }}", 'Some mistake is there.', 'error');
@@ -994,6 +996,7 @@
                 });
             }
             else{
+                hideLoader();
                 alert("You have lost internet connection, Please connect with the internet to save your Temorary data");
                 $("#saveInvoicebtn").replaceWith('<button type="submit" class="btn btn-success btn-icon icon-left saveTempInvoiceDatabtn" id="saveTempInvoiceDatabtn"><i class="fas fa-credit-card"></i>@lang("quickadmin.qa_temp_save_invoice")</button>');
             }
