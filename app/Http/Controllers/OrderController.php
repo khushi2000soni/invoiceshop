@@ -71,7 +71,7 @@ class OrderController extends Controller
             }
 
             DB::commit();
-            event(new InvoiceUpdated($order));
+            event(new InvoiceUpdated());
             return response()->json(['success' => true,
             'message' => trans('messages.crud.add_record'),
             'alert-type'=> trans('quickadmin.alert-type.success')], 200);
@@ -177,7 +177,7 @@ class OrderController extends Controller
             }
 
             DB::commit();
-            event(new InvoiceUpdated($order));
+            event(new InvoiceUpdated());
             return response()->json([
                 'success' => true,
                 'message' => trans('messages.crud.update_record'),

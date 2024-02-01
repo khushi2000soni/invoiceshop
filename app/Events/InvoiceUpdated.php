@@ -15,12 +15,12 @@ class InvoiceUpdated implements ShouldBroadcast
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
 
-    public $invoice;
+    // public $invoice;
 
-    public function __construct($invoice)
-    {
-        $this->invoice = $invoice;
-    }
+    // public function __construct($invoice)
+    // {
+    //     $this->invoice = $invoice;
+    // }
 
     public function broadcastOn()
     {
