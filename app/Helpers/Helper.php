@@ -6,6 +6,13 @@ use App\Models\Uploads;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str as Str;
+use App\Events\InvoiceUpdated;
+
+if (!function_exists('dispatchInvoiceUpdatedEvent')) {
+    function dispatchInvoiceUpdatedEvent() {
+        event(new InvoiceUpdated());
+    }
+}
 
 if (!function_exists('getCommonValidationRuleMsgs')) {
 	function getCommonValidationRuleMsgs()

@@ -53,7 +53,7 @@ class OrderController extends Controller
                 $order->orderProduct()->createMany($productItem);
             DB::commit();
             // Fire the InvoiceUpdated event after successful creation
-            event(new InvoiceUpdated());
+            dispatchInvoiceUpdatedEvent();
             $responseData = [
                 'status'        => true,
                 'message' => trans('messages.success'),
@@ -201,7 +201,7 @@ class OrderController extends Controller
 
             DB::commit();
             // Fire the InvoiceUpdated event after successful creation
-            event(new InvoiceUpdated());
+            dispatchInvoiceUpdatedEvent();
             $responseData = [
                 'status'        => true,
                 'message' => trans('messages.success'),
