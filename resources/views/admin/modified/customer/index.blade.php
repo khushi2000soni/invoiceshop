@@ -94,7 +94,7 @@
               <div class="card pt-2">
                 <div class="card-body">
                     <div class="table-responsive fixed_Search">
-                        {{$dataTable->table(['class' => 'table dt-responsive', 'style' => 'width:100%;','id'=>'dataaTable'])}}
+                        {{$dataTable->table(['class' => 'table dt-responsive customerTable', 'style' => 'width:100%;','id'=>'dataaTable'])}}
                     </div>
                 </div>
               </div>

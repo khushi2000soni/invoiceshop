@@ -1,0 +1,26 @@
+
+    .customerTable thead tr th:nth-child(3)  {
+        width: 100px;
+    }
+
+    .customerTable thead tr th:nth-child(2)  {
+        width: 200px;
+    }
+
+    .order_table_custom thead tr th:nth-child(2){
+        width: 100px;
+    }
+
+    .order_table_custom thead tr th:nth-child(3){
+        width: 200px;
+    }
+
+    .address_Table thead tr th:nth-child(2){
+        width: 200px;
+    }
+
+    .address_Table thead tr th:nth-child(3){
+        width: 70px;
+    }
+
+
