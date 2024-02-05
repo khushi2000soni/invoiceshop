@@ -43,7 +43,7 @@
 
         </style>
     </head>
-<body  class="@if($type=='deleted') table_wrapper @endif tablebody" >
+<body  class="tablebody" >
     <header name="page-header" class="header">
         <table  style="max-width: 100%; width: 100%; margin: 0px auto; padding-bottom: 10px;">
             <tbody>

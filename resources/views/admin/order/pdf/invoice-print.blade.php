@@ -35,6 +35,15 @@
         .tablebody * {
             box-sizing: border-box;
         }
+        .cancel-watermark {
+            position: fixed;
+            top: 19%;
+            left: 25%;
+            transform: translate(-50%, -50%);
+            color: rgba(255, 0, 0, 0.2);
+            transform: rotate(-20deg);
+            font-size: 60px;
+        }
 
         /* @page {
             size: A5;
@@ -53,11 +62,12 @@
             }
         }
 
-
-
         </style>
     </head>
-<body  class="@if($type=='deleted') table_wrapper @endif tablebody" >
+<body  class="tablebody" >
+    @if ($type=='deleted')
+    <div class="cancel-watermark">Cancelled</div>
+    @endif
     <header name="page-header" class="header">
         <table  style="max-width: 100%; width: 100%; margin: 0px auto; padding-bottom: 10px;margin-top:-10px">
             <tbody>
