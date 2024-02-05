@@ -49,7 +49,7 @@
 <table style="max-width: 100%; width: 100%; margin: 0px auto; border-collapse: collapse;">
     <tbody>
         <tr>
-            <td colspan="2" style="padding: 50px 5px 0px; text-align: start; font-size: 20px;"><strong><span style="color: red;">Remark :</span> {{ getSetting('custom_invoice_print_message') ?? ''}} </strong></td>
+            <td colspan="2" style="padding: 50px 5px 0px; text-align: start; font-size: 20px;"><strong>Remark : {{ getSetting('custom_invoice_print_message') ?? ''}} </strong></td>
         </tr>
     </tbody>
 </table>
