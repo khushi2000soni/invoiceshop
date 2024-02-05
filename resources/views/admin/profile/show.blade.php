@@ -3,6 +3,11 @@
 @section('title')@lang('quickadmin.users.profile') @endsection
 @section('customCss')
 <meta name="csrf-token" content="{{ csrf_token() }}" >
+<style>
+    .edit-option:hover {
+        cursor: pointer;
+    }
+</style>
 @endsection
 
 @section('main-content')
@@ -11,11 +16,11 @@
     <div class="section-body">
       <div class="row mt-sm-4">
         <div class="col-12 col-md12 col-lg6">
-          <div class="card">
+          <div class="card overflow-hidden">
             <div class="row mt-sm-4 background-imagebody chooseFileGroup px-4">
                 <div class="col-md8 col-12 col-lg8 boxcenter">
                     <form id="EditProfileImageForm" method="post" enctype="multipart/form-data" action="{{route('profile-image.update')}}">
-                    <input type="file" id="profile_image" name="profile_image" hidden>
+                    <input type="file" id="profile_image" name="profile_image" hidden accept="image/*">
                     <label for="profile_image" class="row author-box align-items-center gap-4 " id="profile_error">
                         <div class="col-auto px-1">
                             <div class="rounded-circle author-box-picture box-center shadow-none">
@@ -32,53 +37,57 @@
                     </form>
                 </div>
             </div>
-            <div class="card-header d-flex justify-content-between align-items-center" id="userhead">
-              <h4>@lang('quickadmin.profile.fields.personal_detail')</h4>
-              <a role="button" class="text-info" id="editButton"><i class="fas fa-edit"></i> @lang('quickadmin.qa_edit')</a>
-            </div>
-            <div class="card-body" id="userbody">
-              <div>
-                <p class="clearfix">
-                  <span class="float-left">
-                    @lang('quickadmin.profile.fields.name')
-                  </span>
-                  <span class="float-right text-muted">
-                    {{ $user->name }}
-                  </span>
-                </p>
-                <p class="clearfix">
-                  <span class="float-left">
-                    @lang('quickadmin.profile.fields.usernameid')
-                  </span>
-                  <span class="float-right text-muted">
-                    {{ $user->username }}
-                  </span>
-                </p>
-                <p class="clearfix">
-                  <span class="float-left">
-                    @lang('quickadmin.profile.fields.email')
-                  </span>
-                  <span class="float-right text-muted">
-                    {{ $user->email }}
-                  </span>
-                </p>
-                <p class="clearfix">
-                  <span class="float-left">
-                    @lang('quickadmin.profile.fields.phone')
-                  </span>
-                  <span class="float-right text-muted">
-                    {{ $user->phone ?? '' }}
-                  </span>
-                </p>
-                <p class="clearfix">
-                  <span class="float-left">
-                    @lang('quickadmin.profile.fields.address')
-                  </span>
-                  <span class="float-right text-muted">
-                    {{ $user->address->address ?? ''}}
-                  </span>
-                </p>
-              </div>
+            <div class="row">
+                <div class="col-lg-6 col-md-8 col-12">
+                    <div class="card-header profileCard d-flex justify-content-between align-items-center border-0" id="userhead">
+                      <h4>@lang('quickadmin.profile.fields.personal_detail')</h4>
+                      <a role="button" class="text-info edit-option" id="editButton"><i class="fas fa-edit"></i> @lang('quickadmin.qa_edit')</a>
+                    </div>
+                    <div class="card-body" id="userbody">
+                      <div>
+                        <p class="clearfix">
+                          <span class="float-left">
+                            @lang('quickadmin.profile.fields.name')
+                          </span>
+                          <span class="float-right text-muted">
+                            {{ $user->name }}
+                          </span>
+                        </p>
+                        <p class="clearfix">
+                          <span class="float-left">
+                            @lang('quickadmin.profile.fields.usernameid')
+                          </span>
+                          <span class="float-right text-muted">
+                            {{ $user->username }}
+                          </span>
+                        </p>
+                        <p class="clearfix">
+                          <span class="float-left">
+                            @lang('quickadmin.profile.fields.email')
+                          </span>
+                          <span class="float-right text-muted">
+                            {{ $user->email }}
+                          </span>
+                        </p>
+                        <p class="clearfix">
+                          <span class="float-left">
+                            @lang('quickadmin.profile.fields.phone')
+                          </span>
+                          <span class="float-right text-muted">
+                            {{ $user->phone ?? '' }}
+                          </span>
+                        </p>
+                        <p class="clearfix">
+                          <span class="float-left">
+                            @lang('quickadmin.profile.fields.address')
+                          </span>
+                          <span class="float-right text-muted">
+                            {{ $user->address->address ?? ''}}
+                          </span>
+                        </p>
+                      </div>
+                    </div>
+                </div>
             </div>
 
             <div class="card-header" id="edithead">
@@ -145,8 +154,8 @@
                             <label for="phone">@lang('quickadmin.profile.fields.phone')</label>
                             <div class="input-group">
                             <div class="input-group-prepend">
-                                <div class="input-group-text">
-                                <i class="fas fa-phone"></i>
+                                <div class="input-group-text moveicon">
+                                    <i class="fas fa-phone"></i>
                                 </div>
                             </div>
                             <input type="text" value="{{ old('phone',$user->phone) }}" id="phone" class="form-control @error('phone') is-invalid @enderror" name="phone" tabindex="1"   autofocus>

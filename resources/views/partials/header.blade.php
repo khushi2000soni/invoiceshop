@@ -55,7 +55,6 @@
               <a href="{{route('user.change-password')}}" class="dropdown-item has-icon">
                 <i class="fas fa-lock"></i> @lang('quickadmin.qa_change_password')
               </a>
-              <div class="dropdown-divider"></div>
               <a href="{{ route('logout') }}" class="dropdown-item has-icon text-danger">
                 <i class="fas fa-sign-out-alt"></i> Logout
               </a>

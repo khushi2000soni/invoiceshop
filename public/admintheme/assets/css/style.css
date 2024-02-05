@@ -13499,3 +13499,25 @@ button.category-product-detail:hover{
     justify-content: center;
     display: none;
 }
+
+
+.profileCard.card-header{
+    position: relative;
+}
+
+.profileCard.card-header::before{
+    content: '';
+    position: absolute;
+    height: 1px;
+    width: 300%;
+    bottom: 0;
+    left: 0;
+    background-color: #e5e9f2;
+}
+.moveicon i{
+    transform: rotate(90deg);
+}
+
+select.form-control.is-invalid {
+    background-position: right calc(.375em + 1.1875rem) center;
+}
