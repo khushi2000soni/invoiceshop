@@ -74,7 +74,8 @@ class AddressDataTable extends DataTable
             $model = $model->where('id', request()->address_id);
         }
        // return $model->orderBy('address','asc')->newQuery();
-       return $model->orderByRaw('CAST(address AS SIGNED), address')->newQuery();
+       //return $model->orderByRaw('CAST(address AS SIGNED), address')->newQuery();
+       return $model->newQuery();
     }
 
     /**
@@ -92,7 +93,7 @@ class AddressDataTable extends DataTable
         ->columns($this->getColumns())
         ->minifiedAjax()
         ->dom('lfrtip')
-        ->orderBy(1)
+        ->orderBy([1,'asc'])
         ->selectStyleSingle();
     }
 
@@ -103,15 +104,14 @@ class AddressDataTable extends DataTable
     {
         return [
             Column::make('DT_RowIndex')->title(trans('quickadmin.qa_sn'))->orderable(false)->searchable(false),
-            Column::make('address')->title(trans('quickadmin.address.fields.list.address')),
-            Column::make('no_of_customer')->title(trans('quickadmin.address.fields.list.no_of_customer')),
-            Column::make('created_at')->title(trans('quickadmin.address.fields.list.created_at')),
+            Column::make('address')->title(trans('quickadmin.address.fields.list.address'))->orderable(true),
+            Column::make('no_of_customer')->title(trans('quickadmin.address.fields.list.no_of_customer'))->orderable(true),
+            Column::make('created_at')->title(trans('quickadmin.address.fields.list.created_at'))->orderable(true),
             Column::computed('action')
             ->exportable(false)
             ->printable(false)
             ->width(60)
             ->addClass('text-center')->title(trans('quickadmin.qa_action')),
-
         ];
     }
 
