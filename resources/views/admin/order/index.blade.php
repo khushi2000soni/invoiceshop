@@ -246,6 +246,9 @@
             $.ajax({
                 url: actionurl,
                 method: 'GET',
+                headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
                 dataType: 'json', // Specify JSON as the expected data type
                 success: function (response) {
                     if (response.status === true && response.pdf) {
