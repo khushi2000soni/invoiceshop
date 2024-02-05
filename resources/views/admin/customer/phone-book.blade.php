@@ -480,14 +480,19 @@ $(document).ready(function () {
             success: function (response) {
 
                     form.closest('#centerModal').modal('hide');
-                    var newOption = new Option(response.address.address, response.address.id, true, true);
-                    $('#citiwise-filter-form #address_id').append(newOption).trigger('change');
+                    // Create a new option element for the first select
+                    var newOption1 = new Option(response.address.address, response.address.id, true, true);
+                    // Append the new option to the first select and trigger change event
+                    $('#citiwise-filter-form #address_id').append(newOption1).trigger('change');
+                    // Create a new option element for the second select
+                    var newOption2 = new Option(response.address.address, response.address.id, true, true);
+                    // Append the new option to the second select and trigger change event
+                    $('#AddForm #address_id').append(newOption2).trigger('change');
                     var alertType = response['alert-type'];
                     var message = response['message'];
                     var title = "{{ trans('quickadmin.address.address') }}";
                     showToaster(title,alertType,message);
                     $('#AddaddressForm')[0].reset();
-                    //location.reload();
                     //DataaTable.ajax.reload();
                     $("#AddaddressForm button[type=submit]").prop('disabled',false);
             },
