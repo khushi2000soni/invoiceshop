@@ -267,9 +267,9 @@
                             printFrame.focus();
                             printFrame.get(0).contentWindow.print();
                             // Remove the iframe after a delay
-                            setTimeout(() => {
-                            printFrame.remove();
-                            }, 1000);
+                            // setTimeout(() => {
+                            // printFrame.remove();
+                            // }, 1000);
                     } else {
                         console.error('Error fetching PDF:', response.error);
                     }
