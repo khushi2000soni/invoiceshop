@@ -676,9 +676,7 @@
             e.preventDefault();
             // Get the date range picker instance
             var picker = $('#reportrange').data('daterangepicker');
-
             // Retrieve the selected start and end dates
-
             if (picker && picker.startDate && picker.endDate) {
                 var from_date = picker.startDate.format('YYYY-MM-DD');
                 var to_date = picker.endDate.format('YYYY-MM-DD');

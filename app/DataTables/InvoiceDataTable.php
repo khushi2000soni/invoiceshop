@@ -3,6 +3,7 @@
 namespace App\DataTables;
 
 use App\Models\Order;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Illuminate\Support\Facades\Gate;
 use Yajra\DataTables\EloquentDataTable;
@@ -67,11 +68,11 @@ class InvoiceDataTable extends DataTable
             $model = $model->where('customer_id', request()->customer_id);
         }
 
-        if(isset(request()->from_date) && request()->from_date){
-            $model = $model->whereDate('invoice_date','>=', request()->from_date);
-        }
-        if(isset(request()->to_date) && request()->to_date){
-            $model = $model->whereDate('invoice_date','<=', request()->to_date);
+        if(isset(request()->from_date) && request()->from_date && isset(request()->to_date) && request()->to_date){
+            $model = $model->whereBetween('invoice_date', [request()->from_date, request()->to_date]);
+        }else{
+            $today = Carbon::today();
+            $model = $model->whereDate('invoice_date', $today);
         }
 
         if (auth()->user()->hasRole([config('app.roleid.admin'), config('app.roleid.accountant')])) {

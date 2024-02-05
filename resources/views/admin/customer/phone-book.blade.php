@@ -478,7 +478,6 @@ $(document).ready(function () {
         },
             data: formData,
             success: function (response) {
-
                     form.closest('#centerModal').modal('hide');
                     // Create a new option element for the first select
                     var newOption1 = new Option(response.address.address, response.address.id, true, true);
