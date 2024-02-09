@@ -1,4 +1,4 @@
-@inject('request', 'Illuminate\Http\Request')
+
 @extends('layouts.app')
 @section('title')@lang('quickadmin.order.create_new_order') @endsection
 @section('customCss')

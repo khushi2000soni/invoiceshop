@@ -1,4 +1,4 @@
-@inject('request', 'Illuminate\Http\Request')
+
 @extends('layouts.app')
 @section('title')@lang('quickadmin.customer-management.fields.list')@endsection
 @section('customCss')

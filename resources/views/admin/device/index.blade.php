@@ -1,4 +1,4 @@
-@inject('request', 'Illuminate\Http\Request')
+
 @extends('layouts.app')
 @section('title')@lang('quickadmin.device-management.title')@endsection
 @section('customCss')
