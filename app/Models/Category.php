@@ -48,8 +48,7 @@ class Category extends Model
         ->whereNull('order_products.deleted_at')
         ->groupBy('categories.id')
         ->havingRaw('amount > 0')
-        ->orderByDesc('categories.id')
-        ->orderByDesc('order_products.id');
+        ->orderByDesc(DB::raw('SUM(order_products.total_price)'));
 
         // if ($address_id) {
         //     $query->where('customers.address_id', $address_id);

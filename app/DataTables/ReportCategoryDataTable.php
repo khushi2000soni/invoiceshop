@@ -92,8 +92,8 @@ class ReportCategoryDataTable extends DataTable
                     ])
                     ->columns($this->getColumns())
                     ->minifiedAjax()
-                    ->dom('rtip')
-                    ->orderBy(1);
+                    ->dom('rtip');
+                    // ->orderBy(3,'desc');
     }
 
     /**

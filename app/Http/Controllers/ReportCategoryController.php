@@ -54,7 +54,7 @@ class ReportCategoryController extends Controller
                 'category' => $item->name,
                 'amount' => $item->amount,
             ];
-        })->sortByDesc('amount')->values();
+        });
         return response()->json($transformedData);
     }
 
