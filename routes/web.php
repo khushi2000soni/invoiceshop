@@ -93,7 +93,7 @@ Route::middleware(['auth','PreventBackHistory'])->group(function () {
     Route::post('/share-email/{order}',[OrderController::class,'sendshareEmail'])->name('orders.send-email');
     Route::get('/share-whatsapp/{order}',[OrderController::class,'shareWhatsApp'])->name('orders.share-whatsapp');
 
-    Route::get('/reports/category',[ReportCategoryController::class,'reportCategory'])->name('reports.category');
+    Route::get('/reports/category',[ReportCategoryController::class,'index'])->name('reports.category');
     Route::get('/reports/category/products', [ReportCategoryController::class,'CategoryProductReport'])->name('reports.category.products');
     Route::get('/reports/category/piechart',[ReportCategoryController::class,'getCategoryChartData'])->name('reports.category.piechart');
     Route::get('/reports/category-printView',[ReportCategoryController::class,'CatgoryReportPrintView'])->name('reports.category.print');

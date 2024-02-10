@@ -21,12 +21,11 @@ use Maatwebsite\Excel\Facades\Excel;
 
 class ReportCategoryController extends Controller
 {
-    public function reportCategory(ReportCategoryDataTable $dataTable)
+    public function index(ReportCategoryDataTable $dataTable)
     {
         abort_if(Gate::denies('report_category_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
         $addresses = Address::orderByRaw('CAST(address AS SIGNED), address')->get();
-        // Pass the calculated data to the DataTable
-        return $dataTable->render('admin.report.category.report-category',compact('addresses'));
+        return $dataTable->render('admin.report.category.index',compact('addresses'));
     }
 
     public function CategoryProductReport(Request $request)
@@ -55,7 +54,7 @@ class ReportCategoryController extends Controller
                 'category' => $item->name,
                 'amount' => $item->amount,
             ];
-        });
+        })->sortByDesc('amount')->values();
         return response()->json($transformedData);
     }
 
