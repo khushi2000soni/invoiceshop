@@ -20,7 +20,7 @@ class OrderController extends Controller
 {
     public function store(Request $request){
         $validator = Validator::make($request->all(),[
-            'customer_id'       => ['required','integer'],
+            'customer_id'       => ['required','integer','exists:customers,id'],
             'thaila_price'      => ['nullable','numeric'],
             'is_round_off'      => ['required','boolean'],
             'round_off'  => ['nullable','numeric'],

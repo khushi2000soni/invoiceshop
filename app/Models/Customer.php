@@ -74,7 +74,11 @@ class Customer extends Model
 
     public function getFullNameAttribute()
     {
-        return $this->name . '-' . $this->guardian_name . '(' .$this->address->address .')';
+        $name = $this->name ?? 'NA';
+        $guardianName = $this->guardian_name ?? 'NA';
+        $address = $this->address ? $this->address->address : 'NA';
+        return $name . '-' . $guardianName . '(' . $address . ')';
+        //return $this->name . '-' . $this->guardian_name . '(' .$this->address->address .')';
     }
 
 
