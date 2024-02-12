@@ -501,9 +501,15 @@ $(document).ready(function () {
 
                     form.closest('#centerModal').modal('hide');
                     // Create a new option element for the first select
-                    var newOption1 = new Option(response.address.address, response.address.id, true, true);
+                    //var newOption1 = new Option(response.address.address, response.address.id);
                     // Append the new option to the first select and trigger change event
-                    $('#citiwise-filter-form #address_id').append(newOption1).trigger('change');
+                    // $('#citiwise-filter-form #address_id').append(newOption1).trigger('change');
+                    var addressSelect = $('#citiwise-filter-form #address_id');
+                    var newOption = $('<option>', { value: response.address.id, text: response.address.address });
+                    addressSelect.append(newOption).html(
+                        $('option', addressSelect).sort((x, y) => $(x).text().localeCompare($(y).text()))
+                    ).prepend(addressSelect.find('option[value=""]').detach()).trigger('change');
+
                     // Create a new option element for the second select
                     var newOption2 = new Option(response.address.address, response.address.id, true, true);
                     // Append the new option to the second select and trigger change event
