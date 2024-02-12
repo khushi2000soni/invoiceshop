@@ -57,7 +57,7 @@
         border: 1px solid #3584a5;
         border-radius: 60px;
     }
-    #centerModal, #editAddressModal{
+    #centerModal, #editModal{
         z-index: 99999;
     }
     #centerModal::before, #editAddressModal::before{
@@ -260,28 +260,27 @@ $(document).ready(function () {
         });
     });
 
-
     $("body").on("click", ".edit-customers-btn", function () {
-            var hrefUrl = $(this).attr('data-href');
-            $.ajax({
-                type: 'get',
-                url: hrefUrl,
-                dataType: 'json',
-                success: function (response) {
-                    //$('#preloader').css('display', 'none');
-                    if(response.success) {
-                        $('.popup_render_div').html(response.htmlView);
-                        $('#editModal').modal('show');
-                         // Initialize select2 for the first modal
-                        $(".js-example-basic-single").select2({
-                            dropdownParent: $('.popup_render_div #editModal') // Set the dropdown parent to the modal
-                        });
-                        setTimeout(() => {
-                            $('.modal-backdrop').not(':first').remove();
-                        }, 300);
-                    }
+        var hrefUrl = $(this).attr('data-href');
+        $.ajax({
+            type: 'get',
+            url: hrefUrl,
+            dataType: 'json',
+            success: function (response) {
+                //$('#preloader').css('display', 'none');
+                if(response.success) {
+                    $('.popup_render_div').html(response.htmlView);
+                    $('#editModal').modal('show');
+                        // Initialize select2 for the first modal
+                    $(".js-example-basic-single").select2({
+                        dropdownParent: $('.popup_render_div #editModal') // Set the dropdown parent to the modal
+                    });
+                    setTimeout(() => {
+                        $('.modal-backdrop').not(':first').remove();
+                    }, 300);
                 }
-            });
+            }
+        });
     });
 
     $("body").on("click", ".edit-password-btn", function () {

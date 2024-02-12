@@ -24,7 +24,7 @@ class CreateRequest extends FormRequest
     {
         return [
             'name' => ['required','string','max:150',new TitleValidationRule],
-            'guardian_name' => ['nullable','string','max:150',new TitleValidationRule],
+            'guardian_name' => ['nullable','string','max:150'/*,new TitleValidationRule*/],
             // 'email' => ['required','email','unique:customers,email'],
             'phone' => ['nullable','digits:10','numeric','unique:customers,phone'],
             'phone2' => ['nullable','digits:10','numeric','unique:customers,phone2'],

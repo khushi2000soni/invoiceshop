@@ -27,7 +27,7 @@ class UpdateRequest extends FormRequest
     {
         return [
             'name' => ['required','string','max:150',new TitleValidationRule],
-            'guardian_name' => ['nullable','string','max:150',new TitleValidationRule],
+            'guardian_name' => ['nullable','string','max:150'/*,new TitleValidationRule*/],
             // 'email' => ['required','email','unique:customers,email,'.$this->customer->id],
             'phone' => ['nullable','digits:10','numeric','unique:customers,phone,'.$this->customer->id],
             'phone2' => ['nullable','digits:10','numeric','unique:customers,phone2,'.$this->customer->id],
