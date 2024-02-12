@@ -139,7 +139,7 @@ class UserController extends Controller
 
     public function showprofile(){
         abort_if(Gate::denies('profile_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-        $addresses = Address::all();
+        $addresses =   Address::orderByRaw('CAST(address AS SIGNED), address')->get();
         $user = auth()->user();
         return view('admin.profile.show', compact('addresses','user'));
     }

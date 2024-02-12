@@ -92,7 +92,7 @@ class CustomerDataTable extends DataTable
             ->columns($this->getColumns())
             ->minifiedAjax()
             ->dom('lfrtip')
-            ->orderBy(1)
+            ->orderBy(1,'asc')
             ->selectStyleSingle();
     }
 
