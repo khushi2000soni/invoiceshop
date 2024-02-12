@@ -27,3 +27,7 @@
 .invoicdatatable tbody tr td:nth-child(3){
     font-weight: 700;
 }
+
+.invoicdatatable tbody tr td:nth-child(5){
+    font-weight: 700;
+}
