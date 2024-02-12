@@ -8122,6 +8122,7 @@ body:not(.sidebar-mini) .sidebar-style-2 .sidebar-menu li.active ul.dropdown-men
 .purple-sidebar .main-sidebar .sidebar-menu li a {
     color: #c3c3c3;
 }
+
 .purple-sidebar .main-sidebar .sidebar-menu li.menu-header {
     color: rgba(255, 255, 255, 0.6);
 }
@@ -12852,6 +12853,7 @@ div.dataTables_wrapper div.dataTables_filter input {
 
 ul.sidebar-menu li a svg {
     width: 20px !important;
+    height: 20px !important;
     margin-right: 15px;
 }
 .main-sidebar .sidebar-menu li a {
