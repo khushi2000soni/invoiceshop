@@ -15,7 +15,6 @@ class SvgIcon extends Component
 
     public function __construct($icon)
     {
-        //
         $this->icon = $icon;
     }
 

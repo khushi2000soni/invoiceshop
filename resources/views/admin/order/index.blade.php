@@ -116,7 +116,7 @@
                                 <div class="col-md-6 col-lg-6 col-xl-3 pr-xl-0">
                                     <div class="mx-0 datapikergroup custom-select2">
                                         <div class="form-control-inner">
-                                            <label for="customer_id">Select Date</label>
+                                            <label for="reportrange">Select Date</label>
                                             <div id="reportrange" class="pull-right" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; width: 100%">
                                                 <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>&nbsp;
                                                 <span></span> <b class="caret"></b>

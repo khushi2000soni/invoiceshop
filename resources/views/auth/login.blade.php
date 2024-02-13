@@ -15,7 +15,8 @@
                 <button class="close" data-dismiss="alert">
                   <span>×</span>
                 </button>
-                {{ Session::get('success') }}    </div>
+                {{ Session::get('success') }}
+                </div>
           </div>
           @endif
           @error('wrongcrendials')

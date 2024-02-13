@@ -18,8 +18,8 @@ class DashboardController extends Controller
     }
 
 
-    public function index(Request $request){
-
+    public function index(Request $request)
+    {
         $timeFrame = $request->input('time_frame', 'daily');
         $data = null;
         // Fetch the default data based on the default time frame
