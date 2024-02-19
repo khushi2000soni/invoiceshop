@@ -45,7 +45,7 @@
                           <i class="fas fa-user"></i>
                         </div>
                       </div>
-                      <input type="text" value="{{ old('username') }}" class="form-control @error('username') is-invalid @enderror" name="username" tabindex="1" required autofocus>
+                      <input type="text" value="{{ old('username') }}" class="form-control @error('username') is-invalid @enderror" name="username" tabindex="1" required autofocus autocomplete="off">
                       @error('username')
                       <div class="invalid-feedback">
                         {{ $message }}
@@ -66,7 +66,7 @@
                           <i class="fas fa-lock"></i>
                         </div>
                       </div>
-                      <input type="password" class="form-control  @error('password') is-invalid @enderror" name="password" id="password" tabindex="2" required>
+                      <input type="password" class="form-control  @error('password') is-invalid @enderror" name="password" id="password" tabindex="2" required autocomplete="off">
                       <div class="input-group-append">
                         <div class="input-group-text toggle-password" data-toggle="#password">
                           <i class="fas fa-eye view-password"></i>
