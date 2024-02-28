@@ -20,7 +20,9 @@ class AddressController extends Controller
     {
         abort_if(Gate::denies('address_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
         $addresses = Address::orderByRaw('CAST(address AS SIGNED), address')->get();
+        // return response address
         return $dataTable->render('admin.address.index',compact('addresses'));
+
     }
 
     public function printView($address_id = null)
