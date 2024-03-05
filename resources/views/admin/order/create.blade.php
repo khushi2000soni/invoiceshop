@@ -227,8 +227,7 @@
 
         $("#customer_id").change(function (e) {
             e.preventDefault();
-            $(".error.text-danger").remove();
-            $(".is-invalid").removeClass("is-invalid");
+            removerror();
             order.customer_id = parseInt($(this).val());
         });
 

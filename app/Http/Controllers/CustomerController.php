@@ -93,11 +93,10 @@ class CustomerController extends Controller
     {
         abort_if(Gate::denies('customer_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
         $customer = Customer::with('orders.orderProduct')->findOrFail($id);
-        $customer->orders->each(function ($order) {
-            $order->orderProduct->each->forceDelete();
+        foreach ($customer->orders as $order) {
+            $order->orderProduct()->forceDelete();
             $order->forceDelete();
-        });
-
+        }
         $customer->forceDelete();
         return response()->json([
             'success' => true,
@@ -105,6 +104,7 @@ class CustomerController extends Controller
             'alert-type' => trans('quickadmin.alert-type.success'),
             'title' => trans('quickadmin.customers.customer'),
         ], 200);
+
     }
 
     //***************************Phone-Book Methods************************************** */

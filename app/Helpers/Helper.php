@@ -118,11 +118,36 @@ if (!function_exists('getSetting')) {
 	}
 }
 
+// if (!function_exists('generateInvoiceNumber')) {
+//     function generateInvoiceNumber($orderId) {
+//         dd($orderId);
+//         $timeframe = now()->format('M-y'); // Get the current month abbreviation
+//         $invoiceNumber = strtoupper($timeframe) . '-' . str_pad($orderId, 4, '0', STR_PAD_LEFT);
+//         return $invoiceNumber;
+//     }
+// }
+
 if (!function_exists('generateInvoiceNumber')) {
     function generateInvoiceNumber($orderId) {
-        $timeframe = now()->format('M-y'); // Get the current month abbreviation
-        $invoiceNumber = strtoupper($timeframe) . '-' . str_pad($orderId, 4, '0', STR_PAD_LEFT);
-        return $invoiceNumber;
+        DB::beginTransaction(); // Start a database transaction
+        try {
+            $currentMonthYear = now()->format('M-y'); // Get the current month and year, e.g., Mar24
+            $lastInvoiceNumber = Order::where('invoice_number', 'like', $currentMonthYear . '%')->orderBy('created_at', 'desc')->lockForUpdate()->first();
+            if ($lastInvoiceNumber) {
+                // Extract the numeric part of the last invoice number
+                $lastNumber = (int)substr($lastInvoiceNumber->invoice_number, -4);
+                $nextNumber = str_pad($lastNumber + 1, 4, '0', STR_PAD_LEFT);
+            } else {
+                $nextNumber = '0001';
+            }
+            // Create the new invoice number
+            $invoiceNumber = strtoupper($currentMonthYear) . '-' . $nextNumber;
+            DB::commit(); // Commit the transaction
+            return $invoiceNumber;
+        } catch (\Exception $e) {
+            DB::rollback(); // Rollback the transaction if an exception occurs
+            throw $e;
+        }
     }
 }
 

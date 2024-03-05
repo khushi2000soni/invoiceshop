@@ -77,8 +77,7 @@ class OrderController extends Controller
             'alert-type'=> trans('quickadmin.alert-type.success')], 200);
 
         } catch (\Exception $e) {
-           dd($e->getMessage());
-
+           //dd($e->getMessage());
             DB::rollBack();
             return response()->json(['success' => false,
             'message' => trans('messages.error1'),
