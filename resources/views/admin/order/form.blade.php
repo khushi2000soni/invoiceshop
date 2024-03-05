@@ -17,7 +17,7 @@
     </td>
     <td>
         <div class="form-group m-0">
-            <input type="number" class="form-control"  name="quantity" value="{{ isset($order) ? $order->quantity : old('quantity') }}" id="quantity" autocomplete="true" onkeydown="javascript: return ['Tab','NumpadDecimal','Period','Backspace','Delete','ArrowLeft','ArrowRight'].includes(event.code) ? true : !isNaN(Number(event.key)) && event.code!=='Space'"  min="0" step=".01" >
+            <input type="number" class="form-control"  min="0" step=".001" name="quantity" value="{{ isset($order) ? $order->quantity : old('quantity') }}" id="quantity" autocomplete="true" onkeydown="javascript: return ['Tab','NumpadDecimal','Period','Backspace','Delete','ArrowLeft','ArrowRight'].includes(event.code) ? true : !isNaN(Number(event.key)) && event.code!=='Space'">
         </div>
     </td>
     <td>
