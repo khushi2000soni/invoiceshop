@@ -20,7 +20,7 @@ return [
 		'total_product' 	=> 'Total Items!',
         'todaySaleAmount'   =>  "Today's Sale",
         'last7DaysSaleAmount'   =>  "Last 7 Days Sale",
-        'last30DaysSaleAmount'   =>  "Last 30 Days Sale",
+        'last30DaysSaleAmount'   =>  "Current Month Sale",
         'allSaleAmount'   =>  "All Time Sale",
         'todayTotalOrder'   =>  "Today's Order",
         'totalProductInStock'   =>  "Total Item",

@@ -49,7 +49,7 @@
                             <h4 class="">@lang('quickadmin.dashboard.last30DaysSaleAmount')</h4>
                         </div>
                         <div class="card-body">
-                            <h4>{{ $last30DaysSaleAmount }}</h4>
+                            <h4>{{ $currentMonthSaleAmount }}</h4>
                         </div>
                         </div>
                     </div>

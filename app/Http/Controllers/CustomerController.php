@@ -104,7 +104,6 @@ class CustomerController extends Controller
             'alert-type' => trans('quickadmin.alert-type.success'),
             'title' => trans('quickadmin.customers.customer'),
         ], 200);
-
     }
 
     //***************************Phone-Book Methods************************************** */

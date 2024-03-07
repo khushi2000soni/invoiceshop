@@ -26,7 +26,10 @@ class DashboardController extends Controller
         $data = $this->getDataForTimeFrame($timeFrame);
         $todaySaleAmount = Order::whereDate('invoice_date', Carbon::today())->sum('grand_total');
         $last7DaysSaleAmount = Order::whereDate('invoice_date', '>=', Carbon::today()->subDays(7))->sum('grand_total');
-        $last30DaysSaleAmount = Order::whereDate('invoice_date', '>=', Carbon::today()->subDays(30))->sum('grand_total');
+        // $last30DaysSaleAmount = Order::whereDate('invoice_date', '>=', Carbon::today()->subDays(30))->sum('grand_total');
+        $firstDayOfMonth = Carbon::now()->startOfMonth();
+        $currentDate = Carbon::now();
+        $currentMonthSaleAmount = Order::whereBetween('invoice_date', [$firstDayOfMonth, $currentDate])->sum('grand_total');
         $allSaleAmount =  Order::sum('grand_total');
         $todayTotalOrder =  Order::whereDate('invoice_date', Carbon::today())->count();
         $totalProductInStock =  Product::count();
@@ -37,7 +40,7 @@ class DashboardController extends Controller
             'data',
             'todaySaleAmount',
             'last7DaysSaleAmount',
-            'last30DaysSaleAmount',
+            'currentMonthSaleAmount',
             'allSaleAmount',
             'todayTotalOrder',
             'totalProductInStock',

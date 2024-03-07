@@ -23,7 +23,7 @@ class LoginController extends Controller
     public function login(Request $request){
         $validated = $request->validate([
             'username'    => ['required','string',new IsActive],
-            'password' => 'required|min:4',
+            'password' => ['required','string','min:4'],
 
         ],[
             'username.required' => 'The Username is required.',
@@ -32,11 +32,10 @@ class LoginController extends Controller
 
         $remember_me = !is_null($request->remember_me) ? true : false;
         $credentialsOnly = [
-            'username'    => $request->username,
-            'password' => $request->password,
+            'username'    => trim($request->username),
+            'password' => trim($request->password),
         ];
         try {
-
             $user = User::where('username',$request->username)->first();
             if($user){
                 if (Auth::attempt($credentialsOnly, $remember_me)) {
