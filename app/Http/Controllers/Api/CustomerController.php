@@ -178,7 +178,7 @@ class CustomerController extends Controller
     public function store(Request $request){
 
         $validator = Validator::make($request->all(),[
-        'name' => ['required','string','max:150','regex:/^[^0-9\p{P}]+$/u'],
+        'name' => ['required','string','max:150'/*,'regex:/^[^0-9\p{P}]+$/u'*/],
         'guardian_name' => ['nullable','string','max:150'/*,'regex:/^[^0-9\p{P}]+$/u'*/],
         // 'email' => ['required','email','unique:customers,email'],
         'phone' => ['nullable','digits:10','numeric',/*'unique:customers,phone'*/new UniquePhoneNumber($request->phone),],
