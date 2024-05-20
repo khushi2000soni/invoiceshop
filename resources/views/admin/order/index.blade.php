@@ -191,7 +191,7 @@
     <script>
         // Enable pusher logging - don't include this in production
         Pusher.logToConsole = true;
-        var pusher = new Pusher('bc4355cd6e86d99ee3e5', {
+        var pusher = new Pusher(env('PUSHER_APP_KEY'), {
         cluster: 'ap2'
         });
         var channel = pusher.subscribe('invoices');
@@ -573,34 +573,34 @@
             e.preventDefault();
             var formAction = $(this).attr('action');
             swal({
-            title: "{{ trans('messages.deletetitle') }}",
-            text: "{{ trans('messages.areYouSure') }}",
-            icon: 'warning',
-            buttons: {
-            confirm: 'Yes, delete it',
-            cancel: 'No, cancel',
-            },
-            dangerMode: true,
+                title: "{{ trans('messages.deletetitle') }}",
+                text: "{{ trans('messages.areYouSure') }}",
+                icon: 'warning',
+                buttons: {
+                confirm: 'Yes, delete it',
+                cancel: 'No, cancel',
+                },
+                dangerMode: true,
             }).then((willDelete) => {
-            if (willDelete) {
-                $.ajax({
-                url: formAction,
-                type: 'DELETE',
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                },
-                success: function (response) {
-                    var alertType = response['alert-type'];
-                        var message = response['message'];
-                        var title = "{{ trans('quickadmin.order.invoice') }}";
-                        showToaster(title,alertType,message);
-                        dataTable.ajax.reload();
-                },
-                error: function (xhr) {
-                    swal("{{ trans('quickadmin.order.invoice') }}", 'Something went wrong', 'error');
+                if (willDelete) {
+                    $.ajax({
+                    url: formAction,
+                    type: 'DELETE',
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    success: function (response) {
+                        var alertType = response['alert-type'];
+                            var message = response['message'];
+                            var title = "{{ trans('quickadmin.order.invoice') }}";
+                            showToaster(title,alertType,message);
+                            dataTable.ajax.reload();
+                    },
+                    error: function (xhr) {
+                        swal("{{ trans('quickadmin.order.invoice') }}", 'Something went wrong', 'error');
+                    }
+                    });
                 }
-                });
-            }
             });
         });
 
@@ -670,8 +670,6 @@
             originalPrintUrl = "{{ route('orders.allprint') }}";
             $('#invoice-excel').attr('href', originalExportUrl);
             $('#invoice-print').attr('href', originalPrintUrl);
-
-
         });
 
         $('#invoice-filter-form').on('submit', function(e) {
