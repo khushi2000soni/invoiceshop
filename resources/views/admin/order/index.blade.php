@@ -191,7 +191,8 @@
     <script>
         // Enable pusher logging - don't include this in production
         Pusher.logToConsole = true;
-        var pusher = new Pusher(env('PUSHER_APP_KEY'), {
+        var pusherAppKey = "{{ env('PUSHER_APP_KEY') }}";
+        var pusher = new Pusher(pusherAppKey, {
         cluster: 'ap2'
         });
         var channel = pusher.subscribe('invoices');
@@ -204,6 +205,7 @@
             // Show a notification
             showToaster(title,alertType,message);
         });
+        console.log();
     </script>
     <script type="text/javascript">
         $(function() {
