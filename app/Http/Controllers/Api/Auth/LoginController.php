@@ -17,6 +17,58 @@ use Illuminate\Http\Request;
 class LoginController extends Controller
 {
 
+    public function register(Request $request){
+        
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|max:255|email|unique:users,email',
+            'phone' => 'required|min:10|integer|unique:users,phone',
+            'username' => 'required|string|unique:users,username',
+            'auth_pin' => 'required|string',
+            'address_id' => 'exists:address,id',
+            'password'  => 'required|string|min:4|required_with:confirmed_password|same:confirmed_password',
+            'confirmed_password' => 'required|min:4'
+        ]);
+        
+        DB::beginTransaction();
+        try {
+            $inputs             = $request->all();
+            $inputs['password'] = bcrypt($inputs['password']);
+            $user = User::create($inputs);
+            $user->roles()->sync($request->input('roles', [config('app.roleid.admin')]));
+
+            $accessToken = $user->createToken(config('auth.api_token_name'))->plainTextToken;
+            DB::commit();
+            //Success Response Send
+            $responseData = [
+                'status'            => true,
+                'message'           => 'You have register successfully!',
+                'userData'          => [
+                    'id'            => $user->id,
+                    'name'          => $user->name ?? '',
+                    'username'      => $user->username ?? '',
+                    'email'         => $user->email ?? '',
+                    'phone'         => $user->phone ?? '',
+                    'address'       => $user->address->name ?? '',
+                    'profile_image' => $user->profile_image_url ?? '',
+                    'pin'           => $user->device? $user->device->pin : '',
+                ],
+                'remember_me_token' => $user->remember_token,
+                'access_token'      => $accessToken
+            ];
+            return response()->json($responseData, 200);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            //dd($e->getMessage().'->'.$e->getLine());
+            //Return Error Response
+            $responseData = [
+                'status'        => false,
+                'error'         => trans('messages.error_message'),
+            ];
+            return response()->json($responseData, 401);
+        }
+    }
+
     public function login(Request $request){
         //dd($request->all());
         $validator = Validator::make($request->all(), [
@@ -75,7 +127,7 @@ class LoginController extends Controller
         } catch (\Exception $e) {
             DB::rollBack();
             //dd($e->getMessage().'->'.$e->getLine());
-//Return Error Response
+            //Return Error Response
             $responseData = [
                 'status'        => false,
                 'error'         => trans('messages.error_message'),
