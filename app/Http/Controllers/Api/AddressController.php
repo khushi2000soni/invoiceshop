@@ -46,11 +46,6 @@ class AddressController extends Controller
         try{
             $input = $request->all();
             $product=Address::create($input);
-            $responseData = [
-                'status'            => true,
-                'message'           => 'success',
-            ];
-            return response()->json($responseData, 200);
         }catch (\Exception $e) {
             //dd($e->getMessage().'->'.$e->getLine());
             //Return Error Response

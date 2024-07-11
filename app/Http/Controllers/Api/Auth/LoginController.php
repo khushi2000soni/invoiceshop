@@ -23,9 +23,6 @@ class LoginController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|max:255|email|unique:users,email',
             'phone' => 'required|min:10|integer|unique:users,phone',
-            'username' => 'required|string|unique:users,username',
-            'auth_pin' => 'required|string',
-            'address_id' => 'exists:address,id',
             'password'  => 'required|string|min:4|required_with:confirmed_password|same:confirmed_password',
             'confirmed_password' => 'required|min:4'
         ]);
@@ -51,7 +48,7 @@ class LoginController extends Controller
                     'phone'         => $user->phone ?? '',
                     'address'       => $user->address->name ?? '',
                     'profile_image' => $user->profile_image_url ?? '',
-                    'pin'           => $user->device? $user->device->pin : '',
+                    'pin'           =>  $user->device? $user->device->pin : '',
                 ],
                 'remember_me_token' => $user->remember_token,
                 'access_token'      => $accessToken
@@ -59,8 +56,6 @@ class LoginController extends Controller
             return response()->json($responseData, 200);
         } catch (\Exception $e) {
             DB::rollBack();
-            //dd($e->getMessage().'->'.$e->getLine());
-            //Return Error Response
             $responseData = [
                 'status'        => false,
                 'error'         => trans('messages.error_message'),
@@ -72,8 +67,9 @@ class LoginController extends Controller
     public function login(Request $request){
         //dd($request->all());
         $validator = Validator::make($request->all(), [
-            'username'    => ['required','string',new IsActive],
-            'password' => 'required|min:4',
+            // 'username'    => ['required','string',new IsActive],
+            'email'     => 'required|max:255|email',
+            'password'  => 'required|min:4',
         ]);
 
         if($validator->fails()){
@@ -89,7 +85,7 @@ class LoginController extends Controller
         try {
             $remember_me = !is_null($request->remember) ? true : false;
             $credentialsOnly = [
-                'username'    => $request->username,
+                'email'    => $request->email,
                 'password' => $request->password,
             ];
 
@@ -109,7 +105,7 @@ class LoginController extends Controller
                         'phone'    => $user->phone ?? '',
                         'address'    => $user->address->name ?? '',
                         'profile_image'=> $user->profile_image_url ?? '',
-                        'Pin'=>  $user->device? $user->device->pin : '',
+                        'pin'=>  $user->device? $user->device->pin : '',
                     ],
                     'remember_me_token' => $user->remember_token,
                     'access_token'      => $accessToken

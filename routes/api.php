@@ -25,6 +25,7 @@ use App\Http\Controllers\Api\ProductController;
 // });
 
 
+
 Route::group(['middleware' => 'checkDevice'], function () {
     Route::controller(LoginController::class)->group(function(){
         Route::post('login', 'login');
@@ -61,6 +62,10 @@ Route::group(['middleware' => 'checkDevice'], function () {
 
         Route::get('/get-cities', [AddressController::class, 'AllCities']);
         Route::post('address/store', [AddressController::class, 'store']);
+        
+        Route::get('/profile', [CustomerController::class, 'profile']);
+        Route::post('/profile', [CustomerController::class, 'profileUpdate']);
+    
     });
 
 });

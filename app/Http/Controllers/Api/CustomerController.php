@@ -22,6 +22,78 @@ use Illuminate\Validation\Rule;
 
 class CustomerController extends Controller
 {
+    public function profileUpdate(Request $request)
+    {
+        $request->validate([
+            'name'          => 'nullable|max:255',
+            // 'phone'         => 'nullable|min:10|integer|unique:users,phone',
+            'profile_image'   => 'nullable|image|max:2048|mimes:jpeg,png,gif',
+            'address'    => 'nullable|string|max:255'
+        ]);
+        
+        $user = auth()->user();
+        if (!$user) {
+            return response()->json([
+                'status'  => false,
+                'message' => 'User not authenticated',
+            ], 401);
+        }
+        
+        $user->update([
+            'name'      => $request->name,
+            'address'   => $request->address,
+        ]);
+    
+        if ($request->hasFile('profile_image')) { 
+            $actionType = 'save';
+            $uploadId = null;
+            if($profileImageRecord = $user->profileImage){
+                $uploadId = $profileImageRecord->id;
+                $actionType = 'update';
+            }        
+            $response = uploadImage($user, $request->profile_image, 'user/profile-images',"profile", 'original', $actionType, $uploadId);
+        }    
+        
+        $responseData = [
+            'status'            => true,
+            'message'           => 'success',
+        ];
+        return response()->json($responseData, 200);
+    }
+    
+    
+    public function profile(Request $request){
+        try{
+            $user = auth()->user();
+            $authData = [
+                'id'            => $user->id,
+                'name'          => $user->name ?? '',
+                'username'      => $user->username ?? '',
+                'email'         => $user->email ?? '',
+                'phone'         => $user->phone ?? '',
+                'address'       => $user->address ?? '',
+                'profile_image' => $user->profile_image_url ?? '',
+                'pin'           =>  $user->device? $user->device->pin : ''
+            ];
+        
+            $responseData = [
+                'status' => true,
+                'message'   => 'Profile data retrive successfully!',
+                'userData'  => $authData
+            ];
+                        
+            return response()->json($responseData, 200);
+            
+        }catch (\Exception $e) {
+            $responseData = [
+                'status'        => false,
+                'error'         => $e->getMessage().'->'.$e->getLine(),
+            ];
+            return response()->json($responseData, 401);
+        }
+    }
+    
+    
     public function todayInvoiceGroupList(){
         //$user= auth()->user();
         //$guardName = auth()->user()->guard_name;
