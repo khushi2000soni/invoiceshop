@@ -22,24 +22,24 @@
             .header {
             text-align: center;
             /* border-bottom: 1px solid #000; */
-        }
-        footer{
-            position: fixed;
-            bottom:-50px;
-            left: 0;
-            right: 0px;
-            height: 50px;
-            margin-bottom: 0px;
-        }
+            }
+            footer{
+                position: fixed;
+                bottom:-50px;
+                left: 0;
+                right: 0px;
+                height: 50px;
+                margin-bottom: 0px;
+            }
 
-        .tablebody * {
-            box-sizing: border-box;
-        }
+            .tablebody * {
+                box-sizing: border-box;
+            }
 
-        /* @page {
-            size: A5;
-            margin:0 auto;
-        } */
+            /* @page {
+                size: A5;
+                margin:0 auto;
+            } */
 
         </style>
     </head>

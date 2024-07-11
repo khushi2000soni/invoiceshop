@@ -79,10 +79,10 @@
                         </p>
                         <p class="clearfix">
                           <span class="float-left">
-                            @lang('quickadmin.profile.fields.address')
+                            @lang('quickadmin.profile.fields.user_address')
                           </span>
                           <span class="float-right text-muted">
-                            {{ $user->address->address ?? ''}}
+                            {{ $user->address ?? ''}}
                           </span>
                         </p>
                       </div>
@@ -169,28 +169,23 @@
                     </div>
                     <div class="col-lg-6">
                         <div class="form-group">
-                            <label>@lang('quickadmin.profile.fields.address')</label>
-                                <div class="input-group">
-                                    <div class="input-group-prepend">
-                                    <div class="input-group-text">
-                                        <i class="fas fa-map-marker-alt"></i>
-                                    </div>
-                                    </div>
-                                    <select class="form-control select2 @error('address_id') is-invalid @enderror" name="address_id" id="address_id" value={{ old('address_id')}}>
-                                        @foreach($addresses as $address)
-                                        <option value="{{ $address->id }}" {{ old('address_id', $user->address_id) == $address->id ? 'selected' : '' }}>
-                                            {{ $address->address }}
-                                        </option>
-                                        @endforeach
-                                    </select>
-                                    @error('address_id')
-                                    <div class="invalid-feedback">
-                                    {{ $message }}
-                                    </div>
-                                    @enderror
+                            <label for="address">@lang('quickadmin.profile.fields.user_address')</label>
+                            <div class="input-group">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                </div>
+                            </div>
+                            <input type="text" value="{{ old('address',$user->address) }}" id="address" class="form-control @error('address') is-invalid @enderror" name="address" tabindex="1"   autofocus>
+                            @error('address')
+                            <div class="invalid-feedback">
+                                {{ $message }}
+                            </div>
+                            @enderror
                             </div>
                         </div>
                     </div>
+
                     <div class="col-lg-12">
                       <div class="form-group">
                       <button type="submit" class="btn btn-submit-block btn-block" tabindex="4">

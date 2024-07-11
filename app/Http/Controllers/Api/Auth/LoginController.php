@@ -18,7 +18,7 @@ class LoginController extends Controller
 {
 
     public function register(Request $request){
-        
+
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|max:255|email|unique:users,email',
@@ -26,7 +26,7 @@ class LoginController extends Controller
             'password'  => 'required|string|min:4|required_with:confirmed_password|same:confirmed_password',
             'confirmed_password' => 'required|min:4'
         ]);
-        
+
         DB::beginTransaction();
         try {
             $inputs             = $request->all();
@@ -46,7 +46,7 @@ class LoginController extends Controller
                     'username'      => $user->username ?? '',
                     'email'         => $user->email ?? '',
                     'phone'         => $user->phone ?? '',
-                    'address'       => $user->address->name ?? '',
+                    'address'       => $user->address ?? '',
                     'profile_image' => $user->profile_image_url ?? '',
                     'pin'           =>  $user->device? $user->device->pin : '',
                 ],
@@ -103,7 +103,7 @@ class LoginController extends Controller
                         'username'    => $user->username ?? '',
                         'email'    => $user->email ?? '',
                         'phone'    => $user->phone ?? '',
-                        'address'    => $user->address->name ?? '',
+                        'address'    => $user->address ?? '',
                         'profile_image'=> $user->profile_image_url ?? '',
                         'pin'=>  $user->device? $user->device->pin : '',
                     ],
@@ -173,7 +173,7 @@ class LoginController extends Controller
                             'username'    => $user->username ?? '',
                             'email'    => $user->email ?? '',
                             'phone'    => $user->phone ?? '',
-                            'address'    => $user->address->name ?? '',
+                            'address'    => $user->address ?? '',
                             'profile_image'=> $user->profile_image_url ?? '',
                         ],
                     ];

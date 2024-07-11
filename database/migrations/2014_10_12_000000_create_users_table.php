@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('phone')->nullable();
             $table->string('username')->nullable();
             $table->string('auth_pin')->nullable();
-            $table->integer('address_id')->nullable();
+            $table->string('address')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password')->nullable()->default(null);
             $table->tinyInteger('is_active')->default(1)->comment('1=> active, 0=>deactive');
@@ -27,7 +27,6 @@ return new class extends Migration
             $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();
-
         });
     }
 

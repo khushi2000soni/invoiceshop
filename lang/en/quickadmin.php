@@ -62,6 +62,7 @@ return [
 			'role' => 'Role',
             'phone'=>'Phone Number',
             'address'=>'City',
+            'user_address'=>'Address',
             'created_at'=>'Created At',
             'created_by'=>'Created By',
 			'remember-token' => 'Remember token',
@@ -84,6 +85,7 @@ return [
 			'role' => 'Role',
             'phone'=>'Phone Number',
             'address'=>'City',
+            'user_address'=>'Address',
             'status'=>'Status',
         ]
     ],

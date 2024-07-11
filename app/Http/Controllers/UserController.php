@@ -151,7 +151,7 @@ class UserController extends Controller
             'username' => ['required','string','max:40','unique:users,username,'.$user->id],
             // 'email' => ['required','email','unique:users,email,' . $user->id],
             'phone' => ['nullable','digits:10','numeric'],
-            'address_id' => ['required','numeric'],
+            'address' => ['required','string'],
         ]);
 
         $user->update($validatedData);
