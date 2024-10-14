@@ -13,12 +13,15 @@ use App\Models\Customer;
 use App\Models\Order;
 use App\Models\OrderProduct;
 use App\Models\Product;
+use App\Traits\InvoiceNumberGenerator;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 use Exception;
+use Illuminate\Database\QueryException;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\View;
 use Intervention\Image\ImageManager;
@@ -28,6 +31,7 @@ use PDF;
 
 class OrderController extends Controller
 {
+    use InvoiceNumberGenerator;
     public function index(InvoiceDataTable $dataTable)
     {
         abort_if(Gate::denies('invoice_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
@@ -56,10 +60,11 @@ class OrderController extends Controller
                 'round_off' => (float)$request->round_off,
                 'grand_total' => (float)$request->grand_total,
                 'invoice_date' => Carbon::now(),
-            ]);
+            ]);            
 
-            $invoiceNumber = generateInvoiceNumber($order->id);
+            $invoiceNumber = $this->generateUniqueInvoiceNumber($order->id);
             $order->update(['invoice_number' => $invoiceNumber]);
+            
             foreach ($request->products as $productData) {
                 OrderProduct::create([
                     'order_id' => $order->id,
@@ -69,16 +74,36 @@ class OrderController extends Controller
                     'total_price' => $productData['total_price'],
                 ]);
             }
-
+            Log::info($invoiceNumber."  Order created successfully.");
             DB::commit();
             dispatchInvoiceUpdatedEvent();
             return response()->json(['success' => true,
             'message' => trans('messages.crud.add_record'),
             'alert-type'=> trans('quickadmin.alert-type.success')], 200);
 
+        }catch (QueryException $e) {
+           
+            if ($e->getCode() === '23000') { 
+                $invoiceNumber = $this->generateUniqueInvoiceNumber($order->id);
+                $order->update(['invoice_number' => $invoiceNumber]);   
+                DB::commit(); 
+    
+                Log::error("Failed to Add Invoice:-". $e->getMessage()." in " . $e->getCode(). " at line" . $e->getLine());
+                return response()->json(['success' => false,
+                'message' => trans('messages.error1'),
+                'alert-type'=> trans('quickadmin.alert-type.error')], 500);             
+            }    
+            // Rollback transaction for any other database-related exceptions
+            DB::rollBack();
+            Log::error("Failed to Add Invoice:-". $e->getMessage()." in " . $e->getCode(). " at line" . $e->getLine());
+            return response()->json(['success' => false,
+            'message' => 'Database error: ' . $e->getMessage(),
+            'alert-type'=> trans('quickadmin.alert-type.error')], 500);
+    
         } catch (\Exception $e) {
            //dd($e->getMessage());
             DB::rollBack();
+            Log::error("Failed to Add Invoice:-". $e->getMessage()." in " . $e->getCode(). " at line" . $e->getLine());
             return response()->json(['success' => false,
             'message' => trans('messages.error1'),
             'alert-type'=> trans('quickadmin.alert-type.error')], 500);

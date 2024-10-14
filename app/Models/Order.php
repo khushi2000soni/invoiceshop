@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\InvoiceNumberGenerator;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
@@ -10,7 +11,7 @@ use Laravel\Sanctum\HasApiTokens;
 
 class Order extends Model
 {
-    use HasFactory,HasApiTokens,Notifiable,SoftDeletes;
+    use HasFactory,HasApiTokens,Notifiable,SoftDeletes , InvoiceNumberGenerator;
 
     public $table = 'orders';
 
@@ -36,7 +37,7 @@ class Order extends Model
     {
         parent::boot();
         static::creating(function(Order $model) {
-            $model->created_by = auth()->user()->id;
+            $model->created_by = auth()->user()->id;            
         });
 
         static::deleting(function (Order $model) {

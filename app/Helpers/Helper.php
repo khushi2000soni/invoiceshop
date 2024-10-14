@@ -128,8 +128,7 @@ if (!function_exists('getSetting')) {
 // }
 
 if (!function_exists('generateInvoiceNumber')) {
-    function generateInvoiceNumber($orderId) {
-        DB::beginTransaction(); // Start a database transaction
+    function generateInvoiceNumber($orderId) {        
         try {
             $currentMonthYear = now()->format('M-y'); // Get the current month and year, e.g., Mar24
             $lastInvoiceNumber = Order::where('invoice_number', 'like', $currentMonthYear . '%')->orderBy('created_at', 'desc')->lockForUpdate()->first();
@@ -141,11 +140,9 @@ if (!function_exists('generateInvoiceNumber')) {
                 $nextNumber = '0001';
             }
             // Create the new invoice number
-            $invoiceNumber = strtoupper($currentMonthYear) . '-' . $nextNumber;
-            DB::commit(); // Commit the transaction
+            $invoiceNumber = strtoupper($currentMonthYear) . '-' . $nextNumber;            
             return $invoiceNumber;
-        } catch (\Exception $e) {
-            DB::rollback(); // Rollback the transaction if an exception occurs
+        } catch (\Exception $e) {            
             throw $e;
         }
     }

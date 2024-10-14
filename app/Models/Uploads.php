@@ -33,14 +33,14 @@ class Uploads extends Model
         parent::boot();
 
         static::deleting(function ($model) {
-            \Storage::disk('public')->delete($model->file_path); // assumes that the image path is stored in the "image" column of the model
+            Storage::disk('public')->delete($model->file_path); // assumes that the image path is stored in the "image" column of the model
         });
     }
 
     public function getFileUrlAttribute()
     {
         $media = "";
-        if(\Storage::disk('public')->exists($this->file_path)){
+        if(Storage::disk('public')->exists($this->file_path)){
             $media = asset('storage/'.$this->file_path);
         }
         return $media;
